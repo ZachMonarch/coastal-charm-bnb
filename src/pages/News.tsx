@@ -28,7 +28,7 @@ interface NewsResponse {
   articles: Article[];
   total: number;
   source: 'live' | 'sample';
-  provider: 'gnews' | 'newsapi' | 'rss' | 'monarch';
+  provider: 'gnews' | 'rss' | 'monarch';
 }
 
 export default function News() {
@@ -121,7 +121,7 @@ export default function News() {
                   )}
                   {isLive && provider && (
                     <span className="text-xs text-muted-foreground">
-                      via {provider === 'gnews' ? 'GNews' : provider === 'rss' ? 'RSS Feeds' : 'NewsAPI'}
+                      via {provider === 'gnews' ? 'GNews' : 'RSS Feeds'}
                     </span>
                   )}
                 </div>
