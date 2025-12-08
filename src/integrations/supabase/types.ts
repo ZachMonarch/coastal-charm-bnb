@@ -3782,11 +3782,10 @@ export type Database = {
       }
       security_dashboard: {
         Row: {
-          affected_users: number | null
-          event_count: number | null
-          event_type: string | null
-          last_occurrence: string | null
-          severity: string | null
+          audit_logs_24h: number | null
+          events_24h: number | null
+          failed_logins_24h: number | null
+          high_severity_7d: number | null
         }
         Relationships: []
       }
@@ -3801,6 +3800,28 @@ export type Database = {
           role: string | null
           status: string | null
           updated_at: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string | null
+          email?: string | null
+          full_name?: string | null
+          id?: string | null
+          phone?: string | null
+          role?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string | null
+          email?: string | null
+          full_name?: string | null
+          id?: string | null
+          phone?: string | null
+          role?: string | null
+          status?: string | null
+          updated_at?: string | null
         }
         Relationships: []
       }
