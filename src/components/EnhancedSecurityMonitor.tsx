@@ -45,20 +45,36 @@ export const EnhancedSecurityMonitor: React.FC = () => {
 
       if (eventsError) throw eventsError;
 
-      // Fetch security stats from dashboard view
+      // Fetch security stats from dashboard view (now returns single row with aggregated metrics)
       const { data: dashboard, error: dashboardError } = await supabase
         .from('security_dashboard')
-        .select('*');
+        .select('*')
+        .single();
 
-      if (dashboardError) throw dashboardError;
-
-      // Calculate stats
-      const stats = {
-        critical_events: dashboard?.filter(d => d.severity === 'critical').reduce((sum, d) => sum + d.event_count, 0) || 0,
-        high_events: dashboard?.filter(d => d.severity === 'high').reduce((sum, d) => sum + d.event_count, 0) || 0,
-        total_events_today: dashboard?.reduce((sum, d) => sum + d.event_count, 0) || 0,
-        blocked_attempts: dashboard?.filter(d => d.event_type.includes('BLOCKED')).reduce((sum, d) => sum + d.event_count, 0) || 0,
-      };
+      // Calculate stats from events if dashboard fails or from dashboard metrics
+      let stats: SecurityStats;
+      
+      if (dashboardError || !dashboard) {
+        // Fallback: calculate from events directly
+        const criticalCount = events?.filter(e => e.severity === 'critical').length || 0;
+        const highCount = events?.filter(e => e.severity === 'high').length || 0;
+        const blockedCount = events?.filter(e => e.event_type.includes('BLOCKED')).length || 0;
+        
+        stats = {
+          critical_events: criticalCount,
+          high_events: highCount,
+          total_events_today: events?.length || 0,
+          blocked_attempts: blockedCount,
+        };
+      } else {
+        // Use dashboard view data
+        stats = {
+          critical_events: dashboard.high_severity_7d || 0,
+          high_events: dashboard.high_severity_7d || 0,
+          total_events_today: dashboard.events_24h || 0,
+          blocked_attempts: dashboard.failed_logins_24h || 0,
+        };
+      }
 
       setSecurityEvents(events || []);
       setSecurityStats(stats);
