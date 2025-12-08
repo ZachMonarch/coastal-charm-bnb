@@ -1,5 +1,5 @@
 // Monarch Property Management - Health Check Edge Function
-// Comprehensive system health monitoring endpoint
+// Comprehensive system health monitoring endpoint with rate limiting
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
@@ -8,6 +8,28 @@ const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
+
+// Simple in-memory rate limiter (per-instance)
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
+const RATE_LIMIT_WINDOW_MS = 60000; // 1 minute
+const MAX_REQUESTS_PER_WINDOW = 30; // 30 requests per minute
+
+function checkRateLimit(identifier: string): { allowed: boolean; remaining: number } {
+  const now = Date.now();
+  const record = rateLimitMap.get(identifier);
+  
+  if (!record || now > record.resetTime) {
+    rateLimitMap.set(identifier, { count: 1, resetTime: now + RATE_LIMIT_WINDOW_MS });
+    return { allowed: true, remaining: MAX_REQUESTS_PER_WINDOW - 1 };
+  }
+  
+  if (record.count >= MAX_REQUESTS_PER_WINDOW) {
+    return { allowed: false, remaining: 0 };
+  }
+  
+  record.count++;
+  return { allowed: true, remaining: MAX_REQUESTS_PER_WINDOW - record.count };
+}
 
 interface HealthCheck {
   timestamp: string;
@@ -39,6 +61,28 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  // Rate limiting based on IP or a generic identifier
+  const clientIP = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
+                   req.headers.get('cf-connecting-ip') || 
+                   'unknown';
+  
+  const rateCheck = checkRateLimit(clientIP);
+  
+  if (!rateCheck.allowed) {
+    return new Response(
+      JSON.stringify({ error: 'Rate limit exceeded. Please try again later.' }),
+      { 
+        status: 429, 
+        headers: { 
+          ...corsHeaders, 
+          'Content-Type': 'application/json',
+          'Retry-After': '60',
+          'X-RateLimit-Remaining': '0',
+        } 
+      }
+    );
+  }
+
   const startTime = Date.now();
   
   const supabase = createClient(
@@ -49,7 +93,7 @@ serve(async (req) => {
   const healthCheck: HealthCheck = {
     timestamp: new Date().toISOString(),
     status: 'healthy',
-    version: '1.0.0',
+    version: '1.0.1',
     uptime: Date.now() - startTime,
     checks: {
       database: false,
@@ -73,7 +117,7 @@ serve(async (req) => {
     
     healthCheck.checks.database = !dbError;
     healthCheck.metrics!.database = {
-      connections: 0, // Would need pg_stat_activity query
+      connections: 0,
       responseTime: Date.now() - dbStart,
     };
 
@@ -116,7 +160,6 @@ serve(async (req) => {
     // ========================================
     // 4. Edge Functions Health Check
     // ========================================
-    // Simple check - if we're running, functions are healthy
     healthCheck.checks.functions = true;
 
     // ========================================
@@ -133,7 +176,6 @@ serve(async (req) => {
       healthCheck.status = 'healthy';
     }
 
-    // Set response status code based on health
     const statusCode = healthCheck.status === 'healthy' ? 200 : 
                       healthCheck.status === 'degraded' ? 207 : 503;
 
@@ -145,6 +187,7 @@ serve(async (req) => {
           ...corsHeaders,
           'Content-Type': 'application/json',
           'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'X-RateLimit-Remaining': String(rateCheck.remaining),
         }
       }
     );
@@ -160,6 +203,7 @@ serve(async (req) => {
           ...corsHeaders,
           'Content-Type': 'application/json',
           'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'X-RateLimit-Remaining': String(rateCheck.remaining),
         } 
       }
     );

@@ -5,6 +5,28 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Simple in-memory rate limiter
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
+const RATE_LIMIT_WINDOW_MS = 60000; // 1 minute
+const MAX_REQUESTS_PER_WINDOW = 20; // 20 requests per minute
+
+function checkRateLimit(identifier: string): { allowed: boolean; remaining: number } {
+  const now = Date.now();
+  const record = rateLimitMap.get(identifier);
+  
+  if (!record || now > record.resetTime) {
+    rateLimitMap.set(identifier, { count: 1, resetTime: now + RATE_LIMIT_WINDOW_MS });
+    return { allowed: true, remaining: MAX_REQUESTS_PER_WINDOW - 1 };
+  }
+  
+  if (record.count >= MAX_REQUESTS_PER_WINDOW) {
+    return { allowed: false, remaining: 0 };
+  }
+  
+  record.count++;
+  return { allowed: true, remaining: MAX_REQUESTS_PER_WINDOW - record.count };
+}
+
 // RSS Feed sources for property management news (FREE backup)
 const RSS_FEEDS = [
   { name: 'NAR Newsroom', url: 'https://www.nar.realtor/newsroom.rss', category: 'real-estate' },
@@ -40,7 +62,6 @@ async function parseRSSFeed(feedUrl: string, sourceName: string, category: strin
     const xml = await response.text();
     const articles: Article[] = [];
     
-    // Parse XML manually (Deno doesn't have DOMParser in edge functions)
     const itemMatches = xml.match(/<item[^>]*>[\s\S]*?<\/item>/gi) || [];
     
     for (let i = 0; i < Math.min(itemMatches.length, 5); i++) {
@@ -98,7 +119,6 @@ async function fetchRSSArticles(): Promise<Article[]> {
     }
   }
   
-  // Sort by publish date
   allArticles.sort((a, b) => 
     new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
   );
@@ -257,6 +277,27 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  // Rate limiting
+  const clientIP = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
+                   req.headers.get('cf-connecting-ip') || 
+                   'unknown';
+  
+  const rateCheck = checkRateLimit(clientIP);
+  
+  if (!rateCheck.allowed) {
+    return new Response(
+      JSON.stringify({ error: 'Rate limit exceeded. Please try again later.' }),
+      { 
+        status: 429, 
+        headers: { 
+          ...corsHeaders, 
+          'Content-Type': 'application/json',
+          'Retry-After': '60',
+        } 
+      }
+    );
+  }
+
   try {
     const GNEWS_API_KEY = Deno.env.get('GNEWS_API_KEY');
     
@@ -322,7 +363,6 @@ serve(async (req) => {
         const rssArticles = await fetchRSSArticles();
         
         if (rssArticles.length > 0) {
-          // Add RSS articles that aren't duplicates
           const existingTitles = new Set(allArticles.map(a => a.title.toLowerCase()));
           const newRssArticles = rssArticles.filter(a => !existingTitles.has(a.title.toLowerCase()));
           
@@ -349,7 +389,6 @@ serve(async (req) => {
           const existingTitles = new Set(allArticles.map(a => a.title.toLowerCase()));
           const newRssArticles = rssArticles.filter(a => !existingTitles.has(a.title.toLowerCase()));
           
-          // Add up to 5 RSS articles for variety
           allArticles.push(...newRssArticles.slice(0, 5));
           console.log(`Supplemented with ${Math.min(newRssArticles.length, 5)} RSS articles for variety`);
         }
@@ -366,7 +405,6 @@ serve(async (req) => {
       source = 'sample';
       provider = 'monarch';
     } else {
-      // Filter by category and search if needed
       allArticles = filterArticles(allArticles, category, searchTerm);
     }
 
@@ -387,7 +425,13 @@ serve(async (req) => {
         source,
         provider
       }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      { 
+        headers: { 
+          ...corsHeaders, 
+          'Content-Type': 'application/json',
+          'X-RateLimit-Remaining': String(rateCheck.remaining),
+        } 
+      }
     );
 
   } catch (error) {
@@ -419,14 +463,12 @@ function filterArticles(articles: Article[], category: string, searchTerm: strin
   }
   
   if (category && category !== 'all') {
-    // Filter by category if articles have category tags
     const categoryFiltered = filtered.filter(article => 
       article.category === category ||
       article.title.toLowerCase().includes(category) ||
       article.description.toLowerCase().includes(category)
     );
     
-    // If category filtering returns results, use them; otherwise keep all
     if (categoryFiltered.length > 0) {
       filtered = categoryFiltered;
     }
