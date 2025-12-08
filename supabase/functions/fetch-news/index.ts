@@ -1,12 +1,11 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.3";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-// RSS Feed sources for property management news
+// RSS Feed sources for property management news (FREE backup)
 const RSS_FEEDS = [
   { name: 'NAR Newsroom', url: 'https://www.nar.realtor/newsroom.rss', category: 'real-estate' },
   { name: 'Inman News', url: 'https://www.inman.com/feed/', category: 'property' },
@@ -260,20 +259,17 @@ serve(async (req) => {
 
   try {
     const GNEWS_API_KEY = Deno.env.get('GNEWS_API_KEY');
-    const NEWS_API_KEY = Deno.env.get('NEWS_API_KEY');
-    const SUPABASE_URL = Deno.env.get('SUPABASE_URL');
-    const SUPABASE_ANON_KEY = Deno.env.get('SUPABASE_ANON_KEY');
     
     const { category = 'all', region = 'global', searchTerm = '', includeRSS = true } = await req.json().catch(() => ({}));
 
     console.log(`Fetching news: category=${category}, region=${region}, search=${searchTerm}, includeRSS=${includeRSS}`);
-    console.log(`API Keys available - GNews: ${!!GNEWS_API_KEY}, NewsAPI: ${!!NEWS_API_KEY}`);
+    console.log(`GNews API Key available: ${!!GNEWS_API_KEY}`);
 
     let allArticles: Article[] = [];
     let source: 'live' | 'sample' = 'sample';
     let provider = 'monarch';
 
-    // Try GNews API first (primary)
+    // PRIMARY: Try GNews API first
     if (GNEWS_API_KEY) {
       try {
         const query = searchTerm || getCategoryQuery(category);
@@ -285,7 +281,7 @@ serve(async (req) => {
           apiUrl += `&country=${country}`;
         }
 
-        console.log('Fetching from GNews API...');
+        console.log('Fetching from GNews API (primary source)...');
 
         const response = await fetch(apiUrl);
 
@@ -319,9 +315,10 @@ serve(async (req) => {
       }
     }
 
-    // Supplement with RSS feeds if enabled
-    if (includeRSS) {
+    // BACKUP: Use RSS feeds if GNews fails or returns insufficient articles
+    if (includeRSS && allArticles.length < 5) {
       try {
+        console.log('Fetching from RSS feeds (backup source)...');
         const rssArticles = await fetchRSSArticles();
         
         if (rssArticles.length > 0) {
@@ -336,62 +333,32 @@ serve(async (req) => {
             provider = 'rss';
           }
           
-          console.log(`Added ${newRssArticles.length} unique RSS articles`);
+          console.log(`Added ${newRssArticles.length} unique RSS articles as backup`);
         }
       } catch (rssError) {
         console.error('RSS fetch error:', rssError);
       }
     }
 
-    // Fallback to NewsAPI if no articles yet
-    if (allArticles.length < 5 && NEWS_API_KEY) {
+    // SUPPLEMENT: Add RSS for additional content variety (when GNews succeeded)
+    if (includeRSS && allArticles.length >= 5 && source === 'live') {
       try {
-        const query = searchTerm || getCategoryQuery(category);
-        let apiUrl = `https://newsapi.org/v2/everything?q=${encodeURIComponent(query)}&sortBy=publishedAt&language=en&pageSize=15`;
-
-        console.log('Fetching from NewsAPI...');
-
-        const response = await fetch(apiUrl, {
-          headers: { 'X-Api-Key': NEWS_API_KEY },
-        });
-
-        if (response.ok) {
-          const data = await response.json();
+        const rssArticles = await fetchRSSArticles();
+        
+        if (rssArticles.length > 0) {
+          const existingTitles = new Set(allArticles.map(a => a.title.toLowerCase()));
+          const newRssArticles = rssArticles.filter(a => !existingTitles.has(a.title.toLowerCase()));
           
-          const newsApiArticles = data.articles?.filter((article: any) => 
-            article.title && article.title !== '[Removed]' && article.description
-          ).map((article: any, index: number) => ({
-            id: `newsapi-${index}-${Date.now()}`,
-            title: article.title,
-            description: article.description || '',
-            url: article.url,
-            imageUrl: article.urlToImage || '',
-            publishedAt: article.publishedAt,
-            source: article.source?.name || 'NewsAPI',
-            author: article.author || '',
-            category: category,
-          })) || [];
-
-          if (newsApiArticles.length > 0) {
-            const existingTitles = new Set(allArticles.map(a => a.title.toLowerCase()));
-            const newNewsApiArticles = newsApiArticles.filter((a: Article) => !existingTitles.has(a.title.toLowerCase()));
-            
-            allArticles.push(...newNewsApiArticles);
-            
-            if (source === 'sample') {
-              source = 'live';
-              provider = 'newsapi';
-            }
-            
-            console.log(`Added ${newNewsApiArticles.length} articles from NewsAPI`);
-          }
+          // Add up to 5 RSS articles for variety
+          allArticles.push(...newRssArticles.slice(0, 5));
+          console.log(`Supplemented with ${Math.min(newRssArticles.length, 5)} RSS articles for variety`);
         }
-      } catch (newsApiError) {
-        console.error('NewsAPI fetch error:', newsApiError);
+      } catch (rssError) {
+        console.error('RSS supplement error:', rssError);
       }
     }
 
-    // If still no articles, use sample data
+    // FALLBACK: If still no articles, use sample data
     if (allArticles.length === 0) {
       console.log('No live data available, returning sample articles');
       const sampleArticles = generateSampleArticles();
@@ -444,15 +411,22 @@ function filterArticles(articles: Article[], category: string, searchTerm: strin
   
   if (searchTerm) {
     const term = searchTerm.toLowerCase();
-    filtered = filtered.filter(a => 
-      a.title.toLowerCase().includes(term) || 
-      a.description.toLowerCase().includes(term)
+    filtered = filtered.filter(article => 
+      article.title.toLowerCase().includes(term) ||
+      article.description.toLowerCase().includes(term) ||
+      article.source.toLowerCase().includes(term)
     );
   }
   
-  if (category !== 'all') {
-    const categoryFiltered = filtered.filter(a => a.category === category);
-    // Only apply category filter if we have results
+  if (category && category !== 'all') {
+    // Filter by category if articles have category tags
+    const categoryFiltered = filtered.filter(article => 
+      article.category === category ||
+      article.title.toLowerCase().includes(category) ||
+      article.description.toLowerCase().includes(category)
+    );
+    
+    // If category filtering returns results, use them; otherwise keep all
     if (categoryFiltered.length > 0) {
       filtered = categoryFiltered;
     }
