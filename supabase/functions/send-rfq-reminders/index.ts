@@ -1,0 +1,104 @@
+import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.75.0";
+
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+};
+
+serve(async (req) => {
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { headers: corsHeaders });
+  }
+
+  try {
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    console.log('Starting RFQ reminder job...');
+
+    // Find RFQs that are open and deadline is within 48 hours
+    const twoDaysFromNow = new Date();
+    twoDaysFromNow.setHours(twoDaysFromNow.getHours() + 48);
+
+    const { data: rfqs, error: rfqError } = await supabase
+      .from('rfqs')
+      .select(`
+        id,
+        title,
+        deadline,
+        created_by,
+        rfq_invites (
+          vendor_id,
+          status,
+          vendor:vendor_id (
+            user_id,
+            company_name,
+            email
+          )
+        )
+      `)
+      .eq('status', 'open')
+      .lte('deadline', twoDaysFromNow.toISOString())
+      .gte('deadline', new Date().toISOString());
+
+    if (rfqError) throw rfqError;
+
+    console.log(`Found ${rfqs?.length || 0} RFQs with upcoming deadlines`);
+
+    let remindersent = 0;
+
+    for (const rfq of rfqs || []) {
+      // Send reminders to vendors who haven't submitted bids yet
+      const pendingInvites = rfq.rfq_invites?.filter(
+        (invite: any) => invite.status === 'invited'
+      );
+
+      for (const invite of pendingInvites || []) {
+        const vendor = Array.isArray(invite.vendor) ? invite.vendor[0] : invite.vendor;
+        if (!vendor?.email) continue;
+
+        // Create notification
+        const { error: notifError } = await supabase
+          .from('notifications')
+          .insert({
+            user_id: vendor.user_id,
+            title: 'RFQ Deadline Reminder',
+            message: `The RFQ "${rfq.title}" deadline is approaching. Please submit your bid soon.`,
+            type: 'warning',
+            action_url: `/vendor/rfq/${rfq.id}`,
+          });
+
+        if (notifError) {
+          console.error('Error creating notification:', notifError);
+        } else {
+          remindersent++;
+        }
+      }
+    }
+
+    console.log(`Sent ${remindersent} RFQ reminders`);
+
+    return new Response(
+      JSON.stringify({
+        success: true,
+        rfqsProcessed: rfqs?.length || 0,
+        remindersSent: remindersent,
+      }),
+      {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      }
+    );
+  } catch (error) {
+    console.error('Error in RFQ reminder job:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    return new Response(
+      JSON.stringify({ error: errorMessage }),
+      {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      }
+    );
+  }
+});

@@ -1,0 +1,55 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /vendor/dashboard
+Disallow: /vendor/settings
+Disallow: /api/
+Disallow: /auth/
+
+# Allow specific vendor public pages
+Allow: /vendor/projects
+Allow: /vendor-application
+
+# XML Sitemap (dynamic)
+Sitemap: https://monarchpropertymmgt.com/sitemap.xml
+Sitemap: https://yhegaaqxmuhszesbjtdo.supabase.co/functions/v1/generate-sitemap
+
+# Crawl delay (be respectful)
+Crawl-delay: 1
+
+# Popular search engines
+User-agent: Googlebot
+Allow: /
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /vendor/dashboard
+
+User-agent: Bingbot
+Allow: /
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /vendor/dashboard
+
+# Block AI scrapers that don't respect robots.txt
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+# Block aggressive bots
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10

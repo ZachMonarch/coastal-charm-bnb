@@ -1,0 +1,87 @@
+project_id = "yhegaaqxmuhszesbjtdo"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[auth]
+enabled = true
+site_url = "https://monarchpropertymmgt.com"
+additional_redirect_urls = [
+  "https://monarchpropertymmgt.com/*",
+  "https://*.lovableproject.com/*",
+  "https://lovable.dev/*",
+  "http://localhost:3000/*",
+  "http://localhost:5173/*"
+]
+jwt_expiry = 3600
+enable_signup = true
+
+[auth.email]
+enable_signup = true
+double_confirm_changes = true
+enable_confirmations = false
+
+[db]
+port = 54322
+
+[storage]
+enabled = true
+file_size_limit = "50MiB"
+
+[edge_functions]
+enabled = true
+
+[functions.send-payment-notification]
+verify_jwt = false
+
+[functions.stripe-webhook]
+verify_jwt = false
+
+[functions.health-check]
+verify_jwt = false
+
+[functions.process-refund]
+verify_jwt = true
+
+[functions.process-withdrawal]
+verify_jwt = true
+
+[functions.create-payment]
+verify_jwt = true
+
+[functions.create-payment-method]
+verify_jwt = true
+
+[functions.send-email]
+verify_jwt = true
+
+[functions.send-welcome-email]
+verify_jwt = false
+
+[functions.send-password-reset]
+verify_jwt = false
+
+[functions.send-rfq-invitation]
+verify_jwt = true
+
+[functions.send-bid-confirmation]
+verify_jwt = true
+
+[functions.send-contract-award]
+verify_jwt = true
+
+[functions.send-rfq-reminders]
+verify_jwt = false
+
+[functions.send-payout-notification]
+verify_jwt = true
+
+[functions.fetch-news]
+verify_jwt = false
+
+[functions.send-newsletter]
+verify_jwt = true

@@ -1,0 +1,71 @@
+-- Insert sample vendor applications for testing
+INSERT INTO public.vendor_applications (
+  user_id,
+  project_title,
+  project_description,
+  project_type,
+  budget_min,
+  budget_max,
+  preferred_start_date,
+  location,
+  status,
+  priority,
+  deadline,
+  created_at
+) VALUES 
+(
+  '9d6afd78-6a1c-48a3-9d63-e4fe2c3ae060',
+  'HVAC System Installation',
+  'Complete HVAC system installation for 20-unit apartment complex including ductwork, units, and controls',
+  'HVAC',
+  12000,
+  18000,
+  '2024-03-01',
+  'Downtown Complex - 123 Main St',
+  'open',
+  'high',
+  '2024-03-15',
+  NOW()
+),
+(
+  '9d6afd78-6a1c-48a3-9d63-e4fe2c3ae060',
+  'Emergency Plumbing Repairs',
+  'Urgent plumbing repairs needed for burst pipe in basement affecting multiple units',
+  'Plumbing',
+  2000,
+  5000,
+  '2024-02-10',
+  'Riverside Apartments - 456 River Dr',
+  'in_progress',
+  'urgent',
+  '2024-02-12',
+  NOW() - INTERVAL '2 days'
+),
+(
+  '9d6afd78-6a1c-48a3-9d63-e4fe2c3ae060',
+  'Electrical Panel Upgrade',
+  'Upgrade electrical panels and rewiring for building code compliance',
+  'Electrical',
+  8000,
+  12000,
+  '2024-02-20',
+  'Sunset Manor - 789 Sunset Blvd',
+  'pending',
+  'medium',
+  '2024-02-28',
+  NOW() - INTERVAL '1 day'
+),
+(
+  '9d6afd78-6a1c-48a3-9d63-e4fe2c3ae060',
+  'Roof Maintenance and Repair',
+  'Annual roof inspection and repairs for weather damage and preventive maintenance',
+  'Maintenance',
+  3000,
+  7000,
+  '2024-03-05',
+  'Oak Ridge Apartments - 321 Oak St',
+  'completed',
+  'low',
+  '2024-03-10',
+  NOW() - INTERVAL '5 days'
+)

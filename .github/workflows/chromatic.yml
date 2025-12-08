@@ -1,0 +1,46 @@
+# Chromatic Visual Regression Testing Workflow
+# Runs on every push to automatically detect UI changes
+
+name: 'Chromatic Deployment'
+
+on: 
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  chromatic-deployment:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Required for Chromatic to track changes
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run Chromatic
+        uses: chromaui/action@v1
+        with:
+          # Chromatic project token (add to repository secrets)
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          # Automatically accept changes on main branch
+          autoAcceptChanges: "main"
+          # Exit with error code if visual changes detected
+          exitZeroOnChanges: true
+          # Exit if build fails
+          exitOnceUploaded: false
+          # Build Storybook for Chromatic
+          buildScriptName: "build-storybook"

@@ -1,0 +1,128 @@
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+};
+
+serve(async (req) => {
+  if (req.method === 'OPTIONS') {
+    return new Response('ok', { headers: corsHeaders });
+  }
+
+  try {
+    const supabaseClient = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+    );
+
+    // Fetch all available properties
+    const { data: properties, error: propertiesError } = await supabaseClient
+      .from('properties')
+      .select('id, title, updated_at')
+      .eq('status', 'available')
+      .order('id', { ascending: true });
+
+    if (propertiesError) {
+      console.error('Error fetching properties:', propertiesError);
+    }
+
+    // Fetch all open projects (for vendor pages)
+    const { data: projects, error: projectsError } = await supabaseClient
+      .from('projects')
+      .select('id, title, created_at')
+      .eq('status', 'open')
+      .order('created_at', { ascending: false })
+      .limit(100);
+
+    if (projectsError) {
+      console.error('Error fetching projects:', projectsError);
+    }
+
+    // Base URL
+    const baseUrl = 'https://monarchpropertymmgt.com';
+    const now = new Date().toISOString().split('T')[0];
+
+    // Static pages
+    const staticPages = [
+      { loc: '/', changefreq: 'daily', priority: '1.0', lastmod: now },
+      { loc: '/properties', changefreq: 'daily', priority: '0.9', lastmod: now },
+      { loc: '/amenities', changefreq: 'weekly', priority: '0.8', lastmod: now },
+      { loc: '/contact', changefreq: 'monthly', priority: '0.7', lastmod: now },
+      { loc: '/vendor-application', changefreq: 'monthly', priority: '0.6', lastmod: now },
+      { loc: '/services', changefreq: 'monthly', priority: '0.6', lastmod: now },
+      { loc: '/gallery', changefreq: 'weekly', priority: '0.6', lastmod: now },
+      { loc: '/sitemap', changefreq: 'monthly', priority: '0.4', lastmod: now },
+      { loc: '/privacy', changefreq: 'yearly', priority: '0.3', lastmod: now },
+      { loc: '/terms', changefreq: 'yearly', priority: '0.3', lastmod: now },
+    ];
+
+    // Generate XML
+    let sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n';
+    sitemap += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+
+    // Add static pages
+    for (const page of staticPages) {
+      sitemap += '  <url>\n';
+      sitemap += `    <loc>${baseUrl}${page.loc}</loc>\n`;
+      sitemap += `    <lastmod>${page.lastmod}</lastmod>\n`;
+      sitemap += `    <changefreq>${page.changefreq}</changefreq>\n`;
+      sitemap += `    <priority>${page.priority}</priority>\n`;
+      sitemap += '  </url>\n';
+    }
+
+    // Add property pages
+    if (properties && properties.length > 0) {
+      for (const property of properties) {
+        const lastmod = property.updated_at
+          ? new Date(property.updated_at).toISOString().split('T')[0]
+          : now;
+        
+        sitemap += '  <url>\n';
+        sitemap += `    <loc>${baseUrl}/properties/${property.id}</loc>\n`;
+        sitemap += `    <lastmod>${lastmod}</lastmod>\n`;
+        sitemap += `    <changefreq>weekly</changefreq>\n`;
+        sitemap += `    <priority>0.8</priority>\n`;
+        sitemap += '  </url>\n';
+      }
+    }
+
+    // Add project pages (limited to recent open projects for vendors)
+    if (projects && projects.length > 0) {
+      for (const project of projects.slice(0, 50)) {
+        const lastmod = project.created_at
+          ? new Date(project.created_at).toISOString().split('T')[0]
+          : now;
+        
+        sitemap += '  <url>\n';
+        sitemap += `    <loc>${baseUrl}/vendor/projects/${project.id}</loc>\n`;
+        sitemap += `    <lastmod>${lastmod}</lastmod>\n`;
+        sitemap += `    <changefreq>weekly</changefreq>\n`;
+        sitemap += `    <priority>0.5</priority>\n`;
+        sitemap += '  </url>\n';
+      }
+    }
+
+    sitemap += '</urlset>';
+
+    console.log(`Generated sitemap with ${staticPages.length} static pages, ${properties?.length || 0} properties, and ${Math.min(projects?.length || 0, 50)} projects`);
+
+    return new Response(sitemap, {
+      headers: {
+        ...corsHeaders,
+        'Content-Type': 'application/xml',
+        'Cache-Control': 'public, max-age=3600', // Cache for 1 hour
+      },
+    });
+  } catch (error: any) {
+    console.error('Error generating sitemap:', error);
+    return new Response(
+      JSON.stringify({ error: error.message }),
+      {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      }
+    );
+  }
+});
