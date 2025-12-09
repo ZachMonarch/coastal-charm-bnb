@@ -125,10 +125,10 @@ export default function News() {
                     </span>
                   )}
                 </div>
-                <h1 className="text-4xl md:text-5xl font-bold mb-3 text-foreground drop-shadow-sm">
+                <h1 className="text-4xl md:text-5xl font-bold mb-3 text-foreground drop-shadow-lg">
                   Property <span className="text-primary">News</span> & Insights
                 </h1>
-                <p className="text-lg text-foreground/80 max-w-2xl drop-shadow-sm">
+                <p className="text-lg text-foreground/90 max-w-2xl drop-shadow-md">
                   Stay informed with the latest trends, market updates, investment opportunities, and expert advice from the property management industry worldwide.
                 </p>
               </div>
