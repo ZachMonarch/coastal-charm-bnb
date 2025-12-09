@@ -32,21 +32,14 @@ export default function HeroSection() {
     }}>
         <picture>
           <source type="image/webp" srcSet="/hero.webp 1920w, /hero.webp 1200w, /hero.webp 800w" sizes="100vw" />
-          <img
-            src={heroImageWebP}
-            alt="Monarch Property Management - Luxury apartment complex with pool and modern architecture"
-            className="w-full h-full object-cover"
-            style={{ objectPosition: `center ${50 + scrollY * 0.03}%` }}
-            loading="eager"
-            decoding="async"
-            width="1920"
-            height="1080"
-          />
+          <img src={heroImageWebP} alt="Monarch Property Management - Luxury apartment complex with pool and modern architecture" className="w-full h-full object-cover" style={{
+          objectPosition: `center ${50 + scrollY * 0.03}%`
+        }} loading="eager" decoding="async" width="1920" height="1080" />
         </picture>
       </div>
       
       {/* Multi-layer gradient overlay - z-[1] - Enhanced contrast for better readability */}
-      <div className="absolute inset-0 z-[1]">
+      <div className="absolute inset-0 z-[1] shadow-sm">
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/60 to-black/85" />
         <div className="absolute inset-0" style={{
         background: 'var(--gradient-hero)',
@@ -89,7 +82,7 @@ export default function HeroSection() {
               Monarch Property Management
             </span>
             <br />
-            <span className="bg-gradient-to-r from-primary via-primary-light to-primary bg-clip-text text-transparent drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
+            <span className="bg-gradient-to-r from-primary via-primary-light to-primary bg-clip-text drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)] text-slate-400">
               Excellence in Every Detail
             </span>
           </h1>
