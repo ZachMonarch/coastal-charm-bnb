@@ -132,6 +132,18 @@
     --card-border-error: 0 75% 55% / 0.3;
     --card-border-info: 200 70% 50% / 0.3;
     
+    /* === STANDARDIZED OPACITY SCALE === */
+    /* Use these for consistent opacity across the design system */
+    --opacity-subtle: 0.10;      /* Barely visible accents */
+    --opacity-light: 0.20;       /* Light backgrounds */
+    --opacity-medium: 0.40;      /* Standard interactive states */
+    --opacity-strong: 0.60;      /* Emphasized elements */
+    --opacity-solid: 0.80;       /* Primary surfaces */
+    
+    /* === OVERLAY TEXT (for hero sections on images) === */
+    --overlay-foreground: 0 0% 100%;  /* White text on dark overlays */
+    --overlay-muted: 0 0% 100% / 0.9; /* Slightly muted overlay text */
+    
     /* === SIDEBAR === */
     --sidebar: 40 20% 98%;
     --sidebar-foreground: 0 0% 12%;
@@ -229,6 +241,17 @@
     --card-border-warning: 38 90% 55% / 0.4;
     --card-border-error: 0 70% 60% / 0.4;
     --card-border-info: 200 65% 55% / 0.4;
+    
+    /* === STANDARDIZED OPACITY SCALE (dark mode - slightly higher for visibility) === */
+    --opacity-subtle: 0.15;
+    --opacity-light: 0.25;
+    --opacity-medium: 0.45;
+    --opacity-strong: 0.65;
+    --opacity-solid: 0.85;
+    
+    /* === OVERLAY TEXT (same for dark mode) === */
+    --overlay-foreground: 0 0% 100%;
+    --overlay-muted: 0 0% 100% / 0.9;
     
     /* === SIDEBAR (dark) === */
     --sidebar: 0 0% 10%;

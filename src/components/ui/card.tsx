@@ -27,29 +27,37 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "rounded-xl border border-border/60 bg-card/95 text-card-foreground shadow-sm transition-all duration-300 backdrop-blur-sm dark:bg-card/90 dark:border-border/80 dark:shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)]",
+      // Base styles with standardized opacity (using design system scale)
+      "rounded-xl border border-border/[0.6] bg-card/[0.95] text-card-foreground shadow-sm transition-all duration-300 backdrop-blur-sm",
+      // Dark mode enhancements
+      "dark:bg-card/[0.9] dark:border-border/[0.8] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)]",
       {
+        // Default - subtle shadow
         'shadow-sm': variant === 'default',
+        // Elevated - strong lift effect
         'shadow-lg hover:shadow-xl hover:-translate-y-1': variant === 'elevated',
-        'shadow-md hover:shadow-primary/25 hover:-translate-y-0.5 hover:border-primary/40 bg-card/95 dark:bg-card/90': variant === 'interactive',
-        'bg-gradient-to-br from-card via-card to-primary/10 shadow-md hover:shadow-primary/40 border-border/60': variant === 'gradient',
-        'bg-card/80 dark:bg-card/70 backdrop-blur-xl border-border/40 shadow-md hover:shadow-primary/25': variant === 'glass',
-        // Colorful variant with vibrant gradient background
-        'bg-gradient-to-br from-primary/15 via-card to-secondary/10 border-primary/30 shadow-md hover:shadow-lg hover:border-primary/50': variant === 'colorful',
-        // Accent left border variant
-        'border-l-4 border-l-primary border-t-border/60 border-r-border/60 border-b-border/60 bg-gradient-to-r from-primary/5 to-card': variant === 'accent-left',
-        // Status variants with vibrant colors
-        'bg-gradient-to-br from-success/15 via-card to-success/5 border-success/40 shadow-md hover:shadow-success/20': variant === 'success',
-        'bg-gradient-to-br from-warning/15 via-card to-warning/5 border-warning/40 shadow-md hover:shadow-warning/20': variant === 'warning',
-        'bg-gradient-to-br from-info/15 via-card to-info/5 border-info/40 shadow-md hover:shadow-info/20': variant === 'info',
-        // Premium variant with rainbow shimmer effect
-        'bg-gradient-to-br from-primary/20 via-card to-accent/15 border-primary/40 shadow-lg hover:shadow-primary/30 relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-primary/10 before:to-transparent before:animate-shimmer': variant === 'premium',
-        // Hero variant for large feature cards
-        'bg-gradient-to-br from-primary/25 via-primary/10 to-background border-primary/30 shadow-xl p-0 overflow-hidden': variant === 'hero',
-        // Stats card variant optimized for KPI display
-        'bg-gradient-to-br from-primary/20 via-card to-secondary/5 border-primary/25 shadow-md hover:shadow-lg hover:border-primary/40 hover:-translate-y-0.5': variant === 'stat-card',
-        // Table container variant
-        'bg-card/50 backdrop-blur-sm border-border/50 shadow-sm hover:shadow-md overflow-hidden': variant === 'table-container',
+        // Interactive - responds to hover with primary accent
+        'shadow-md hover:shadow-primary/[0.25] hover:-translate-y-0.5 hover:border-primary/[0.4] bg-card/[0.95] dark:bg-card/[0.9]': variant === 'interactive',
+        // Gradient - subtle primary gradient overlay
+        'bg-gradient-to-br from-card via-card to-primary/[0.1] shadow-md hover:shadow-primary/[0.4] border-border/[0.6]': variant === 'gradient',
+        // Glass - frosted glass effect
+        'bg-card/[0.8] dark:bg-card/[0.7] backdrop-blur-xl border-border/[0.4] shadow-md hover:shadow-primary/[0.25]': variant === 'glass',
+        // Colorful - vibrant gradient background
+        'bg-gradient-to-br from-primary/[0.15] via-card to-secondary/[0.1] border-primary/[0.3] shadow-md hover:shadow-lg hover:border-primary/[0.5]': variant === 'colorful',
+        // Accent left - gold accent border
+        'border-l-4 border-l-primary border-t-border/[0.6] border-r-border/[0.6] border-b-border/[0.6] bg-gradient-to-r from-primary/[0.05] to-card': variant === 'accent-left',
+        // Status variants - success/warning/info with consistent opacity
+        'bg-gradient-to-br from-success/[0.15] via-card to-success/[0.05] border-success/[0.4] shadow-md hover:shadow-success/[0.2]': variant === 'success',
+        'bg-gradient-to-br from-warning/[0.15] via-card to-warning/[0.05] border-warning/[0.4] shadow-md hover:shadow-warning/[0.2]': variant === 'warning',
+        'bg-gradient-to-br from-info/[0.15] via-card to-info/[0.05] border-info/[0.4] shadow-md hover:shadow-info/[0.2]': variant === 'info',
+        // Premium - shimmer effect
+        'bg-gradient-to-br from-primary/[0.2] via-card to-accent/[0.15] border-primary/[0.4] shadow-lg hover:shadow-primary/[0.3] relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-primary/[0.1] before:to-transparent before:animate-shimmer': variant === 'premium',
+        // Hero - large feature cards
+        'bg-gradient-to-br from-primary/[0.25] via-primary/[0.1] to-background border-primary/[0.3] shadow-xl p-0 overflow-hidden': variant === 'hero',
+        // Stats card - KPI display
+        'bg-gradient-to-br from-primary/[0.2] via-card to-secondary/[0.05] border-primary/[0.25] shadow-md hover:shadow-lg hover:border-primary/[0.4] hover:-translate-y-0.5': variant === 'stat-card',
+        // Table container
+        'bg-card/[0.5] backdrop-blur-sm border-border/[0.5] shadow-sm hover:shadow-md overflow-hidden': variant === 'table-container',
       },
       className
     )}
