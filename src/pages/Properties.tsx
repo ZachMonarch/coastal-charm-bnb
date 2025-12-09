@@ -157,7 +157,8 @@ export default function Properties() {
     loading, 
     error, 
     pagination, 
-    setCurrentPage 
+    setCurrentPage,
+    retry 
   } = useProperties(propertyFilters, 40); // 40 properties per page
 
   return (
@@ -185,22 +186,22 @@ export default function Properties() {
           <div className="inline-flex items-center justify-center w-16 h-16 mb-6 rounded-full bg-gradient-to-br from-primary to-primary/80 shadow-2xl">
             <Building2 className="h-8 w-8 text-primary-foreground" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white drop-shadow-lg">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-overlay-foreground drop-shadow-lg">
             Properties & Accommodations
           </h1>
-          <p className="text-lg md:text-xl text-white/85 max-w-2xl mx-auto mb-6 drop-shadow-lg">
+          <p className="text-lg md:text-xl text-overlay-foreground/85 max-w-2xl mx-auto mb-6 drop-shadow-lg">
             Discover long-term rentals and vacation accommodations from our curated selection
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <div className="bg-background/20 backdrop-blur px-4 py-2 rounded-full text-white flex items-center gap-2">
-              <Home className="h-4 w-4" />
-              <span className="font-semibold">{pagination.totalCount}</span>
-              <span className="text-white/80">Total Listings</span>
+            <div className="bg-background/20 backdrop-blur px-4 py-2 rounded-full flex items-center gap-2">
+              <Home className="h-4 w-4 text-overlay-foreground" />
+              <span className="font-semibold text-overlay-foreground">{pagination.totalCount}</span>
+              <span className="text-overlay-foreground/80">Total Listings</span>
             </div>
-            <div className="bg-background/20 backdrop-blur px-4 py-2 rounded-full text-white flex items-center gap-2">
-              <MapPin className="h-4 w-4" />
-              <span className="font-semibold">{mockApartments.length}</span>
-              <span className="text-white/80">Vacation Rentals</span>
+            <div className="bg-background/20 backdrop-blur px-4 py-2 rounded-full flex items-center gap-2">
+              <MapPin className="h-4 w-4 text-overlay-foreground" />
+              <span className="font-semibold text-overlay-foreground">{mockApartments.length}</span>
+              <span className="text-overlay-foreground/80">Vacation Rentals</span>
             </div>
           </div>
         </div>
@@ -248,12 +249,15 @@ export default function Properties() {
                 </div>
               )}
 
-              {/* Error State */}
+              {/* Error State with Retry Button */}
               {error && (
                 <Alert className="neumorphic-card border-destructive/20 bg-destructive/5">
                   <AlertCircle className="h-4 w-4 text-destructive" />
-                  <AlertDescription className="text-destructive">
-                    {error}
+                  <AlertDescription className="text-destructive flex items-center justify-between gap-4">
+                    <span>{error}</span>
+                    <Button variant="outline" size="sm" onClick={retry} className="shrink-0">
+                      Try Again
+                    </Button>
                   </AlertDescription>
                 </Alert>
               )}

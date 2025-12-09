@@ -110,10 +110,17 @@ export const useProperties = (filters: Partial<PropertyFilters> = {}, pageSize: 
     cached: false
   });
 
-  const fetchProperties = async () => {
+  const [retryCount, setRetryCount] = useState(0);
+  const MAX_RETRIES = 2;
+  const TIMEOUT_MS = 15000; // 15 seconds timeout
+
+  const fetchProperties = async (isRetry = false) => {
     try {
       setLoading(true);
-      setError(null);
+      if (!isRetry) {
+        setError(null);
+        setRetryCount(0);
+      }
 
       const searchParams: PropertySearchParams = {
         page: currentPage,
@@ -130,9 +137,10 @@ export const useProperties = (filters: Partial<PropertyFilters> = {}, pageSize: 
         sortOrder: filters.sortOrder || 'desc'
       };
 
-      // Add 10-second timeout to prevent infinite loading
+      // Add timeout with exponential backoff for retries
+      const timeout = isRetry ? TIMEOUT_MS * (retryCount + 1) : TIMEOUT_MS;
       const timeoutPromise = new Promise((_, reject) => 
-        setTimeout(() => reject(new Error('Request timeout')), 10000)
+        setTimeout(() => reject(new Error('Request timeout')), timeout)
       );
 
       const response = await Promise.race([
@@ -140,28 +148,36 @@ export const useProperties = (filters: Partial<PropertyFilters> = {}, pageSize: 
         timeoutPromise
       ]) as any;
       
-      // Phase 4.3: Add fallback placeholder for properties without quality images
+      // Add fallback placeholder for properties without quality images
       const qualityProperties = response.data.map(property => {
         const qualityImages = getQualityImages(property.image_urls || '');
         return {
           ...property,
           qualityImages: qualityImages.length > 0 
             ? qualityImages 
-            : ['/placeholder-property.webp'] // Fallback for properties without quality images
+            : ['/placeholder-property.webp']
         };
       });
 
       setProperties(qualityProperties);
       setMetadata(response.metadata);
       setPerformance(response.performance);
+      setRetryCount(0);
     } catch (err) {
+      // Auto-retry with exponential backoff
+      if (retryCount < MAX_RETRIES) {
+        const delay = Math.pow(2, retryCount) * 1000; // 1s, 2s, 4s
+        setRetryCount(prev => prev + 1);
+        setTimeout(() => fetchProperties(true), delay);
+        return;
+      }
+
       // Use secure error handler to prevent schema exposure
       const errorMessage = err instanceof Error && err.message === 'Request timeout'
         ? 'Request timed out. Please check your connection and try again.'
         : 'Unable to load properties. Please try again.';
       setError(errorMessage);
       
-      // Log detailed error server-side only
       if (import.meta.env.DEV) {
         console.error('Properties fetch error:', err);
       }
@@ -177,6 +193,11 @@ export const useProperties = (filters: Partial<PropertyFilters> = {}, pageSize: 
     } finally {
       setLoading(false);
     }
+  };
+
+  const retry = () => {
+    setRetryCount(0);
+    fetchProperties();
   };
 
   useEffect(() => {
@@ -207,9 +228,11 @@ export const useProperties = (filters: Partial<PropertyFilters> = {}, pageSize: 
     pagination: paginationInfo,
     setCurrentPage,
     refetch: fetchProperties,
+    retry,
+    retryCount,
     clearCache: () => {
-      // This would trigger a fresh fetch on next call
       setCurrentPage(1);
+      setRetryCount(0);
       fetchProperties();
     }
   };
