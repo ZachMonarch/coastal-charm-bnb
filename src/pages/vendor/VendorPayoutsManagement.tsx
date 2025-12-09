@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/OptimizedAuthContext';
 import { toast } from 'sonner';
@@ -15,6 +15,8 @@ import { Label } from '@/components/ui/label';
 import EnhancedPageBackground from '@/components/shared/EnhancedPageBackground';
 import PageHero from '@/components/shared/PageHero';
 import StatsCard from '@/components/shared/StatsCard';
+import DashboardChart from '@/components/shared/DashboardChart';
+import EmptyStateIllustration from '@/components/shared/EmptyStateIllustration';
 
 interface VendorPayout {
   id: string;
@@ -47,6 +49,22 @@ export default function VendorPayoutsManagement() {
   const totalPending = pendingPayouts.reduce((sum, p) => sum + p.amount, 0);
   const totalReceived = payouts.filter(p => p.status === 'completed').reduce((sum, p) => sum + p.amount, 0);
   const totalAcknowledged = acknowledgedPayouts.reduce((sum, p) => sum + p.amount, 0);
+
+  // Generate chart data from payouts - group by month
+  const paymentChartData = useMemo(() => {
+    if (!payouts || payouts.length === 0) return [];
+    
+    const monthlyData: Record<string, number> = {};
+    payouts.forEach(payout => {
+      const date = new Date(payout.created_at);
+      const monthKey = date.toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
+      monthlyData[monthKey] = (monthlyData[monthKey] || 0) + payout.amount;
+    });
+
+    return Object.entries(monthlyData)
+      .slice(-6) // Last 6 months
+      .map(([name, value]) => ({ name, value }));
+  }, [payouts]);
 
   useEffect(() => {
     if (user) {
@@ -245,6 +263,18 @@ export default function VendorPayoutsManagement() {
             />
           </div>
 
+          {/* Payment History Chart */}
+          {paymentChartData.length > 0 && (
+            <DashboardChart
+              title="Payment History"
+              description="Your payout trends over time"
+              data={paymentChartData}
+              type="area"
+              color="success"
+              height={250}
+            />
+          )}
+
         {!hasPayoutSettings && (
           <Card className="border-warning/50 bg-warning/5">
             <CardContent className="pt-6">
@@ -316,11 +346,11 @@ export default function VendorPayoutsManagement() {
           </CardHeader>
           <CardContent>
             {payouts.length === 0 ? (
-              <div className="text-center py-12">
-                <DollarSign className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p className="text-muted-foreground">No payouts yet</p>
-                <p className="text-sm text-muted-foreground">Payouts will appear here when admin sends payments</p>
-              </div>
+              <EmptyStateIllustration
+                type="payments"
+                title="No payouts yet"
+                description="Payouts will appear here when admin sends payments for your completed work."
+              />
             ) : (
               <Table>
                 <TableHeader>
