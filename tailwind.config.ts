@@ -80,6 +80,28 @@ export default {
     				DEFAULT: 'hsl(var(--overlay-foreground))',
     				foreground: 'hsl(var(--overlay-foreground))',
     				muted: 'hsl(var(--overlay-muted))'
+    			},
+    			feature: {
+    				info: 'hsl(var(--feature-info))',
+    				'info-dark': 'hsl(var(--feature-info-dark))',
+    				success: 'hsl(var(--feature-success))',
+    				'success-dark': 'hsl(var(--feature-success-dark))',
+    				accent: 'hsl(var(--feature-accent))',
+    				'accent-dark': 'hsl(var(--feature-accent-dark))',
+    				warning: 'hsl(var(--feature-warning))',
+    				'warning-dark': 'hsl(var(--feature-warning-dark))',
+    				danger: 'hsl(var(--feature-danger))',
+    				'danger-dark': 'hsl(var(--feature-danger-dark))',
+    				violet: 'hsl(var(--feature-violet))',
+    				'violet-dark': 'hsl(var(--feature-violet-dark))',
+    				rose: 'hsl(var(--feature-rose))',
+    				'rose-dark': 'hsl(var(--feature-rose-dark))',
+    				cyan: 'hsl(var(--feature-cyan))',
+    				'cyan-dark': 'hsl(var(--feature-cyan-dark))',
+    				sky: 'hsl(var(--feature-sky))',
+    				'sky-dark': 'hsl(var(--feature-sky-dark))',
+    				teal: 'hsl(var(--feature-teal))',
+    				'teal-dark': 'hsl(var(--feature-teal-dark))'
     			}
     		},
     		borderRadius: {

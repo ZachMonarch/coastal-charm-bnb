@@ -12,25 +12,25 @@ export default function PropertyManagement() {
       icon: <Shield className="h-8 w-8" />,
       title: "Tenant Screening",
       description: "Comprehensive background checks and credit verification to ensure quality tenants.",
-      color: "from-blue-500 to-blue-600"
+      colorClass: "from-feature-info to-feature-info-dark"
     },
     {
       icon: <TrendingUp className="h-8 w-8" />,
       title: "Rent Collection",
       description: "Automated rent collection and financial reporting for hassle-free income.",
-      color: "from-emerald-500 to-emerald-600"
+      colorClass: "from-feature-success to-feature-success-dark"
     },
     {
       icon: <Users className="h-8 w-8" />,
       title: "Property Inspections",
       description: "Regular property inspections to maintain value and identify issues early.",
-      color: "from-purple-500 to-purple-600"
+      colorClass: "from-feature-accent to-feature-accent-dark"
     },
     {
       icon: <Clock className="h-8 w-8" />,
       title: "24/7 Maintenance",
       description: "Round-the-clock maintenance coordination and emergency response.",
-      color: "from-amber-500 to-amber-600"
+      colorClass: "from-feature-warning to-feature-warning-dark"
     }
   ];
 
@@ -99,10 +99,10 @@ export default function PropertyManagement() {
               </div>
             </div>
 
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white drop-shadow-lg animate-in fade-in slide-in-from-bottom-5 duration-700">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 text-overlay-foreground drop-shadow-lg animate-in fade-in slide-in-from-bottom-5 duration-700">
               Property Management Services
             </h1>
-            <p className="text-xl md:text-2xl text-white/90 mb-10 max-w-3xl mx-auto animate-in fade-in slide-in-from-bottom-5 duration-700 drop-shadow-md" style={{ animationDelay: '100ms' }}>
+            <p className="text-xl md:text-2xl text-overlay-muted mb-10 max-w-3xl mx-auto animate-in fade-in slide-in-from-bottom-5 duration-700 drop-shadow-md" style={{ animationDelay: '100ms' }}>
               Full-service property management designed to maximize your investment while minimizing your stress.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center animate-in fade-in slide-in-from-bottom-5 duration-700" style={{ animationDelay: '200ms' }}>
@@ -155,10 +155,10 @@ export default function PropertyManagement() {
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 {/* Gradient Top Bar */}
-                <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${feature.color}`} />
+                <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${feature.colorClass}`} />
                 
                 <CardHeader>
-                  <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${feature.color} flex items-center justify-center mb-4 text-white shadow-lg group-hover:scale-110 transition-transform`}>
+                  <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${feature.colorClass} flex items-center justify-center mb-4 text-overlay-foreground shadow-lg group-hover:scale-110 transition-transform`}>
                     {feature.icon}
                   </div>
                   <CardTitle className="text-xl">{feature.title}</CardTitle>
@@ -211,7 +211,7 @@ export default function PropertyManagement() {
               className="group p-6 rounded-xl bg-card border-2 border-border hover:border-primary/50 shadow-md hover:shadow-lg transition-all flex items-center justify-between"
             >
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center text-white">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-feature-warning to-feature-warning-dark flex items-center justify-center text-overlay-foreground">
                   <Clock className="h-6 w-6" />
                 </div>
                 <div>
@@ -226,7 +226,7 @@ export default function PropertyManagement() {
               className="group p-6 rounded-xl bg-card border-2 border-border hover:border-primary/50 shadow-md hover:shadow-lg transition-all flex items-center justify-between"
             >
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center text-white">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-feature-violet to-feature-violet-dark flex items-center justify-center text-overlay-foreground">
                   <Users className="h-6 w-6" />
                 </div>
                 <div>

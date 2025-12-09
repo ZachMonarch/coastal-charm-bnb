@@ -144,6 +144,29 @@
     --overlay-foreground: 0 0% 100%;  /* White text on dark overlays */
     --overlay-muted: 0 0% 100% / 0.9; /* Slightly muted overlay text */
     
+    /* === FEATURE CARD COLORS (semantic gradients for service pages) === */
+    /* These replace hardcoded Tailwind colors like blue-500, emerald-500 */
+    --feature-info: 200 70% 50%;           /* Info blue - for tenant screening, legal */
+    --feature-info-dark: 200 70% 40%;
+    --feature-success: 155 60% 40%;        /* Success green - for rent collection, upkeep */
+    --feature-success-dark: 155 60% 32%;
+    --feature-accent: 270 60% 55%;         /* Purple accent - for inspections, relations */
+    --feature-accent-dark: 270 60% 45%;
+    --feature-warning: 38 92% 50%;         /* Warning amber - for maintenance, emergency */
+    --feature-warning-dark: 38 92% 40%;
+    --feature-danger: 0 75% 55%;           /* Danger red - for emergencies */
+    --feature-danger-dark: 0 75% 45%;
+    --feature-violet: 270 60% 55%;         /* Violet - for consultation */
+    --feature-violet-dark: 270 60% 45%;
+    --feature-rose: 350 80% 55%;           /* Rose - for investment analysis */
+    --feature-rose-dark: 350 80% 45%;
+    --feature-cyan: 185 70% 45%;           /* Cyan - for plumbing */
+    --feature-cyan-dark: 185 70% 35%;
+    --feature-sky: 200 80% 55%;            /* Sky blue - for HVAC */
+    --feature-sky-dark: 200 80% 45%;
+    --feature-teal: 170 55% 40%;           /* Teal - for general */
+    --feature-teal-dark: 170 55% 32%;
+    
     /* === SIDEBAR === */
     --sidebar: 40 20% 98%;
     --sidebar-foreground: 0 0% 12%;
