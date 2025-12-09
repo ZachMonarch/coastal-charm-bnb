@@ -98,10 +98,10 @@ export default function Contact() {
           <div className="inline-flex items-center justify-center w-16 h-16 mb-6 rounded-full bg-gradient-to-br from-primary to-primary/80 shadow-2xl">
             <Mail className="h-8 w-8 text-primary-foreground" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white drop-shadow-lg">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-overlay-foreground drop-shadow-lg">
             {t.contact?.title || 'Contact Us'}
           </h1>
-          <p className="text-lg md:text-xl text-white/85 max-w-2xl mx-auto drop-shadow-lg">
+          <p className="text-lg md:text-xl text-overlay-foreground/85 max-w-2xl mx-auto drop-shadow-lg">
             {t.contact?.subtitle || 'Get in touch with our team'}
           </p>
         </div>

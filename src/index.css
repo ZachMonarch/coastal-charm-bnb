@@ -141,8 +141,10 @@
     --opacity-solid: 0.80;       /* Primary surfaces */
     
     /* === OVERLAY TEXT (for hero sections on images) === */
-    --overlay-foreground: 0 0% 100%;  /* White text on dark overlays */
-    --overlay-muted: 0 0% 100% / 0.9; /* Slightly muted overlay text */
+    /* These are constant colors for text on dark image overlays - NOT theme-dependent */
+    --overlay-foreground: 0 0% 100%;      /* White text on dark overlays */
+    --overlay-muted: 0 0% 100%;           /* Base for muted overlay text */
+    --overlay-muted-opacity: 0.85;        /* Opacity for muted text */
     
     /* === FEATURE CARD COLORS (semantic gradients for service pages) === */
     /* These replace hardcoded Tailwind colors like blue-500, emerald-500 */
@@ -712,6 +714,24 @@
 
   .brand-teal-bg {
     background-color: hsl(var(--secondary) / 0.1);
+  }
+
+  /* === OVERLAY TEXT UTILITY CLASSES === */
+  /* For text on dark image overlays - always renders white regardless of theme */
+  .text-overlay-foreground {
+    color: hsl(0 0% 100%) !important;
+  }
+  
+  .text-overlay-foreground\/85 {
+    color: hsl(0 0% 100% / 0.85) !important;
+  }
+  
+  .text-overlay-foreground\/90 {
+    color: hsl(0 0% 100% / 0.9) !important;
+  }
+  
+  .text-overlay-foreground\/80 {
+    color: hsl(0 0% 100% / 0.8) !important;
   }
 
   /* Enhanced card with brand colors */
