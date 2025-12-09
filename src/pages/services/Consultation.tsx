@@ -12,25 +12,25 @@ export default function Consultation() {
       icon: <Target className="h-8 w-8" />,
       title: "Investment Analysis",
       description: "Comprehensive market analysis and ROI projections for potential investments.",
-      color: "from-rose-500 to-rose-600"
+      colorClass: "from-feature-rose to-feature-rose-dark"
     },
     {
       icon: <TrendingUp className="h-8 w-8" />,
       title: "Portfolio Optimization",
       description: "Strategic advice to maximize returns across your property portfolio.",
-      color: "from-emerald-500 to-emerald-600"
+      colorClass: "from-feature-success to-feature-success-dark"
     },
     {
       icon: <FileText className="h-8 w-8" />,
       title: "Legal Compliance",
       description: "Guidance on regulations, permits, and legal requirements for your properties.",
-      color: "from-blue-500 to-blue-600"
+      colorClass: "from-feature-info to-feature-info-dark"
     },
     {
       icon: <Users className="h-8 w-8" />,
       title: "Tenant Relations",
       description: "Best practices for tenant retention and satisfaction improvement.",
-      color: "from-violet-500 to-violet-600"
+      colorClass: "from-feature-violet to-feature-violet-dark"
     }
   ];
 
@@ -41,7 +41,7 @@ export default function Consultation() {
       price: "Free",
       description: "Perfect for property owners looking to understand their options and develop a strategy.",
       features: ["Property assessment", "Market overview", "Q&A session", "Written summary"],
-      color: "from-emerald-500 to-teal-500",
+      colorClass: "from-feature-success to-feature-teal",
       popular: false
     },
     {
@@ -50,7 +50,7 @@ export default function Consultation() {
       price: "$299",
       description: "In-depth analysis of your entire property portfolio with actionable recommendations.",
       features: ["Full portfolio analysis", "ROI optimization", "Risk assessment", "Action plan", "Follow-up call"],
-      color: "from-primary to-primary-dark",
+      colorClass: "from-primary to-primary-dark",
       popular: true
     },
     {
@@ -59,7 +59,7 @@ export default function Consultation() {
       price: "Custom",
       description: "Detailed market research and competitive analysis for specific properties or areas.",
       features: ["Area demographics", "Competitor analysis", "Pricing strategy", "Investment forecast", "Detailed report"],
-      color: "from-violet-500 to-purple-600",
+      colorClass: "from-feature-violet to-feature-violet-dark",
       popular: false
     }
   ];
@@ -110,7 +110,7 @@ export default function Consultation() {
         
         {/* Animated Background */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -left-40 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute -top-40 -left-40 w-96 h-96 bg-feature-violet/10 rounded-full blur-3xl animate-pulse" />
           <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
         </div>
 
@@ -123,20 +123,20 @@ export default function Consultation() {
           <div className="max-w-4xl mx-auto text-center">
             {/* Icon with Glow */}
             <div className="relative inline-block mb-8">
-              <div className="absolute inset-0 bg-violet-500/30 rounded-full blur-xl animate-pulse" />
-              <div className="relative p-6 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 shadow-2xl">
-                <MessageSquare className="h-16 w-16 text-white" />
+              <div className="absolute inset-0 bg-feature-violet/30 rounded-full blur-xl animate-pulse" />
+              <div className="relative p-6 rounded-full bg-gradient-to-br from-feature-violet to-feature-violet-dark shadow-2xl">
+                <MessageSquare className="h-16 w-16 text-overlay-foreground" />
               </div>
             </div>
 
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white drop-shadow-lg animate-in fade-in slide-in-from-bottom-5 duration-700">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 text-overlay-foreground drop-shadow-lg animate-in fade-in slide-in-from-bottom-5 duration-700">
               Property Consultation Services
             </h1>
-            <p className="text-xl md:text-2xl text-white/90 mb-10 max-w-3xl mx-auto animate-in fade-in slide-in-from-bottom-5 duration-700 drop-shadow-md" style={{ animationDelay: '100ms' }}>
+            <p className="text-xl md:text-2xl text-overlay-muted mb-10 max-w-3xl mx-auto animate-in fade-in slide-in-from-bottom-5 duration-700 drop-shadow-md" style={{ animationDelay: '100ms' }}>
               Expert guidance to help you make informed decisions and maximize your property investments.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center animate-in fade-in slide-in-from-bottom-5 duration-700" style={{ animationDelay: '200ms' }}>
-              <Button asChild size="lg" className="bg-gradient-to-r from-violet-500 to-purple-600 hover:from-purple-600 hover:to-violet-500 text-lg px-8 py-6 shadow-lg">
+              <Button asChild size="lg" className="bg-gradient-to-r from-feature-violet to-feature-violet-dark hover:from-feature-violet-dark hover:to-feature-violet text-lg px-8 py-6 shadow-lg">
                 <Link to="/contact">Book Consultation</Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="text-lg px-8 py-6 border-2">
@@ -148,7 +148,7 @@ export default function Consultation() {
       </section>
 
       {/* Stats Bar */}
-      <section className="py-12 bg-gradient-to-r from-violet-500/10 via-primary/5 to-violet-500/10">
+      <section className="py-12 bg-gradient-to-r from-feature-violet/10 via-primary/5 to-feature-violet/10">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
@@ -178,12 +178,12 @@ export default function Consultation() {
             {services.map((service, index) => (
               <Card 
                 key={index} 
-                className="group relative overflow-hidden border-2 hover:border-violet-500/50 transition-all duration-300 hover:-translate-y-2 animate-in fade-in slide-in-from-bottom-5"
+                className="group relative overflow-hidden border-2 hover:border-feature-violet/50 transition-all duration-300 hover:-translate-y-2 animate-in fade-in slide-in-from-bottom-5"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${service.color}`} />
+                <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${service.colorClass}`} />
                 <CardHeader>
-                  <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-4 text-white shadow-lg group-hover:scale-110 transition-transform`}>
+                  <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${service.colorClass} flex items-center justify-center mb-4 text-overlay-foreground shadow-lg group-hover:scale-110 transition-transform`}>
                     {service.icon}
                   </div>
                   <CardTitle className="text-xl">{service.title}</CardTitle>
@@ -219,7 +219,7 @@ export default function Consultation() {
                     </span>
                   </div>
                 )}
-                <div className={`h-2 bg-gradient-to-r ${pkg.color}`} />
+                <div className={`h-2 bg-gradient-to-r ${pkg.colorClass}`} />
                 <CardHeader className="text-center pb-2">
                   <CardTitle className="text-2xl">{pkg.title}</CardTitle>
                   <div className="flex items-center justify-center gap-2 text-muted-foreground">
@@ -290,7 +290,7 @@ export default function Consultation() {
               className="group p-6 rounded-xl bg-card border-2 border-border hover:border-primary/50 shadow-md hover:shadow-lg transition-all flex items-center justify-between"
             >
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-feature-info to-feature-info-dark flex items-center justify-center text-overlay-foreground">
                   <Building2 className="h-6 w-6" />
                 </div>
                 <div>
@@ -305,7 +305,7 @@ export default function Consultation() {
               className="group p-6 rounded-xl bg-card border-2 border-border hover:border-primary/50 shadow-md hover:shadow-lg transition-all flex items-center justify-between"
             >
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center text-white">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-feature-warning to-feature-warning-dark flex items-center justify-center text-overlay-foreground">
                   <Clock className="h-6 w-6" />
                 </div>
                 <div>
@@ -321,14 +321,14 @@ export default function Consultation() {
 
       {/* CTA Section */}
       <section className="py-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-violet-500/10 via-primary/10 to-violet-500/10" />
+        <div className="absolute inset-0 bg-gradient-to-br from-feature-violet/10 via-primary/10 to-feature-violet/10" />
         <div className="container mx-auto px-4 text-center relative z-10">
           <Calendar className="h-12 w-12 text-primary mx-auto mb-6" />
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Get Expert Advice?</h2>
           <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
             Schedule a consultation today and discover how we can help you achieve your property investment goals.
           </p>
-          <Button asChild size="lg" className="bg-gradient-to-r from-violet-500 to-purple-600 hover:from-purple-600 hover:to-violet-500 text-lg px-10 py-6 shadow-xl">
+          <Button asChild size="lg" className="bg-gradient-to-r from-feature-violet to-feature-violet-dark hover:from-feature-violet-dark hover:to-feature-violet text-lg px-10 py-6 shadow-xl">
             <Link to="/contact">Schedule Consultation</Link>
           </Button>
         </div>
