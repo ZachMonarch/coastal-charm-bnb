@@ -204,6 +204,15 @@ export default {
     				'100%': {
     					transform: 'translateX(-50%) translateZ(0) scaleY(1)'
     				}
+    			},
+    			// Phase 6: Animation polish keyframes
+    			'subtle-bounce': {
+    				'0%, 100%': { transform: 'translateY(0)' },
+    				'50%': { transform: 'translateY(-4px)' }
+    			},
+    			'micro-lift': {
+    				'0%': { transform: 'translateY(0)' },
+    				'100%': { transform: 'translateY(-2px)' }
     			}
     		},
     		animation: {
@@ -220,7 +229,11 @@ export default {
     			'slide-in-up': 'slide-in-up 0.4s ease-out',
     			'slide-in-right': 'slide-in-right 0.4s ease-out',
     			'glow-pulse': 'glow-pulse 2s ease-in-out infinite',
-    			'golden-shimmer': 'golden-shimmer 1.5s ease-in-out infinite'
+    			'golden-shimmer': 'golden-shimmer 1.5s ease-in-out infinite',
+    			// Phase 6: New animation polish utilities
+    			'subtle-bounce': 'subtle-bounce 2s ease-in-out infinite',
+    			'skeleton-shimmer': 'skeleton-shimmer 1.5s ease-in-out infinite',
+    			'micro-lift': 'micro-lift 0.2s ease-out forwards'
     		},
     		transitionDuration: {
     			fast: '150ms',
