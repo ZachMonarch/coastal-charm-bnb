@@ -470,7 +470,7 @@ export const AnalyticsDashboard: React.FC = () => {
                       cx="50%"
                       cy="50%"
                       outerRadius={80}
-                      fill="#8884d8"
+                      fill="hsl(var(--chart-1))"
                       dataKey="count"
                       label={({ role, count }) => `${role}: ${count}`}
                     >

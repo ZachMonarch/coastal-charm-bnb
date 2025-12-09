@@ -139,9 +139,9 @@ export default function ProductionMonitoring() {
   };
 
   const getSystemStatus = () => {
-    if (metrics.systemUptime >= 99) return { status: 'healthy', color: 'text-green-600', icon: CheckCircle };
-    if (metrics.systemUptime >= 95) return { status: 'degraded', color: 'text-yellow-600', icon: AlertTriangle };
-    return { status: 'down', color: 'text-red-600', icon: XCircle };
+    if (metrics.systemUptime >= 99) return { status: 'healthy', color: 'text-success', icon: CheckCircle };
+    if (metrics.systemUptime >= 95) return { status: 'degraded', color: 'text-warning', icon: AlertTriangle };
+    return { status: 'down', color: 'text-destructive', icon: XCircle };
   };
 
   useEffect(() => {

@@ -90,9 +90,9 @@ export default function SecurityTestingPanel() {
 
   const getStatusIcon = (passed: boolean) => {
     return passed ? (
-      <CheckCircle className="h-4 w-4 text-green-500" />
+      <CheckCircle className="h-4 w-4 text-success" />
     ) : (
-      <XCircle className="h-4 w-4 text-red-500" />
+      <XCircle className="h-4 w-4 text-destructive" />
     );
   };
 
@@ -186,8 +186,8 @@ export default function SecurityTestingPanel() {
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
                 <span>Total Tests: {rlsResults.totalTests}</span>
-                <span className="text-green-600">Passed: {rlsResults.passed}</span>
-                <span className="text-red-600">Failed: {rlsResults.failed}</span>
+                <span className="text-success">Passed: {rlsResults.passed}</span>
+                <span className="text-destructive">Failed: {rlsResults.failed}</span>
               </div>
 
               {rlsResults.criticalIssues?.length > 0 && (
@@ -233,8 +233,8 @@ export default function SecurityTestingPanel() {
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
                 <span>Total Tests: {auditResults.totalTests}</span>
-                <span className="text-green-600">Passed: {auditResults.passed}</span>
-                <span className="text-red-600">Failed: {auditResults.failed}</span>
+                <span className="text-success">Passed: {auditResults.passed}</span>
+                <span className="text-destructive">Failed: {auditResults.failed}</span>
               </div>
 
               {auditResults.criticalIssues?.length > 0 && (

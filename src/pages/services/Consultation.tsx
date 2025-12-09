@@ -265,7 +265,7 @@ export default function Consultation() {
                 <CardContent className="pt-6">
                   <div className="flex gap-1 mb-4">
                     {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="h-5 w-5 fill-amber-400 text-amber-400" />
+                      <Star key={i} className="h-5 w-5 fill-primary text-primary" />
                     ))}
                   </div>
                   <p className="text-lg italic mb-4">"{testimonial.quote}"</p>

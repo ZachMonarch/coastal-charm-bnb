@@ -396,10 +396,10 @@ export default function NewsAdminPanel() {
                         <TableCell>
                           <div className="flex gap-2">
                             {article.is_featured && (
-                              <Badge className="bg-warning text-warning-foreground">Featured</Badge>
+                              <Badge className="bg-primary text-primary-foreground">Featured</Badge>
                             )}
                             {article.is_published ? (
-                              <Badge variant="outline" className="text-success border-success/30">Published</Badge>
+                              <Badge variant="outline" className="text-success border-success/30 dark:border-success/40">Published</Badge>
                             ) : (
                               <Badge variant="outline" className="text-muted-foreground">Hidden</Badge>
                             )}

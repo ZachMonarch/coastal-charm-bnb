@@ -177,7 +177,7 @@ export const EnhancedSecurityMonitor: React.FC = () => {
                 <div className="text-sm text-muted-foreground">Critical Events</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-orange-500">
+                <div className="text-2xl font-bold text-warning">
                   {securityStats.high_events}
                 </div>
                 <div className="text-sm text-muted-foreground">High Priority</div>
@@ -189,7 +189,7 @@ export const EnhancedSecurityMonitor: React.FC = () => {
                 <div className="text-sm text-muted-foreground">Total Events</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-blue-500">
+                <div className="text-2xl font-bold text-info">
                   {securityStats.blocked_attempts}
                 </div>
                 <div className="text-sm text-muted-foreground">Blocked Attempts</div>

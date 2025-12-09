@@ -346,11 +346,11 @@ export const FinalIntegrationCheck: React.FC = () => {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'running':
-        return <Loader2 className="h-4 w-4 animate-spin text-blue-600" />;
+        return <Loader2 className="h-4 w-4 animate-spin text-info" />;
       case 'success':
-        return <CheckCircle className="h-4 w-4 text-green-600" />;
+        return <CheckCircle className="h-4 w-4 text-success" />;
       case 'error':
-        return <XCircle className="h-4 w-4 text-red-600" />;
+        return <XCircle className="h-4 w-4 text-destructive" />;
       default:
         return <div className="h-4 w-4 rounded-full border-2 border-muted" />;
     }
@@ -447,7 +447,7 @@ export const FinalIntegrationCheck: React.FC = () => {
                     <div>
                       <div className="font-medium">{test.name}</div>
                       {test.result && (
-                        <div className={`text-sm ${test.result.success ? 'text-green-600' : 'text-red-600'}`}>
+                        <div className={`text-sm ${test.result.success ? 'text-success' : 'text-destructive'}`}>
                           {test.result.message}
                         </div>
                       )}
@@ -475,11 +475,11 @@ export const FinalIntegrationCheck: React.FC = () => {
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
               {overallScore >= 90 ? (
-                <CheckCircle className="h-5 w-5 text-green-600" />
+                <CheckCircle className="h-5 w-5 text-success" />
               ) : overallScore >= 70 ? (
-                <AlertCircle className="h-5 w-5 text-yellow-600" />
+                <AlertCircle className="h-5 w-5 text-warning" />
               ) : (
-                <XCircle className="h-5 w-5 text-red-600" />
+                <XCircle className="h-5 w-5 text-destructive" />
               )}
               <span>Production Readiness Assessment</span>
             </CardTitle>

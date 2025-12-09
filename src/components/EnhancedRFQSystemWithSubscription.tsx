@@ -216,10 +216,10 @@ export default function EnhancedRFQSystemWithSubscription({ className }: Enhance
       {isAdmin && (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {[
-            { title: "Total Projects", value: projects.length, icon: FileText, color: "text-blue-500" },
-            { title: "Active Projects", value: projects.filter(p => p.status === 'open').length, icon: Clock, color: "text-green-500" },
-            { title: "High Priority", value: projects.filter(p => p.priority === 'high' || p.priority === 'critical').length, icon: AlertCircle, color: "text-red-500" },
-            { title: "Total Budget", value: `$${projects.reduce((sum, p) => sum + (p.budget_max || 0), 0).toLocaleString()}`, icon: DollarSign, color: "text-purple-500" }
+            { title: "Total Projects", value: projects.length, icon: FileText, color: "text-info" },
+            { title: "Active Projects", value: projects.filter(p => p.status === 'open').length, icon: Clock, color: "text-success" },
+            { title: "High Priority", value: projects.filter(p => p.priority === 'high' || p.priority === 'critical').length, icon: AlertCircle, color: "text-destructive" },
+            { title: "Total Budget", value: `$${projects.reduce((sum, p) => sum + (p.budget_max || 0), 0).toLocaleString()}`, icon: DollarSign, color: "text-accent-foreground" }
           ].map((stat, index) => (
             <Card key={index} className="hover:shadow-lg transition-all">
               <CardContent className="p-4">

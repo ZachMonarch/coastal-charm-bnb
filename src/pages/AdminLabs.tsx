@@ -36,17 +36,17 @@ export default function AdminLabs() {
                 <p className="text-muted-foreground">Test features and development tools (Admin Only)</p>
               </div>
             </div>
-            <Badge variant="outline" className="border-amber-500/20 text-amber-600">
+            <Badge variant="outline" className="border-warning/20 text-warning dark:border-warning/30">
               <AlertTriangle className="h-3 w-3 mr-1" />
               Experimental
             </Badge>
           </div>
 
           {/* Warning Banner */}
-          <Card className="border-amber-500/20 bg-amber-500/5 shadow-lg">
+          <Card className="border-warning/20 bg-warning/5 shadow-lg dark:bg-warning/10 dark:border-warning/30">
             <CardContent className="pt-6">
               <div className="flex items-start gap-3">
-                <AlertTriangle className="h-5 w-5 text-amber-600 mt-0.5" />
+                <AlertTriangle className="h-5 w-5 text-warning mt-0.5" />
                 <div>
                   <h3 className="font-semibold text-foreground mb-1">Experimental Features</h3>
                   <p className="text-sm text-muted-foreground">
@@ -126,7 +126,7 @@ export default function AdminLabs() {
                   <p className="text-sm text-muted-foreground">
                     WebSocket-based instant notifications system
                   </p>
-                  <Badge variant="secondary" className="mt-1 bg-emerald-500/10 text-emerald-600">
+                  <Badge variant="secondary" className="mt-1 bg-success/10 text-success dark:bg-success/20">
                     Stable
                   </Badge>
                 </div>
