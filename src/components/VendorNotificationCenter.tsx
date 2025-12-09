@@ -142,10 +142,10 @@ export default function VendorNotificationCenter() {
 
   const getNotificationIcon = (type: string) => {
     switch (type) {
-      case 'success': return <CheckCircle className="h-5 w-5 text-green-500" />;
-      case 'warning': return <AlertTriangle className="h-5 w-5 text-yellow-500" />;
-      case 'error': return <X className="h-5 w-5 text-red-500" />;
-      default: return <Info className="h-5 w-5 text-blue-500" />;
+      case 'success': return <CheckCircle className="h-5 w-5 text-success" />;
+      case 'warning': return <AlertTriangle className="h-5 w-5 text-warning" />;
+      case 'error': return <X className="h-5 w-5 text-destructive" />;
+      default: return <Info className="h-5 w-5 text-info" />;
     }
   };
 

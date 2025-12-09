@@ -9,14 +9,8 @@ export default {
 	],
 	prefix: "",
 	safelist: [
-		// Only truly dynamic classes
+		// Only truly dynamic classes - animation utilities
 		'animate-pulse-glow',
-		'text-green-500',
-		'text-red-500',
-		'text-yellow-500',
-		'bg-green-500',
-		'bg-red-500',
-		'bg-yellow-500',
 	],
 	theme: {
     	container: {

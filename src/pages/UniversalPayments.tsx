@@ -178,7 +178,7 @@ export default function UniversalPayments() {
                   <p className="text-sm text-muted-foreground">Pending Payments</p>
                   <p className="text-2xl font-bold">${totalPending.toFixed(2)}</p>
                 </div>
-                <DollarSign className="h-8 w-8 text-yellow-500" />
+                <DollarSign className="h-8 w-8 text-warning" />
               </div>
             </CardContent>
           </Card>
@@ -190,7 +190,7 @@ export default function UniversalPayments() {
                   <p className="text-sm text-muted-foreground">Total Paid</p>
                   <p className="text-2xl font-bold">${totalPaid.toFixed(2)}</p>
                 </div>
-                <CreditCard className="h-8 w-8 text-green-500" />
+                <CreditCard className="h-8 w-8 text-success" />
               </div>
             </CardContent>
           </Card>
@@ -202,7 +202,7 @@ export default function UniversalPayments() {
                   <p className="text-sm text-muted-foreground">Overdue</p>
                   <p className="text-2xl font-bold">{pendingPayments.filter(isOverdue).length}</p>
                 </div>
-                <AlertCircle className="h-8 w-8 text-red-500" />
+                <AlertCircle className="h-8 w-8 text-destructive" />
               </div>
             </CardContent>
           </Card>
@@ -225,7 +225,7 @@ export default function UniversalPayments() {
                 </Card>
               ) : (
                 pendingPayments.map((payment) => (
-                  <Card key={payment.id} className={isOverdue(payment) ? 'border-red-500' : ''}>
+                  <Card key={payment.id} className={isOverdue(payment) ? 'border-destructive' : ''}>
                     <CardHeader>
                       <div className="flex justify-between items-start">
                         <div>

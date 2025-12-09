@@ -59,7 +59,7 @@ export function NewsletterSubscription({ variant = "card", className }: Newslett
     return (
       <Card className={className}>
         <CardContent className="flex flex-col items-center justify-center py-8 text-center">
-          <CheckCircle className="h-12 w-12 text-green-500 mb-4" />
+          <CheckCircle className="h-12 w-12 text-success mb-4" />
           <h3 className="text-xl font-semibold mb-2">You're Subscribed!</h3>
           <p className="text-muted-foreground">
             Thank you for subscribing. You'll receive {frequency} property news updates at {email}
