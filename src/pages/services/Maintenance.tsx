@@ -135,7 +135,7 @@ export default function Maintenance() {
                 <Link to="/contact">Request Service</Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="text-lg px-8 py-6 border-2 bg-destructive/10 border-destructive text-destructive hover:bg-destructive/20">
-                <a href="tel:+13043658349" className="flex items-center gap-2 bg-[#7d90b0]/[0.86]">
+                <a href="tel:+13043658349" className="flex items-center gap-2 bg-[#7d90b0]/[0.86] border-slate-400">
                   <AlertTriangle className="h-5 w-5" />
                   Emergency: (304) 365-8349
                 </a>
