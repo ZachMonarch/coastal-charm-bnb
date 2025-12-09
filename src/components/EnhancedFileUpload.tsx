@@ -374,7 +374,7 @@ export default function EnhancedFileUpload({
                     </div>
                     <div className="flex items-center space-x-2">
                       {uploadProgress[file.id] === 100 && (
-                        <CheckCircle className="h-4 w-4 text-green-500" />
+                        <CheckCircle className="h-4 w-4 text-success" />
                       )}
                       {!uploading && (
                         <Button

@@ -132,10 +132,10 @@ export default function VendorRFQSystem() {
           <Card className="border-warning/30 bg-warning/10 dark:border-warning/40 dark:bg-warning/20">
             <CardContent className="p-6">
               <div className="flex items-center gap-3">
-                <AlertCircle className="h-6 w-6 text-yellow-600" />
+                <AlertCircle className="h-6 w-6 text-warning" />
                 <div>
-                  <h3 className="font-semibold text-yellow-800">Subscription Required</h3>
-                  <p className="text-sm text-yellow-700">
+                  <h3 className="font-semibold text-warning">Subscription Required</h3>
+                  <p className="text-sm text-warning/80">
                     Upgrade to Basic plan or higher to apply for projects and submit bids.
                   </p>
                 </div>

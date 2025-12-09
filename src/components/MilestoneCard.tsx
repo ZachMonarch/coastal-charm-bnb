@@ -160,7 +160,7 @@ export function MilestoneCard({
           
           {isCompleted && milestone.completion_date && (
             <div className="ml-auto flex items-center gap-1 text-sm text-muted-foreground">
-              <CheckCircle className="h-4 w-4 text-green-600" />
+              <CheckCircle className="h-4 w-4 text-success" />
               Completed {format(new Date(milestone.completion_date), 'MMM dd, yyyy')}
             </div>
           )}

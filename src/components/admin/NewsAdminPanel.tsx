@@ -709,7 +709,7 @@ export default function NewsAdminPanel() {
                   <CardTitle className="text-sm font-medium text-muted-foreground">Active</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-3xl font-bold text-green-500">{stats.activeSubscribers}</div>
+                  <div className="text-3xl font-bold text-success">{stats.activeSubscribers}</div>
                 </CardContent>
               </Card>
               <Card>
@@ -808,7 +808,7 @@ export default function NewsAdminPanel() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-3xl font-bold text-green-500">{analyticsSummary?.totalShares || 0}</div>
+                  <div className="text-3xl font-bold text-success">{analyticsSummary?.totalShares || 0}</div>
                   <p className="text-xs text-muted-foreground">Last 30 days</p>
                 </CardContent>
               </Card>

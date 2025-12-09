@@ -418,15 +418,15 @@ export default function SecurityAuditDashboard() {
           
           <div className="grid grid-cols-3 gap-4 text-center">
             <div>
-              <div className="text-2xl font-bold text-green-600">{scanResult.summary.passed}</div>
+              <div className="text-2xl font-bold text-success">{scanResult.summary.passed}</div>
               <div className="text-sm text-muted-foreground">Passed</div>
             </div>
             <div>
-              <div className="text-2xl font-bold text-yellow-600">{scanResult.summary.warnings}</div>
+              <div className="text-2xl font-bold text-warning">{scanResult.summary.warnings}</div>
               <div className="text-sm text-muted-foreground">Warnings</div>
             </div>
             <div>
-              <div className="text-2xl font-bold text-red-600">{scanResult.summary.failed}</div>
+              <div className="text-2xl font-bold text-destructive">{scanResult.summary.failed}</div>
               <div className="text-sm text-muted-foreground">Failed</div>
             </div>
           </div>

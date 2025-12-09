@@ -269,7 +269,7 @@ export default function ProjectAssignmentDialog({
                             <div className="flex items-center space-x-2 mb-1">
                               <h4 className="font-semibold">{vendor.company_name}</h4>
                               {vendor.is_verified && (
-                                <CheckCircle className="h-4 w-4 text-green-500" />
+                                <CheckCircle className="h-4 w-4 text-success" />
                               )}
                             </div>
                             
