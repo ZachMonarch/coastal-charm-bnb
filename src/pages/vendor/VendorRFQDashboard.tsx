@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/OptimizedAuthContext';
@@ -7,10 +8,12 @@ import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { RFQStatusBadge } from '@/components/rfq/shared/RFQStatusBadge';
 import { Badge } from '@/components/ui/badge';
-import { Clock, FileText, DollarSign, Briefcase } from 'lucide-react';
+import { Clock, FileText, DollarSign, Briefcase, TrendingUp } from 'lucide-react';
 import EnhancedPageBackground from '@/components/shared/EnhancedPageBackground';
 import PageHero from '@/components/shared/PageHero';
 import StatsCard from '@/components/shared/StatsCard';
+import DashboardChart from '@/components/shared/DashboardChart';
+import EmptyStateIllustration from '@/components/shared/EmptyStateIllustration';
 import PrivatePageWrapper from '@/components/PrivatePageWrapper';
 
 export default function VendorRFQDashboard() {
@@ -74,6 +77,22 @@ export default function VendorRFQDashboard() {
 
   const pendingReview = myBids?.filter((bid: any) => bid.rfq_lot?.rfq?.status === 'open').length || 0;
 
+  // Generate bid activity chart data
+  const bidActivityData = useMemo(() => {
+    if (!myBids || myBids.length === 0) return [];
+    
+    const monthlyData: Record<string, number> = {};
+    myBids.forEach((bid: any) => {
+      const date = new Date(bid.submitted_at);
+      const monthKey = date.toLocaleDateString('en-US', { month: 'short' });
+      monthlyData[monthKey] = (monthlyData[monthKey] || 0) + 1;
+    });
+
+    return Object.entries(monthlyData)
+      .slice(-6)
+      .map(([name, value]) => ({ name, value }));
+  }, [myBids]);
+
   return (
     <PrivatePageWrapper title="RFQ Dashboard" showFooter={true}>
       <EnhancedPageBackground pattern="mesh" gradient="radial" primaryColor="primary" intensity="subtle" showOrbs>
@@ -109,6 +128,18 @@ export default function VendorRFQDashboard() {
               animated
             />
           </div>
+
+          {/* Bid Activity Chart */}
+          {bidActivityData.length > 0 && (
+            <DashboardChart
+              title="Bid Activity"
+              description="Your bidding activity over time"
+              data={bidActivityData}
+              type="bar"
+              color="primary"
+              height={220}
+            />
+          )}
 
       <Card>
         <CardHeader>
@@ -147,9 +178,11 @@ export default function VendorRFQDashboard() {
               ))}
             </div>
           ) : (
-            <div className="text-center py-8 text-muted-foreground">
-              No open invitations at the moment
-            </div>
+            <EmptyStateIllustration
+              type="documents"
+              title="No open invitations"
+              description="You'll see RFQ invitations here when property managers invite you to bid on projects."
+            />
           )}
         </CardContent>
       </Card>
@@ -183,9 +216,11 @@ export default function VendorRFQDashboard() {
               ))}
             </div>
           ) : (
-            <div className="text-center py-8 text-muted-foreground">
-              No bids submitted yet
-            </div>
+            <EmptyStateIllustration
+              type="projects"
+              title="No bids submitted yet"
+              description="Start bidding on RFQ invitations to see your submission history here."
+            />
           )}
         </CardContent>
       </Card>
