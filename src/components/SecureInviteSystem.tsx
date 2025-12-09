@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { ButtonSpinner } from '@/components/shared/LoadingSpinner';
 
 interface SecureInvite {
   email: string;
@@ -175,7 +176,7 @@ export default function SecureInviteSystem() {
           >
             {sending ? (
               <>
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                <ButtonSpinner />
                 Sending...
               </>
             ) : (

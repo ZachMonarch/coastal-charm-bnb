@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { FileText, Plus, Calendar, DollarSign } from 'lucide-react';
 import { CompletedMilestone } from '@/hooks/useVendorInvoicing';
+import { ButtonSpinner } from '@/components/shared/LoadingSpinner';
 
 interface InvoiceGenerationSectionProps {
   completedMilestones: CompletedMilestone[];
@@ -93,7 +94,7 @@ export default function InvoiceGenerationSection({
                 >
                   {generating ? (
                     <>
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                      <ButtonSpinner className="mr-2" />
                       Generating...
                     </>
                   ) : (

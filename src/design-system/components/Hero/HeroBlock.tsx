@@ -192,7 +192,7 @@ export function HeroBlock({
                     "min-w-[200px]",
                     variant === "gradient"
                       ? "border-primary text-primary hover:bg-primary/10"
-                      : "border-white/30 text-white hover:bg-white/10 bg-white/5 backdrop-blur-sm"
+                      : "border-overlay/30 text-overlay-foreground hover:bg-overlay/10 bg-overlay/5 backdrop-blur-sm"
                   )}
                   onClick={cta.secondary.onClick}
                 >
@@ -222,14 +222,14 @@ export function HeroBlock({
                     "p-4 md:p-6 rounded-xl backdrop-blur-sm border",
                     variant === "gradient"
                       ? "bg-card border-border shadow-sm"
-                      : "bg-white/10 border-white/20"
+                      : "bg-overlay/10 border-overlay/20"
                   )}
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
                   <div
                     className={cn(
                       "text-2xl md:text-3xl font-bold mb-1",
-                      variant === "gradient" ? "text-primary" : "text-white"
+                      variant === "gradient" ? "text-primary" : "text-overlay-foreground"
                     )}
                   >
                     {stat.number}
@@ -239,7 +239,7 @@ export function HeroBlock({
                       "text-sm md:text-base",
                       variant === "gradient"
                         ? "text-muted-foreground"
-                        : "text-white/80"
+                        : "text-overlay-muted"
                     )}
                   >
                     {stat.label}
@@ -260,14 +260,14 @@ export function HeroBlock({
               "flex flex-col items-center p-3 rounded-full backdrop-blur-sm border transition-all duration-300 hover:scale-110",
               variant === "gradient"
                 ? "bg-card border-border hover:border-primary"
-                : "bg-white/10 border-white/20 hover:bg-white/20"
+                : "bg-overlay/10 border-overlay/20 hover:bg-overlay/20"
             )}
             aria-label="Scroll to content"
           >
             <span
               className={cn(
                 "text-xs mb-1",
-                variant === "gradient" ? "text-muted-foreground" : "text-white"
+                variant === "gradient" ? "text-muted-foreground" : "text-overlay-foreground"
               )}
             >
               Scroll
@@ -275,7 +275,7 @@ export function HeroBlock({
             <ChevronDown
               className={cn(
                 "h-5 w-5",
-                variant === "gradient" ? "text-primary" : "text-white"
+                variant === "gradient" ? "text-primary" : "text-overlay-foreground"
               )}
             />
           </a>
