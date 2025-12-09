@@ -251,7 +251,7 @@ export default function AdminControlSuite() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <h4 className="font-semibold flex items-center gap-2 mb-2">
-                <CheckCircle2 className="h-4 w-4 text-green-500" />
+                <CheckCircle2 className="h-4 w-4 text-success" />
                 Low Risk
               </h4>
               <p className="text-xs text-muted-foreground">
@@ -260,7 +260,7 @@ export default function AdminControlSuite() {
             </div>
             <div>
               <h4 className="font-semibold flex items-center gap-2 mb-2">
-                <Eye className="h-4 w-4 text-yellow-500" />
+                <Eye className="h-4 w-4 text-warning" />
                 Medium Risk
               </h4>
               <p className="text-xs text-muted-foreground">
@@ -269,7 +269,7 @@ export default function AdminControlSuite() {
             </div>
             <div>
               <h4 className="font-semibold flex items-center gap-2 mb-2">
-                <XCircle className="h-4 w-4 text-red-500" />
+                <XCircle className="h-4 w-4 text-destructive" />
                 High Risk
               </h4>
               <p className="text-xs text-muted-foreground">

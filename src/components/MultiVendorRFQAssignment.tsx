@@ -401,7 +401,7 @@ export default function MultiVendorRFQAssignment({
                           <div className="flex items-center space-x-2 mb-1">
                             <h3 className="font-semibold">{vendor.company_name}</h3>
                             {vendor.is_verified && (
-                              <Badge className="bg-green-100 text-green-800">
+                              <Badge className="bg-success/10 text-success dark:bg-success/20 border-success/30">
                                 <Check className="h-3 w-3 mr-1" />
                                 Verified
                               </Badge>

@@ -446,7 +446,7 @@ export default function EnhancedAdminProjectManagement() {
                     <p className="text-sm text-muted-foreground">Total Projects</p>
                     <p className="text-2xl font-bold">{projects.length}</p>
                   </div>
-                  <FileText className="h-8 w-8 text-blue-500" />
+                  <FileText className="h-8 w-8 text-info" />
                 </div>
               </CardContent>
             </Card>
@@ -460,7 +460,7 @@ export default function EnhancedAdminProjectManagement() {
                       {projects.filter(p => p.status === 'open' || p.status === 'in_progress').length}
                     </p>
                   </div>
-                  <Settings className="h-8 w-8 text-green-500" />
+                  <Settings className="h-8 w-8 text-success" />
                 </div>
               </CardContent>
             </Card>

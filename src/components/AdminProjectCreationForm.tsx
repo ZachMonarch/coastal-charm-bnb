@@ -154,13 +154,13 @@ export default function AdminProjectCreationForm({ onClose, onSuccess }: AdminPr
                 value={formData.title}
                 onChange={(e) => updateFormData("title", e.target.value)}
                 placeholder="e.g., Kitchen Plumbing Repair"
-                className={errors.title ? 'border-red-500' : ''}
+                className={errors.title ? 'border-destructive' : ''}
                 required
                 aria-invalid={!!errors.title}
                 aria-describedby={errors.title ? 'title-error' : undefined}
               />
               {errors.title && (
-                <p id="title-error" className="text-sm text-red-500 mt-1">{errors.title}</p>
+                <p id="title-error" className="text-sm text-destructive mt-1">{errors.title}</p>
               )}
             </div>
 
@@ -171,7 +171,7 @@ export default function AdminProjectCreationForm({ onClose, onSuccess }: AdminPr
                 onValueChange={(value) => updateFormData("category", value)}
                 required
               >
-                <SelectTrigger className={errors.category ? 'border-red-500' : ''}>
+                <SelectTrigger className={errors.category ? 'border-destructive' : ''}>
                   <SelectValue placeholder="Select project category" />
                 </SelectTrigger>
                 <SelectContent>
@@ -181,7 +181,7 @@ export default function AdminProjectCreationForm({ onClose, onSuccess }: AdminPr
                 </SelectContent>
               </Select>
               {errors.category && (
-                <p className="text-sm text-red-500 mt-1">{errors.category}</p>
+                <p className="text-sm text-destructive mt-1">{errors.category}</p>
               )}
             </div>
 

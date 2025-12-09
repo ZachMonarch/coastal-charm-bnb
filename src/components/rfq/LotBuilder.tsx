@@ -95,7 +95,7 @@ export const LotBuilder = ({ lots, onChange, error }: LotBuilderProps) => {
       </div>
 
       {error && (
-        <p className="text-red-500 text-sm">{error}</p>
+        <p className="text-destructive text-sm">{error}</p>
       )}
 
       <div className="space-y-4">

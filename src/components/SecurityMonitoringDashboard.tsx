@@ -114,9 +114,9 @@ export default function SecurityMonitoringDashboard() {
               <p className="text-sm text-muted-foreground">Total Events (24h)</p>
             </CardContent>
           </Card>
-          <Card className="border-red-200 dark:border-red-800">
+          <Card className="border-destructive/30 dark:border-destructive/50">
             <CardContent className="p-4 text-center">
-              <AlertTriangle className="h-8 w-8 text-red-500 mx-auto mb-2" />
+              <AlertTriangle className="h-8 w-8 text-destructive mx-auto mb-2" />
               <div className="text-2xl font-bold text-destructive">{metrics.critical}</div>
               <p className="text-sm text-muted-foreground">Critical</p>
             </CardContent>
