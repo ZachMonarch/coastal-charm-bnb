@@ -409,19 +409,19 @@ export default function AdminVendorManagement() {
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
                         <span>General Verification</span>
-                        <Badge className={selectedVendor.is_verified ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}>
+                        <Badge className={selectedVendor.is_verified ? 'bg-success/10 text-success dark:bg-success/20 border-success/30' : 'bg-destructive/10 text-destructive dark:bg-destructive/20 border-destructive/30'}>
                           {selectedVendor.is_verified ? 'Verified' : 'Not Verified'}
                         </Badge>
                       </div>
                       <div className="flex items-center justify-between">
                         <span>Insurance Verified</span>
-                        <Badge className={selectedVendor.insurance_verified ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}>
+                        <Badge className={selectedVendor.insurance_verified ? 'bg-success/10 text-success dark:bg-success/20 border-success/30' : 'bg-destructive/10 text-destructive dark:bg-destructive/20 border-destructive/30'}>
                           {selectedVendor.insurance_verified ? 'Verified' : 'Not Verified'}
                         </Badge>
                       </div>
                       <div className="flex items-center justify-between">
                         <span>Background Check</span>
-                        <Badge className={selectedVendor.background_check_verified ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}>
+                        <Badge className={selectedVendor.background_check_verified ? 'bg-success/10 text-success dark:bg-success/20 border-success/30' : 'bg-destructive/10 text-destructive dark:bg-destructive/20 border-destructive/30'}>
                           {selectedVendor.background_check_verified ? 'Verified' : 'Not Verified'}
                         </Badge>
                       </div>

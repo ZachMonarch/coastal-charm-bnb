@@ -163,9 +163,9 @@ export function VendorDocumentComments({ documentId, documentName, vendorId }: V
           )}
 
           {isInternal && isAdmin && (
-            <div className="flex items-start gap-2 p-3 bg-yellow-50 dark:bg-yellow-950 rounded-md">
-              <AlertCircle className="h-4 w-4 text-yellow-600 dark:text-yellow-400 mt-0.5" />
-              <p className="text-xs text-yellow-800 dark:text-yellow-200">
+            <div className="flex items-start gap-2 p-3 bg-warning/10 dark:bg-warning/20 rounded-md border border-warning/30">
+              <AlertCircle className="h-4 w-4 text-warning mt-0.5" />
+              <p className="text-xs text-warning">
                 This comment will only be visible to admins and will not be shown to the vendor.
               </p>
             </div>

@@ -335,11 +335,11 @@ export const MaintenanceRequestPortal: React.FC = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Pending</p>
-                <p className="text-2xl font-bold text-yellow-600">
+                <p className="text-2xl font-bold text-warning">
                   {requests.filter(r => r.status === 'submitted').length}
                 </p>
               </div>
-              <Clock className="h-8 w-8 text-yellow-600" />
+              <Clock className="h-8 w-8 text-warning" />
             </div>
           </CardContent>
         </Card>
@@ -349,11 +349,11 @@ export const MaintenanceRequestPortal: React.FC = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground">In Progress</p>
-                <p className="text-2xl font-bold text-blue-600">
+                <p className="text-2xl font-bold text-info">
                   {requests.filter(r => ['assigned', 'in_progress'].includes(r.status)).length}
                 </p>
               </div>
-              <User className="h-8 w-8 text-blue-600" />
+              <User className="h-8 w-8 text-info" />
             </div>
           </CardContent>
         </Card>
@@ -363,11 +363,11 @@ export const MaintenanceRequestPortal: React.FC = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Completed</p>
-                <p className="text-2xl font-bold text-green-600">
+                <p className="text-2xl font-bold text-success">
                   {requests.filter(r => r.status === 'completed').length}
                 </p>
               </div>
-              <CheckCircle className="h-8 w-8 text-green-600" />
+              <CheckCircle className="h-8 w-8 text-success" />
             </div>
           </CardContent>
         </Card>

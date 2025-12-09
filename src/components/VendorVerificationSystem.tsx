@@ -591,7 +591,7 @@ function VendorVerificationDetails({
             <Button
               onClick={onApprove}
               disabled={processing}
-              className="bg-green-600 hover:bg-green-700"
+              className="bg-success hover:bg-success/90 text-success-foreground"
             >
               <CheckCircle className="h-4 w-4 mr-2" />
               Approve Verification
