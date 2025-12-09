@@ -344,6 +344,75 @@
       radial-gradient(circle at bottom right, hsl(var(--secondary) / 0.12), transparent 50%),
       hsl(var(--background));
   }
+
+  /* === PHASE 5: DARK MODE VISIBILITY ENHANCEMENTS === */
+  
+  /* Enhanced focus rings for dark mode accessibility */
+  .dark *:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px hsl(var(--ring) / 0.2);
+  }
+
+  /* Interactive element glow on hover (dark mode only) */
+  .dark .interactive-glow:hover {
+    box-shadow: 
+      0 4px 12px hsl(var(--primary) / 0.3),
+      0 0 20px hsl(var(--primary) / 0.15);
+  }
+
+  /* Enhanced button visibility in dark mode */
+  .dark button:not([disabled]):hover,
+  .dark [role="button"]:not([disabled]):hover {
+    box-shadow: 0 2px 8px hsl(var(--primary) / 0.2);
+  }
+
+  /* Enhanced card hover states in dark mode */
+  .dark [class*="hover:shadow-"] {
+    transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+  }
+
+  /* Improved text contrast for muted text in dark mode */
+  .dark .text-muted-foreground {
+    color: hsl(0 0% 75%); /* Increased from 70% for better readability */
+  }
+
+  /* Enhanced border visibility in dark mode */
+  .dark .border,
+  .dark [class*="border-border"] {
+    border-color: hsl(0 0% 25%); /* Slightly lighter for better definition */
+  }
+
+  /* Enhanced input focus states */
+  .dark input:focus,
+  .dark textarea:focus,
+  .dark select:focus {
+    border-color: hsl(var(--primary));
+    box-shadow: 
+      0 0 0 2px hsl(var(--primary) / 0.2),
+      0 0 12px hsl(var(--primary) / 0.15);
+  }
+
+  /* Enhanced table row hover in dark mode */
+  .dark tr:hover {
+    background-color: hsl(var(--muted) / 0.5);
+  }
+
+  /* Enhanced link visibility in dark mode */
+  .dark a:not([class]) {
+    color: hsl(var(--primary));
+  }
+  
+  .dark a:not([class]):hover {
+    color: hsl(var(--primary-light));
+    text-decoration: underline;
+  }
+
+  /* Icon visibility enhancement */
+  .dark .text-muted-foreground svg,
+  .dark [class*="opacity-50"] svg {
+    opacity: 0.85;
+  }
 }
 
 @layer base {

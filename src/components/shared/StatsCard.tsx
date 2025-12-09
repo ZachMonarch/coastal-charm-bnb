@@ -104,9 +104,11 @@ export default function StatsCard({
   return (
     <Card
       className={cn(
-        'group relative overflow-hidden',
+        'group relative overflow-hidden interactive-glow',
         `bg-gradient-to-br ${config.bg} ${config.border}`,
         'shadow-md transition-all duration-300 hover:-translate-y-1',
+        // Dark mode enhanced visibility
+        'dark:shadow-lg dark:shadow-black/20',
         glowing && config.glow,
         animated && 'animate-fade-in',
         className
