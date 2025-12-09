@@ -101,7 +101,7 @@ export default function Contact() {
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white drop-shadow-lg">
             {t.contact?.title || 'Contact Us'}
           </h1>
-          <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto drop-shadow-md">
+          <p className="text-lg md:text-xl text-white/85 max-w-2xl mx-auto drop-shadow-lg">
             {t.contact?.subtitle || 'Get in touch with our team'}
           </p>
         </div>

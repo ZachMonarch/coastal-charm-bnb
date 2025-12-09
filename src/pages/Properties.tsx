@@ -188,7 +188,7 @@ export default function Properties() {
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white drop-shadow-lg">
             Properties & Accommodations
           </h1>
-          <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-6 drop-shadow-md">
+          <p className="text-lg md:text-xl text-white/85 max-w-2xl mx-auto mb-6 drop-shadow-lg">
             Discover long-term rentals and vacation accommodations from our curated selection
           </p>
           <div className="flex flex-wrap justify-center gap-4">

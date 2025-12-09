@@ -85,14 +85,14 @@ export default function Services() {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/70" />
         <div className="relative z-10 flex items-center justify-center h-full">
-          <div className="text-center text-white max-w-4xl px-6">
-            <span className="text-sm font-medium uppercase tracking-wider mb-4 block">
+          <div className="text-center max-w-4xl px-6">
+            <span className="text-sm font-medium uppercase tracking-wider mb-4 block text-white/90 drop-shadow-md">
               Professional Services
             </span>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white drop-shadow-lg">
               Premium Property Services
             </h1>
-            <p className="text-xl text-muted-foreground drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl text-white/90 drop-shadow-md max-w-3xl mx-auto leading-relaxed">
               Comprehensive property management solutions powered by cutting-edge technology and delivered by industry experts to maximize your property's potential.
             </p>
           </div>

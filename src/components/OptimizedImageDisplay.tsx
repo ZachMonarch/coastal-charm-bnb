@@ -24,7 +24,10 @@ export const OptimizedImageDisplay: React.FC<OptimizedImageDisplayProps> = memo(
   const [currentIndex, setCurrentIndex] = useState(0);
   const [imageErrors, setImageErrors] = useState<Set<number>>(new Set());
 
-  const validImages = images.slice(0, maxImages).filter(img => img && img.startsWith('http'));
+  // Accept both http URLs and local assets (starting with /)
+  const validImages = images.slice(0, maxImages).filter(img => 
+    img && (img.startsWith('http') || img.startsWith('/') || img.startsWith('data:'))
+  );
   
   const aspectClasses = {
     square: 'aspect-square',
@@ -68,13 +71,13 @@ export const OptimizedImageDisplay: React.FC<OptimizedImageDisplayProps> = memo(
   if (validImages.length === 0) {
     return (
       <div className={cn(
-        'relative overflow-hidden rounded-xl bg-muted flex items-center justify-center',
+        'relative overflow-hidden rounded-xl bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center',
         aspectClasses[aspectRatio],
         className
       )}>
-        <div className="text-center text-muted-foreground">
-          <ImageIcon className="h-12 w-12 mx-auto mb-2 opacity-50" />
-          <p className="text-sm">No Image Available</p>
+        <div className="text-center text-muted-foreground/70">
+          <ImageIcon className="h-10 w-10 mx-auto mb-2 text-primary/40" />
+          <p className="text-xs font-medium">No Image</p>
         </div>
       </div>
     );
