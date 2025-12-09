@@ -82,7 +82,7 @@ export default function HeroSection() {
               Monarch Property Management
             </span>
             <br />
-            <span className="bg-gradient-to-r from-primary via-primary-light to-primary bg-clip-text drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)] text-slate-400">
+            <span className="bg-gradient-to-r from-primary via-primary-light to-primary bg-clip-text text-transparent drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
               Excellence in Every Detail
             </span>
           </h1>

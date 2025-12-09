@@ -168,7 +168,7 @@ export default function AdminVendorInvite() {
                         id={specialty}
                         checked={invite.specialties.includes(specialty)}
                         onChange={() => toggleSpecialty(specialty)}
-                        className="rounded border-gray-300"
+                        className="rounded border-border"
                       />
                       <Label htmlFor={specialty} className="text-sm font-normal">
                         {specialty}
