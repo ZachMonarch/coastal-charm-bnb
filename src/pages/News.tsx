@@ -91,7 +91,7 @@ export default function News() {
               className="w-full h-full object-cover"
               loading="eager"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/80 to-background" />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/70 to-black/90" />
           </div>
           
           <div className="container max-w-7xl mx-auto px-4 py-16 md:py-20 relative z-10">
