@@ -136,16 +136,16 @@ export default function Gallery() {
             className="w-full h-full object-cover"
             loading="eager"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/70 to-background" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/70 to-black/90" />
         </div>
         <div className="container relative z-10 px-4 py-16 text-center">
           <div className="inline-flex items-center justify-center w-16 h-16 mb-6 rounded-full bg-gradient-to-br from-primary to-primary/80 shadow-2xl">
             <Maximize className="h-8 w-8 text-primary-foreground" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-overlay-foreground drop-shadow-lg">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]">
             {t.gallery?.title || 'Gallery'}
           </h1>
-          <p className="text-lg md:text-xl text-overlay-foreground/85 max-w-2xl mx-auto drop-shadow-lg">
+          <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto drop-shadow-lg font-medium">
             {t.gallery?.subtitle || 'Explore our beautiful spaces'}
           </p>
         </div>

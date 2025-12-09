@@ -51,7 +51,7 @@ export default function PageHeroWithImage({
 
       {/* Gradient Overlay for text readability */}
       <div
-        className="absolute inset-0 z-[1] bg-gradient-to-b from-background/40 via-background/60 to-background"
+        className="absolute inset-0 z-[1] bg-gradient-to-b from-black/50 via-black/60 to-black/80"
         style={{ opacity: overlayOpacity }}
       />
 
@@ -74,13 +74,13 @@ export default function PageHeroWithImage({
         )}
 
         {/* Title */}
-        <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 text-overlay-foreground drop-shadow-lg">
+        <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]">
           {title}
         </h1>
 
         {/* Description */}
         {description && (
-          <p className="text-lg md:text-xl lg:text-2xl text-overlay-muted max-w-3xl mx-auto mb-8 drop-shadow-md">
+          <p className="text-lg md:text-xl lg:text-2xl text-white/90 max-w-3xl mx-auto mb-8 drop-shadow-md font-medium">
             {description}
           </p>
         )}
@@ -96,7 +96,7 @@ export default function PageHeroWithImage({
                 variant={action.variant || "default"}
                 className={cn(
                   "text-lg px-8 py-6 shadow-lg",
-                  action.variant === "outline" && "bg-overlay/20 backdrop-blur border-overlay/30 text-overlay-foreground hover:bg-overlay/40"
+                  action.variant === "outline" && "bg-black/30 backdrop-blur-md border-white/30 text-white hover:bg-black/50"
                 )}
               >
                 <Link to={action.href}>{action.label}</Link>
