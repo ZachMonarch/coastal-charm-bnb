@@ -44,17 +44,17 @@ export default function NavDropdown({ label, items, icon, className }: NavDropdo
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="start"
-        className="min-w-[220px] bg-popover border border-border shadow-xl z-[200]"
+        className="min-w-[220px] bg-popover border border-border shadow-xl z-[500] dark:border-border/50"
       >
         {items.map((item, index) => (
           <DropdownMenuItem key={index} asChild>
             <Link
               to={item.href}
-              className="flex items-center gap-3 px-3 py-2.5 cursor-pointer hover:bg-primary/5 hover:text-primary focus:bg-primary/5 focus:text-primary transition-colors"
+              className="flex items-center gap-3 px-3 py-2.5 cursor-pointer rounded-md hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary transition-colors"
             >
               {item.icon && <span className="text-primary">{item.icon}</span>}
               <div className="flex flex-col">
-                <span className="font-medium text-popover-foreground">{item.label}</span>
+                <span className="font-medium text-foreground">{item.label}</span>
                 {item.description && (
                   <span className="text-xs text-muted-foreground">{item.description}</span>
                 )}
