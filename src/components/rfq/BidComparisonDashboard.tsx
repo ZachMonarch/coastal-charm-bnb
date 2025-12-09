@@ -219,7 +219,7 @@ export default function BidComparisonDashboard({
                   </TableHeader>
                   <TableBody>
                     {bids.map((bid, index) => (
-                      <TableRow key={bid.id} className={index === 0 ? 'bg-green-50 dark:bg-green-950/20' : ''}>
+                      <TableRow key={bid.id} className={index === 0 ? 'bg-success/5 dark:bg-success/10' : ''}>
                         <TableCell>
                           <div className="flex items-center gap-2">
                             {getRankBadge(index) || <span className="text-muted-foreground">{index + 1}</span>}
@@ -243,7 +243,7 @@ export default function BidComparisonDashboard({
                         </TableCell>
                         <TableCell className="text-center">
                           <div className="flex items-center justify-center gap-1">
-                            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                        <Star className="h-4 w-4 fill-primary text-primary" />
                             <span>{Number(bid.vendor_rating).toFixed(1)}</span>
                           </div>
                         </TableCell>
@@ -278,7 +278,7 @@ export default function BidComparisonDashboard({
             <TabsContent value="cards">
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {bids.map((bid, index) => (
-                  <Card key={bid.id} className={index === 0 ? 'border-2 border-green-500' : ''}>
+                  <Card key={bid.id} className={index === 0 ? 'border-2 border-success' : ''}>
                     <CardHeader className="pb-2">
                       <div className="flex items-start justify-between">
                         <div>
@@ -305,7 +305,7 @@ export default function BidComparisonDashboard({
                           <span className="text-sm">Rating</span>
                         </div>
                         <div className="flex items-center gap-1">
-                          <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                        <Star className="h-4 w-4 fill-primary text-primary" />
                           <span className="font-medium">{Number(bid.vendor_rating).toFixed(1)}</span>
                         </div>
                       </div>

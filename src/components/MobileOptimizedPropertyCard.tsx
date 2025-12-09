@@ -76,7 +76,7 @@ const MobileOptimizedPropertyCard = memo(({
       case 'sold': 
         return 'bg-destructive/10 text-destructive border-destructive/30 dark:bg-destructive/20 dark:border-destructive/40';
       case 'rented':
-        return 'bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-800';
+        return 'bg-info/10 text-info dark:text-info border-info/30 dark:border-info/40';
       default: 
         return 'bg-muted text-muted-foreground border-border';
     }

@@ -754,7 +754,7 @@ export default function NewsAdminPanel() {
                           </TableCell>
                           <TableCell>
                             {sub.is_active ? (
-                              <Badge className="bg-green-500">Active</Badge>
+                              <Badge className="bg-success">Active</Badge>
                             ) : (
                               <Badge variant="secondary">Unsubscribed</Badge>
                             )}

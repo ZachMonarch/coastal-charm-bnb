@@ -334,8 +334,8 @@ export const ProductionHealthCheck: React.FC = () => {
       {overallStatus !== 'healthy' && (
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <AlertTriangle className="h-5 w-5 text-yellow-600" />
+          <CardTitle className="flex items-center space-x-2">
+              <AlertTriangle className="h-5 w-5 text-warning" />
               <span>Recommendations</span>
             </CardTitle>
           </CardHeader>
