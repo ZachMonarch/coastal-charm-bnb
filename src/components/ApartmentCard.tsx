@@ -54,7 +54,7 @@ export default function ApartmentCard({ apartment }: { apartment: ApartmentProps
         
         {/* Floating badge */}
         <div className="absolute top-4 right-4 glass-card px-3 py-2 rounded-full">
-          <div className="flex items-center text-white text-sm font-medium">
+          <div className="flex items-center text-overlay-foreground text-sm font-medium">
             <Star className="h-4 w-4 mr-1 fill-current text-primary" />
             <span>4.9</span>
           </div>
@@ -64,17 +64,17 @@ export default function ApartmentCard({ apartment }: { apartment: ApartmentProps
         <div className="absolute inset-0 flex items-end p-6">
           <div className="w-full">
             <div className="glass-card p-4 rounded-2xl backdrop-blur-xl">
-              <h3 className="text-white text-xl font-bold mb-2">{translatedName}</h3>
-              <div className="flex items-center text-white/80 text-sm mb-3">
+              <h3 className="text-overlay-foreground text-xl font-bold mb-2">{translatedName}</h3>
+              <div className="flex items-center text-overlay-muted text-sm mb-3">
                 <MapPin className="h-4 w-4 mr-1 text-primary" />
                 <span>{apartment.location}</span>
               </div>
-              <div className="flex items-center space-x-4 text-white">
-                <div className="flex items-center neumorphic-card px-3 py-1 rounded-full bg-white/10">
+              <div className="flex items-center space-x-4 text-overlay-foreground">
+                <div className="flex items-center neumorphic-card px-3 py-1 rounded-full bg-overlay/10">
                   <Users className="h-4 w-4 mr-1" />
                   <span className="text-sm">{apartment.capacity}</span>
                 </div>
-                <div className="flex items-center neumorphic-card px-3 py-1 rounded-full bg-white/10">
+                <div className="flex items-center neumorphic-card px-3 py-1 rounded-full bg-overlay/10">
                   <Maximize className="h-4 w-4 mr-1" />
                   <span className="text-sm">{apartment.size}m²</span>
                 </div>
