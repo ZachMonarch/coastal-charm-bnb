@@ -115,9 +115,9 @@ export function PropertyImageValidator({
       {/* Validation Status */}
       <div className="flex items-center gap-2">
         {isValid ? (
-          <CheckCircle2 className="h-5 w-5 text-green-600" />
+          <CheckCircle2 className="h-5 w-5 text-success" />
         ) : (
-          <AlertCircle className="h-5 w-5 text-orange-600" />
+          <AlertCircle className="h-5 w-5 text-warning" />
         )}
         <span className="text-sm font-medium">
           {images.length} of {minImages} required images uploaded

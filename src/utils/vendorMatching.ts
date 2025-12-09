@@ -166,11 +166,11 @@ export function getConfidenceBadgeColor(
 ): string {
   switch (confidence) {
     case 'high':
-      return 'bg-success/10 text-success';
+      return 'bg-success/10 text-success dark:bg-success/20';
     case 'medium':
-      return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200';
+      return 'bg-warning/10 text-warning dark:bg-warning/20';
     case 'low':
-      return 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200';
+      return 'bg-warning/20 text-warning-foreground dark:bg-warning/30';
   }
 }
 

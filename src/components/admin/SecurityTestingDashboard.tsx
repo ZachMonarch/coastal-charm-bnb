@@ -348,9 +348,9 @@ export const SecurityTestingDashboard: React.FC = () => {
 
   const getStatusIcon = (status: 'pass' | 'fail' | 'warning') => {
     switch (status) {
-      case 'pass': return <CheckCircle className="h-4 w-4 text-green-500" />;
-      case 'fail': return <XCircle className="h-4 w-4 text-red-500" />;
-      case 'warning': return <AlertTriangle className="h-4 w-4 text-yellow-500" />;
+      case 'pass': return <CheckCircle className="h-4 w-4 text-success" />;
+      case 'fail': return <XCircle className="h-4 w-4 text-destructive" />;
+      case 'warning': return <AlertTriangle className="h-4 w-4 text-warning" />;
     }
   };
 
@@ -415,9 +415,9 @@ export const SecurityTestingDashboard: React.FC = () => {
               <AlertDescription>
                 <div className="flex items-center gap-4">
                   <span><strong>{summary.total}</strong> tests completed</span>
-                  <span className="text-green-600"><strong>{summary.pass}</strong> passed</span>
-                  <span className="text-red-600"><strong>{summary.fail}</strong> failed</span>
-                  <span className="text-yellow-600"><strong>{summary.warning}</strong> warnings</span>
+                  <span className="text-success"><strong>{summary.pass}</strong> passed</span>
+                  <span className="text-destructive"><strong>{summary.fail}</strong> failed</span>
+                  <span className="text-warning"><strong>{summary.warning}</strong> warnings</span>
                 </div>
               </AlertDescription>
             </Alert>
