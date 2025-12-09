@@ -75,6 +75,11 @@ export default {
     			info: {
     				DEFAULT: 'hsl(var(--info))',
     				foreground: 'hsl(var(--info-foreground))'
+    			},
+    			overlay: {
+    				DEFAULT: 'hsl(var(--overlay-foreground))',
+    				foreground: 'hsl(var(--overlay-foreground))',
+    				muted: 'hsl(var(--overlay-muted))'
     			}
     		},
     		borderRadius: {

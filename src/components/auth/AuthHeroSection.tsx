@@ -102,18 +102,18 @@ export function AuthHeroSection({ activeRole = "property_manager" }: AuthHeroSec
             <img 
               src="/lovable-uploads/318cdd13-7256-4cfe-99e0-948e43902b7b.png" 
               alt="Monarch Logo"
-              className="h-16 w-16 rounded-xl shadow-lg border-2 border-white/20 object-contain bg-white/10 backdrop-blur-sm"
+              className="h-16 w-16 rounded-xl shadow-lg border-2 border-overlay/20 object-contain bg-overlay/10 backdrop-blur-sm"
             />
             <div>
-              <h2 className="text-2xl font-bold text-white tracking-wide">MONARCH</h2>
+              <h2 className="text-2xl font-bold text-overlay-foreground tracking-wide">MONARCH</h2>
               <p className="text-primary-light text-sm font-medium">Property Management</p>
             </div>
           </div>
           
-          <h1 className="text-4xl xl:text-5xl font-bold mb-4 leading-tight text-white drop-shadow-lg">
+          <h1 className="text-4xl xl:text-5xl font-bold mb-4 leading-tight text-overlay-foreground drop-shadow-lg">
             {content.title}
           </h1>
-          <p className="text-xl text-white/90 drop-shadow-md">
+          <p className="text-xl text-overlay-muted drop-shadow-md">
             {content.subtitle}
           </p>
         </div>
@@ -123,37 +123,37 @@ export function AuthHeroSection({ activeRole = "property_manager" }: AuthHeroSec
           {content.benefits.map((benefit, index) => (
             <div 
               key={index} 
-              className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-lg px-4 py-3 border border-white/10"
+              className="flex items-center gap-3 bg-overlay/10 backdrop-blur-sm rounded-lg px-4 py-3 border border-overlay/10"
             >
               <div className="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center">
                 <CheckCircle2 className="w-4 h-4 text-primary-foreground" />
               </div>
-              <span className="text-white font-medium">{benefit}</span>
+              <span className="text-overlay-foreground font-medium">{benefit}</span>
             </div>
           ))}
         </div>
 
         {/* Stats card */}
-        <div className="bg-white/15 backdrop-blur-md rounded-2xl p-6 mb-10 border border-white/20 shadow-xl">
+        <div className="bg-overlay/15 backdrop-blur-md rounded-2xl p-6 mb-10 border border-overlay/20 shadow-xl">
           <div className="flex items-center gap-6">
             <div className="flex-shrink-0 w-16 h-16 bg-primary rounded-xl flex items-center justify-center shadow-lg">
               <IconComponent className="w-8 h-8 text-primary-foreground" />
             </div>
             <div>
-              <div className="text-4xl font-bold text-white">{content.stat}</div>
-              <div className="text-white/80 font-medium">{content.statLabel}</div>
+              <div className="text-4xl font-bold text-overlay-foreground">{content.stat}</div>
+              <div className="text-overlay-muted font-medium">{content.statLabel}</div>
             </div>
           </div>
         </div>
 
         {/* Testimonial */}
-        <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/15 shadow-lg">
+        <div className="bg-overlay/10 backdrop-blur-md rounded-xl p-6 border border-overlay/15 shadow-lg">
           <div className="flex gap-1 mb-3">
             {[...Array(5)].map((_, i) => (
               <Star key={i} className="w-5 h-5 fill-primary text-primary" />
             ))}
           </div>
-          <p className="text-white text-lg mb-4 italic font-medium">
+          <p className="text-overlay-foreground text-lg mb-4 italic font-medium">
             "{testimonials[0].quote}"
           </p>
           <div className="flex items-center gap-3">
@@ -161,25 +161,25 @@ export function AuthHeroSection({ activeRole = "property_manager" }: AuthHeroSec
               {testimonials[0].author.charAt(0)}
             </div>
             <div>
-              <div className="font-semibold text-white">{testimonials[0].author}</div>
-              <div className="text-sm text-white/70">{testimonials[0].role}</div>
+              <div className="font-semibold text-overlay-foreground">{testimonials[0].author}</div>
+              <div className="text-sm text-overlay-muted">{testimonials[0].role}</div>
             </div>
           </div>
         </div>
 
         {/* Trust badges */}
         <div className="mt-10 flex flex-wrap items-center gap-6">
-          <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
+          <div className="flex items-center gap-2 bg-overlay/10 backdrop-blur-sm px-4 py-2 rounded-full border border-overlay/10">
             <Lock className="w-4 h-4 text-primary" />
-            <span className="text-white text-sm font-medium">256-bit SSL</span>
+            <span className="text-overlay-foreground text-sm font-medium">256-bit SSL</span>
           </div>
-          <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
+          <div className="flex items-center gap-2 bg-overlay/10 backdrop-blur-sm px-4 py-2 rounded-full border border-overlay/10">
             <Shield className="w-4 h-4 text-primary" />
-            <span className="text-white text-sm font-medium">SOC 2 Compliant</span>
+            <span className="text-overlay-foreground text-sm font-medium">SOC 2 Compliant</span>
           </div>
-          <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
+          <div className="flex items-center gap-2 bg-overlay/10 backdrop-blur-sm px-4 py-2 rounded-full border border-overlay/10">
             <Award className="w-4 h-4 text-primary" />
-            <span className="text-white text-sm font-medium">GDPR Ready</span>
+            <span className="text-overlay-foreground text-sm font-medium">GDPR Ready</span>
           </div>
         </div>
       </div>
