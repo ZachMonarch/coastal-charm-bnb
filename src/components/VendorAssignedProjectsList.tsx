@@ -92,7 +92,7 @@ export default function VendorAssignedProjectsList() {
               
               {project.budget_max && (
                 <div className="flex items-center text-sm">
-                  <DollarSign className="h-4 w-4 mr-2 text-green-600" />
+                  <DollarSign className="h-4 w-4 mr-2 text-success" />
                   <span className="font-medium">
                     ${project.budget_min?.toLocaleString() || 0} - ${project.budget_max.toLocaleString()}
                   </span>
@@ -101,26 +101,26 @@ export default function VendorAssignedProjectsList() {
               
               {project.deadline && (
                 <div className="flex items-center text-sm">
-                  <Calendar className="h-4 w-4 mr-2 text-orange-600" />
+                  <Calendar className="h-4 w-4 mr-2 text-warning" />
                   <span>Due: {new Date(project.deadline).toLocaleDateString()}</span>
                 </div>
               )}
               
               {project.location && (
                 <div className="flex items-center text-sm">
-                  <MapPin className="h-4 w-4 mr-2 text-blue-600" />
+                  <MapPin className="h-4 w-4 mr-2 text-primary" />
                   <span className="line-clamp-1">{project.location}</span>
                 </div>
               )}
 
               {project.priority && (
                 <div className="flex items-center text-sm">
-                  <Clock className="h-4 w-4 mr-2 text-purple-600" />
+                  <Clock className="h-4 w-4 mr-2 text-muted-foreground" />
                   <Badge variant="outline" className={
-                    project.priority === 'urgent' ? 'border-red-500 text-red-500' :
-                    project.priority === 'high' ? 'border-orange-500 text-orange-500' :
-                    project.priority === 'medium' ? 'border-blue-500 text-blue-500' :
-                    'border-green-500 text-green-500'
+                    project.priority === 'urgent' ? 'border-destructive text-destructive' :
+                    project.priority === 'high' ? 'border-warning text-warning' :
+                    project.priority === 'medium' ? 'border-primary text-primary' :
+                    'border-success text-success'
                   }>
                     {project.priority}
                   </Badge>

@@ -140,9 +140,9 @@ export default function BidComparisonDashboard({
   };
 
   const getRankBadge = (index: number) => {
-    if (index === 0) return <Badge className="bg-yellow-500 dark:bg-yellow-600 text-yellow-950 dark:text-yellow-100">🥇 Best Match</Badge>;
-    if (index === 1) return <Badge className="bg-slate-400 dark:bg-slate-500 text-slate-950 dark:text-slate-100">🥈 Runner Up</Badge>;
-    if (index === 2) return <Badge className="bg-orange-600 dark:bg-orange-500 text-orange-50 dark:text-orange-950">🥉 Third</Badge>;
+    if (index === 0) return <Badge className="bg-primary text-primary-foreground">🥇 Best Match</Badge>;
+    if (index === 1) return <Badge className="bg-muted text-muted-foreground">🥈 Runner Up</Badge>;
+    if (index === 2) return <Badge className="bg-warning/80 text-warning-foreground">🥉 Third</Badge>;
     return null;
   };
 

@@ -26,28 +26,28 @@ const tierConfig = {
   bronze: {
     label: 'Bronze',
     icon: Medal,
-    color: 'bg-orange-100 text-orange-800 border-orange-300',
+    color: 'bg-warning/20 text-warning-foreground dark:bg-warning/30 border-warning/50',
     description: 'Starting tier for new vendors',
     requirements: { jobs: 0, rating: 0, reviews: 0 }
   },
   silver: {
     label: 'Silver',
     icon: Award,
-    color: 'bg-slate-100 text-slate-800 border-slate-300',
+    color: 'bg-muted text-muted-foreground dark:bg-muted/50 border-border',
     description: '10+ jobs, 3.5+ rating, 5+ reviews',
     requirements: { jobs: 10, rating: 3.5, reviews: 5 }
   },
   gold: {
     label: 'Gold',
     icon: Star,
-    color: 'bg-yellow-100 text-yellow-800 border-yellow-300',
+    color: 'bg-primary/20 text-primary dark:bg-primary/30 border-primary/50',
     description: '25+ jobs, 4.0+ rating, 10+ reviews',
     requirements: { jobs: 25, rating: 4.0, reviews: 10 }
   },
   platinum: {
     label: 'Platinum',
     icon: Crown,
-    color: 'bg-purple-100 text-purple-800 border-purple-300',
+    color: 'bg-accent text-accent-foreground dark:bg-accent/80 border-accent',
     description: '50+ jobs, 4.5+ rating, 20+ reviews',
     requirements: { jobs: 50, rating: 4.5, reviews: 20 }
   }
