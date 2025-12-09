@@ -40,7 +40,7 @@ export default function VendorProjectDetails() {
         <Card>
           <CardContent className="py-8">
             <div className="text-center space-y-4">
-              <AlertTriangle className="h-12 w-12 text-red-500 mx-auto" />
+              <AlertTriangle className="h-12 w-12 text-destructive mx-auto" />
               <div>
                 <h3 className="text-lg font-semibold">Error Loading Project</h3>
                 <p className="text-muted-foreground">{error}</p>

@@ -104,7 +104,7 @@ export default function News() {
                   {!isLoading && (
                     <Badge 
                       variant={isLive ? "default" : "secondary"}
-                      className={`gap-1.5 ${isLive ? 'bg-green-600 hover:bg-green-700' : ''}`}
+                      className={`gap-1.5 ${isLive ? 'bg-success hover:bg-success/90' : ''}`}
                     >
                       {isLive ? (
                         <>

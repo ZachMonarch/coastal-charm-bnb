@@ -100,7 +100,7 @@ export default function VendorReviewList({ vendorId, isOwnProfile }: VendorRevie
             key={star}
             className={`h-4 w-4 ${
               star <= rating
-                ? 'fill-yellow-400 text-yellow-400'
+                ? 'fill-primary text-primary'
                 : 'text-muted-foreground'
             }`}
           />
@@ -136,7 +136,7 @@ export default function VendorReviewList({ vendorId, isOwnProfile }: VendorRevie
           </CardTitle>
           {reviews.length > 0 && (
             <div className="flex items-center gap-2">
-              <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+              <Star className="h-5 w-5 fill-primary text-primary" />
               <span className="text-lg font-bold">{calculateAverageRating()}</span>
               <span className="text-muted-foreground">/ 5</span>
             </div>
@@ -216,7 +216,7 @@ export default function VendorReviewList({ vendorId, isOwnProfile }: VendorRevie
                       <div>
                         <p className="text-xs text-muted-foreground">Quality</p>
                         <div className="flex items-center gap-1">
-                          <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                          <Star className="h-3 w-3 fill-primary text-primary" />
                           <span className="text-sm font-medium">{review.quality_rating}</span>
                         </div>
                       </div>
@@ -225,7 +225,7 @@ export default function VendorReviewList({ vendorId, isOwnProfile }: VendorRevie
                       <div>
                         <p className="text-xs text-muted-foreground">Punctuality</p>
                         <div className="flex items-center gap-1">
-                          <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                          <Star className="h-3 w-3 fill-primary text-primary" />
                           <span className="text-sm font-medium">{review.punctuality_rating}</span>
                         </div>
                       </div>
@@ -234,7 +234,7 @@ export default function VendorReviewList({ vendorId, isOwnProfile }: VendorRevie
                       <div>
                         <p className="text-xs text-muted-foreground">Communication</p>
                         <div className="flex items-center gap-1">
-                          <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                          <Star className="h-3 w-3 fill-primary text-primary" />
                           <span className="text-sm font-medium">{review.communication_rating}</span>
                         </div>
                       </div>
@@ -243,7 +243,7 @@ export default function VendorReviewList({ vendorId, isOwnProfile }: VendorRevie
                       <div>
                         <p className="text-xs text-muted-foreground">Value</p>
                         <div className="flex items-center gap-1">
-                          <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                          <Star className="h-3 w-3 fill-primary text-primary" />
                           <span className="text-sm font-medium">{review.value_rating}</span>
                         </div>
                       </div>

@@ -58,12 +58,12 @@ export default function VendorProfileOverview() {
                   <span className="text-muted-foreground">Jobs</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
-                  <Clock className="h-4 w-4 text-blue-500" />
+                  <Clock className="h-4 w-4 text-info" />
                   <span className="font-medium">{vendor?.responseTime || '24h'}</span>
                   <span className="text-muted-foreground">Response</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
-                  <Award className="h-4 w-4 text-purple-500" />
+                  <Award className="h-4 w-4 text-accent-foreground" />
                   <span className="font-medium">N/A</span>
                   <span className="text-muted-foreground">Success</span>
                 </div>
