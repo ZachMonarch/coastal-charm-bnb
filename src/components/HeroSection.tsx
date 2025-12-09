@@ -69,9 +69,9 @@ export default function HeroSection() {
     }}>
         <div className="max-w-4xl animate-fade-in">
           {/* Enhanced subtitle with glassmorphic badge */}
-          <div className="glass-card inline-flex items-center px-6 py-3 mb-8 rounded-full opacity-75">
-            <Sparkles className="h-5 w-5 text-white/90 mr-2 animate-pulse-glow" />
-            <span className="text-lg tracking-wide text-primary bg-primary/20 font-bold">
+          <div className="inline-flex items-center px-6 py-3 mb-8 rounded-full bg-black/40 backdrop-blur-md border border-white/20">
+            <Sparkles className="h-5 w-5 text-primary mr-2 animate-pulse-glow" />
+            <span className="text-lg tracking-wide text-white font-semibold drop-shadow-lg">
               {t.hero.subtitle}
             </span>
           </div>
@@ -88,7 +88,7 @@ export default function HeroSection() {
           </h1>
           
           {/* Enhanced description - Improved visibility for dark mode */}
-          <p className="text-xl text-white/95 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)] mb-12 max-w-3xl mx-auto leading-relaxed font-medium [text-shadow:_0_2px_8px_rgb(0_0_0_/_80%)]">
+          <p className="text-xl text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)] mb-12 max-w-3xl mx-auto leading-relaxed font-medium [text-shadow:_0_2px_8px_rgb(0_0_0_/_80%)]">
             {t.hero.description}
           </p>
           
@@ -100,7 +100,7 @@ export default function HeroSection() {
                 {t.hero.bookStay}
               </Link>
             </Button>
-            <Button asChild size="lg" className="btn-glass min-w-[240px] group">
+            <Button asChild size="lg" variant="outline" className="min-w-[240px] group bg-white/10 backdrop-blur-md border-white/30 text-white hover:bg-white/20 hover:text-white hover:border-white/50">
               <Link to="/properties">
                 <Play className="mr-2 h-5 w-5 group-hover:animate-pulse" />
                 {t.hero.exploreApartments}
@@ -119,11 +119,11 @@ export default function HeroSection() {
           }, {
             number: '24/7',
             label: 'Support'
-          }].map((stat, index) => <div key={index} className="glass-card p-6 rounded-2xl animate-fade-in hover:floating-card transition-all duration-300 brand-gold-accent border-l-4" style={{
+          }].map((stat, index) => <div key={index} className="bg-black/40 backdrop-blur-md border border-white/20 p-6 rounded-2xl animate-fade-in hover:bg-black/50 transition-all duration-300 border-l-4 border-l-primary" style={{
             animationDelay: `${index * 200}ms`
           }}>
                 <div className="text-2xl font-bold text-primary mb-1">{stat.number}</div>
-                <div className="text-white/90 text-sm">{stat.label}</div>
+                <div className="text-white text-sm font-medium">{stat.label}</div>
               </div>)}
           </div>
         </div>
@@ -131,12 +131,12 @@ export default function HeroSection() {
       
       {/* Enhanced scroll indicator - z-[10] */}
       <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-[10] pointer-events-auto">
-        <a href="#welcome" className="glass-card p-4 rounded-full opacity-80 hover:opacity-100 transition-all duration-300 hover:floating-card group" aria-label="Scroll down to learn more">
+        <a href="#welcome" className="bg-black/40 backdrop-blur-md border border-white/20 p-4 rounded-full hover:bg-black/50 transition-all duration-300 group inline-block" aria-label="Scroll down to learn more">
           <div className="flex flex-col items-center">
-            <span className="text-sm text-white/90 mb-2 group-hover:text-white transition-colors">
+            <span className="text-sm text-white mb-2 group-hover:text-primary transition-colors font-medium">
               {t.hero.scrollDown}
             </span>
-            <ChevronDown className="h-6 w-6 text-white/90 animate-bounce group-hover:text-white transition-colors" />
+            <ChevronDown className="h-6 w-6 text-white animate-bounce group-hover:text-primary transition-colors" />
           </div>
         </a>
       </div>
