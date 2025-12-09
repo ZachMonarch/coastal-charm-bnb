@@ -42,24 +42,24 @@ export default function LanguageSelector() {
     <div className="flex items-center">
       <Select value={language} onValueChange={handleLanguageChange}>
         <SelectTrigger 
-          className="w-[80px] h-10 min-h-[44px] border-none bg-transparent hover:bg-primary/10 hover:text-primary focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors" 
+          className="w-[80px] h-10 min-h-[44px] border border-transparent bg-transparent hover:bg-primary/10 hover:border-primary/30 focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors" 
           aria-label="Select Language"
         >
           <div className="flex items-center space-x-2">
-            <Globe className="h-4 w-4" />
+            <Globe className="h-4 w-4 text-foreground" />
             <SelectValue placeholder="Select language" />
           </div>
         </SelectTrigger>
-        <SelectContent align="start" className="w-[160px] z-[200] border-primary/20">
+        <SelectContent align="start" className="w-[160px] z-[500] bg-popover border-border dark:border-border/50">
           {languages.map((language) => (
             <SelectItem 
               key={language.code} 
               value={language.code} 
-              className="cursor-pointer hover:bg-primary/5 hover:text-primary focus:bg-primary/5 focus:text-primary"
+              className="cursor-pointer rounded-md hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
             >
               <div className="flex items-center space-x-2">
                 <span>{language.flag}</span>
-                <span>{language.name}</span>
+                <span className="text-foreground">{language.name}</span>
               </div>
             </SelectItem>
           ))}

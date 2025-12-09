@@ -179,8 +179,8 @@ export default function RealtimeNotifications() {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline" size="sm" className="relative">
-          <Bell className="h-4 w-4" />
+        <Button variant="outline" size="sm" className="relative min-h-[44px] min-w-[44px] border-border/50 hover:border-primary/50 hover:bg-primary/5">
+          <Bell className="h-4 w-4 text-foreground" />
           {unreadCount > 0 && (
             <Badge 
               variant="destructive" 
@@ -191,8 +191,8 @@ export default function RealtimeNotifications() {
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-80 p-0" align="end">
-        <Card className="border-0 shadow-none">
+      <PopoverContent className="w-80 p-0 bg-popover border-border dark:border-border/50" align="end">
+        <Card className="border-0 shadow-none bg-transparent">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <CardTitle className="text-base">Notifications</CardTitle>
