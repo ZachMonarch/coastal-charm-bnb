@@ -238,7 +238,7 @@ export const PerformanceMonitoringDashboard: React.FC = () => {
                 <p className="text-sm text-muted-foreground">Response Time</p>
                 <p className="text-2xl font-bold">{Math.round(latestMetrics?.responseTime || 0)}ms</p>
               </div>
-              <Zap className="h-8 w-8 text-blue-600" />
+              <Zap className="h-8 w-8 text-primary" />
             </div>
             <div className="mt-2">
               <Progress value={Math.max(0, 100 - (latestMetrics?.responseTime || 0) / 5)} className="h-2" />
@@ -253,7 +253,7 @@ export const PerformanceMonitoringDashboard: React.FC = () => {
                 <p className="text-sm text-muted-foreground">Memory Usage</p>
                 <p className="text-2xl font-bold">{Math.round(latestMetrics?.memory || 0)}%</p>
               </div>
-              <HardDrive className="h-8 w-8 text-green-600" />
+              <HardDrive className="h-8 w-8 text-success" />
             </div>
             <div className="mt-2">
               <Progress value={latestMetrics?.memory || 0} className="h-2" />
@@ -268,7 +268,7 @@ export const PerformanceMonitoringDashboard: React.FC = () => {
                 <p className="text-sm text-muted-foreground">CPU Usage</p>
                 <p className="text-2xl font-bold">{Math.round(latestMetrics?.cpu || 0)}%</p>
               </div>
-              <Cpu className="h-8 w-8 text-orange-600" />
+              <Cpu className="h-8 w-8 text-warning" />
             </div>
             <div className="mt-2">
               <Progress value={latestMetrics?.cpu || 0} className="h-2" />
@@ -283,7 +283,7 @@ export const PerformanceMonitoringDashboard: React.FC = () => {
                 <p className="text-sm text-muted-foreground">Active Users</p>
                 <p className="text-2xl font-bold">{latestMetrics?.activeUsers || 0}</p>
               </div>
-              <Users className="h-8 w-8 text-purple-600" />
+              <Users className="h-8 w-8 text-accent-foreground" />
             </div>
             <div className="mt-2">
               <Badge variant="outline" className="text-xs">
@@ -303,13 +303,14 @@ export const PerformanceMonitoringDashboard: React.FC = () => {
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={metrics}>
-                <CartesianGrid strokeDasharray="3 3" />
+                <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
                 <XAxis 
                   dataKey="timestamp" 
                   tickFormatter={formatTime}
                   domain={['dataMin', 'dataMax']}
+                  className="text-muted-foreground"
                 />
-                <YAxis label={{ value: 'ms', angle: -90, position: 'insideLeft' }} />
+                <YAxis label={{ value: 'ms', angle: -90, position: 'insideLeft' }} className="text-muted-foreground" />
                 <Tooltip 
                   labelFormatter={(value) => formatTime(value as number)}
                   formatter={(value) => [`${Math.round(value as number)}ms`, 'Response Time']}
@@ -317,7 +318,7 @@ export const PerformanceMonitoringDashboard: React.FC = () => {
                 <Line 
                   type="monotone" 
                   dataKey="responseTime" 
-                  stroke="#3b82f6" 
+                  stroke="hsl(var(--chart-1))" 
                   strokeWidth={2}
                   dot={false}
                 />
@@ -333,13 +334,14 @@ export const PerformanceMonitoringDashboard: React.FC = () => {
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={metrics}>
-                <CartesianGrid strokeDasharray="3 3" />
+                <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
                 <XAxis 
                   dataKey="timestamp" 
                   tickFormatter={formatTime}
                   domain={['dataMin', 'dataMax']}
+                  className="text-muted-foreground"
                 />
-                <YAxis label={{ value: '%', angle: -90, position: 'insideLeft' }} />
+                <YAxis label={{ value: '%', angle: -90, position: 'insideLeft' }} className="text-muted-foreground" />
                 <Tooltip 
                   labelFormatter={(value) => formatTime(value as number)}
                   formatter={(value, name) => [`${Math.round(value as number)}%`, name]}
@@ -347,7 +349,7 @@ export const PerformanceMonitoringDashboard: React.FC = () => {
                 <Line 
                   type="monotone" 
                   dataKey="memory" 
-                  stroke="#10b981" 
+                  stroke="hsl(var(--chart-2))" 
                   strokeWidth={2}
                   name="Memory"
                   dot={false}
@@ -355,7 +357,7 @@ export const PerformanceMonitoringDashboard: React.FC = () => {
                 <Line 
                   type="monotone" 
                   dataKey="cpu" 
-                  stroke="#f59e0b" 
+                  stroke="hsl(var(--chart-3))" 
                   strokeWidth={2}
                   name="CPU"
                   dot={false}

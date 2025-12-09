@@ -58,13 +58,13 @@ export default function SecurityMonitoringDashboard() {
   const getSeverityColor = (severity: string) => {
     switch (severity) {
       case 'critical':
-        return 'bg-red-500';
+        return 'bg-destructive text-destructive-foreground';
       case 'high':
-        return 'bg-orange-500';
+        return 'bg-warning text-warning-foreground';
       case 'medium':
-        return 'bg-yellow-500';
+        return 'bg-warning/70 text-warning-foreground';
       default:
-        return 'bg-blue-500';
+        return 'bg-primary text-primary-foreground';
     }
   };
 
@@ -109,7 +109,7 @@ export default function SecurityMonitoringDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
           <Card>
             <CardContent className="p-4 text-center">
-              <Activity className="h-8 w-8 text-blue-500 mx-auto mb-2" />
+              <Activity className="h-8 w-8 text-primary mx-auto mb-2" />
               <div className="text-2xl font-bold">{metrics.total}</div>
               <p className="text-sm text-muted-foreground">Total Events (24h)</p>
             </CardContent>
@@ -137,8 +137,8 @@ export default function SecurityMonitoringDashboard() {
           </Card>
           <Card>
             <CardContent className="p-4 text-center">
-              <Shield className="h-8 w-8 text-green-500 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-green-500">{metrics.low}</div>
+              <Shield className="h-8 w-8 text-success mx-auto mb-2" />
+              <div className="text-2xl font-bold text-success">{metrics.low}</div>
               <p className="text-sm text-muted-foreground">Low</p>
             </CardContent>
           </Card>
@@ -154,7 +154,7 @@ export default function SecurityMonitoringDashboard() {
         <CardContent>
           {alerts.length === 0 ? (
             <div className="text-center py-8">
-              <Shield className="h-12 w-12 text-green-500 mx-auto mb-4" />
+              <Shield className="h-12 w-12 text-success mx-auto mb-4" />
               <p className="text-muted-foreground">No security alerts in the last 24 hours</p>
               <p className="text-sm text-muted-foreground">System is operating normally</p>
             </div>

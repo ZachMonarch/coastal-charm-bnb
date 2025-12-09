@@ -102,7 +102,7 @@ export default function Navbar() {
               {!logoError ? <img src="/lovable-uploads/318cdd13-7256-4cfe-99e0-948e43902b7b.png" alt="Monarch Property Management Logo" className="w-full h-full object-contain" onError={() => setLogoError(true)} loading="eager" decoding="async" /> : <Crown className="h-6 w-6 text-primary" />}
             </div>
             <div className="hidden md:flex flex-col">
-              <span className="text-lg bg-gradient-to-r from-primary via-primary to-primary/80 bg-clip-text text-amber-600 font-semibold">
+              <span className="text-lg font-semibold text-primary">
                 Monarch Property
               </span>
               <span className="text-xs text-primary/70 dark:text-primary/60 -mt-1 font-semibold tracking-wide uppercase">Management</span>

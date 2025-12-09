@@ -50,15 +50,10 @@ export default function AuthHandler() {
   }, []);
 
   return (
-    <div
-      style={{
-        fontFamily: 'Arial, sans-serif',
-        textAlign: 'center',
-        paddingTop: '100px',
-        color: '#4D5949',
-      }}
-    >
-      <h2>{status}</h2>
+    <div className="flex items-center justify-center min-h-screen bg-background">
+      <div className="text-center p-8">
+        <h2 className="text-xl font-semibold text-foreground">{status}</h2>
+      </div>
     </div>
   );
 }

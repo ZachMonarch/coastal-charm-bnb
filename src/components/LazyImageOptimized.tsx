@@ -137,7 +137,7 @@ export const LazyImageOptimized: React.FC<LazyImageProps> = ({
   const placeholderClasses = [
     'absolute inset-0 transition-all duration-300 ease-in-out',
     isLoaded ? 'opacity-0' : 'opacity-100',
-    'bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-800'
+    'bg-gradient-to-br from-muted to-muted/80 dark:from-muted/50 dark:to-muted/30'
   ].filter(Boolean).join(' ');
 
   return (
@@ -156,7 +156,7 @@ export const LazyImageOptimized: React.FC<LazyImageProps> = ({
       {!blurDataURL && !isLoaded && (
         <div className={placeholderClasses}>
           <div className="flex items-center justify-center w-full h-full">
-            <div className="w-8 h-8 border-2 border-gray-300 border-t-primary rounded-full animate-spin" />
+            <div className="w-8 h-8 border-2 border-border border-t-primary rounded-full animate-spin" />
           </div>
         </div>
       )}
