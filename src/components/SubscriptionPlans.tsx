@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/contexts/OptimizedAuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { ButtonSpinner } from '@/components/shared/LoadingSpinner';
 
 interface SubscriptionPlan {
   id: string;
@@ -250,7 +251,7 @@ export default function SubscriptionPlans() {
                     >
                       {isProcessing && selectedPlan === plan.id ? (
                         <>
-                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                          <ButtonSpinner className="mr-2" />
                           Processing...
                         </>
                       ) : (

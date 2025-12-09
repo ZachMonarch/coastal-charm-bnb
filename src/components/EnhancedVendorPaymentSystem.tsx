@@ -11,6 +11,7 @@ import { CreditCard, Eye, DollarSign, Calendar, AlertCircle, CheckCircle, Clock,
 import { useAuth } from '@/contexts/OptimizedAuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { ButtonSpinner } from '@/components/shared/LoadingSpinner';
 
 interface VendorPayment {
   id: string;
@@ -286,7 +287,7 @@ export default function EnhancedVendorPaymentSystem() {
                         >
                           {processingPayment === payment.id ? (
                             <>
-                              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                              <ButtonSpinner className="mr-2" />
                               Processing...
                             </>
                           ) : (
@@ -358,7 +359,7 @@ export default function EnhancedVendorPaymentSystem() {
                   >
                     {processingPayment === selectedPayment.id ? (
                       <>
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                        <ButtonSpinner className="mr-2" />
                         Processing...
                       </>
                     ) : (

@@ -19,7 +19,7 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80 hover:shadow-sm",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline active:scale-100",
-        hero: "bg-white/20 text-white backdrop-blur-sm border border-white/30 hover:bg-white/30 dark:bg-black/30 dark:border-white/10 dark:hover:bg-black/40 shadow-lg hover:shadow-xl",
+        hero: "bg-overlay/20 text-overlay-foreground backdrop-blur-sm border border-overlay/30 hover:bg-overlay/30 dark:bg-overlay/30 dark:border-overlay/10 dark:hover:bg-overlay/40 shadow-lg hover:shadow-xl",
         heroSolid: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.99]",
         neumorphic: "neumorphic-card hover:neumorphic-inset",
         glass: "glass-card hover:bg-white/20 dark:hover:bg-black/30",

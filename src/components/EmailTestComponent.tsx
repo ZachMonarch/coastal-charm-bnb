@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Mail, Send } from 'lucide-react';
+import { ButtonSpinner } from '@/components/shared/LoadingSpinner';
 
 export default function EmailTestComponent() {
   const [email, setEmail] = useState('');
@@ -78,7 +79,7 @@ export default function EmailTestComponent() {
           className="w-full gap-2"
         >
           {sending ? (
-            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+            <ButtonSpinner />
           ) : (
             <Send className="h-4 w-4" />
           )}

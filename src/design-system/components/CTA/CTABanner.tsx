@@ -150,7 +150,7 @@ export function CTABanner({
                   "min-w-[180px]",
                   variant === "light" && "border-primary text-primary hover:bg-primary/10",
                   (variant === "dark" || variant === "gradient" || variant === "image") &&
-                    "border-white/30 text-white hover:bg-white/10 bg-white/5 backdrop-blur-sm"
+                    "border-overlay/30 text-overlay-foreground hover:bg-overlay/10 bg-overlay/5 backdrop-blur-sm"
                 )}
                 onClick={secondaryCTA.onClick}
               >
