@@ -198,9 +198,9 @@ export default function BidComparisonDashboard({
           </div>
         ) : (
           <Tabs defaultValue="table">
-            <TabsList className="mb-4">
-              <TabsTrigger value="table">Table View</TabsTrigger>
-              <TabsTrigger value="cards">Card View</TabsTrigger>
+            <TabsList variant="default" className="mb-4">
+              <TabsTrigger variant="default" value="table">Table View</TabsTrigger>
+              <TabsTrigger variant="default" value="cards">Card View</TabsTrigger>
             </TabsList>
 
             <TabsContent value="table">

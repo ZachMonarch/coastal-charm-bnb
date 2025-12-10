@@ -85,7 +85,7 @@ export default function JoinAsVendor() {
       </Helmet>
 
       <div className="min-h-screen bg-background">
-        {/* Hero Section */}
+        {/* Hero Section - Phase 2 & 3 Enhanced */}
         <section className="relative py-20 lg:py-32 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-secondary/10" />
           <div className="absolute top-20 right-20 w-72 h-72 bg-primary/20 rounded-full blur-3xl" />
@@ -93,7 +93,7 @@ export default function JoinAsVendor() {
           
           <div className="container relative z-10 mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
-              <Badge variant="secondary" className="mb-6 px-4 py-2">
+              <Badge variant="secondary" className="mb-6 px-4 py-2 shadow-md">
                 <Star className="w-4 h-4 mr-2 fill-primary text-primary" />
                 Join 500+ Trusted Service Providers
               </Badge>
@@ -103,7 +103,7 @@ export default function JoinAsVendor() {
                 <span className="text-primary">Quality Leads</span>
               </h1>
               
-              <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+              <p className="text-xl text-foreground/80 mb-8 max-w-2xl mx-auto">
                 Connect with property managers actively looking for reliable contractors. 
                 Free to join, no monthly fees — pay only when you win jobs.
               </p>
@@ -111,7 +111,7 @@ export default function JoinAsVendor() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button 
                   size="lg" 
-                  className="text-lg px-8 py-6"
+                  className="text-lg px-8 py-6 shadow-lg shadow-primary/20 hover:shadow-primary/40"
                   onClick={() => setShowSignup(true)}
                 >
                   Start Getting Jobs Today
@@ -120,7 +120,7 @@ export default function JoinAsVendor() {
                 <Button 
                   size="lg" 
                   variant="outline" 
-                  className="text-lg px-8 py-6"
+                  className="text-lg px-8 py-6 border-primary/40 hover:border-primary hover:bg-primary/10"
                   onClick={() => navigate('/vendors')}
                 >
                   Browse Marketplace
@@ -265,20 +265,20 @@ export default function JoinAsVendor() {
           </div>
         </section>
 
-        {/* CTA Section */}
+        {/* CTA Section - Phase 2 & 3 Enhanced */}
         <section className="py-20 bg-primary text-primary-foreground">
           <div className="container mx-auto px-4 text-center">
-            <Award className="w-16 h-16 mx-auto mb-6 opacity-90" />
-            <h2 className="text-3xl md:text-4xl font-serif font-bold mb-4">
+            <Award className="w-16 h-16 mx-auto mb-6 text-primary-foreground" />
+            <h2 className="text-3xl md:text-4xl font-serif font-bold mb-4 text-primary-foreground">
               Ready to Grow Your Business?
             </h2>
-            <p className="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-primary-foreground/90 mb-8 max-w-2xl mx-auto">
               Join hundreds of successful contractors who've grown their business with Monarch.
             </p>
             <Button 
               size="lg" 
               variant="secondary"
-              className="text-lg px-8 py-6"
+              className="text-lg px-8 py-6 shadow-lg hover:shadow-xl"
               onClick={() => setShowSignup(true)}
             >
               Join Now — It's Free
