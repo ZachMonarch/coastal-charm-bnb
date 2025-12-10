@@ -2258,38 +2258,49 @@
     border-color: hsl(var(--primary) / 0.5);
   }
 
-  /* Selection styling */
+  /* Selection styling - Phase 3 Enhanced */
   ::selection {
-    background: hsl(var(--primary) / 0.2);
+    background: hsl(var(--primary) / 0.25);
+    color: hsl(var(--foreground));
+  }
+  
+  .dark ::selection {
+    background: hsl(var(--primary) / 0.35);
     color: hsl(var(--foreground));
   }
 
-  /* Scrollbar styling for webkit browsers */
+  /* Scrollbar styling for webkit browsers - Phase 3 Enhanced */
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
   }
 
   ::-webkit-scrollbar-track {
-    background: hsl(var(--muted));
+    background: hsl(var(--muted) / 0.5);
     border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: hsl(var(--muted-foreground) / 0.3);
+    background: hsl(var(--muted-foreground) / 0.4);
     border-radius: 4px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--muted-foreground) / 0.5);
+    background: hsl(var(--muted-foreground) / 0.55);
   }
 
   .dark ::-webkit-scrollbar-track {
-    background: hsl(var(--muted));
+    background: hsl(var(--muted) / 0.3);
   }
 
   .dark ::-webkit-scrollbar-thumb {
-    background: hsl(var(--muted-foreground) / 0.4);
+    background: hsl(var(--muted-foreground) / 0.5);
+  }
+  
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.65);
   }
 
   /* Loading states */

@@ -1,4 +1,4 @@
-import { Search, Globe, MapPin, Filter, Grid, List } from "lucide-react";
+import { Search, Globe, Grid, List } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -9,7 +9,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { cn } from "@/lib/utils";
 
 export type NewsCategory = 'all' | 'property' | 'real-estate' | 'investment' | 'careers' | 'legal' | 'technology';
 export type NewsRegion = 'global' | 'north-america' | 'europe' | 'asia' | 'middle-east' | 'africa' | 'oceania';
@@ -112,16 +111,12 @@ export function NewsFilters({
 
       {/* Category tabs */}
       <Tabs value={category} onValueChange={(v) => onCategoryChange(v as NewsCategory)} className="w-full">
-        <TabsList className="w-full h-auto flex-wrap justify-start gap-1 bg-transparent p-0">
+        <TabsList variant="pills" className="w-full h-auto flex-wrap justify-start">
           {categories.map((cat) => (
             <TabsTrigger
               key={cat.id}
               value={cat.id}
-              className={cn(
-                "px-4 py-2 rounded-full border transition-all",
-                "data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary",
-                "data-[state=inactive]:bg-card data-[state=inactive]:hover:bg-muted"
-              )}
+              variant="pills"
             >
               {cat.label}
             </TabsTrigger>

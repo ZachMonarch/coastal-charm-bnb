@@ -112,7 +112,7 @@ export default function PageHero({
                 <Sparkles className="h-5 w-5 text-primary/60 animate-pulse hidden sm:block" />
               </div>
               {description && (
-                <p className="text-muted-foreground max-w-2xl leading-relaxed">{description}</p>
+                <p className="text-foreground/75 max-w-2xl leading-relaxed">{description}</p>
               )}
             </div>
           </div>
@@ -158,7 +158,7 @@ export default function PageHero({
                   <p className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors">
                     {stat.value}
                   </p>
-                  <p className="text-xs text-muted-foreground font-medium">{stat.label}</p>
+                  <p className="text-xs text-foreground/70 font-medium">{stat.label}</p>
                 </div>
               </div>
             ))}
