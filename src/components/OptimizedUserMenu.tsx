@@ -16,11 +16,11 @@ export default function OptimizedUserMenu() {
   if (!isAuthenticated || !user) {
     return (
       <div className="flex items-center gap-2">
-        <Button asChild variant="outline" size="sm" className="hidden sm:inline-flex">
+        <Button asChild variant="outline" size="sm" className="hidden sm:inline-flex border-primary/40 text-foreground hover:text-primary hover:border-primary">
           <Link to="/auth">Sign In</Link>
         </Button>
-        <Button asChild size="sm">
-          <Link to="/auth?tab=signup" className="whitespace-nowrap">Join Now</Link>
+        <Button asChild size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold shadow-md">
+          <Link to="/auth?tab=signup" className="whitespace-nowrap text-primary-foreground">Join Now</Link>
         </Button>
       </div>
     );
