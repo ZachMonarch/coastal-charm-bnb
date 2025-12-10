@@ -112,7 +112,7 @@ export default function Navbar() {
           {/* Desktop Navigation */}
           <ul className="hidden lg:flex space-x-1 items-center relative z-[200]">
             <li>
-              <Link to="/" className={cn("px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200", "text-foreground hover:text-primary hover:bg-primary/5", "relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2", "after:w-0 hover:after:w-3/4 after:h-0.5 after:bg-primary after:transition-all", "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none", location.pathname === "/" && "text-primary after:w-3/4")}>
+              <Link to="/" className={cn("px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200", "text-card-foreground hover:text-primary hover:bg-primary/10", "relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2", "after:w-0 hover:after:w-3/4 after:h-0.5 after:bg-primary after:transition-all", "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none", location.pathname === "/" && "text-primary after:w-3/4")}>
                 {t.nav.home}
               </Link>
             </li>
@@ -123,7 +123,7 @@ export default function Navbar() {
               <NavDropdown label="Services" items={servicesDropdownItems} />
             </li>
             {simpleNavLinks.slice(1).map(link => <li key={link.id}>
-                <Link to={link.path} className={cn("px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200", "text-foreground hover:text-primary hover:bg-primary/5", "relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2", "after:w-0 hover:after:w-3/4 after:h-0.5 after:bg-primary after:transition-all", "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none", location.pathname === link.path && "text-primary after:w-3/4")}>
+                <Link to={link.path} className={cn("px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200", "text-card-foreground hover:text-primary hover:bg-primary/10", "relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2", "after:w-0 hover:after:w-3/4 after:h-0.5 after:bg-primary after:transition-all", "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none", location.pathname === link.path && "text-primary after:w-3/4")}>
                   {link.name}
                 </Link>
               </li>)}

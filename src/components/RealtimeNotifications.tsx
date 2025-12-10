@@ -179,19 +179,19 @@ export default function RealtimeNotifications() {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline" size="icon" className="relative min-h-[44px] min-w-[44px] w-11 h-11 rounded-full border border-border bg-card hover:border-primary/50 hover:bg-primary/10 shadow-sm">
-          <Bell className="h-5 w-5 text-primary" />
+        <Button variant="outline" size="icon" className="relative min-h-[44px] min-w-[44px] w-11 h-11 rounded-full border-2 border-border bg-muted hover:border-primary/50 hover:bg-primary/15 shadow-md">
+          <Bell className="h-5 w-5 text-primary drop-shadow-sm" />
           {unreadCount > 0 && (
             <Badge 
               variant="destructive" 
-              className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs"
+              className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs shadow-md"
             >
               {unreadCount > 99 ? '99+' : unreadCount}
             </Badge>
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-80 p-0 bg-popover border-border dark:border-border/50" align="end">
+      <PopoverContent className="w-80 p-0 bg-popover border-2 border-border rounded-xl shadow-xl" align="end">
         <Card className="border-0 shadow-none bg-transparent">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">

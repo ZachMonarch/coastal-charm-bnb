@@ -29,8 +29,8 @@ export default function NavDropdown({ label, items, icon, className }: NavDropdo
       <DropdownMenuTrigger
         className={cn(
           "flex items-center gap-1 px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200",
-          "text-foreground hover:text-primary hover:bg-primary/5",
-          "data-[state=open]:bg-primary/5 data-[state=open]:text-primary",
+          "text-card-foreground hover:text-primary hover:bg-primary/10",
+          "data-[state=open]:bg-primary/10 data-[state=open]:text-primary",
           "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none",
           "relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2",
           "after:w-0 data-[state=open]:after:w-3/4 after:h-0.5 after:bg-primary after:transition-all",
@@ -44,17 +44,17 @@ export default function NavDropdown({ label, items, icon, className }: NavDropdo
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="start"
-        className="min-w-[220px] bg-popover border border-border shadow-xl z-[500] dark:border-border/50"
+        className="min-w-[220px] bg-popover border border-border shadow-xl z-[500] rounded-xl"
       >
         {items.map((item, index) => (
           <DropdownMenuItem key={index} asChild>
             <Link
               to={item.href}
-              className="flex items-center gap-3 px-3 py-2.5 cursor-pointer rounded-md hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary transition-colors"
+              className="flex items-center gap-3 px-3 py-2.5 cursor-pointer rounded-lg hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary transition-colors"
             >
               {item.icon && <span className="text-primary">{item.icon}</span>}
               <div className="flex flex-col">
-                <span className="font-medium text-foreground">{item.label}</span>
+                <span className="font-medium text-popover-foreground">{item.label}</span>
                 {item.description && (
                   <span className="text-xs text-muted-foreground">{item.description}</span>
                 )}
