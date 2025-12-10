@@ -56,7 +56,7 @@ export default function OptimizedUserMenu() {
       <DropdownMenuTrigger asChild>
         <Button 
           variant="ghost" 
-          className="relative h-8 w-8 rounded-full border border-primary/20 min-h-[44px] min-w-[44px] hover:border-primary/50 hover:bg-primary/5 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 transition-all"
+          className="relative h-11 w-11 rounded-full border-2 border-primary/30 min-h-[44px] min-w-[44px] hover:border-primary/60 hover:bg-primary/10 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 transition-all shadow-md bg-muted"
           aria-label="Open user menu"
         >
           <ReusableAvatar 
@@ -67,70 +67,75 @@ export default function OptimizedUserMenu() {
           />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-64 sm:w-56 bg-popover border border-border shadow-2xl z-[200]" align="end" forceMount>
-        <div className="flex flex-col space-y-1 p-3">
-          <div className="flex items-center gap-3">
-            <ReusableAvatar 
-              url={avatarUrl}
-              name={displayName}
-              size="md"
-              variant={hasRole('vendor') ? 'vendor' : 'user'}
-            />
+      <DropdownMenuContent className="w-72 bg-popover border-2 border-border shadow-2xl z-[500] rounded-xl overflow-hidden" align="end" forceMount>
+        {/* User Header Section */}
+        <div className="bg-gradient-to-br from-primary/10 via-primary/5 to-transparent p-4 border-b border-border">
+          <div className="flex items-center gap-4">
+            <div className="ring-2 ring-primary/30 rounded-full">
+              <ReusableAvatar 
+                url={avatarUrl}
+                name={displayName}
+                size="md"
+                variant={hasRole('vendor') ? 'vendor' : 'user'}
+              />
+            </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium truncate">{displayName}</p>
-              <p className="text-xs text-muted-foreground truncate flex items-center gap-1">
+              <p className="text-sm font-semibold text-popover-foreground truncate">{displayName}</p>
+              <p className="text-xs text-muted-foreground truncate flex items-center gap-1.5 mt-0.5">
                 <Mail className="h-3 w-3" />
                 {user.email}
               </p>
+              <Badge className={`${getRoleBadgeColor(userRole)} text-xs capitalize mt-2`}>
+                {userRole.replace('_', ' ')}
+              </Badge>
             </div>
-          </div>
-          <div className="flex items-center justify-between pt-2">
-            <Badge className={`${getRoleBadgeColor(userRole)} text-xs capitalize`}>
-              {userRole.replace('_', ' ')}
-            </Badge>
           </div>
         </div>
         
-        <DropdownMenuSeparator />
-        
-        <DropdownMenuItem asChild>
-          <Link to={hasRole('vendor') ? "/vendor/dashboard" : "/dashboard"} className="flex items-center px-3 py-2 hover:bg-primary/5 hover:text-primary focus:bg-primary/5 focus:text-primary transition-colors">
-            <User className="mr-3 h-4 w-4" />
-            Dashboard
-          </Link>
-        </DropdownMenuItem>
-        
-        {hasRole('vendor') && (
+        {/* Menu Items */}
+        <div className="p-2">
           <DropdownMenuItem asChild>
-            <Link to="/vendor/profile" className="flex items-center px-3 py-2 hover:bg-primary/5 hover:text-primary focus:bg-primary/5 focus:text-primary transition-colors">
-              <User className="mr-3 h-4 w-4" />
-              Profile
+            <Link to={hasRole('vendor') ? "/vendor/dashboard" : "/dashboard"} className="flex items-center px-3 py-2.5 rounded-lg hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary transition-colors text-popover-foreground">
+              <User className="mr-3 h-4 w-4 text-primary" />
+              <span className="font-medium">Dashboard</span>
             </Link>
           </DropdownMenuItem>
-        )}
-        
-        <DropdownMenuItem asChild>
-          <Link to="/settings" className="flex items-center px-3 py-2 hover:bg-primary/5 hover:text-primary focus:bg-primary/5 focus:text-primary transition-colors">
-            <Settings className="mr-3 h-4 w-4" />
-            Settings
-          </Link>
-        </DropdownMenuItem>
-        
-        {hasRole('admin') && (
+          
+          {hasRole('vendor') && (
+            <DropdownMenuItem asChild>
+              <Link to="/vendor/profile" className="flex items-center px-3 py-2.5 rounded-lg hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary transition-colors text-popover-foreground">
+                <User className="mr-3 h-4 w-4 text-primary" />
+                <span className="font-medium">Profile</span>
+              </Link>
+            </DropdownMenuItem>
+          )}
+          
           <DropdownMenuItem asChild>
-            <Link to="/admin" className="flex items-center px-3 py-2 hover:bg-primary/5 hover:text-primary focus:bg-primary/5 focus:text-primary transition-colors">
-              <Settings className="mr-3 h-4 w-4" />
-              Admin Panel
+            <Link to="/settings" className="flex items-center px-3 py-2.5 rounded-lg hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary transition-colors text-popover-foreground">
+              <Settings className="mr-3 h-4 w-4 text-primary" />
+              <span className="font-medium">Settings</span>
             </Link>
           </DropdownMenuItem>
-        )}
+          
+          {hasRole('admin') && (
+            <DropdownMenuItem asChild>
+              <Link to="/admin" className="flex items-center px-3 py-2.5 rounded-lg hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary transition-colors text-popover-foreground">
+                <Settings className="mr-3 h-4 w-4 text-primary" />
+                <span className="font-medium">Admin Panel</span>
+              </Link>
+            </DropdownMenuItem>
+          )}
+        </div>
         
-        <DropdownMenuSeparator />
+        <DropdownMenuSeparator className="bg-border" />
         
-        <DropdownMenuItem onClick={handleLogout} className="text-destructive hover:bg-destructive/10 px-3 py-2 transition-colors">
-          <LogOut className="mr-3 h-4 w-4" />
-          Sign Out
-        </DropdownMenuItem>
+        {/* Sign Out */}
+        <div className="p-2">
+          <DropdownMenuItem onClick={handleLogout} className="flex items-center px-3 py-2.5 rounded-lg text-destructive hover:bg-destructive/10 focus:bg-destructive/10 transition-colors cursor-pointer">
+            <LogOut className="mr-3 h-4 w-4" />
+            <span className="font-medium">Sign Out</span>
+          </DropdownMenuItem>
+        </div>
       </DropdownMenuContent>
     </DropdownMenu>
   );
