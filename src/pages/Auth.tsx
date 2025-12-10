@@ -421,12 +421,12 @@ export default function Auth() {
 
           <Card className="border border-border shadow-2xl bg-card/95 dark:bg-card/90 backdrop-blur-md">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-2 h-14 p-1.5 mb-2 bg-muted dark:bg-muted">
-                <TabsTrigger value="signin" className="gap-2 h-full text-base data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-md">
+              <TabsList variant="grid" className="grid w-full grid-cols-2 m-4 mr-8">
+                <TabsTrigger value="signin" variant="grid" className="gap-2 py-3 text-base">
                   <LogIn className="h-4 w-4" />
                   Sign In
                 </TabsTrigger>
-                <TabsTrigger value="signup" className="gap-2 h-full text-base data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-md">
+                <TabsTrigger value="signup" variant="grid" className="gap-2 py-3 text-base">
                   <UserPlus className="h-4 w-4" />
                   Sign Up
                 </TabsTrigger>

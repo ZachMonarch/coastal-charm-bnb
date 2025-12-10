@@ -221,12 +221,12 @@ export default function Properties() {
           </div>
 
           <Tabs defaultValue="properties" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 neumorphic-card p-1 sm:p-2 mb-6 sm:mb-8">
-              <TabsTrigger value="properties" className="text-sm sm:text-base lg:text-lg py-2 sm:py-3">
+            <TabsList variant="grid" className="grid w-full grid-cols-2 mb-6 sm:mb-8">
+              <TabsTrigger value="properties" variant="grid" className="py-2 sm:py-3">
                 <span className="hidden sm:inline">Long-term Rentals</span>
                 <span className="sm:hidden">Rentals</span>
               </TabsTrigger>
-              <TabsTrigger value="apartments" className="text-sm sm:text-base lg:text-lg py-2 sm:py-3">
+              <TabsTrigger value="apartments" variant="grid" className="py-2 sm:py-3">
                 <span className="hidden sm:inline">Vacation Stays</span>
                 <span className="sm:hidden">Vacations</span>
               </TabsTrigger>

@@ -170,17 +170,17 @@ export default function VendorPaymentSystem() {
 
       {/* Payment Tabs */}
       <Tabs defaultValue="pending" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="pending">
+        <TabsList variant="grid" className="grid w-full grid-cols-2 sm:grid-cols-4">
+          <TabsTrigger value="pending" variant="grid">
             Pending ({pendingPayments.length})
           </TabsTrigger>
-          <TabsTrigger value="processing">
+          <TabsTrigger value="processing" variant="grid">
             Processing ({processingPayments.length})
           </TabsTrigger>
-          <TabsTrigger value="paid">
+          <TabsTrigger value="paid" variant="grid">
             Paid ({paidPayments.length})
           </TabsTrigger>
-          <TabsTrigger value="history">
+          <TabsTrigger value="history" variant="grid">
             All History ({payments.length})
           </TabsTrigger>
         </TabsList>

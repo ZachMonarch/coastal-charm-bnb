@@ -308,9 +308,9 @@ export default function AdminProjectManagement() {
           />
 
           <Tabs defaultValue="projects" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="projects">Project Management</TabsTrigger>
-              <TabsTrigger value="rfq">RFQ System</TabsTrigger>
+            <TabsList variant="grid" className="grid w-full grid-cols-2">
+              <TabsTrigger value="projects" variant="grid">Project Management</TabsTrigger>
+              <TabsTrigger value="rfq" variant="grid">RFQ System</TabsTrigger>
             </TabsList>
             
             <TabsContent value="projects" className="space-y-6">

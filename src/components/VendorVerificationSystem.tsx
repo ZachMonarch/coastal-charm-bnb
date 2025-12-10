@@ -235,11 +235,11 @@ export default function VendorVerificationSystem() {
       </div>
 
       <Tabs defaultValue="pending" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="pending">
+        <TabsList variant="grid" className="grid w-full grid-cols-2">
+          <TabsTrigger value="pending" variant="grid">
             Pending ({pendingVendors.length})
           </TabsTrigger>
-          <TabsTrigger value="verified">
+          <TabsTrigger value="verified" variant="grid">
             Verified ({verifiedVendors.length})
           </TabsTrigger>
         </TabsList>

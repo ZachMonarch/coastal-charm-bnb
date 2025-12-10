@@ -137,11 +137,11 @@ export default function UserProfile() {
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 lg:w-fit">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="properties">Properties</TabsTrigger>
-            <TabsTrigger value="tenants">Tenants</TabsTrigger>
-            <TabsTrigger value="activity">Activity</TabsTrigger>
+          <TabsList variant="default" className="w-full sm:w-auto">
+            <TabsTrigger value="overview" variant="default">Overview</TabsTrigger>
+            <TabsTrigger value="properties" variant="default">Properties</TabsTrigger>
+            <TabsTrigger value="tenants" variant="default">Tenants</TabsTrigger>
+            <TabsTrigger value="activity" variant="default">Activity</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview" className="space-y-6">

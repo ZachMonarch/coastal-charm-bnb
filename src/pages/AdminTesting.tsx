@@ -21,18 +21,18 @@ export default function AdminTesting() {
       </div>
 
       <Tabs defaultValue="payment" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="payment" className="flex items-center gap-2">
+        <TabsList variant="default" className="w-full sm:w-auto">
+          <TabsTrigger value="payment" variant="default" className="gap-2">
             <CreditCard className="h-4 w-4" />
-            Payment System
+            <span className="hidden sm:inline">Payment System</span>
           </TabsTrigger>
-          <TabsTrigger value="notifications" className="flex items-center gap-2">
+          <TabsTrigger value="notifications" variant="default" className="gap-2">
             <Bell className="h-4 w-4" />
-            Notifications
+            <span className="hidden sm:inline">Notifications</span>
           </TabsTrigger>
-          <TabsTrigger value="security" className="flex items-center gap-2">
+          <TabsTrigger value="security" variant="default" className="gap-2">
             <Shield className="h-4 w-4" />
-            Security Tests
+            <span className="hidden sm:inline">Security Tests</span>
           </TabsTrigger>
         </TabsList>
 

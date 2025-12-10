@@ -567,9 +567,9 @@ export default function EnhancedPaymentManagement() {
       </div>
 
       <Tabs defaultValue="payments" className="space-y-4">
-        <TabsList>
-          <TabsTrigger value="payments">Payment Requests ({payments.length})</TabsTrigger>
-          <TabsTrigger value="refunds">Refund Requests ({refunds.filter(r => r.status === 'pending').length})</TabsTrigger>
+        <TabsList variant="default" className="w-full sm:w-auto">
+          <TabsTrigger value="payments" variant="default">Payment Requests ({payments.length})</TabsTrigger>
+          <TabsTrigger value="refunds" variant="default">Refund Requests ({refunds.filter(r => r.status === 'pending').length})</TabsTrigger>
         </TabsList>
 
         <TabsContent value="payments">

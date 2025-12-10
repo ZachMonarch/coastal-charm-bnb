@@ -10,10 +10,11 @@ const tabsListVariants = cva(
   {
     variants: {
       variant: {
-        default: "flex-wrap gap-1 rounded-lg bg-muted/60 p-1.5 border border-border/30",
+        default: "flex-wrap gap-1.5 rounded-lg bg-muted/60 p-1.5 border border-border/30",
         pills: "flex-wrap gap-2 bg-transparent p-1",
         underline: "flex-wrap gap-1 border-b border-border bg-transparent rounded-none pb-0",
-        colorful: "flex-wrap gap-1 rounded-xl bg-primary/5 p-2 border border-primary/20 shadow-sm",
+        colorful: "flex-wrap gap-1.5 rounded-xl bg-primary/5 p-2 border border-primary/20 shadow-sm",
+        grid: "grid gap-1 rounded-lg bg-muted/60 p-1.5 border border-border/30",
       },
     },
     defaultVariants: {
@@ -36,7 +37,7 @@ const TabsList = React.forwardRef<
 TabsList.displayName = TabsPrimitive.List.displayName
 
 const tabsTriggerVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap h-9 px-4 text-sm font-medium ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap min-h-[36px] px-3 py-1.5 text-sm font-medium ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
@@ -44,6 +45,7 @@ const tabsTriggerVariants = cva(
         pills: "rounded-full border border-transparent text-muted-foreground hover:text-foreground hover:bg-muted/60 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary data-[state=active]:shadow-md",
         underline: "rounded-none border-b-2 border-transparent text-muted-foreground hover:text-foreground -mb-px data-[state=active]:border-primary data-[state=active]:text-primary data-[state=active]:font-semibold",
         colorful: "rounded-md text-muted-foreground hover:text-foreground hover:bg-primary/10 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm",
+        grid: "rounded-md text-muted-foreground hover:text-foreground hover:bg-background/60 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm",
       },
     },
     defaultVariants: {
