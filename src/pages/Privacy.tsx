@@ -1,32 +1,31 @@
-import { ArrowLeft, Shield, Eye, Lock, Database } from "lucide-react";
+import { Shield, Eye, Lock, Database, UserCheck, Globe } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
+import { SEOHead } from "@/components/SEOHead";
+import { PageHeroWithImage } from "@/components/PageHeroWithImage";
 
 export default function Privacy() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen w-full">
+      <SEOHead
+        title="Privacy Policy | Monarch Property Management"
+        description="Learn how Monarch Property Management protects your privacy. Read our comprehensive privacy policy covering data collection, usage, and security practices."
+        keywords={["privacy policy", "data protection", "personal information", "GDPR", "privacy rights"]}
+        type="website"
+        url="https://monarchpropertymmgt.com/privacy"
+      />
+
+      {/* Hero Section with Image */}
+      <PageHeroWithImage
+        title="Privacy Policy"
+        subtitle={`Last updated: ${new Date().toLocaleDateString()}`}
+        imageUrl="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1920&h=600&fit=crop"
+      />
+
       <main className="p-6">
         <div className="container mx-auto max-w-4xl">
-          <Link to="/" className="inline-flex items-center text-primary hover:text-primary/80 transition-colors mb-6">
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Home
-          </Link>
-
-          <div className="text-center mb-12">
-            <div className="flex items-center justify-center mb-4">
-              <div className="neumorphic-inset p-3 rounded-full mr-4">
-                <Shield className="h-8 w-8 text-primary" />
-              </div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent">
-                Privacy Policy
-              </h1>
-            </div>
-            <p className="text-muted-foreground text-lg">
-              Last updated: {new Date().toLocaleDateString()}
-            </p>
-          </div>
 
           <div className="space-y-8">
             <Card className="neumorphic-card">
