@@ -56,17 +56,12 @@ export default function AdminManagementSystem() {
         <Tabs value={defaultTab} onValueChange={handleTabChange} className="w-full">
           {/* Enhanced Tab List with colorful styling */}
           <div className="bg-gradient-to-r from-primary/5 via-background to-secondary/5 rounded-xl p-2 border border-border/50 shadow-sm">
-            <TabsList className="flex flex-wrap h-auto gap-1 p-1 bg-transparent">
+            <TabsList variant="pills" className="flex-wrap">
               {tabItems.map((tab) => (
                 <TabsTrigger 
                   key={tab.value}
-                  value={tab.value} 
-                  className={`
-                    gap-1.5 px-3 py-2 text-xs sm:text-sm rounded-lg
-                    data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary/20 data-[state=active]:to-primary/10
-                    data-[state=active]:border-primary/30 data-[state=active]:shadow-sm
-                    hover:bg-muted/50 transition-all duration-200
-                  `}
+                  value={tab.value}
+                  variant="pills"
                 >
                   <tab.icon className={`h-4 w-4 ${tab.color}`} />
                   <span className="hidden md:inline">{tab.label}</span>

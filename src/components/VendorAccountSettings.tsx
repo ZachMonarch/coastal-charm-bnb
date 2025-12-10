@@ -169,10 +169,10 @@ export default function VendorAccountSettings() {
       </div>
 
       <Tabs defaultValue="security" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="security">Security</TabsTrigger>
-          <TabsTrigger value="notifications">Notifications</TabsTrigger>
-          <TabsTrigger value="privacy">Privacy</TabsTrigger>
+        <TabsList variant="default" className="w-full sm:w-auto">
+          <TabsTrigger value="security" variant="default">Security</TabsTrigger>
+          <TabsTrigger value="notifications" variant="default">Notifications</TabsTrigger>
+          <TabsTrigger value="privacy" variant="default">Privacy</TabsTrigger>
         </TabsList>
 
         {/* Security Tab */}

@@ -8,11 +8,11 @@ import VendorProfileNotifications from './VendorProfileNotifications';
 export default function VendorProfilePanel() {
   return (
     <Tabs defaultValue="overview" className="w-full">
-      <TabsList className="grid w-full grid-cols-4 mb-8">
-        <TabsTrigger value="overview">Overview</TabsTrigger>
-        <TabsTrigger value="edit">Edit Profile</TabsTrigger>
-        <TabsTrigger value="branding">Brand & Logo</TabsTrigger>
-        <TabsTrigger value="notifications">Notifications</TabsTrigger>
+      <TabsList variant="grid" className="grid w-full grid-cols-2 sm:grid-cols-4 mb-8">
+        <TabsTrigger value="overview" variant="grid">Overview</TabsTrigger>
+        <TabsTrigger value="edit" variant="grid">Edit Profile</TabsTrigger>
+        <TabsTrigger value="branding" variant="grid">Brand & Logo</TabsTrigger>
+        <TabsTrigger value="notifications" variant="grid">Notifications</TabsTrigger>
       </TabsList>
 
       <TabsContent value="overview">

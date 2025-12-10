@@ -288,9 +288,9 @@ export default function EnhancedAdminProjectManagement() {
   return (
     <div className="space-y-6">
       <Tabs defaultValue="projects" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="projects">Project Management</TabsTrigger>
-          <TabsTrigger value="analytics">Analytics & Reports</TabsTrigger>
+        <TabsList variant="grid" className="grid w-full grid-cols-2">
+          <TabsTrigger value="projects" variant="grid">Project Management</TabsTrigger>
+          <TabsTrigger value="analytics" variant="grid">Analytics & Reports</TabsTrigger>
         </TabsList>
 
         <TabsContent value="projects" className="space-y-4">

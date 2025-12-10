@@ -68,20 +68,20 @@ export default function VendorRFQTabs() {
       )}
 
       <Tabs defaultValue="available" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="available" className="flex items-center gap-2">
+        <TabsList variant="default" className="w-full sm:w-auto">
+          <TabsTrigger value="available" variant="default" className="gap-2">
             <FileText className="h-4 w-4" />
-            Available RFQs
+            <span className="hidden sm:inline">Available RFQs</span>
             <Badge variant="secondary" className="ml-1">{availableRFQs.length}</Badge>
           </TabsTrigger>
-          <TabsTrigger value="bids" className="flex items-center gap-2">
+          <TabsTrigger value="bids" variant="default" className="gap-2">
             <DollarSign className="h-4 w-4" />
-            My Bids
+            <span className="hidden sm:inline">My Bids</span>
             <Badge variant="secondary" className="ml-1">{myBids.length}</Badge>
           </TabsTrigger>
-          <TabsTrigger value="awarded" className="flex items-center gap-2">
+          <TabsTrigger value="awarded" variant="default" className="gap-2">
             <Award className="h-4 w-4" />
-            Awarded
+            <span className="hidden sm:inline">Awarded</span>
             <Badge variant="secondary" className="ml-1">{awardedProjects.length}</Badge>
           </TabsTrigger>
           <TabsTrigger value="drafts" className="flex items-center gap-2">

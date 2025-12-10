@@ -108,9 +108,9 @@ export default function VendorProjects() {
         </div>
 
         <Tabs defaultValue="assigned" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="assigned">Assigned Projects ({projects.length})</TabsTrigger>
-            <TabsTrigger value="available">Available Projects</TabsTrigger>
+          <TabsList variant="grid" className="grid w-full grid-cols-2">
+            <TabsTrigger value="assigned" variant="grid">Assigned Projects ({projects.length})</TabsTrigger>
+            <TabsTrigger value="available" variant="grid">Available Projects</TabsTrigger>
           </TabsList>
 
           <TabsContent value="assigned" className="space-y-6">

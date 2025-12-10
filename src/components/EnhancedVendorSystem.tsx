@@ -210,11 +210,11 @@ function VendorDashboard({ canApply, canViewAll }: { canApply: boolean; canViewA
 
   return (
     <Tabs defaultValue="projects" className="space-y-6">
-      <TabsList className="grid w-full grid-cols-4 lg:w-fit bg-muted">
-        <TabsTrigger value="projects">Available Projects</TabsTrigger>
-        <TabsTrigger value="applications">My Applications</TabsTrigger>
-        <TabsTrigger value="profile">Profile</TabsTrigger>
-        <TabsTrigger value="payments">Payments</TabsTrigger>
+      <TabsList variant="default" className="w-full sm:w-auto">
+        <TabsTrigger value="projects" variant="default">Available Projects</TabsTrigger>
+        <TabsTrigger value="applications" variant="default">My Applications</TabsTrigger>
+        <TabsTrigger value="profile" variant="default">Profile</TabsTrigger>
+        <TabsTrigger value="payments" variant="default">Payments</TabsTrigger>
       </TabsList>
 
       <TabsContent value="projects" className="space-y-6">
