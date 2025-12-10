@@ -299,11 +299,11 @@ export default function VendorDashboardComplete({ canApply, canViewAll }: Vendor
 
         {/* Enhanced Dashboard Content */}
         <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="assigned">Assigned Projects</TabsTrigger>
-            <TabsTrigger value="activity">Recent Activity</TabsTrigger>
-            <TabsTrigger value="profile">Profile</TabsTrigger>
+          <TabsList variant="grid" className="grid w-full grid-cols-4">
+            <TabsTrigger variant="grid" value="overview">Overview</TabsTrigger>
+            <TabsTrigger variant="grid" value="assigned">Assigned Projects</TabsTrigger>
+            <TabsTrigger variant="grid" value="activity">Recent Activity</TabsTrigger>
+            <TabsTrigger variant="grid" value="profile">Profile</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview" className="space-y-6">

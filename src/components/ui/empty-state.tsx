@@ -64,6 +64,7 @@ export interface EmptyStateProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof emptyStateVariants> {
   icon?: LucideIcon
+  imageSrc?: string
   title: string
   description?: string
   action?: {
@@ -83,6 +84,7 @@ const EmptyState = React.forwardRef<HTMLDivElement, EmptyStateProps>(
     variant, 
     size = "default", 
     icon: Icon = Inbox, 
+    imageSrc,
     title, 
     description, 
     action,
@@ -95,9 +97,22 @@ const EmptyState = React.forwardRef<HTMLDivElement, EmptyStateProps>(
         className={cn(emptyStateVariants({ variant, size }), className)}
         {...props}
       >
-        <div className={cn(iconContainerVariants({ variant, size }), "animate-pulse")}>
-          <Icon className={iconSizeMap[size || "default"]} />
-        </div>
+        {imageSrc ? (
+          <img 
+            src={imageSrc} 
+            alt="" 
+            className={cn(
+              "object-contain opacity-80",
+              size === "sm" && "w-16 h-16",
+              size === "default" && "w-24 h-24",
+              size === "lg" && "w-32 h-32"
+            )}
+          />
+        ) : (
+          <div className={cn(iconContainerVariants({ variant, size }), "animate-pulse")}>
+            <Icon className={iconSizeMap[size || "default"]} />
+          </div>
+        )}
         
         <div className="space-y-1">
           <h3 className={cn(

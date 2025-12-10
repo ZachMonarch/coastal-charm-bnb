@@ -237,10 +237,10 @@ export default function EnhancedRFQSystemWithSubscription({ className }: Enhance
       )}
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="available">Available RFQs</TabsTrigger>
-          {isVendor && <TabsTrigger value="my-applications">My Applications</TabsTrigger>}
-          {isAdmin && <TabsTrigger value="management">RFQ Management</TabsTrigger>}
+        <TabsList variant="grid" className="grid w-full grid-cols-3">
+          <TabsTrigger variant="grid" value="available">Available RFQs</TabsTrigger>
+          {isVendor && <TabsTrigger variant="grid" value="my-applications">My Applications</TabsTrigger>}
+          {isAdmin && <TabsTrigger variant="grid" value="management">RFQ Management</TabsTrigger>}
         </TabsList>
 
         <TabsContent value="available" className="space-y-4">

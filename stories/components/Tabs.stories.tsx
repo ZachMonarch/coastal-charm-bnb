@@ -50,10 +50,10 @@ export const Default: Story = {
 export const WithCards: Story = {
   render: () => (
     <Tabs defaultValue="properties" className="w-full max-w-4xl">
-      <TabsList className="grid w-full grid-cols-3">
-        <TabsTrigger value="properties">Properties</TabsTrigger>
-        <TabsTrigger value="tenants">Tenants</TabsTrigger>
-        <TabsTrigger value="maintenance">Maintenance</TabsTrigger>
+      <TabsList variant="grid" className="grid w-full grid-cols-3">
+        <TabsTrigger variant="grid" value="properties">Properties</TabsTrigger>
+        <TabsTrigger variant="grid" value="tenants">Tenants</TabsTrigger>
+        <TabsTrigger variant="grid" value="maintenance">Maintenance</TabsTrigger>
       </TabsList>
       <TabsContent value="properties" className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
