@@ -3719,7 +3719,6 @@ export type Database = {
     Views: {
       public_property_listings: {
         Row: {
-          address: string | null
           amenities: string | null
           available_date: string | null
           bathrooms: number | null
@@ -3728,8 +3727,6 @@ export type Database = {
           description: string | null
           id: number | null
           image_urls: string | null
-          latitude: number | null
-          longitude: number | null
           price: number | null
           property_type: string | null
           square_feet: string | null
@@ -3739,7 +3736,6 @@ export type Database = {
           zip_code: number | null
         }
         Insert: {
-          address?: string | null
           amenities?: string | null
           available_date?: string | null
           bathrooms?: number | null
@@ -3748,8 +3744,6 @@ export type Database = {
           description?: string | null
           id?: number | null
           image_urls?: string | null
-          latitude?: number | null
-          longitude?: number | null
           price?: number | null
           property_type?: string | null
           square_feet?: string | null
@@ -3759,7 +3753,6 @@ export type Database = {
           zip_code?: number | null
         }
         Update: {
-          address?: string | null
           amenities?: string | null
           available_date?: string | null
           bathrooms?: number | null
@@ -3768,8 +3761,6 @@ export type Database = {
           description?: string | null
           id?: number | null
           image_urls?: string | null
-          latitude?: number | null
-          longitude?: number | null
           price?: number | null
           property_type?: string | null
           square_feet?: string | null
