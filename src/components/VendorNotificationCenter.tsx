@@ -251,15 +251,17 @@ export default function VendorNotificationCenter() {
           {notifications.length === 0 ? (
             <div className="text-center py-12">
               <img 
-                src="/lovable-uploads/empty-state-notifications.png" 
-                alt="" 
+                src="/src/assets/empty-state-notifications.png" 
+                alt="No notifications" 
                 className="w-28 h-28 mx-auto mb-4 opacity-80"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
+                  const fallbackIcon = e.currentTarget.nextElementSibling as HTMLElement;
+                  if (fallbackIcon) fallbackIcon.classList.remove('hidden');
                 }}
               />
-              <Bell className="h-12 w-12 text-muted-foreground mx-auto mb-4 hidden first:block" />
-              <h3 className="text-lg font-medium mb-2">No notifications</h3>
+              <Bell className="h-12 w-12 text-muted-foreground mx-auto mb-4 hidden" />
+              <h3 className="text-lg font-medium text-foreground mb-2">No notifications</h3>
               <p className="text-muted-foreground">
                 You're all caught up! New notifications will appear here.
               </p>

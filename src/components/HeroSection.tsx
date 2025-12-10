@@ -122,8 +122,8 @@ export default function HeroSection() {
           }].map((stat, index) => <div key={index} className="bg-black/40 backdrop-blur-md border border-white/20 p-6 rounded-2xl animate-fade-in hover:bg-black/50 transition-all duration-300 border-l-4 border-l-primary" style={{
             animationDelay: `${index * 200}ms`
           }}>
-                <div className="text-2xl font-bold text-primary mb-1">{stat.number}</div>
-                <div className="text-white text-sm font-medium">{stat.label}</div>
+                <div className="text-2xl font-bold text-white mb-1">{stat.number}</div>
+                <div className="text-white/90 text-sm font-medium">{stat.label}</div>
               </div>)}
           </div>
         </div>

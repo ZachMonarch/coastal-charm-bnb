@@ -34,16 +34,16 @@ export const SecurityDashboard: React.FC = () => {
       </div>
 
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="overview" className="flex items-center gap-2">
+        <TabsList variant="grid" className="grid w-full grid-cols-3">
+          <TabsTrigger variant="grid" value="overview" className="flex items-center gap-2">
             <Activity className="h-4 w-4" />
             Overview
           </TabsTrigger>
-          <TabsTrigger value="monitoring" className="flex items-center gap-2">
+          <TabsTrigger variant="grid" value="monitoring" className="flex items-center gap-2">
             <AlertTriangle className="h-4 w-4" />
             Real-time Monitoring
           </TabsTrigger>
-          <TabsTrigger value="audit" className="flex items-center gap-2">
+          <TabsTrigger variant="grid" value="audit" className="flex items-center gap-2">
             <Shield className="h-4 w-4" />
             Audit Logs
           </TabsTrigger>
