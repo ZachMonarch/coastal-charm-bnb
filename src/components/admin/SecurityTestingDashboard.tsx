@@ -424,11 +424,11 @@ export const SecurityTestingDashboard: React.FC = () => {
           )}
 
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="grid w-full grid-cols-4">
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="authentication">Authentication</TabsTrigger>
-              <TabsTrigger value="authorization">Authorization</TabsTrigger>
-              <TabsTrigger value="data">Data Protection</TabsTrigger>
+            <TabsList variant="grid" className="grid w-full grid-cols-4">
+              <TabsTrigger variant="grid" value="overview">Overview</TabsTrigger>
+              <TabsTrigger variant="grid" value="authentication">Authentication</TabsTrigger>
+              <TabsTrigger variant="grid" value="authorization">Authorization</TabsTrigger>
+              <TabsTrigger variant="grid" value="data">Data Protection</TabsTrigger>
             </TabsList>
 
             <TabsContent value="overview" className="space-y-4">

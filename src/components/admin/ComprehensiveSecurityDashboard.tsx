@@ -308,28 +308,28 @@ export const ComprehensiveSecurityDashboard: React.FC = () => {
 
       {/* Main Tabs */}
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="grid w-full grid-cols-6">
-          <TabsTrigger value="overview">
+        <TabsList variant="grid" className="grid w-full grid-cols-6">
+          <TabsTrigger variant="grid" value="overview">
             <Activity className="h-4 w-4 mr-2" />
             Overview
           </TabsTrigger>
-          <TabsTrigger value="events">
+          <TabsTrigger variant="grid" value="events">
             <Bell className="h-4 w-4 mr-2" />
             Events
           </TabsTrigger>
-          <TabsTrigger value="rls">
+          <TabsTrigger variant="grid" value="rls">
             <Database className="h-4 w-4 mr-2" />
             RLS Status
           </TabsTrigger>
-          <TabsTrigger value="testing">
+          <TabsTrigger variant="grid" value="testing">
             <FileText className="h-4 w-4 mr-2" />
             Testing
           </TabsTrigger>
-          <TabsTrigger value="schedule">
+          <TabsTrigger variant="grid" value="schedule">
             <Calendar className="h-4 w-4 mr-2" />
             Schedule
           </TabsTrigger>
-          <TabsTrigger value="monitoring">
+          <TabsTrigger variant="grid" value="monitoring">
             <Eye className="h-4 w-4 mr-2" />
             Live Monitor
           </TabsTrigger>

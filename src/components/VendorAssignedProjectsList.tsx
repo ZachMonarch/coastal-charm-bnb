@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useVendorAssignedProjects } from "@/hooks/useVendorAssignedProjects";
 import { Briefcase, Calendar, DollarSign, MapPin, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
+import emptyProjectsImg from "@/assets/empty-state-projects.png";
 
 export default function VendorAssignedProjectsList() {
   const { projects, loading, error } = useVendorAssignedProjects();
@@ -42,7 +43,15 @@ export default function VendorAssignedProjectsList() {
     return (
       <Card>
         <CardContent className="py-12 text-center">
-          <Briefcase className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+          <img 
+            src={emptyProjectsImg} 
+            alt="" 
+            className="w-28 h-28 mx-auto mb-4 opacity-80"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+            }}
+          />
+          <Briefcase className="h-12 w-12 mx-auto text-muted-foreground mb-4 hidden first:block" />
           <p className="text-muted-foreground text-lg font-medium mb-2">No projects assigned yet</p>
           <p className="text-sm text-muted-foreground">
             Projects assigned to you by administrators will appear here

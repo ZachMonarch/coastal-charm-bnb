@@ -284,13 +284,13 @@ export default function NewsAdminPanel() {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-6">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="articles">Articles</TabsTrigger>
-          <TabsTrigger value="rss">RSS</TabsTrigger>
-          <TabsTrigger value="newsletter">Newsletter</TabsTrigger>
-          <TabsTrigger value="analytics">Analytics</TabsTrigger>
-          <TabsTrigger value="create">Create</TabsTrigger>
+        <TabsList variant="grid" className="grid w-full grid-cols-6">
+          <TabsTrigger variant="grid" value="overview">Overview</TabsTrigger>
+          <TabsTrigger variant="grid" value="articles">Articles</TabsTrigger>
+          <TabsTrigger variant="grid" value="rss">RSS</TabsTrigger>
+          <TabsTrigger variant="grid" value="newsletter">Newsletter</TabsTrigger>
+          <TabsTrigger variant="grid" value="analytics">Analytics</TabsTrigger>
+          <TabsTrigger variant="grid" value="create">Create</TabsTrigger>
         </TabsList>
 
         {/* Overview Tab */}

@@ -268,12 +268,12 @@ export default function VendorPayoutSettings() {
           </CardHeader>
           <CardContent>
             <Tabs value={payoutType} onValueChange={(v) => setPayoutType(v as 'bank' | 'card')} className="w-full">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="bank" className="flex items-center gap-2">
+              <TabsList variant="grid" className="grid w-full grid-cols-2">
+                <TabsTrigger variant="grid" value="bank" className="flex items-center gap-2">
                   <Building2 className="h-4 w-4" />
                   Bank Account
                 </TabsTrigger>
-                <TabsTrigger value="card" className="flex items-center gap-2">
+                <TabsTrigger variant="grid" value="card" className="flex items-center gap-2">
                   <CreditCard className="h-4 w-4" />
                   Debit Card
                 </TabsTrigger>

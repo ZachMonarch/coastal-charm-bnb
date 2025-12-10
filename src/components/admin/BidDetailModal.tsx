@@ -94,10 +94,10 @@ export default function BidDetailModal({
         </DialogHeader>
 
         <Tabs defaultValue="details" className="mt-4">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="details">Bid Details</TabsTrigger>
-            <TabsTrigger value="vendor">Vendor Info</TabsTrigger>
-            <TabsTrigger value="actions">Actions</TabsTrigger>
+          <TabsList variant="grid" className="grid w-full grid-cols-3">
+            <TabsTrigger variant="grid" value="details">Bid Details</TabsTrigger>
+            <TabsTrigger variant="grid" value="vendor">Vendor Info</TabsTrigger>
+            <TabsTrigger variant="grid" value="actions">Actions</TabsTrigger>
           </TabsList>
 
           {/* Bid Details Tab */}
