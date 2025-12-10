@@ -80,7 +80,7 @@ export default function PageHeroWithImage({
 
         {/* Description */}
         {description && (
-          <p className="text-lg md:text-xl lg:text-2xl text-white/90 max-w-3xl mx-auto mb-8 drop-shadow-md font-medium">
+          <p className="text-lg md:text-xl lg:text-2xl text-white max-w-3xl mx-auto mb-8 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)] font-medium [text-shadow:_0_2px_8px_rgb(0_0_0_/_80%)]">
             {description}
           </p>
         )}

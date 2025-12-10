@@ -120,16 +120,16 @@ export default function Amenities() {
             backgroundImage: `url('https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1920&h=1080&fit=crop')`
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/70" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/60 to-black/75" />
         <div className="relative z-10 flex items-center justify-center h-full">
           <div className="text-center max-w-4xl px-6">
-            <span className="text-sm font-medium uppercase tracking-wider mb-4 block text-white/90 drop-shadow-md">
+            <span className="text-sm font-medium uppercase tracking-wider mb-4 block text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] [text-shadow:_0_2px_8px_rgb(0_0_0_/_80%)]">
               Premium Living
             </span>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)] [text-shadow:_0_4px_16px_rgb(0_0_0_/_90%)]">
               Luxury Amenities & Features
             </h1>
-            <p className="text-xl text-white/90 drop-shadow-lg max-w-3xl mx-auto leading-relaxed font-medium">
+            <p className="text-xl text-white max-w-3xl mx-auto leading-relaxed font-medium drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)] [text-shadow:_0_2px_8px_rgb(0_0_0_/_80%)]">
               Experience unparalleled luxury with our world-class amenities designed to elevate your lifestyle and provide the ultimate in comfort, convenience, and sophisticated living.
             </p>
           </div>

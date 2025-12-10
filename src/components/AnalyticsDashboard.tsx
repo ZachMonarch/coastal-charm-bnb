@@ -431,12 +431,12 @@ export const AnalyticsDashboard: React.FC = () => {
 
       {/* Detailed Analytics */}
       <Tabs defaultValue="users" className="space-y-4">
-        <TabsList>
-          <TabsTrigger value="users">Users</TabsTrigger>
-          <TabsTrigger value="properties">Properties</TabsTrigger>
-          <TabsTrigger value="bookings">Bookings</TabsTrigger>
-          <TabsTrigger value="vendors">Vendors</TabsTrigger>
-          <TabsTrigger value="financial">Financial</TabsTrigger>
+        <TabsList variant="default">
+          <TabsTrigger variant="default" value="users">Users</TabsTrigger>
+          <TabsTrigger variant="default" value="properties">Properties</TabsTrigger>
+          <TabsTrigger variant="default" value="bookings">Bookings</TabsTrigger>
+          <TabsTrigger variant="default" value="vendors">Vendors</TabsTrigger>
+          <TabsTrigger variant="default" value="financial">Financial</TabsTrigger>
         </TabsList>
 
         <TabsContent value="users" className="space-y-4">

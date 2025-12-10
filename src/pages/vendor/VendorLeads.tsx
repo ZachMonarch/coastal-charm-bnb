@@ -284,9 +284,9 @@ export default function VendorLeads() {
           </div>
 
           <Tabs defaultValue="available" className="space-y-6">
-          <TabsList>
-            <TabsTrigger value="available">Available ({leads.length})</TabsTrigger>
-            <TabsTrigger value="responses">My Responses ({myResponses.length})</TabsTrigger>
+          <TabsList variant="default">
+            <TabsTrigger variant="default" value="available">Available ({leads.length})</TabsTrigger>
+            <TabsTrigger variant="default" value="responses">My Responses ({myResponses.length})</TabsTrigger>
           </TabsList>
 
           <TabsContent value="available" className="space-y-4">

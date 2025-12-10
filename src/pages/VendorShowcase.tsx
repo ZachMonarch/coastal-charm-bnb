@@ -247,10 +247,10 @@ export default function VendorShowcase() {
         <section className="py-8">
           <div className="container mx-auto px-4">
             <Tabs defaultValue="about" className="space-y-6">
-              <TabsList>
-                <TabsTrigger value="about">About</TabsTrigger>
-                <TabsTrigger value="portfolio">Portfolio</TabsTrigger>
-                <TabsTrigger value="reviews">Reviews</TabsTrigger>
+              <TabsList variant="default">
+                <TabsTrigger variant="default" value="about">About</TabsTrigger>
+                <TabsTrigger variant="default" value="portfolio">Portfolio</TabsTrigger>
+                <TabsTrigger variant="default" value="reviews">Reviews</TabsTrigger>
               </TabsList>
 
               {/* About Tab */}
