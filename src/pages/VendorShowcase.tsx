@@ -260,7 +260,7 @@ export default function VendorShowcase() {
                     <CardTitle>About {vendor.company_name}</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <p className="text-muted-foreground">
+                    <p className="text-muted-foreground line-clamp-4 break-words">
                       {vendor.description ||
                         "Professional service provider ready to help with your property needs."}
                     </p>
@@ -312,9 +312,9 @@ export default function VendorShowcase() {
                   <div className="grid md:grid-cols-2 gap-6">
                     {portfolioItems.map((item) => (
                       <Card key={item.id} variant="interactive">
-                        <CardHeader>
-                          <CardTitle className="text-lg">{item.title}</CardTitle>
-                          <CardDescription>
+                        <CardHeader className="pb-2">
+                          <CardTitle className="text-lg truncate">{item.title}</CardTitle>
+                          <CardDescription className="truncate">
                             {item.category}
                             {item.completion_date &&
                               ` • ${new Date(item.completion_date).toLocaleDateString()}`}
@@ -334,7 +334,7 @@ export default function VendorShowcase() {
                             />
                           ) : null}
                           {item.description && (
-                            <p className="text-sm text-muted-foreground">
+                            <p className="text-sm text-muted-foreground line-clamp-3 break-words">
                               {item.description}
                             </p>
                           )}
@@ -384,7 +384,7 @@ export default function VendorShowcase() {
                                   ))}
                                 </div>
                               </div>
-                              <p className="text-muted-foreground mb-2">
+                              <p className="text-muted-foreground mb-2 line-clamp-4 break-words">
                                 {review.review_text}
                               </p>
                               {review.vendor_response && (
