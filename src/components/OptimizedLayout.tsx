@@ -48,7 +48,7 @@ export default function OptimizedLayout({ children }: LayoutProps) {
       <SidebarProvider defaultOpen={true}>
         <div className="flex min-h-screen w-full bg-background">
           <AppSidebar />
-          <main className="flex-1 flex flex-col min-w-0">
+          <main id="main-content" role="main" aria-label="Main content" className="flex-1 flex flex-col min-w-0">
             {/* Global header with sidebar trigger - ALWAYS visible and prominent */}
             <header className="sticky top-0 z-[100] h-16 flex items-center border-b border-border bg-card/95 backdrop-blur-sm shadow-md">
               <div className="flex items-center gap-4 px-4 md:px-6 w-full">
@@ -85,7 +85,7 @@ export default function OptimizedLayout({ children }: LayoutProps) {
           <Navbar />
         </div>
       )}
-      <main className={`flex-1 w-full ${shouldShowNavbar ? 'pt-20' : ''}`}>
+      <main id="main-content" role="main" aria-label="Main content" className={`flex-1 w-full ${shouldShowNavbar ? 'pt-20' : ''}`}>
         {children}
       </main>
     </div>
