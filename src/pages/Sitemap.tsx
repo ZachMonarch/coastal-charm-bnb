@@ -11,6 +11,7 @@ const siteStructure = [
     icon: Building2,
     pages: [
       { name: "Homepage", path: "/", description: "Welcome page with hero section and features" },
+      { name: "About Us", path: "/about", description: "Learn about Monarch Property Management" },
       { name: "Properties", path: "/properties", description: "Browse all available properties" },
       { name: "Services", path: "/services", description: "Property management services" },
       { name: "Property Management", path: "/services/property-management", description: "Full-service property management" },

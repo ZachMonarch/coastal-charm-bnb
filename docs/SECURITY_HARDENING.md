@@ -245,5 +245,34 @@ app.current_tenant() -- Returns user's tenant_id
 
 ---
 
+## Phase 9 UI/UX Remediation (December 2025)
+
+### Text Visibility Fixes ✅
+- **CSS Utilities Added**: `.text-overlay-muted`, `.text-overlay-bright` for hero overlays
+- **Text Clamp Utilities**: `.text-clamp-2`, `.text-clamp-3`, `.text-clamp-4` for overflow control
+- **Hero Components**: All pages now use consistent `PageHeroWithImage` component
+
+### Routing Fixes ✅
+- **Sitemap Page**: Made public (removed admin protection)
+- **About Page**: Created new `/about` route with full company info
+- **Navigation**: All routes interconnected and accessible
+
+### Page Enhancements ✅
+- **Terms Page**: Added hero image, SEO meta tags
+- **Privacy Page**: Added hero image, SEO meta tags
+- **About Page**: Complete with hero, mission, stats, values, team sections
+- **Sitemap Updated**: Added About page link
+
+### Summary of Phase 9 Changes
+| Issue | Status | Solution |
+|-------|--------|----------|
+| Text on dark backgrounds | ✅ Fixed | Added text-overlay-muted CSS class |
+| Missing /about page | ✅ Fixed | Created About.tsx with full content |
+| /sitemap protected | ✅ Fixed | Made public route |
+| Text overflow | ✅ Fixed | Added text-clamp utilities |
+| Missing hero images | ✅ Fixed | Terms & Privacy now have heroes |
+
+---
+
 *Last updated: December 10, 2025*
 *Next security review: March 2026*

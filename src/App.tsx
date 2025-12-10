@@ -113,6 +113,7 @@ const VendorShowcase = lazy(() => import("./pages/VendorShowcase"));
 const ThemePreview = lazy(() => import("./pages/ThemePreview"));
 const DesignTokens = lazy(() => import("./pages/admin/DesignTokens"));
 const ComponentPlayground = lazy(() => import("./pages/admin/ComponentPlayground"));
+const About = lazy(() => import("./pages/About"));
 
 const queryClient = new QueryClient();
 
@@ -160,12 +161,11 @@ const App = () => (
                 <Route path="/vendors" element={<VendorMarketplace />} />
                 <Route path="/request-quote" element={<RequestQuote />} />
                 
-                {/* Admin-only Debug Pages - Hidden from public navigation, only in development */}
-                <Route path="/sitemap" element={
-                  <OptimizedProtectedRoute requiredRole="admin">
-                    <Sitemap />
-                  </OptimizedProtectedRoute>
-                } />
+                {/* Public Sitemap - SEO friendly, accessible to all */}
+                <Route path="/sitemap" element={<Sitemap />} />
+                
+                {/* About Page - Phase 9B */}
+                <Route path="/about" element={<About />} />
                 {import.meta.env.DEV && (
                   <Route path="/auth-test" element={
                     <OptimizedProtectedRoute requiredRole="admin">
