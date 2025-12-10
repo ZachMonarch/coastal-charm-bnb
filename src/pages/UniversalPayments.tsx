@@ -209,9 +209,9 @@ export default function UniversalPayments() {
         </div>
 
         <Tabs defaultValue="pending" className="space-y-4">
-          <TabsList>
-            <TabsTrigger value="pending">Pending ({pendingPayments.length})</TabsTrigger>
-            <TabsTrigger value="history">Payment History ({paidPayments.length})</TabsTrigger>
+          <TabsList variant="default">
+            <TabsTrigger variant="default" value="pending">Pending ({pendingPayments.length})</TabsTrigger>
+            <TabsTrigger variant="default" value="history">Payment History ({paidPayments.length})</TabsTrigger>
           </TabsList>
 
           <TabsContent value="pending">

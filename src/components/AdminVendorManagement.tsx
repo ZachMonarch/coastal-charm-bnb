@@ -163,10 +163,10 @@ export default function AdminVendorManagement() {
       </div>
 
       <Tabs defaultValue="vendors" className="space-y-4">
-        <TabsList>
-          <TabsTrigger value="vendors">All Vendors</TabsTrigger>
-          <TabsTrigger value="verification">Verification</TabsTrigger>
-          <TabsTrigger value="invitations">Invite Vendors</TabsTrigger>
+        <TabsList variant="default">
+          <TabsTrigger variant="default" value="vendors">All Vendors</TabsTrigger>
+          <TabsTrigger variant="default" value="verification">Verification</TabsTrigger>
+          <TabsTrigger variant="default" value="invitations">Invite Vendors</TabsTrigger>
         </TabsList>
 
         <TabsContent value="vendors" className="space-y-4">

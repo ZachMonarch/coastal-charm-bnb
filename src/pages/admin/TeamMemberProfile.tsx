@@ -204,12 +204,12 @@ export default function TeamMemberProfile() {
 
         {/* Tabs */}
         <Tabs defaultValue="activity" className="space-y-4">
-          <TabsList>
-            <TabsTrigger value="activity" className="gap-2">
+          <TabsList variant="default">
+            <TabsTrigger variant="default" value="activity" className="gap-2">
               <Activity className="h-4 w-4" />
               Activity History
             </TabsTrigger>
-            <TabsTrigger value="projects" className="gap-2">
+            <TabsTrigger variant="default" value="projects" className="gap-2">
               <Briefcase className="h-4 w-4" />
               Project Assignments
             </TabsTrigger>
