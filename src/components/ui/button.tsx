@@ -10,19 +10,19 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-md",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-md dark:bg-primary dark:text-primary-foreground dark:hover:bg-primary/80",
         destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90 hover:shadow-md",
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90 hover:shadow-md dark:bg-destructive dark:text-destructive-foreground",
         outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground hover:border-accent-foreground/20",
+          "border border-input bg-background text-foreground hover:bg-accent hover:text-accent-foreground hover:border-accent-foreground/20 dark:border-border dark:bg-background dark:text-foreground dark:hover:bg-muted dark:hover:text-foreground",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80 hover:shadow-sm",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline active:scale-100",
-        hero: "bg-overlay/20 text-overlay-foreground backdrop-blur-sm border border-overlay/30 hover:bg-overlay/30 dark:bg-overlay/30 dark:border-overlay/10 dark:hover:bg-overlay/40 shadow-lg hover:shadow-xl",
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80 hover:shadow-sm dark:bg-secondary dark:text-secondary-foreground",
+        ghost: "text-foreground hover:bg-accent hover:text-accent-foreground dark:text-foreground dark:hover:bg-muted dark:hover:text-foreground",
+        link: "text-primary underline-offset-4 hover:underline active:scale-100 dark:text-primary",
+        hero: "bg-overlay/20 text-white backdrop-blur-sm border border-white/30 hover:bg-overlay/30 shadow-lg hover:shadow-xl",
         heroSolid: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.99]",
-        neumorphic: "neumorphic-card hover:neumorphic-inset",
-        glass: "glass-card hover:bg-white/20 dark:hover:bg-black/30",
+        neumorphic: "neumorphic-card hover:neumorphic-inset text-foreground dark:text-foreground",
+        glass: "glass-card text-foreground hover:bg-white/20 dark:text-foreground dark:hover:bg-black/30",
         shimmer: "bg-gradient-to-r from-primary via-primary-light to-primary bg-[length:200%_100%] text-primary-foreground hover:bg-[position:100%_0] transition-all duration-500 shadow-md hover:shadow-primary/40",
         gradient: "bg-gradient-to-r from-primary to-primary-dark text-primary-foreground hover:shadow-lg hover:shadow-primary/30 hover:scale-[1.02] active:scale-[0.99]",
         glow: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_0_20px_hsl(var(--primary)/0.3)] hover:shadow-[0_0_30px_hsl(var(--primary)/0.5)] hover:scale-[1.02] active:scale-[0.99] transition-all duration-300",

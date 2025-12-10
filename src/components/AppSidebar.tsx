@@ -68,6 +68,12 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 // Vendor navigation configuration - organized into logical groups
 const vendorNavigationConfig: NavigationGroup[] = [
   {
+    title: "Navigation",
+    items: [
+      { title: "Home", url: "/", icon: "Home", description: "Back to main website" },
+    ]
+  },
+  {
     title: "Portal",
     items: [
       { title: "Dashboard", url: "/vendor", icon: "Gauge", description: "Overview of your vendor activities" },
@@ -107,9 +113,15 @@ const vendorNavigationConfig: NavigationGroup[] = [
 // Admin navigation configuration - organized into logical groups without duplicates
 const adminNavigationConfig: NavigationGroup[] = [
   {
+    title: "Navigation",
+    items: [
+      { title: "Home", url: "/", icon: "Home", description: "Back to main website" },
+    ]
+  },
+  {
     title: "Dashboard",
     items: [
-      { title: "Overview", url: "/dashboard", icon: "Home", description: "Dashboard overview" }
+      { title: "Overview", url: "/dashboard", icon: "Gauge", description: "Dashboard overview" }
     ]
   },
   {
@@ -177,9 +189,15 @@ const adminNavigationConfig: NavigationGroup[] = [
 // Property Manager navigation
 const propertyManagerNavigationConfig: NavigationGroup[] = [
   {
+    title: "Navigation",
+    items: [
+      { title: "Home", url: "/", icon: "Home", description: "Back to main website" },
+    ]
+  },
+  {
     title: "Dashboard",
     items: [
-      { title: "Overview", url: "/dashboard", icon: "Home", description: "Dashboard overview" }
+      { title: "Overview", url: "/dashboard", icon: "Gauge", description: "Dashboard overview" }
     ]
   },
   {
@@ -201,9 +219,15 @@ const propertyManagerNavigationConfig: NavigationGroup[] = [
 // Tenant navigation
 const tenantNavigationConfig: NavigationGroup[] = [
   {
+    title: "Navigation",
+    items: [
+      { title: "Home", url: "/", icon: "Home", description: "Back to main website" },
+    ]
+  },
+  {
     title: "Dashboard",
     items: [
-      { title: "Overview", url: "/dashboard", icon: "Home", description: "Dashboard overview" }
+      { title: "Overview", url: "/dashboard", icon: "Gauge", description: "Dashboard overview" }
     ]
   },
   {

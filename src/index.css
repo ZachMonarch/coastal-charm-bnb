@@ -734,6 +734,76 @@
     color: hsl(0 0% 100% / 0.8) !important;
   }
 
+  /* Muted overlay text - visible on dark backgrounds/overlays */
+  .text-overlay-muted {
+    color: hsl(0 0% 100% / 0.85) !important;
+  }
+
+  /* Bright overlay text - maximum visibility on dark backgrounds */
+  .text-overlay-bright {
+    color: hsl(0 0% 100%) !important;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  }
+
+  /* === SIDEBAR SCROLLBAR VISIBILITY === */
+  [data-sidebar] ::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  [data-sidebar] ::-webkit-scrollbar-track {
+    background: hsl(var(--sidebar) / 0.5);
+  }
+  
+  [data-sidebar] ::-webkit-scrollbar-thumb {
+    background: hsl(var(--sidebar-primary) / 0.4);
+    border-radius: 3px;
+  }
+  
+  [data-sidebar] ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--sidebar-primary) / 0.6);
+  }
+  
+  .dark [data-sidebar] ::-webkit-scrollbar-thumb {
+    background: hsl(var(--sidebar-primary) / 0.5);
+  }
+  
+  .dark [data-sidebar] ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--sidebar-primary) / 0.7);
+  }
+
+  /* === DARK MODE BUTTON TEXT VISIBILITY ENHANCEMENTS === */
+  .dark .btn-visible-text {
+    color: hsl(var(--foreground)) !important;
+  }
+
+  /* Ensure outline buttons have visible text in dark mode */
+  .dark button[class*="border"][class*="bg-background"],
+  .dark [role="button"][class*="border"][class*="bg-background"] {
+    color: hsl(var(--foreground));
+  }
+
+  /* === TEXT CLAMP UTILITIES === */
+  .text-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .text-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .text-clamp-4 {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
   /* Enhanced card with brand colors */
   .card-brand {
     border: 1px solid hsl(var(--primary) / 0.2);

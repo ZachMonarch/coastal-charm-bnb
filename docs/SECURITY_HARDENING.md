@@ -274,5 +274,37 @@ app.current_tenant() -- Returns user's tenant_id
 
 ---
 
+## Phase 10 Complete UI/UX Remediation (December 2025)
+
+### Dark Mode Button Visibility ✅
+- **Button Component Updated**: All variants now have explicit `dark:` prefixes
+- **Outline/Ghost Variants**: Proper `dark:text-foreground` and `dark:hover:text-foreground`
+- **Hero Buttons**: Fixed with white text always visible on overlays
+
+### Sidebar Scrollbar Visibility ✅
+- **CSS Added**: `[data-sidebar] ::-webkit-scrollbar-thumb` styling
+- **Light Mode**: Primary color at 40% opacity
+- **Dark Mode**: Primary color at 50% opacity with hover states
+
+### Home/Fallback Navigation ✅
+- **Sidebar Updated**: Added "Home" link at top of all role navigation configs
+- **Header Button**: Added persistent home button in dashboard header
+- **All Roles**: Admin, Vendor, Property Manager, Tenant - all have Home link
+
+### Services & Marketplace Interconnection ✅
+- **Services Page**: Added "Need a Contractor?" CTA linking to Vendor Marketplace
+- **Vendor Marketplace**: Added "Explore Our Services" CTA linking to Services
+- **Cross-navigation**: Bidirectional linking between related pages
+
+### Summary of Phase 10 Changes
+| Issue | Status | Solution |
+|-------|--------|----------|
+| Dark mode button text | ✅ Fixed | Added explicit dark: variants to button.tsx |
+| Sidebar scroll colors | ✅ Fixed | Added [data-sidebar] scrollbar CSS |
+| Missing home buttons | ✅ Fixed | Added Home link to all nav configs + header |
+| Service/Marketplace disconnect | ✅ Fixed | Added cross-navigation CTAs |
+
+---
+
 *Last updated: December 10, 2025*
 *Next security review: March 2026*
