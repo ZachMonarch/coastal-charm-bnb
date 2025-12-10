@@ -1,8 +1,9 @@
-import { Building2, Users, Shield, Settings, FileText, Phone, Image } from "lucide-react";
+import { Building2, Users, Shield, Settings, FileText, Phone, Image, Store, Wrench, Home, Star, Briefcase, LayoutDashboard, UserCheck, ClipboardList, FileSignature, CreditCard, HelpCircle, Map, Newspaper, BookMarked, Camera, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
+import PageHero from "@/components/shared/PageHero";
 
 const siteStructure = [
   {
@@ -11,81 +12,113 @@ const siteStructure = [
     pages: [
       { name: "Homepage", path: "/", description: "Welcome page with hero section and features" },
       { name: "Properties", path: "/properties", description: "Browse all available properties" },
-      { name: "Apartments", path: "/apartments", description: "Apartment listings and rentals" },
       { name: "Services", path: "/services", description: "Property management services" },
+      { name: "Property Management", path: "/services/property-management", description: "Full-service property management" },
+      { name: "Consultation", path: "/services/consultation", description: "Expert consultation services" },
+      { name: "Maintenance", path: "/services/maintenance", description: "Maintenance and repair services" },
       { name: "Gallery", path: "/gallery", description: "Property photos and virtual tours" },
-      { name: "Amenities", path: "/amenities", description: "Property amenities showcase" }
+      { name: "Amenities", path: "/amenities", description: "Property amenities showcase" },
+      { name: "News & Blog", path: "/news", description: "Industry news and updates" },
+      { name: "Contact", path: "/contact", description: "Get in touch with us" }
+    ]
+  },
+  {
+    category: "Vendor Marketplace",
+    icon: Store,
+    pages: [
+      { name: "Vendor Marketplace", path: "/vendors", description: "Browse verified service providers" },
+      { name: "Join as Vendor", path: "/join-as-vendor", description: "Become a Monarch vendor" },
+      { name: "Request Quote", path: "/request-quote", description: "Request quotes from vendors" }
     ]
   },
   {
     category: "User & Authentication",
     icon: Users,
     pages: [
-      { name: "Authentication", path: "/auth", description: "Login and registration" },
+      { name: "Sign In / Sign Up", path: "/auth", description: "Login and registration" },
       { name: "Dashboard", path: "/dashboard", description: "User dashboard and overview" },
       { name: "User Settings", path: "/settings", description: "Account settings and preferences" },
-      { name: "Tenant Portal", path: "/tenant-portal", description: "Tenant-specific features" }
+      { name: "User Profile", path: "/user-profile", description: "View and edit your profile" },
+      { name: "Bookmarks", path: "/bookmarks", description: "Saved articles and resources" }
     ]
   },
   {
-    category: "Booking & Payments",
-    icon: FileText,
+    category: "Property Manager Portal",
+    icon: LayoutDashboard,
     pages: [
-      { name: "Booking System", path: "/booking", description: "Property booking and scheduling" },
-      { name: "Payments", path: "/payments", description: "Payment processing and history" },
-      { name: "Subscriptions", path: "/subscriptions", description: "Subscription plans and billing" },
-      { name: "Payment Success", path: "/payment-success", description: "Payment confirmation" },
-      { name: "Payment Canceled", path: "/payment-canceled", description: "Payment cancellation" }
+      { name: "Property Dashboard", path: "/dashboard", description: "Property management overview" },
+      { name: "Properties", path: "/dashboard/properties", description: "Manage your properties" },
+      { name: "Tenants", path: "/dashboard/tenants", description: "Tenant management" },
+      { name: "Projects", path: "/dashboard/projects", description: "Project management" },
+      { name: "Settings", path: "/dashboard/settings", description: "Dashboard settings" }
     ]
   },
   {
-    category: "Vendor System",
-    icon: Settings,
+    category: "Vendor Portal",
+    icon: Briefcase,
     pages: [
-      { name: "Vendor Onboarding", path: "/vendor-onboarding", description: "New vendor registration" },
-      { name: "Vendor Portal", path: "/vendor-portal", description: "Vendor dashboard and projects" },
-      { name: "Enhanced RFQ System", path: "/rfq-system", description: "Comprehensive request for quote management" },
-      { name: "Vendor Management", path: "/vendor-management", description: "Complete vendor oversight system" }
+      { name: "Vendor Dashboard", path: "/vendor", description: "Vendor overview and stats" },
+      { name: "Vendor Profile", path: "/vendor/profile", description: "Manage your vendor profile" },
+      { name: "Projects", path: "/vendor/projects", description: "View and manage projects" },
+      { name: "RFQ System", path: "/vendor/rfq", description: "Request for quotes" },
+      { name: "Applications", path: "/vendor/applications", description: "Your job applications" },
+      { name: "Contracts", path: "/vendor/contracts", description: "Contract management" },
+      { name: "Payments", path: "/vendor/payments", description: "Payment history" },
+      { name: "Payouts", path: "/vendor/payouts", description: "Payout settings and history" },
+      { name: "Documents", path: "/vendor/documents", description: "Document management" },
+      { name: "Leads", path: "/vendor/leads", description: "Incoming leads" },
+      { name: "Reports", path: "/vendor/reports", description: "Performance reports" },
+      { name: "Subscription", path: "/vendor/subscription", description: "Subscription management" },
+      { name: "Onboarding", path: "/vendor/onboarding", description: "Complete your vendor setup" }
     ]
   },
   {
-    category: "Admin & Management",
+    category: "Admin Portal",
     icon: Shield,
     pages: [
       { name: "Admin Dashboard", path: "/admin", description: "Administrative overview" },
       { name: "User Management", path: "/admin/users", description: "Manage system users" },
       { name: "Vendor Management", path: "/admin/vendors", description: "Vendor oversight" },
-      { name: "Property Admin", path: "/admin/properties", description: "Property administration" },
-      { name: "Project Management", path: "/admin/projects", description: "RFQ and project oversight" },
-      { name: "Analytics", path: "/admin/analytics", description: "Business intelligence" },
-      { name: "Security Monitoring", path: "/admin/security", description: "System security" }
+      { name: "RFQ Management", path: "/admin/rfqs", description: "RFQ administration" },
+      { name: "Work Orders", path: "/admin/work-orders", description: "Work order management" },
+      { name: "Team Management", path: "/admin/team", description: "Staff management" },
+      { name: "Tenants", path: "/admin/tenants", description: "Tenant administration" },
+      { name: "Invoices", path: "/admin/invoices", description: "Invoice management" },
+      { name: "Audit Log", path: "/admin/audit", description: "System audit logs" },
+      { name: "Security", path: "/admin/security", description: "Security monitoring" },
+      { name: "Monitoring", path: "/admin/monitoring", description: "System health" },
+      { name: "Labs", path: "/admin/labs", description: "Experimental features" }
     ]
   },
   {
     category: "Information & Legal",
     icon: FileText,
     pages: [
-      { name: "Contact", path: "/contact", description: "Contact information and forms" },
       { name: "Terms of Service", path: "/terms", description: "Legal terms and conditions" },
       { name: "Privacy Policy", path: "/privacy", description: "Privacy policy and data handling" },
-      { name: "Site Map", path: "/sitemap", description: "Complete site navigation overview" }
+      { name: "Design System", path: "/design-system", description: "Design system showcase" }
     ]
   }
 ];
 
 export default function Sitemap() {
+  const totalPages = siteStructure.reduce((acc, section) => acc + section.pages.length, 0);
+  
   return (
     <div className="min-h-screen">
       <main className="p-6">
         <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent">
-              Site Map
-            </h1>
-            <p className="text-muted-foreground text-lg">
-              Complete navigation overview of our property management platform
-            </p>
-          </div>
+          {/* Hero Section */}
+          <PageHero
+            title="Site Map"
+            description="Complete navigation overview of our property management platform"
+            icon={Map}
+            variant="secondary"
+            stats={[
+              { label: 'Categories', value: siteStructure.length, icon: Globe, color: 'info' },
+              { label: 'Total Pages', value: totalPages, icon: FileText, color: 'success' },
+            ]}
+          />
 
           <div className="space-y-8">
             {siteStructure.map((section, index) => (

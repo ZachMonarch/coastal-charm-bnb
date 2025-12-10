@@ -252,9 +252,9 @@ export default function VendorMarketplace() {
                             {getInitials(vendor.company_name)}
                           </AvatarFallback>
                         </Avatar>
-                        <div className="flex-1 min-w-0">
+                          <div className="flex-1 min-w-0 overflow-hidden">
                           <div className="flex items-center gap-2">
-                            <CardTitle className="text-lg truncate">
+                            <CardTitle className="text-lg truncate max-w-[200px]">
                               {vendor.company_name}
                             </CardTitle>
                             {vendor.is_verified && (
@@ -271,9 +271,9 @@ export default function VendorMarketplace() {
                       </div>
                     </CardHeader>
                     
-                    <CardContent className="space-y-4">
-                      {/* Description */}
-                      <CardDescription className="line-clamp-2">
+                    <CardContent className="space-y-4 overflow-hidden">
+                      {/* Description with text truncation */}
+                      <CardDescription className="line-clamp-2 break-words">
                         {vendor.description || "Professional service provider ready to help with your property needs."}
                       </CardDescription>
 
