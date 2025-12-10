@@ -43,11 +43,11 @@ export default function VendorDashboardContent({ canApply, canViewAll }: VendorD
 
   return (
     <Tabs defaultValue="projects" className="space-y-6">
-      <TabsList variant="default" className="w-full sm:w-auto">
-        <TabsTrigger value="projects" variant="default">Available Projects</TabsTrigger>
-        <TabsTrigger value="applications" variant="default">My Applications</TabsTrigger>
-        <TabsTrigger value="profile" variant="default">Profile</TabsTrigger>
-        <TabsTrigger value="payments" variant="default">Payments</TabsTrigger>
+      <TabsList variant="pills" className="w-full sm:w-auto flex-wrap">
+        <TabsTrigger variant="pills" value="projects">Available Projects</TabsTrigger>
+        <TabsTrigger variant="pills" value="applications">My Applications</TabsTrigger>
+        <TabsTrigger variant="pills" value="profile">Profile</TabsTrigger>
+        <TabsTrigger variant="pills" value="payments">Payments</TabsTrigger>
       </TabsList>
 
       <TabsContent value="projects" className="space-y-6">

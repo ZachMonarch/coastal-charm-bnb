@@ -205,10 +205,10 @@ const Dashboard = () => {
 
         {/* Role-specific content */}
         <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="neumorphic-card p-2">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="properties">Properties</TabsTrigger>
-            <TabsTrigger value="reports">Reports</TabsTrigger>
+          <TabsList variant="default" className="neumorphic-card p-2">
+            <TabsTrigger variant="default" value="overview">Overview</TabsTrigger>
+            <TabsTrigger variant="default" value="properties">Properties</TabsTrigger>
+            <TabsTrigger variant="default" value="reports">Reports</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview" className="mt-6">
