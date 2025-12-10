@@ -16,7 +16,7 @@ import {
   CheckCircle2, XCircle, Eye, Send, AlertCircle, Zap, Filter, Target
 } from "lucide-react";
 import EnhancedPageBackground from "@/components/shared/EnhancedPageBackground";
-import PageHero from "@/components/shared/PageHero";
+import PageHeroWithImage from "@/components/shared/PageHeroWithImage";
 import StatsCard from "@/components/shared/StatsCard";
 import PrivatePageWrapper from "@/components/PrivatePageWrapper";
 import { formatDistanceToNow } from "date-fns";
@@ -251,11 +251,11 @@ export default function VendorLeads() {
     <PrivatePageWrapper title="Leads">
       <EnhancedPageBackground pattern="mesh" gradient="radial" primaryColor="warning" intensity="subtle" showOrbs>
         <div className="container mx-auto px-4 py-8">
-          <PageHero
+          <PageHeroWithImage
             title="Vendor Leads"
             description="Browse and respond to quote requests in your service area"
             icon={Target}
-            variant="gradient"
+            backgroundImage="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1920&q=80"
           />
 
           {/* Stats Grid */}

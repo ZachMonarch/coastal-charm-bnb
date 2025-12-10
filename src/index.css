@@ -745,30 +745,61 @@
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
   }
 
-  /* === SIDEBAR SCROLLBAR VISIBILITY === */
+  /* === SIDEBAR SCROLLBAR VISIBILITY - HIGH CONTRAST === */
   [data-sidebar] ::-webkit-scrollbar {
-    width: 6px;
+    width: 8px;
   }
   
   [data-sidebar] ::-webkit-scrollbar-track {
-    background: hsl(var(--sidebar) / 0.5);
+    background: hsl(var(--sidebar) / 0.3);
+    border-radius: 4px;
   }
   
   [data-sidebar] ::-webkit-scrollbar-thumb {
-    background: hsl(var(--sidebar-primary) / 0.4);
-    border-radius: 3px;
+    background: hsl(var(--sidebar-primary) / 0.7);
+    border-radius: 4px;
+    border: 1px solid hsl(var(--sidebar-primary) / 0.3);
   }
   
   [data-sidebar] ::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--sidebar-primary) / 0.6);
+    background: hsl(var(--sidebar-primary) / 0.9);
+  }
+  
+  .dark [data-sidebar] ::-webkit-scrollbar-track {
+    background: hsl(var(--sidebar) / 0.2);
   }
   
   .dark [data-sidebar] ::-webkit-scrollbar-thumb {
-    background: hsl(var(--sidebar-primary) / 0.5);
+    background: hsl(var(--sidebar-primary) / 0.8);
+    border: 1px solid hsl(var(--sidebar-primary) / 0.4);
   }
   
   .dark [data-sidebar] ::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--sidebar-primary) / 0.7);
+    background: hsl(var(--sidebar-primary));
+  }
+
+  /* === GLOBAL SCROLL AREA VISIBILITY === */
+  .scroll-area-visible ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .scroll-area-visible ::-webkit-scrollbar-track {
+    background: hsl(var(--muted) / 0.5);
+    border-radius: 4px;
+  }
+  
+  .scroll-area-visible ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.6);
+    border-radius: 4px;
+  }
+  
+  .scroll-area-visible ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.8);
+  }
+  
+  .dark .scroll-area-visible ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.7);
   }
 
   /* === DARK MODE BUTTON TEXT VISIBILITY ENHANCEMENTS === */
@@ -780,6 +811,27 @@
   .dark button[class*="border"][class*="bg-background"],
   .dark [role="button"][class*="border"][class*="bg-background"] {
     color: hsl(var(--foreground));
+  }
+
+  /* Navigation link visibility in dark mode */
+  .dark .nav-link-visible,
+  .dark a.nav-link-visible {
+    color: hsl(var(--foreground)) !important;
+  }
+  
+  .dark .nav-link-visible:hover {
+    color: hsl(var(--primary)) !important;
+  }
+  
+  /* Hero text on dark backgrounds */
+  .hero-text-visible {
+    color: hsl(0 0% 100%);
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8), 0 4px 20px rgba(0, 0, 0, 0.6);
+  }
+  
+  .hero-text-visible-muted {
+    color: hsl(0 0% 95%);
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.7);
   }
 
   /* === TEXT CLAMP UTILITIES === */

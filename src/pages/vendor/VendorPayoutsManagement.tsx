@@ -13,7 +13,7 @@ import { DollarSign, Download, Settings, TrendingUp, CheckCircle2, Clock, Messag
 import { useNavigate } from 'react-router-dom';
 import { Label } from '@/components/ui/label';
 import EnhancedPageBackground from '@/components/shared/EnhancedPageBackground';
-import PageHero from '@/components/shared/PageHero';
+import PageHeroWithImage from '@/components/shared/PageHeroWithImage';
 import StatsCard from '@/components/shared/StatsCard';
 import DashboardChart from '@/components/shared/DashboardChart';
 import EmptyStateIllustration from '@/components/shared/EmptyStateIllustration';
@@ -220,11 +220,11 @@ export default function VendorPayoutsManagement() {
     <PrivatePageWrapper title="Payouts">
       <EnhancedPageBackground pattern="mesh" gradient="radial" primaryColor="success" intensity="subtle" showOrbs>
         <div className="container mx-auto py-6 space-y-6">
-          <PageHero
+          <PageHeroWithImage
             title="My Payouts"
             description="View payouts from admin and request withdrawals"
             icon={Wallet}
-            variant="gradient"
+            backgroundImage="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1920&q=80"
             actions={[
               { label: 'Payout Settings', href: '/vendor/payout-settings' }
             ]}

@@ -10,7 +10,7 @@ import { RFQStatusBadge } from '@/components/rfq/shared/RFQStatusBadge';
 import { Badge } from '@/components/ui/badge';
 import { Clock, FileText, DollarSign, Briefcase, TrendingUp } from 'lucide-react';
 import EnhancedPageBackground from '@/components/shared/EnhancedPageBackground';
-import PageHero from '@/components/shared/PageHero';
+import PageHeroWithImage from '@/components/shared/PageHeroWithImage';
 import StatsCard from '@/components/shared/StatsCard';
 import DashboardChart from '@/components/shared/DashboardChart';
 import EmptyStateIllustration from '@/components/shared/EmptyStateIllustration';
@@ -97,11 +97,11 @@ export default function VendorRFQDashboard() {
     <PrivatePageWrapper title="RFQ Dashboard" showFooter={true}>
       <EnhancedPageBackground pattern="mesh" gradient="radial" primaryColor="primary" intensity="subtle" showOrbs>
         <div className="container mx-auto py-6 space-y-6">
-          <PageHero
+          <PageHeroWithImage
             title="RFQ Dashboard"
             description="View invitations and manage your bids for property management projects"
             icon={Briefcase}
-            variant="primary"
+            backgroundImage="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1920&q=80"
           />
 
           {/* Stats Grid */}
