@@ -95,7 +95,7 @@ export default function Navbar() {
       </a>
 
       <header className={cn("fixed top-0 left-0 right-0 z-[150] transition-all duration-500", scrolled ? "bg-card shadow-xl border-b-2 border-primary/30 py-3" : "bg-card/95 backdrop-blur-md py-5 shadow-md border-b border-border")}>
-        <nav aria-label="Main navigation" className="container flex justify-between items-center text-foreground">
+        <nav aria-label="Main navigation" className="container flex justify-between items-center">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3 group hover:opacity-90 transition-opacity focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none rounded-lg">
             <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-primary/5 dark:from-primary/30 dark:to-primary/10 border-2 border-primary/40 dark:border-primary/50 rounded-xl p-2 flex items-center justify-center shadow-md shadow-primary/10 dark:shadow-primary/30 transition-all duration-300">
@@ -112,7 +112,7 @@ export default function Navbar() {
           {/* Desktop Navigation */}
           <ul className="hidden lg:flex space-x-1 items-center relative z-[200]">
             <li>
-              <Link to="/" className={cn("px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200", "text-foreground hover:text-primary hover:bg-primary/10", "relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2", "after:w-0 hover:after:w-3/4 after:h-0.5 after:bg-primary after:transition-all", "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none", location.pathname === "/" && "text-primary after:w-3/4")}>
+              <Link to="/" className={cn("px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200", "text-foreground hover:text-primary hover:bg-primary/10 dark:text-foreground", "relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2", "after:w-0 hover:after:w-3/4 after:h-0.5 after:bg-primary after:transition-all", "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none", location.pathname === "/" && "text-primary after:w-3/4")}>
                 {t.nav.home}
               </Link>
             </li>
@@ -123,7 +123,7 @@ export default function Navbar() {
               <NavDropdown label="Services" items={servicesDropdownItems} />
             </li>
             {simpleNavLinks.slice(1).map(link => <li key={link.id}>
-                <Link to={link.path} className={cn("px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200", "text-foreground hover:text-primary hover:bg-primary/10", "relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2", "after:w-0 hover:after:w-3/4 after:h-0.5 after:bg-primary after:transition-all", "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none", location.pathname === link.path && "text-primary after:w-3/4")}>
+                <Link to={link.path} className={cn("px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200", "text-foreground hover:text-primary hover:bg-primary/10 dark:text-foreground", "relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2", "after:w-0 hover:after:w-3/4 after:h-0.5 after:bg-primary after:transition-all", "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none", location.pathname === link.path && "text-primary after:w-3/4")}>
                   {link.name}
                 </Link>
               </li>)}
