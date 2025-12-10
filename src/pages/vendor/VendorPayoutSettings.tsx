@@ -12,7 +12,7 @@ import PrivatePageWrapper from '@/components/PrivatePageWrapper';
 import { CheckCircle, AlertCircle, DollarSign, CreditCard, Building2, Settings } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import EnhancedPageBackground from '@/components/shared/EnhancedPageBackground';
-import PageHero from '@/components/shared/PageHero';
+import PageHeroWithImage from '@/components/shared/PageHeroWithImage';
 
 interface PayoutSettings {
   id: string;
@@ -216,11 +216,11 @@ export default function VendorPayoutSettings() {
     <PrivatePageWrapper title="Payout Settings">
       <EnhancedPageBackground pattern="mesh" gradient="radial" primaryColor="info" intensity="subtle" showOrbs>
         <div className="max-w-2xl mx-auto py-6 space-y-6">
-          <PageHero
+          <PageHeroWithImage
             title="Payout Settings"
             description="Configure how you receive payments"
             icon={Settings}
-            variant="gradient"
+            backgroundImage="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1920&q=80"
           />
 
         {/* Verification Status */}

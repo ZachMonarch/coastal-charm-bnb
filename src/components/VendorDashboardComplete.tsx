@@ -37,7 +37,7 @@ import ReusableAvatar from './Avatar';
 import { Link } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import VendorAssignedProjectsList from './VendorAssignedProjectsList';
-import PageHero from './shared/PageHero';
+import PageHeroWithImage from './shared/PageHeroWithImage';
 import StatsCard from './shared/StatsCard';
 import EnhancedPageBackground from './shared/EnhancedPageBackground';
 
@@ -124,18 +124,12 @@ export default function VendorDashboardComplete({ canApply, canViewAll }: Vendor
   return (
     <EnhancedPageBackground pattern="dots" gradient="mesh" intensity="subtle" showOrbs={true}>
       <div className="container mx-auto px-4 py-8 space-y-8">
-        {/* Enhanced Hero Section */}
-        <PageHero
+        {/* Enhanced Hero Section with Image */}
+        <PageHeroWithImage
           title={user?.vendor?.companyName || user?.name || 'Vendor Dashboard'}
           description="Manage your projects, applications, and business profile"
           icon={Briefcase}
-          variant="gradient"
-          showDecorations={true}
-          stats={[
-            { label: 'Applications', value: vendorStats.totalApplications, icon: FileText, color: 'info' },
-            { label: 'Active', value: vendorStats.activeProjects, icon: Clock, color: 'warning' },
-            { label: 'Completed', value: vendorStats.completedProjects, icon: CheckCircle, color: 'success' },
-          ]}
+          backgroundImage="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1920&q=80"
         />
 
         {/* Subscription Status */}
