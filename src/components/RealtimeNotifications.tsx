@@ -179,8 +179,8 @@ export default function RealtimeNotifications() {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline" size="icon" className="relative min-h-[40px] min-w-[40px] w-10 h-10 rounded-full border border-border/60 bg-muted hover:border-primary/50 hover:bg-primary/15 shadow-sm">
-          <Bell className="h-4 w-4 text-card-foreground" />
+        <Button variant="ghost" size="icon" className="relative min-h-[40px] min-w-[40px] w-10 h-10 rounded-full border border-border/40 dark:border-border/60 bg-transparent hover:border-primary/50 hover:bg-muted/50">
+          <Bell className="h-4 w-4 text-muted-foreground" />
           {unreadCount > 0 && (
             <Badge 
               variant="destructive" 
