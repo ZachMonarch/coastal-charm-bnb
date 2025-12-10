@@ -3938,10 +3938,6 @@ export type Database = {
       }
       assign_vendor_to_project:
         | {
-            Args: { project_id_param: string; vendor_id_param: string }
-            Returns: Json
-          }
-        | {
             Args: {
               p_assigned_by?: string
               p_estimated_hours?: number
@@ -3950,6 +3946,10 @@ export type Database = {
               p_vendor_id: string
             }
             Returns: undefined
+          }
+        | {
+            Args: { project_id_param: string; vendor_id_param: string }
+            Returns: Json
           }
       award_contract: {
         Args: {
@@ -4158,12 +4158,12 @@ export type Database = {
       test_connection: { Args: never; Returns: string }
       update_project_status:
         | {
-            Args: { new_status: string; project_id_param: string }
-            Returns: Json
-          }
-        | {
             Args: { p_project_id: string; p_status: string; p_user_id?: string }
             Returns: undefined
+          }
+        | {
+            Args: { new_status: string; project_id_param: string }
+            Returns: Json
           }
       update_vendor_profile_secure: {
         Args: {
