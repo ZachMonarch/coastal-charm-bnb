@@ -124,30 +124,30 @@ export default function UnifiedSettings() {
         </div>
 
         <Tabs defaultValue="profile" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2 lg:grid-cols-6 bg-muted/50 border border-border/50 p-1">
-            <TabsTrigger value="profile" className="flex items-center gap-2 data-[state=active]:bg-primary/10 data-[state=active]:text-primary data-[state=active]:border-primary/30 data-[state=active]:shadow-sm">
+          <TabsList variant="colorful" className="flex flex-wrap w-full lg:w-fit">
+            <TabsTrigger value="profile" variant="colorful">
               <User className="h-4 w-4" />
               <span className="hidden sm:inline">Profile</span>
             </TabsTrigger>
-            <TabsTrigger value="security" className="flex items-center gap-2 data-[state=active]:bg-info/10 data-[state=active]:text-info data-[state=active]:shadow-sm">
+            <TabsTrigger value="security" variant="colorful">
               <Shield className="h-4 w-4" />
               <span className="hidden sm:inline">Security</span>
             </TabsTrigger>
-            <TabsTrigger value="notifications" className="flex items-center gap-2 data-[state=active]:bg-warning/10 data-[state=active]:text-warning data-[state=active]:shadow-sm">
+            <TabsTrigger value="notifications" variant="colorful">
               <Bell className="h-4 w-4" />
               <span className="hidden sm:inline">Notifications</span>
             </TabsTrigger>
             {isVendor && (
-              <TabsTrigger value="billing" className="flex items-center gap-2 data-[state=active]:bg-success/10 data-[state=active]:text-success data-[state=active]:shadow-sm">
+              <TabsTrigger value="billing" variant="colorful">
                 <CreditCard className="h-4 w-4" />
                 <span className="hidden sm:inline">Billing</span>
               </TabsTrigger>
             )}
-            <TabsTrigger value="preferences" className="flex items-center gap-2 data-[state=active]:bg-secondary/10 data-[state=active]:text-secondary data-[state=active]:shadow-sm">
+            <TabsTrigger value="preferences" variant="colorful">
               <Globe className="h-4 w-4" />
               <span className="hidden sm:inline">Preferences</span>
             </TabsTrigger>
-            <TabsTrigger value="appearance" className="flex items-center gap-2 data-[state=active]:bg-accent/20 data-[state=active]:text-accent-foreground data-[state=active]:shadow-sm">
+            <TabsTrigger value="appearance" variant="colorful">
               <Monitor className="h-4 w-4" />
               <span className="hidden sm:inline">Appearance</span>
             </TabsTrigger>
