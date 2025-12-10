@@ -124,7 +124,7 @@ export default function UnifiedSettings() {
         </div>
 
         <Tabs defaultValue="profile" className="space-y-6">
-          <TabsList variant="colorful" className="flex flex-wrap w-full lg:w-fit">
+          <TabsList variant="colorful" className="w-full lg:w-auto">
             <TabsTrigger value="profile" variant="colorful">
               <User className="h-4 w-4" />
               <span className="hidden sm:inline">Profile</span>
