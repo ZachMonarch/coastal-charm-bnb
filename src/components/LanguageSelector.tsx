@@ -42,24 +42,24 @@ export default function LanguageSelector() {
     <div className="flex items-center">
       <Select value={language} onValueChange={handleLanguageChange}>
         <SelectTrigger 
-          className="w-[80px] h-10 min-h-[44px] border-2 border-border bg-muted hover:bg-primary/15 hover:border-primary/50 focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors shadow-md rounded-lg" 
+          className="w-[80px] h-10 min-h-[44px] border border-border bg-card hover:bg-primary/10 hover:border-primary/50 focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors shadow-sm" 
           aria-label="Select Language"
         >
           <div className="flex items-center space-x-2">
-            <Globe className="h-4 w-4 text-primary drop-shadow-sm" />
+            <Globe className="h-4 w-4 text-primary" />
             <SelectValue placeholder="Select language" />
           </div>
         </SelectTrigger>
-        <SelectContent align="start" className="w-[160px] z-[500] bg-popover border-2 border-border rounded-xl shadow-xl">
+        <SelectContent align="start" className="w-[160px] z-[500] bg-popover border-border dark:border-border/50">
           {languages.map((language) => (
             <SelectItem 
               key={language.code} 
               value={language.code} 
-              className="cursor-pointer rounded-lg hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+              className="cursor-pointer rounded-md hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
             >
               <div className="flex items-center space-x-2">
                 <span>{language.flag}</span>
-                <span className="text-popover-foreground">{language.name}</span>
+                <span className="text-foreground">{language.name}</span>
               </div>
             </SelectItem>
           ))}
