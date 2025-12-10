@@ -216,6 +216,30 @@ export default function Services() {
             </div>
           </div>
 
+          {/* Find a Contractor CTA - Phase 10 Cross-Navigation */}
+          <div className="neumorphic-card p-12 rounded-3xl mb-16 animate-fade-in border-info/20 bg-gradient-to-br from-info/5 to-transparent">
+            <div className="text-center">
+              <Users className="h-12 w-12 text-info mx-auto mb-4" />
+              <h2 className="text-3xl font-bold mb-4 text-foreground">Need a Contractor?</h2>
+              <p className="text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
+                Browse our network of verified vendors and contractors. Find trusted professionals for plumbing, electrical, HVAC, landscaping, and more.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link to="/vendors">
+                  <Button size="lg" className="text-lg px-8 py-3 group shadow-lg shadow-info/20 hover:shadow-info/40 bg-info hover:bg-info/90 text-info-foreground">
+                    Browse Vendor Marketplace
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </Link>
+                <Link to="/join-as-vendor">
+                  <Button variant="outline" size="lg" className="text-lg px-8 py-3 border-info/40 hover:border-info hover:bg-info/10">
+                    Join as a Vendor
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+
           {/* CTA Section - Phase 2 & 3 Enhanced */}
           <div className="text-center neumorphic-card p-12 rounded-3xl animate-fade-in border-primary/20">
             <h2 className="text-3xl font-bold mb-4 text-foreground">Ready to Get Started?</h2>

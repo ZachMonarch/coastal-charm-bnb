@@ -360,6 +360,27 @@ export default function VendorMarketplace() {
             </div>
           </div>
         </section>
+
+        {/* Cross-Navigation to Services - Phase 10 */}
+        <section className="py-16 bg-gradient-to-br from-primary/5 to-secondary/5 border-t border-border">
+          <div className="container mx-auto px-4 text-center">
+            <h2 className="text-2xl md:text-3xl font-serif font-bold text-foreground mb-4">
+              Explore Our Services
+            </h2>
+            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+              Discover our comprehensive property management services including 24/7 maintenance, smart home technology, and concierge services.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" variant="default" onClick={() => navigate('/services')}>
+                View All Services
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+              <Button size="lg" variant="outline" onClick={() => navigate('/properties')}>
+                Browse Properties
+              </Button>
+            </div>
+          </div>
+        </section>
         </div>
       </EnhancedPageBackground>
     </>

@@ -48,7 +48,7 @@ export default function OptimizedLayout({ children }: LayoutProps) {
       <SidebarProvider defaultOpen={true}>
         <div className="flex min-h-screen w-full bg-background">
           <AppSidebar />
-          <main id="main-content" role="main" aria-label="Main content" className="flex-1 flex flex-col min-w-0">
+            <main id="main-content" role="main" aria-label="Main content" className="flex-1 flex flex-col min-w-0">
             {/* Global header with sidebar trigger - ALWAYS visible and prominent */}
             <header className="sticky top-0 z-[100] h-16 flex items-center border-b border-border bg-card/95 backdrop-blur-sm shadow-md">
               <div className="flex items-center gap-4 px-4 md:px-6 w-full">
@@ -60,6 +60,15 @@ export default function OptimizedLayout({ children }: LayoutProps) {
                      location.pathname.includes('/vendor') ? 'Vendor Portal' : 'Dashboard'}
                   </h1>
                 </div>
+                {/* Home button for quick navigation back */}
+                <a 
+                  href="/" 
+                  className="shrink-0 h-9 px-3 flex items-center gap-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent border border-border transition-colors"
+                  title="Back to Home"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                  <span className="hidden sm:inline">Home</span>
+                </a>
               </div>
             </header>
             
