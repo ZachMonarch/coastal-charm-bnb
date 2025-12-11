@@ -58,11 +58,12 @@ export default function MobileDrawer({
 
   return (
     <div 
+      id="mobile-menu"
       role="dialog"
       aria-modal="true"
       aria-label={title || "Mobile navigation"}
       className={cn(
-        "fixed inset-0 z-[160] backdrop-blur-md lg:hidden transition-all duration-300",
+        "fixed inset-0 z-[200] backdrop-blur-md lg:hidden transition-all duration-300",
         isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
       )}
     >

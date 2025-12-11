@@ -290,13 +290,6 @@ export type Database = {
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "bookings_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "v_users"
-            referencedColumns: ["id"]
-          },
         ]
       }
       compliance_docs: {
@@ -1040,24 +1033,10 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "payment_refunds_processed_by_fkey"
-            columns: ["processed_by"]
-            isOneToOne: false
-            referencedRelation: "v_users"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "payment_refunds_requested_by_fkey"
             columns: ["requested_by"]
             isOneToOne: false
             referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "payment_refunds_requested_by_fkey"
-            columns: ["requested_by"]
-            isOneToOne: false
-            referencedRelation: "v_users"
             referencedColumns: ["id"]
           },
         ]
@@ -1211,24 +1190,10 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "profile_name_audit_changed_by_fkey"
-            columns: ["changed_by"]
-            isOneToOne: false
-            referencedRelation: "v_users"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "profile_name_audit_profile_id_fkey"
             columns: ["profile_id"]
             isOneToOne: false
             referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "profile_name_audit_profile_id_fkey"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "v_users"
             referencedColumns: ["id"]
           },
         ]
@@ -1461,13 +1426,6 @@ export type Database = {
             columns: ["uploaded_by"]
             isOneToOne: false
             referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "project_documents_uploaded_by_fkey"
-            columns: ["uploaded_by"]
-            isOneToOne: false
-            referencedRelation: "v_users"
             referencedColumns: ["id"]
           },
         ]
@@ -1735,13 +1693,6 @@ export type Database = {
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "property_inquiries_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "v_users"
             referencedColumns: ["id"]
           },
         ]
@@ -2511,13 +2462,6 @@ export type Database = {
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "transactions_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "v_users"
-            referencedColumns: ["id"]
-          },
         ]
       }
       user_notification_settings: {
@@ -2593,24 +2537,10 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "user_roles_granted_by_fkey"
-            columns: ["granted_by"]
-            isOneToOne: false
-            referencedRelation: "v_users"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "user_roles_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "user_roles_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "v_users"
             referencedColumns: ["id"]
           },
         ]
@@ -2691,13 +2621,6 @@ export type Database = {
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "vendor_applications_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "v_users"
             referencedColumns: ["id"]
           },
         ]
@@ -2814,13 +2737,6 @@ export type Database = {
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "vendor_document_comments_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "v_users"
             referencedColumns: ["id"]
           },
         ]
@@ -3245,24 +3161,10 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "vendor_payout_settings_vendor_id_fkey"
-            columns: ["vendor_id"]
-            isOneToOne: true
-            referencedRelation: "v_users"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "vendor_payout_settings_verified_by_fkey"
             columns: ["verified_by"]
             isOneToOne: false
             referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "vendor_payout_settings_verified_by_fkey"
-            columns: ["verified_by"]
-            isOneToOne: false
-            referencedRelation: "v_users"
             referencedColumns: ["id"]
           },
         ]
@@ -3331,13 +3233,6 @@ export type Database = {
             columns: ["processed_by"]
             isOneToOne: false
             referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "vendor_payouts_processed_by_fkey"
-            columns: ["processed_by"]
-            isOneToOne: false
-            referencedRelation: "v_users"
             referencedColumns: ["id"]
           },
         ]
@@ -3532,24 +3427,10 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "vendor_profiles_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: true
-            referencedRelation: "v_users"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "vendor_profiles_verification_approved_by_fkey"
             columns: ["verification_approved_by"]
             isOneToOne: false
             referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "vendor_profiles_verification_approved_by_fkey"
-            columns: ["verification_approved_by"]
-            isOneToOne: false
-            referencedRelation: "v_users"
             referencedColumns: ["id"]
           },
         ]
@@ -3861,51 +3742,6 @@ export type Database = {
         }
         Relationships: []
       }
-      security_dashboard: {
-        Row: {
-          audit_logs_24h: number | null
-          events_24h: number | null
-          failed_logins_24h: number | null
-          high_severity_7d: number | null
-        }
-        Relationships: []
-      }
-      v_users: {
-        Row: {
-          avatar_url: string | null
-          created_at: string | null
-          email: string | null
-          full_name: string | null
-          id: string | null
-          phone: string | null
-          role: string | null
-          status: string | null
-          updated_at: string | null
-        }
-        Insert: {
-          avatar_url?: string | null
-          created_at?: string | null
-          email?: string | null
-          full_name?: string | null
-          id?: string | null
-          phone?: string | null
-          role?: string | null
-          status?: string | null
-          updated_at?: string | null
-        }
-        Update: {
-          avatar_url?: string | null
-          created_at?: string | null
-          email?: string | null
-          full_name?: string | null
-          id?: string | null
-          phone?: string | null
-          role?: string | null
-          status?: string | null
-          updated_at?: string | null
-        }
-        Relationships: []
-      }
     }
     Functions: {
       admin_approve_vendor:
@@ -4166,9 +4002,7 @@ export type Database = {
         Returns: Json
       }
       is_admin: { Args: never; Returns: boolean }
-      is_admin_user:
-        | { Args: never; Returns: boolean }
-        | { Args: { user_uuid: string }; Returns: boolean }
+      is_admin_user: { Args: { user_uuid?: string }; Returns: boolean }
       is_dashboard_query: { Args: never; Returns: boolean }
       log_audit_event: {
         Args: {
