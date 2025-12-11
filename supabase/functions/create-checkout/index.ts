@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@14.21.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
+import { getCorsHeaders, handleCorsPreflightRequest } from "../_shared/cors.ts";
 
 const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY') || '', {
   apiVersion: '2023-10-16',
@@ -10,11 +11,6 @@ const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY') || '', {
 const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
 const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
-
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
 
 // Input validation schema
 const CheckoutRequestSchema = z.object({
@@ -53,9 +49,10 @@ interface CheckoutRequest {
 
 const handler = async (req: Request): Promise<Response> => {
   // Handle CORS preflight requests
-  if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
-  }
+  const preflightResponse = handleCorsPreflightRequest(req);
+  if (preflightResponse) return preflightResponse;
+
+  const corsHeaders = getCorsHeaders(req);
 
   try {
     // Get user from authorization header
@@ -115,7 +112,7 @@ const handler = async (req: Request): Promise<Response> => {
       .eq('id', user.id)
       .single();
 
-    const baseUrl = req.headers.get('origin') || 'https://your-domain.com';
+    const baseUrl = req.headers.get('origin') || 'https://monarchpropertymmgt.com';
     
     // Configure session based on type
     const sessionConfig: any = {
@@ -243,7 +240,6 @@ const handler = async (req: Request): Promise<Response> => {
 
     if (transactionError) {
       console.error('Error creating transaction record:', transactionError);
-      // Don't fail the request, but log the error
     }
 
     console.log('Checkout session created successfully:', session.id);
@@ -265,7 +261,6 @@ const handler = async (req: Request): Promise<Response> => {
   } catch (error: unknown) {
     console.error('Error in create-checkout function:', error);
     
-    // Return generic error (security: don't leak details)
     return new Response(
       JSON.stringify({ 
         error: 'Unable to create checkout session',
