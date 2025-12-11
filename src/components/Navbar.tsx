@@ -129,11 +129,21 @@ export default function Navbar() {
               </li>)}
           </ul>
 
-          <div className="hidden md:flex items-center space-x-3 px-3 py-1.5 rounded-lg border border-border">
-            <LanguageSelector />
-            <ThemeToggle />
-            {isAuthenticated && <RealtimeNotifications />}
-            <OptimizedUserMenu />
+          <div className="hidden md:flex items-center space-x-3">
+            <div className="rounded-lg border border-border p-1">
+              <LanguageSelector />
+            </div>
+            <div className="rounded-lg border border-border p-1">
+              <ThemeToggle />
+            </div>
+            {isAuthenticated && (
+              <div className="rounded-lg border border-border p-1">
+                <RealtimeNotifications />
+              </div>
+            )}
+            <div className="rounded-lg border border-border p-1">
+              <OptimizedUserMenu />
+            </div>
           </div>
 
           {/* Mobile Navigation */}
