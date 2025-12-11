@@ -1,9 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
+import { getCorsHeaders, handleCorsPreflightRequest } from "../_shared/cors.ts";
 
 // Simple in-memory rate limiter
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
@@ -186,61 +182,6 @@ const generateSampleArticles = () => {
       author: 'Green Building Council',
       category: 'property',
     },
-    {
-      id: 'sample-6',
-      title: 'Real Estate Market Analysis: Regional Trends Report',
-      description: 'Comprehensive analysis of real estate market trends, pricing shifts, and investment opportunities across major metropolitan markets.',
-      url: 'https://www.corelogic.com/intelligence/',
-      imageUrl: 'https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?w=800&auto=format&fit=crop',
-      publishedAt: new Date(now - 25200000).toISOString(),
-      source: 'CoreLogic',
-      author: 'Market Analytics',
-      category: 'real-estate',
-    },
-    {
-      id: 'sample-7',
-      title: 'Commercial Property Investment Strategies for Economic Uncertainty',
-      description: 'Expert insights on commercial real estate investment opportunities, risk management strategies, and portfolio diversification.',
-      url: 'https://www.cbre.com/insights',
-      imageUrl: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&auto=format&fit=crop',
-      publishedAt: new Date(now - 28800000).toISOString(),
-      source: 'CBRE Research',
-      author: 'Commercial Team',
-      category: 'investment',
-    },
-    {
-      id: 'sample-8',
-      title: 'PropTech Startups Disrupting Traditional Property Management',
-      description: 'The latest PropTech innovations transforming how properties are managed, marketed, and maintained with significant investment growth.',
-      url: 'https://www.propmodo.com/',
-      imageUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&auto=format&fit=crop',
-      publishedAt: new Date(now - 32400000).toISOString(),
-      source: 'Propmodo',
-      author: 'Tech Editor',
-      category: 'technology',
-    },
-    {
-      id: 'sample-9',
-      title: 'New Regulations Affecting Property Managers: Compliance Guide',
-      description: 'Stay compliant with the latest regulatory changes impacting property management operations, including fair housing updates.',
-      url: 'https://www.narpm.org/resources/',
-      imageUrl: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&auto=format&fit=crop',
-      publishedAt: new Date(now - 36000000).toISOString(),
-      source: 'NARPM',
-      author: 'Compliance Team',
-      category: 'legal',
-    },
-    {
-      id: 'sample-10',
-      title: 'Multifamily Housing Demand Surges in Suburban Markets',
-      description: 'Remote work continues to drive demand for suburban multifamily properties with vacancy rates hitting historic lows.',
-      url: 'https://www.nmhc.org/research-insight/',
-      imageUrl: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&auto=format&fit=crop',
-      publishedAt: new Date(now - 43200000).toISOString(),
-      source: 'NMHC',
-      author: 'Housing Research',
-      category: 'real-estate',
-    },
   ];
 };
 
@@ -272,10 +213,35 @@ const getGNewsLang = (region: string): { lang: string; country?: string } => {
   return mapping[region] || mapping['global'];
 };
 
-serve(async (req) => {
-  if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
+function filterArticles(articles: Article[], category: string, searchTerm: string): Article[] {
+  let filtered = [...articles];
+  
+  if (category && category !== 'all') {
+    filtered = filtered.filter(a => 
+      a.category?.toLowerCase() === category.toLowerCase() ||
+      a.title?.toLowerCase().includes(category.toLowerCase()) ||
+      a.description?.toLowerCase().includes(category.toLowerCase())
+    );
   }
+  
+  if (searchTerm) {
+    const term = searchTerm.toLowerCase();
+    filtered = filtered.filter(a =>
+      a.title?.toLowerCase().includes(term) ||
+      a.description?.toLowerCase().includes(term) ||
+      a.source?.toLowerCase().includes(term)
+    );
+  }
+  
+  return filtered;
+}
+
+serve(async (req) => {
+  // Handle CORS preflight
+  const corsResponse = handleCorsPreflightRequest(req);
+  if (corsResponse) return corsResponse;
+
+  const corsHeaders = getCorsHeaders(req);
 
   // Rate limiting
   const clientIP = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
@@ -380,23 +346,6 @@ serve(async (req) => {
       }
     }
 
-    // SUPPLEMENT: Add RSS for additional content variety (when GNews succeeded)
-    if (includeRSS && allArticles.length >= 5 && source === 'live') {
-      try {
-        const rssArticles = await fetchRSSArticles();
-        
-        if (rssArticles.length > 0) {
-          const existingTitles = new Set(allArticles.map(a => a.title.toLowerCase()));
-          const newRssArticles = rssArticles.filter(a => !existingTitles.has(a.title.toLowerCase()));
-          
-          allArticles.push(...newRssArticles.slice(0, 5));
-          console.log(`Supplemented with ${Math.min(newRssArticles.length, 5)} RSS articles for variety`);
-        }
-      } catch (rssError) {
-        console.error('RSS supplement error:', rssError);
-      }
-    }
-
     // FALLBACK: If still no articles, use sample data
     if (allArticles.length === 0) {
       console.log('No live data available, returning sample articles');
@@ -449,30 +398,3 @@ serve(async (req) => {
     );
   }
 });
-
-function filterArticles(articles: Article[], category: string, searchTerm: string): Article[] {
-  let filtered = [...articles];
-  
-  if (searchTerm) {
-    const term = searchTerm.toLowerCase();
-    filtered = filtered.filter(article => 
-      article.title.toLowerCase().includes(term) ||
-      article.description.toLowerCase().includes(term) ||
-      article.source.toLowerCase().includes(term)
-    );
-  }
-  
-  if (category && category !== 'all') {
-    const categoryFiltered = filtered.filter(article => 
-      article.category === category ||
-      article.title.toLowerCase().includes(category) ||
-      article.description.toLowerCase().includes(category)
-    );
-    
-    if (categoryFiltered.length > 0) {
-      filtered = categoryFiltered;
-    }
-  }
-  
-  return filtered;
-}
