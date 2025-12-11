@@ -1065,6 +1065,26 @@
     transition-property: background-color, border-color, color, fill, stroke, transform, box-shadow, opacity;
   }
   
+  /* === NAVIGATION TEXT VISIBILITY SHADOWS === */
+  .text-shadow-nav {
+    text-shadow: 
+      0 1px 2px hsl(var(--background) / 0.8),
+      0 0 4px hsl(var(--background) / 0.4);
+  }
+  
+  .text-shadow-nav-light {
+    text-shadow: 
+      0 1px 2px hsl(0 0% 0% / 0.12),
+      0 0 6px hsl(var(--background) / 0.5);
+  }
+  
+  .dark .text-shadow-nav,
+  .text-shadow-nav-dark {
+    text-shadow: 
+      0 1px 3px hsl(0 0% 0% / 0.6),
+      0 0 8px hsl(var(--primary) / 0.2);
+  }
+
   /* === PROFESSIONAL EFFECTS === */
   .page-enter {
     opacity: 0;

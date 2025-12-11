@@ -94,7 +94,7 @@ export default function Navbar() {
         Skip to main content
       </a>
 
-      <header className={cn("fixed top-0 left-0 right-0 z-[150] transition-all duration-500", scrolled ? "bg-card shadow-xl border-b-2 border-primary/30 py-3" : "bg-card/95 backdrop-blur-md py-5 shadow-md border-b border-border")}>
+      <header className={cn("fixed top-0 left-0 right-0 z-[150] transition-all duration-500", scrolled ? "bg-card shadow-xl border-b-2 border-primary/30 py-3" : "bg-card backdrop-blur-md py-5 shadow-md border-b border-border")}>
         <nav aria-label="Main navigation" className="container flex justify-between items-center">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3 group hover:opacity-90 transition-opacity focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none rounded-lg">
@@ -112,7 +112,7 @@ export default function Navbar() {
           {/* Desktop Navigation */}
           <ul className="hidden lg:flex space-x-1 items-center relative z-[200]">
             <li>
-              <Link to="/" className={cn("px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200", "text-foreground hover:text-primary hover:bg-primary/10 dark:text-foreground", "relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2", "after:w-0 hover:after:w-3/4 after:h-0.5 after:bg-primary after:transition-all", "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none", location.pathname === "/" && "text-primary after:w-3/4")}>
+              <Link to="/" className={cn("px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200", "text-foreground hover:text-primary hover:bg-primary/10", "text-shadow-nav-light dark:text-shadow-nav", "relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2", "after:w-0 hover:after:w-3/4 after:h-0.5 after:bg-primary after:transition-all", "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none", location.pathname === "/" && "text-primary after:w-3/4")}>
                 {t.nav.home}
               </Link>
             </li>
@@ -123,7 +123,7 @@ export default function Navbar() {
               <NavDropdown label="Services" items={servicesDropdownItems} />
             </li>
             {simpleNavLinks.slice(1).map(link => <li key={link.id}>
-                <Link to={link.path} className={cn("px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200", "text-foreground hover:text-primary hover:bg-primary/10 dark:text-foreground", "relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2", "after:w-0 hover:after:w-3/4 after:h-0.5 after:bg-primary after:transition-all", "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none", location.pathname === link.path && "text-primary after:w-3/4")}>
+                <Link to={link.path} className={cn("px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200", "text-foreground hover:text-primary hover:bg-primary/10", "text-shadow-nav-light dark:text-shadow-nav", "relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2", "after:w-0 hover:after:w-3/4 after:h-0.5 after:bg-primary after:transition-all", "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none", location.pathname === link.path && "text-primary after:w-3/4")}>
                   {link.name}
                 </Link>
               </li>)}
@@ -194,12 +194,12 @@ export default function Navbar() {
             {/* Properties Dropdown */}
             <li>
               <details className="group rounded">
-                <summary className="cursor-pointer px-4 py-3 text-base font-medium transition-colors duration-200 hover:text-primary hover:bg-primary/5 rounded-lg flex items-center justify-between">
+                <summary className="cursor-pointer px-4 py-3 text-base font-semibold text-foreground text-shadow-nav-light dark:text-shadow-nav transition-colors duration-200 hover:text-primary hover:bg-primary/5 rounded-lg flex items-center justify-between">
                   <span>Properties</span>
                   <X className="w-4 h-4 rotate-45 group-open:rotate-0 transition-transform text-primary" />
                 </summary>
                 <div className="ml-4 mt-1 space-y-1">
-                  {propertiesDropdownItems.map((item, idx) => <Link key={idx} to={item.href} className="flex items-center gap-2 px-4 py-2 text-sm hover:text-primary hover:bg-primary/5 rounded-lg transition-colors border-l-2 border-transparent hover:border-primary" onClick={() => setMobileMenuOpen(false)}>
+                  {propertiesDropdownItems.map((item, idx) => <Link key={idx} to={item.href} className="flex items-center gap-2 px-4 py-2 text-sm text-foreground text-shadow-nav-light dark:text-shadow-nav hover:text-primary hover:bg-primary/5 rounded-lg transition-colors border-l-2 border-transparent hover:border-primary" onClick={() => setMobileMenuOpen(false)}>
                       <span className="text-primary">{item.icon}</span>
                       <span>{item.label}</span>
                     </Link>)}
@@ -210,12 +210,12 @@ export default function Navbar() {
             {/* Services Dropdown */}
             <li>
               <details className="group rounded">
-                <summary className="cursor-pointer px-4 py-3 text-base font-medium transition-colors duration-200 hover:text-primary hover:bg-primary/5 rounded-lg flex items-center justify-between">
+                <summary className="cursor-pointer px-4 py-3 text-base font-semibold text-foreground text-shadow-nav-light dark:text-shadow-nav transition-colors duration-200 hover:text-primary hover:bg-primary/5 rounded-lg flex items-center justify-between">
                   <span>Services</span>
                   <X className="w-4 h-4 rotate-45 group-open:rotate-0 transition-transform text-primary" />
                 </summary>
                 <div className="ml-4 mt-1 space-y-1">
-                  {servicesDropdownItems.map((item, idx) => <Link key={idx} to={item.href} className="flex items-center gap-2 px-4 py-2 text-sm hover:text-primary hover:bg-primary/5 rounded-lg transition-colors border-l-2 border-transparent hover:border-primary" onClick={() => setMobileMenuOpen(false)}>
+                  {servicesDropdownItems.map((item, idx) => <Link key={idx} to={item.href} className="flex items-center gap-2 px-4 py-2 text-sm text-foreground text-shadow-nav-light dark:text-shadow-nav hover:text-primary hover:bg-primary/5 rounded-lg transition-colors border-l-2 border-transparent hover:border-primary" onClick={() => setMobileMenuOpen(false)}>
                       <span className="text-primary">{item.icon}</span>
                       <span>{item.label}</span>
                     </Link>)}
