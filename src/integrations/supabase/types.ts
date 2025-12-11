@@ -277,6 +277,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "bookings_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "safe_property_listings"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "bookings_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
@@ -1717,6 +1724,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "property_inquiries_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "safe_property_listings"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "property_inquiries_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
@@ -1833,6 +1847,13 @@ export type Database = {
             columns: ["property_id"]
             isOneToOne: false
             referencedRelation: "public_property_listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quick_quote_requests_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "safe_property_listings"
             referencedColumns: ["id"]
           },
         ]
@@ -2038,6 +2059,13 @@ export type Database = {
             columns: ["property_id"]
             isOneToOne: false
             referencedRelation: "public_property_listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rfqs_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "safe_property_listings"
             referencedColumns: ["id"]
           },
           {
@@ -2649,6 +2677,13 @@ export type Database = {
             columns: ["property_id"]
             isOneToOne: false
             referencedRelation: "public_property_listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vendor_applications_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "safe_property_listings"
             referencedColumns: ["id"]
           },
           {
@@ -3707,6 +3742,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "work_orders_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "safe_property_listings"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "work_orders_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
@@ -3733,7 +3775,6 @@ export type Database = {
           state: string | null
           status: string | null
           title: string | null
-          zip_code: number | null
         }
         Insert: {
           amenities?: string | null
@@ -3750,7 +3791,6 @@ export type Database = {
           state?: string | null
           status?: string | null
           title?: string | null
-          zip_code?: number | null
         }
         Update: {
           amenities?: string | null
@@ -3767,7 +3807,57 @@ export type Database = {
           state?: string | null
           status?: string | null
           title?: string | null
-          zip_code?: number | null
+        }
+        Relationships: []
+      }
+      safe_property_listings: {
+        Row: {
+          amenities: string | null
+          available_date: string | null
+          bathrooms: number | null
+          bedrooms: number | null
+          city: string | null
+          description: string | null
+          id: number | null
+          image_urls: string | null
+          price: number | null
+          property_type: string | null
+          square_feet: string | null
+          state: string | null
+          status: string | null
+          title: string | null
+        }
+        Insert: {
+          amenities?: string | null
+          available_date?: string | null
+          bathrooms?: number | null
+          bedrooms?: number | null
+          city?: string | null
+          description?: string | null
+          id?: number | null
+          image_urls?: never
+          price?: number | null
+          property_type?: string | null
+          square_feet?: string | null
+          state?: string | null
+          status?: string | null
+          title?: string | null
+        }
+        Update: {
+          amenities?: string | null
+          available_date?: string | null
+          bathrooms?: number | null
+          bedrooms?: number | null
+          city?: string | null
+          description?: string | null
+          id?: number | null
+          image_urls?: never
+          price?: number | null
+          property_type?: string | null
+          square_feet?: string | null
+          state?: string | null
+          status?: string | null
+          title?: string | null
         }
         Relationships: []
       }
@@ -4081,6 +4171,16 @@ export type Database = {
         | { Args: { user_uuid: string }; Returns: boolean }
       is_dashboard_query: { Args: never; Returns: boolean }
       log_audit_event: {
+        Args: {
+          p_action: string
+          p_new_values?: Json
+          p_old_values?: Json
+          p_record_id: string
+          p_table_name: string
+        }
+        Returns: undefined
+      }
+      log_audit_event_secure: {
         Args: {
           p_action: string
           p_new_values?: Json

@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { Resend } from "https://esm.sh/resend@2.0.0";
 import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
+import { getCorsHeaders, handleCorsPreflightRequest } from "../_shared/cors.ts";
 
 // Phase 4.4: Validate RESEND_API_KEY exists at startup
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
@@ -11,11 +12,6 @@ if (!RESEND_API_KEY) {
 }
 
 const resend = RESEND_API_KEY ? new Resend(RESEND_API_KEY) : null;
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
 
 // Input validation schema - html and subject are optional when using templates
 const EmailRequestSchema = z.object({
@@ -79,9 +75,10 @@ function checkRateLimit(identifier: string, maxRequests: number = 5, windowMs: n
 
 const handler = async (req: Request): Promise<Response> => {
   // Handle CORS preflight requests
-  if (req.method === "OPTIONS") {
-    return new Response(null, { headers: corsHeaders });
-  }
+  const preflightResponse = handleCorsPreflightRequest(req);
+  if (preflightResponse) return preflightResponse;
+
+  const corsHeaders = getCorsHeaders(req);
 
   try {
     // Phase 4.4: Validate RESEND_API_KEY before processing
