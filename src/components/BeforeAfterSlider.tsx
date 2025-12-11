@@ -21,6 +21,7 @@ export default function BeforeAfterSlider({
   const [position, setPosition] = useState(initialPosition);
   const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const rectRef = useRef<DOMRect | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
   // Animate slider on mount
@@ -31,17 +32,24 @@ export default function BeforeAfterSlider({
     return () => clearTimeout(timer);
   }, []);
 
+  // Cache-based position update to prevent forced reflows
   const updatePosition = useCallback((clientX: number) => {
     if (!containerRef.current) return;
     
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = clientX - rect.left;
-    const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+    // Use cached rect during drag to prevent layout thrashing
+    if (!rectRef.current) {
+      rectRef.current = containerRef.current.getBoundingClientRect();
+    }
+    
+    const x = clientX - rectRef.current.left;
+    const percentage = Math.max(0, Math.min(100, (x / rectRef.current.width) * 100));
     setPosition(percentage);
   }, []);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
+    // Clear cached rect on drag start to get fresh measurements
+    rectRef.current = null;
     setIsDragging(true);
     updatePosition(e.clientX);
   };
@@ -54,9 +62,13 @@ export default function BeforeAfterSlider({
 
   const handleMouseUp = useCallback(() => {
     setIsDragging(false);
+    // Clear cached rect on drag end
+    rectRef.current = null;
   }, []);
 
   const handleTouchStart = (e: React.TouchEvent) => {
+    // Clear cached rect on touch start
+    rectRef.current = null;
     setIsDragging(true);
     updatePosition(e.touches[0].clientX);
   };
