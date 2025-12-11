@@ -170,70 +170,71 @@ export default function Navbar() {
           </div>
         </nav>
 
-        {/* Mobile Menu using extracted MobileDrawer */}
-        <MobileDrawer isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} title="Menu" logo={<div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary/20 to-primary/5 dark:from-primary/30 dark:to-primary/10 border-2 border-primary/40 dark:border-primary/50 rounded-xl p-2 flex items-center justify-center shadow-md shadow-primary/10 dark:shadow-primary/30">
-                {!logoError ? <img src="/lovable-uploads/318cdd13-7256-4cfe-99e0-948e43902b7b.png" alt="Monarch Logo" className="w-full h-full object-contain" onError={() => setLogoError(true)} /> : <Crown className="h-5 w-5 text-primary" />}
-              </div>
-              <div className="flex flex-col">
-                <span className="text-lg font-bold bg-gradient-to-r from-primary via-primary to-primary/80 bg-clip-text text-transparent">Monarch</span>
-                <span className="text-xs text-primary/70 dark:text-primary/60 -mt-1 font-semibold tracking-wide uppercase">Property Mgmt</span>
-              </div>
-            </div>}>
-          {/* Navigation Links */}
-          <nav className="p-6" aria-label="Mobile navigation">
-            <ul className="space-y-2" role="list">
-              <li>
-                <Link to="/" onClick={() => setMobileMenuOpen(false)} className={cn("block px-4 py-3 text-base font-medium rounded-lg border-l-4 transition-all", "hover:border-primary hover:bg-primary/5 hover:text-primary", "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none", location.pathname === "/" ? "border-primary bg-primary/5 text-primary" : "border-transparent")}>
-                  {t.nav.home}
-                </Link>
-              </li>
-              
-              {/* Properties Dropdown */}
-              <li>
-                <details className="group rounded">
-                  <summary className="cursor-pointer px-4 py-3 text-base font-medium transition-colors duration-200 hover:text-primary hover:bg-primary/5 rounded-lg flex items-center justify-between">
-                    <span>Properties</span>
-                    <X className="w-4 h-4 rotate-45 group-open:rotate-0 transition-transform text-primary" />
-                  </summary>
-                  <div className="ml-4 mt-1 space-y-1">
-                    {propertiesDropdownItems.map((item, idx) => <Link key={idx} to={item.href} className="flex items-center gap-2 px-4 py-2 text-sm hover:text-primary hover:bg-primary/5 rounded-lg transition-colors border-l-2 border-transparent hover:border-primary" onClick={() => setMobileMenuOpen(false)}>
-                        <span className="text-primary">{item.icon}</span>
-                        <span>{item.label}</span>
-                      </Link>)}
-                  </div>
-                </details>
-              </li>
-
-              {/* Services Dropdown */}
-              <li>
-                <details className="group rounded">
-                  <summary className="cursor-pointer px-4 py-3 text-base font-medium transition-colors duration-200 hover:text-primary hover:bg-primary/5 rounded-lg flex items-center justify-between">
-                    <span>Services</span>
-                    <X className="w-4 h-4 rotate-45 group-open:rotate-0 transition-transform text-primary" />
-                  </summary>
-                  <div className="ml-4 mt-1 space-y-1">
-                    {servicesDropdownItems.map((item, idx) => <Link key={idx} to={item.href} className="flex items-center gap-2 px-4 py-2 text-sm hover:text-primary hover:bg-primary/5 rounded-lg transition-colors border-l-2 border-transparent hover:border-primary" onClick={() => setMobileMenuOpen(false)}>
-                        <span className="text-primary">{item.icon}</span>
-                        <span>{item.label}</span>
-                      </Link>)}
-                  </div>
-                </details>
-              </li>
-
-              {simpleNavLinks.slice(1).map(link => <li key={link.id}>
-                  <Link to={link.path} onClick={() => setMobileMenuOpen(false)} className={cn("block px-4 py-3 text-base font-medium rounded-lg border-l-4 transition-all", "hover:border-primary hover:bg-primary/5 hover:text-primary", "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none", location.pathname === link.path ? "border-primary bg-primary/5 text-primary" : "border-transparent")}>
-                    {link.name}
-                  </Link>
-                </li>)}
-            </ul>
-          </nav>
-          
-          {/* User Menu */}
-          <div className="p-6 border-t border-primary/20">
-            <OptimizedUserMenu />
-          </div>
-        </MobileDrawer>
       </header>
+
+      {/* Mobile Drawer - OUTSIDE header for correct z-index stacking */}
+      <MobileDrawer isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} title="Menu" logo={<div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-primary/20 to-primary/5 dark:from-primary/30 dark:to-primary/10 border-2 border-primary/40 dark:border-primary/50 rounded-xl p-2 flex items-center justify-center shadow-md shadow-primary/10 dark:shadow-primary/30">
+              {!logoError ? <img src="/lovable-uploads/318cdd13-7256-4cfe-99e0-948e43902b7b.png" alt="Monarch Logo" className="w-full h-full object-contain" onError={() => setLogoError(true)} /> : <Crown className="h-5 w-5 text-primary" />}
+            </div>
+            <div className="flex flex-col">
+              <span className="text-lg font-bold bg-gradient-to-r from-primary via-primary to-primary/80 bg-clip-text text-transparent">Monarch</span>
+              <span className="text-xs text-primary/70 dark:text-primary/60 -mt-1 font-semibold tracking-wide uppercase">Property Mgmt</span>
+            </div>
+          </div>}>
+        {/* Navigation Links */}
+        <nav className="p-6" aria-label="Mobile navigation">
+          <ul className="space-y-2" role="list">
+            <li>
+              <Link to="/" onClick={() => setMobileMenuOpen(false)} className={cn("block px-4 py-3 text-base font-medium rounded-lg border-l-4 transition-all", "hover:border-primary hover:bg-primary/5 hover:text-primary", "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none", location.pathname === "/" ? "border-primary bg-primary/5 text-primary" : "border-transparent")}>
+                {t.nav.home}
+              </Link>
+            </li>
+            
+            {/* Properties Dropdown */}
+            <li>
+              <details className="group rounded">
+                <summary className="cursor-pointer px-4 py-3 text-base font-medium transition-colors duration-200 hover:text-primary hover:bg-primary/5 rounded-lg flex items-center justify-between">
+                  <span>Properties</span>
+                  <X className="w-4 h-4 rotate-45 group-open:rotate-0 transition-transform text-primary" />
+                </summary>
+                <div className="ml-4 mt-1 space-y-1">
+                  {propertiesDropdownItems.map((item, idx) => <Link key={idx} to={item.href} className="flex items-center gap-2 px-4 py-2 text-sm hover:text-primary hover:bg-primary/5 rounded-lg transition-colors border-l-2 border-transparent hover:border-primary" onClick={() => setMobileMenuOpen(false)}>
+                      <span className="text-primary">{item.icon}</span>
+                      <span>{item.label}</span>
+                    </Link>)}
+                </div>
+              </details>
+            </li>
+
+            {/* Services Dropdown */}
+            <li>
+              <details className="group rounded">
+                <summary className="cursor-pointer px-4 py-3 text-base font-medium transition-colors duration-200 hover:text-primary hover:bg-primary/5 rounded-lg flex items-center justify-between">
+                  <span>Services</span>
+                  <X className="w-4 h-4 rotate-45 group-open:rotate-0 transition-transform text-primary" />
+                </summary>
+                <div className="ml-4 mt-1 space-y-1">
+                  {servicesDropdownItems.map((item, idx) => <Link key={idx} to={item.href} className="flex items-center gap-2 px-4 py-2 text-sm hover:text-primary hover:bg-primary/5 rounded-lg transition-colors border-l-2 border-transparent hover:border-primary" onClick={() => setMobileMenuOpen(false)}>
+                      <span className="text-primary">{item.icon}</span>
+                      <span>{item.label}</span>
+                    </Link>)}
+                </div>
+              </details>
+            </li>
+
+            {simpleNavLinks.slice(1).map(link => <li key={link.id}>
+                <Link to={link.path} onClick={() => setMobileMenuOpen(false)} className={cn("block px-4 py-3 text-base font-medium rounded-lg border-l-4 transition-all", "hover:border-primary hover:bg-primary/5 hover:text-primary", "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none", location.pathname === link.path ? "border-primary bg-primary/5 text-primary" : "border-transparent")}>
+                  {link.name}
+                </Link>
+              </li>)}
+          </ul>
+        </nav>
+        
+        {/* User Menu */}
+        <div className="p-6 border-t border-primary/20">
+          <OptimizedUserMenu />
+        </div>
+      </MobileDrawer>
     </>;
 }
