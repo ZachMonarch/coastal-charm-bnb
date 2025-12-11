@@ -129,7 +129,7 @@ export default function Navbar() {
               </li>)}
           </ul>
 
-          <div className="hidden md:flex items-center space-x-3 px-4 py-2 rounded-xl border border-primary/30 bg-background/80 backdrop-blur-sm shadow-sm [&_*]:drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)] dark:[&_*]:drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]">
+          <div className="hidden md:flex items-center space-x-3 px-3 py-1.5 rounded-lg border border-border">
             <LanguageSelector />
             <ThemeToggle />
             {isAuthenticated && <RealtimeNotifications />}
