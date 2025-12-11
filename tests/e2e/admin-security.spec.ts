@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { loginAsAdmin, loginAsVendor, logout } from './helpers/auth';
 
 test.describe('Admin Security E2E Tests', () => {
   test('unauthenticated user cannot access admin panel', async ({ page }) => {
@@ -27,20 +28,8 @@ test.describe('Admin Security E2E Tests', () => {
   });
 
   test('non-admin user cannot access admin panel', async ({ page }) => {
-    // First, login as a regular user (vendor or tenant)
-    await page.goto('/auth');
-    await page.waitForSelector('#signin-email', { timeout: 30000 });
-    
-    // Use a non-admin test account
-    await page.fill('#signin-email', process.env.VENDOR_TEST_EMAIL || 'vendor@test.com');
-    await page.fill('#signin-password', process.env.VENDOR_TEST_PASSWORD || 'TestVendor123!');
-    
-    // Try to submit login
-    const signInButton = page.locator('button:has-text("Sign In")');
-    if (await signInButton.isVisible()) {
-      await signInButton.click();
-      await page.waitForLoadState('networkidle');
-    }
+    // Login as a vendor (non-admin) user
+    await loginAsVendor(page);
     
     // Now try to access admin panel
     await page.goto('/admin');
@@ -52,7 +41,6 @@ test.describe('Admin Security E2E Tests', () => {
       (await page.locator('text=/unauthorized|access denied|not authorized|forbidden/i').isVisible().catch(() => false));
     
     // Non-admin users should not have full admin access
-    // This test verifies the RLS and route protection is working
     expect(isBlockedFromAdmin || currentUrl.includes('/vendor') || currentUrl.includes('/dashboard')).toBeTruthy();
   });
 
@@ -62,7 +50,8 @@ test.describe('Admin Security E2E Tests', () => {
       '/admin?tab=users',
       '/admin?tab=vendors', 
       '/admin?tab=projects',
-      '/admin?tab=payments'
+      '/admin?tab=payments',
+      '/admin?tab=security'
     ];
     
     for (const route of protectedRoutes) {
@@ -94,15 +83,8 @@ test.describe('Admin Security E2E Tests', () => {
   });
 
   test('admin session is properly validated', async ({ page }) => {
-    await page.goto('/auth');
-    await page.waitForSelector('#signin-email', { timeout: 30000 });
-    
-    // Login as admin
-    await page.fill('#signin-email', process.env.ADMIN_TEST_EMAIL || 'admin@monarchpropertymmgt.com');
-    await page.fill('#signin-password', process.env.ADMIN_TEST_PASSWORD || 'TestAdmin123!');
-    await page.click('button:has-text("Sign In")');
-    
-    await page.waitForLoadState('networkidle');
+    // Login as admin using helper
+    await loginAsAdmin(page);
     
     // Access admin panel
     await page.goto('/admin');
@@ -118,23 +100,14 @@ test.describe('Admin Security E2E Tests', () => {
 
   test('logout properly clears admin session', async ({ page }) => {
     // Login as admin
-    await page.goto('/auth');
-    await page.waitForSelector('#signin-email', { timeout: 30000 });
-    await page.fill('#signin-email', process.env.ADMIN_TEST_EMAIL || 'admin@monarchpropertymmgt.com');
-    await page.fill('#signin-password', process.env.ADMIN_TEST_PASSWORD || 'TestAdmin123!');
-    await page.click('button:has-text("Sign In")');
-    await page.waitForLoadState('networkidle');
+    await loginAsAdmin(page);
     
     // Go to admin
     await page.goto('/admin');
     await page.waitForLoadState('networkidle');
     
-    // Find and click logout
-    const logoutButton = page.locator('button:has-text("Sign Out"), button:has-text("Logout"), button:has-text("Log out")');
-    if (await logoutButton.isVisible()) {
-      await logoutButton.click();
-      await page.waitForLoadState('networkidle');
-    }
+    // Logout using helper
+    await logout(page);
     
     // Try to access admin again
     await page.goto('/admin');
@@ -146,5 +119,27 @@ test.describe('Admin Security E2E Tests', () => {
       (await page.locator('text=/sign in|log in|welcome/i').isVisible().catch(() => false));
     
     expect(isBlockedFromAdmin).toBeTruthy();
+  });
+
+  test('admin cannot manipulate client-side to gain access', async ({ page }) => {
+    // This test verifies that admin access can't be faked client-side
+    await page.goto('/');
+    
+    // Try to manipulate localStorage (should not grant admin access)
+    await page.evaluate(() => {
+      localStorage.setItem('role', 'admin');
+      localStorage.setItem('isAdmin', 'true');
+    });
+    
+    // Try to access admin panel
+    await page.goto('/admin');
+    await page.waitForLoadState('networkidle');
+    
+    // Should still be blocked because server validates via user_roles table
+    const currentUrl = page.url();
+    const isBlocked = !currentUrl.includes('/admin') || 
+      (await page.locator('text=/sign in|log in|unauthorized/i').isVisible().catch(() => false));
+    
+    expect(isBlocked).toBeTruthy();
   });
 });
