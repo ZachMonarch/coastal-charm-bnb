@@ -95,7 +95,7 @@ export default function Navbar() {
       </a>
 
       <header className={cn("fixed top-0 left-0 right-0 z-[150] transition-all duration-500", scrolled ? "bg-card shadow-xl border-b-2 border-primary/30 py-3" : "bg-card/95 backdrop-blur-md py-5 shadow-md border-b border-border")}>
-        <nav aria-label="Main navigation" className="container flex justify-between items-center bg-slate-800">
+        <nav aria-label="Main navigation" className="container flex justify-between items-center">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3 group hover:opacity-90 transition-opacity focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none rounded-lg">
             <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-primary/5 dark:from-primary/30 dark:to-primary/10 border-2 border-primary/40 dark:border-primary/50 rounded-xl p-2 flex items-center justify-center shadow-md shadow-primary/10 dark:shadow-primary/30 transition-all duration-300">
@@ -129,19 +129,19 @@ export default function Navbar() {
               </li>)}
           </ul>
 
-          <div className="hidden md:flex items-center space-x-3">
-            <div className="rounded-lg border border-border p-1">
+          <div className="hidden md:flex items-center space-x-2">
+            <div className="rounded-lg border-2 border-primary/40 bg-card/80 p-1.5 shadow-sm hover:shadow-md hover:border-primary/60 transition-all [&_svg]:text-foreground [&_svg]:dark:text-foreground">
               <LanguageSelector />
             </div>
-            <div className="rounded-lg border border-border p-1">
+            <div className="rounded-lg border-2 border-primary/40 bg-card/80 p-1.5 shadow-sm hover:shadow-md hover:border-primary/60 transition-all [&_svg]:text-foreground [&_svg]:dark:text-foreground">
               <ThemeToggle />
             </div>
             {isAuthenticated && (
-              <div className="rounded-lg border border-border p-1">
+              <div className="rounded-lg border-2 border-primary/40 bg-card/80 p-1.5 shadow-sm hover:shadow-md hover:border-primary/60 transition-all [&_svg]:text-foreground [&_svg]:dark:text-foreground">
                 <RealtimeNotifications />
               </div>
             )}
-            <div className="rounded-lg border border-border p-1">
+            <div className="rounded-lg border-2 border-primary/40 bg-card/80 p-1.5 shadow-sm hover:shadow-md hover:border-primary/60 transition-all [&_svg]:text-foreground [&_svg]:dark:text-foreground">
               <OptimizedUserMenu />
             </div>
           </div>
