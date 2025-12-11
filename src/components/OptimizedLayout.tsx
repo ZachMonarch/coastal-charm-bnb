@@ -89,11 +89,7 @@ export default function OptimizedLayout({ children }: LayoutProps) {
   // Standard layout for public pages with full-width support
   return (
     <div className="min-h-screen flex flex-col w-full overflow-x-hidden">
-      {shouldShowNavbar && (
-        <div className="fixed top-0 left-0 right-0 z-50">
-          <Navbar />
-        </div>
-      )}
+      {shouldShowNavbar && <Navbar />}
       <main id="main-content" role="main" aria-label="Main content" className={`flex-1 w-full ${shouldShowNavbar ? 'pt-20' : ''}`}>
         {children}
       </main>
