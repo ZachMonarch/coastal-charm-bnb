@@ -10,13 +10,10 @@ import { setupAutoOptimizations, preloadCriticalAssets } from '@/lib/performance
 import QueryProvider from '@/providers/QueryProvider'
 import { HelmetProvider } from 'react-helmet-async'
 import { initializeCSRFProtection } from '@/utils/csrfProtection'
-import { injectSpeedInsights } from '@vercel/speed-insights'
+import { inject } from '@vercel/analytics'
 
-// Initialize Vercel Speed Insights for client-side performance monitoring
-// Must be called as early as possible on the client side
-if (typeof window !== 'undefined') {
-  injectSpeedInsights();
-}
+// Initialize Vercel Web Analytics on the client side
+inject();
 
 // Initialize performance optimizations immediately
 setupAutoOptimizations();
