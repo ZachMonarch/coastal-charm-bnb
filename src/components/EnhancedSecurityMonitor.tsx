@@ -45,36 +45,17 @@ export const EnhancedSecurityMonitor: React.FC = () => {
 
       if (eventsError) throw eventsError;
 
-      // Fetch security stats from dashboard view (now returns single row with aggregated metrics)
-      const { data: dashboard, error: dashboardError } = await supabase
-        .from('security_dashboard')
-        .select('*')
-        .single();
-
-      // Calculate stats from events if dashboard fails or from dashboard metrics
-      let stats: SecurityStats;
+      // Calculate stats from events directly (no security_dashboard view needed)
+      const criticalCount = events?.filter(e => e.severity === 'critical').length || 0;
+      const highCount = events?.filter(e => e.severity === 'high').length || 0;
+      const blockedCount = events?.filter(e => e.event_type.includes('BLOCKED') || e.event_type.includes('FAILED')).length || 0;
       
-      if (dashboardError || !dashboard) {
-        // Fallback: calculate from events directly
-        const criticalCount = events?.filter(e => e.severity === 'critical').length || 0;
-        const highCount = events?.filter(e => e.severity === 'high').length || 0;
-        const blockedCount = events?.filter(e => e.event_type.includes('BLOCKED')).length || 0;
-        
-        stats = {
-          critical_events: criticalCount,
-          high_events: highCount,
-          total_events_today: events?.length || 0,
-          blocked_attempts: blockedCount,
-        };
-      } else {
-        // Use dashboard view data
-        stats = {
-          critical_events: dashboard.high_severity_7d || 0,
-          high_events: dashboard.high_severity_7d || 0,
-          total_events_today: dashboard.events_24h || 0,
-          blocked_attempts: dashboard.failed_logins_24h || 0,
-        };
-      }
+      const stats: SecurityStats = {
+        critical_events: criticalCount,
+        high_events: highCount,
+        total_events_today: events?.length || 0,
+        blocked_attempts: blockedCount,
+      };
 
       setSecurityEvents(events || []);
       setSecurityStats(stats);

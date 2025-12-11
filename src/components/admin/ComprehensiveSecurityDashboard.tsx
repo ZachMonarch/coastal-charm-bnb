@@ -79,9 +79,9 @@ export const ComprehensiveSecurityDashboard: React.FC = () => {
 
       if (eventsError) throw eventsError;
 
-      // Fetch security dashboard aggregated data
-      const { data: dashboard, error: dashboardError } = await supabase
-        .from('security_dashboard')
+      // Fetch additional security events for detailed view
+      const { data: detailedEvents, error: detailedError } = await supabase
+        .from('security_events')
         .select('id, event_type, severity, user_id, created_at, details, ip_address')
         .order('created_at', { ascending: false })
         .limit(100);

@@ -148,10 +148,24 @@ export default function Navbar() {
 
           {/* Mobile Navigation */}
           <div className="flex items-center space-x-2 lg:hidden">
-            <LanguageSelector />
-            {isAuthenticated && <RealtimeNotifications />}
-            <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="border-primary/30 rounded-lg w-10 h-10 min-h-[44px] min-w-[44px] hover:bg-primary/10 hover:border-primary/50 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2" aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"} aria-expanded={mobileMenuOpen} aria-controls="mobile-menu">
-              {mobileMenuOpen ? <X className="h-4 w-4 text-primary" /> : <Menu className="h-4 w-4 text-primary" />}
+            <div className="rounded-lg border-2 border-primary/40 bg-card/80 p-1 shadow-sm">
+              <LanguageSelector />
+            </div>
+            {isAuthenticated && (
+              <div className="rounded-lg border-2 border-primary/40 bg-card/80 p-1 shadow-sm">
+                <RealtimeNotifications />
+              </div>
+            )}
+            <Button 
+              variant="outline" 
+              size="icon" 
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
+              className="relative z-[160] border-2 border-primary bg-background/95 rounded-lg w-11 h-11 min-h-[44px] min-w-[44px] hover:bg-primary/10 hover:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 shadow-md" 
+              aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"} 
+              aria-expanded={mobileMenuOpen} 
+              aria-controls="mobile-menu"
+            >
+              {mobileMenuOpen ? <X className="h-5 w-5 text-primary" /> : <Menu className="h-5 w-5 text-primary" />}
             </Button>
           </div>
         </nav>
