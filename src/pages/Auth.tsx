@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/OptimizedAuthContext";
 import { Eye, EyeOff, LogIn, UserPlus, Building2, Shield, User, Wrench, Lock, Mail, Phone, Briefcase } from "lucide-react";
 import { getRoleHomeRouteForRoles } from "@/lib/roleRoutes";
@@ -706,9 +706,9 @@ export default function Auth() {
 
           <p className="text-center mt-6 text-sm text-muted-foreground">
             By continuing, you agree to our{" "}
-            <a href="/terms" className="text-primary hover:underline">Terms</a>
+            <Link to="/terms" className="text-primary hover:underline">Terms</Link>
             {" "}and{" "}
-            <a href="/privacy" className="text-primary hover:underline">Privacy Policy</a>
+            <Link to="/privacy" className="text-primary hover:underline">Privacy Policy</Link>
           </p>
         </div>
       </div>

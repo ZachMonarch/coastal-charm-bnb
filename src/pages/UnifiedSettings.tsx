@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { User, Bell, Shield, CreditCard, Globe, Monitor, DollarSign } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -317,7 +318,7 @@ export default function UnifiedSettings() {
                 </CardHeader>
                 <CardContent>
                   <Button asChild variant="outline" className="border-success/30 hover:bg-success/10">
-                    <a href="/vendor/payout-settings">Configure Payout Methods</a>
+                    <Link to="/vendor/payout-settings">Configure Payout Methods</Link>
                   </Button>
                 </CardContent>
               </Card>
