@@ -2688,6 +2688,13 @@ export type Database = {
             foreignKeyName: "vendor_bids_vendor_id_fkey"
             columns: ["vendor_id"]
             isOneToOne: false
+            referencedRelation: "safe_vendor_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vendor_bids_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
             referencedRelation: "vendor_profiles"
             referencedColumns: ["id"]
           },
@@ -2855,6 +2862,13 @@ export type Database = {
             foreignKeyName: "vendor_lead_credits_vendor_id_fkey"
             columns: ["vendor_id"]
             isOneToOne: true
+            referencedRelation: "safe_vendor_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vendor_lead_credits_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: true
             referencedRelation: "vendor_profiles"
             referencedColumns: ["id"]
           },
@@ -2909,6 +2923,13 @@ export type Database = {
             columns: ["quote_request_id"]
             isOneToOne: false
             referencedRelation: "quick_quote_requests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vendor_lead_matches_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "safe_vendor_profiles"
             referencedColumns: ["id"]
           },
           {
@@ -3505,6 +3526,13 @@ export type Database = {
             foreignKeyName: "vendor_reviews_vendor_id_fkey"
             columns: ["vendor_id"]
             isOneToOne: false
+            referencedRelation: "safe_vendor_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vendor_reviews_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
             referencedRelation: "vendor_profiles"
             referencedColumns: ["id"]
           },
@@ -3542,6 +3570,13 @@ export type Database = {
           vendor_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "vendor_tiers_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: true
+            referencedRelation: "safe_vendor_profiles"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "vendor_tiers_vendor_id_fkey"
             columns: ["vendor_id"]
@@ -3741,6 +3776,95 @@ export type Database = {
           title?: string | null
         }
         Relationships: []
+      }
+      safe_vendor_profiles: {
+        Row: {
+          address: string | null
+          availability_status: string | null
+          average_rating: number | null
+          background_check_verified: boolean | null
+          certifications: string[] | null
+          company_name: string | null
+          completed_jobs: number | null
+          created_at: string | null
+          description: string | null
+          email: string | null
+          id: string | null
+          insurance_verified: boolean | null
+          is_verified: boolean | null
+          phone: string | null
+          public_avatar_url: string | null
+          rating: number | null
+          response_time_hours: number | null
+          service_areas: string[] | null
+          specialties: string[] | null
+          subscription_tier: string | null
+          success_rate: number | null
+          user_id: string | null
+          website: string | null
+          years_experience: number | null
+        }
+        Insert: {
+          address?: never
+          availability_status?: string | null
+          average_rating?: number | null
+          background_check_verified?: boolean | null
+          certifications?: string[] | null
+          company_name?: string | null
+          completed_jobs?: number | null
+          created_at?: string | null
+          description?: string | null
+          email?: never
+          id?: string | null
+          insurance_verified?: boolean | null
+          is_verified?: boolean | null
+          phone?: never
+          public_avatar_url?: string | null
+          rating?: number | null
+          response_time_hours?: number | null
+          service_areas?: string[] | null
+          specialties?: string[] | null
+          subscription_tier?: string | null
+          success_rate?: number | null
+          user_id?: string | null
+          website?: string | null
+          years_experience?: number | null
+        }
+        Update: {
+          address?: never
+          availability_status?: string | null
+          average_rating?: number | null
+          background_check_verified?: boolean | null
+          certifications?: string[] | null
+          company_name?: string | null
+          completed_jobs?: number | null
+          created_at?: string | null
+          description?: string | null
+          email?: never
+          id?: string | null
+          insurance_verified?: boolean | null
+          is_verified?: boolean | null
+          phone?: never
+          public_avatar_url?: string | null
+          rating?: number | null
+          response_time_hours?: number | null
+          service_areas?: string[] | null
+          specialties?: string[] | null
+          subscription_tier?: string | null
+          success_rate?: number | null
+          user_id?: string | null
+          website?: string | null
+          years_experience?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vendor_profiles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Functions: {
