@@ -182,15 +182,25 @@ export default function Navbar() {
               <span className="text-xs text-primary/70 dark:text-primary/60 -mt-1 font-semibold tracking-wide uppercase">Property Mgmt</span>
             </div>
           </div>}>
-        {/* Sign In / Sign Up for unauthenticated users */}
+        {/* Sign In / Sign Up buttons - ALWAYS visible for unauthenticated users */}
         {!isAuthenticated && (
-          <div className="p-6 space-y-3 border-b border-primary/20 bg-muted/30">
-            <Button asChild className="w-full bg-primary text-primary-foreground font-semibold shadow-md hover:bg-primary/90">
+          <div className="p-4 space-y-3 border-b-2 border-primary/30 bg-gradient-to-r from-primary/10 to-primary/5">
+            <p className="text-sm text-foreground font-medium text-center mb-3">
+              Join Monarch Property Management
+            </p>
+            <Button 
+              asChild 
+              className="w-full h-12 bg-primary text-primary-foreground font-bold text-base shadow-lg hover:bg-primary/90 hover:shadow-xl transition-all"
+            >
               <Link to="/auth?tab=register" onClick={() => setMobileMenuOpen(false)}>
-                Sign Up
+                Sign Up Now
               </Link>
             </Button>
-            <Button asChild variant="outline" className="w-full border-primary/50 text-foreground font-medium hover:bg-primary/10">
+            <Button 
+              asChild 
+              variant="outline" 
+              className="w-full h-12 border-2 border-primary text-primary font-semibold text-base bg-background hover:bg-primary hover:text-primary-foreground transition-all"
+            >
               <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
                 Sign In
               </Link>
