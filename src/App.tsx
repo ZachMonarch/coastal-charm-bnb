@@ -6,10 +6,8 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { AuthProvider } from "./contexts/OptimizedAuthContext";
 import { ThemeProvider } from "./design-system/ThemeProvider";
-import { HelmetProvider } from "react-helmet-async";
 import { SecurityHeaders } from "@/components/SecurityHeaders";
 import { OptimizedSecurityProvider } from "@/components/OptimizedSecurityProvider";
-import { GlobalErrorBoundary } from "@/components/GlobalErrorBoundary";
 import CommandPalette from "@/components/CommandPalette";
 import OptimizedProtectedRoute from "@/components/OptimizedProtectedRoute";
 import OptimizedLayout from "@/components/OptimizedLayout";
@@ -120,16 +118,14 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <HelmetProvider>
-      <SecurityHeaders />
-      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        <LanguageProvider>
-          <TooltipProvider>
-            <OptimizedSecurityProvider enableRateLimit={true}>
-              <AuthProvider>
-                <GlobalErrorBoundary>
-                  <Toaster />
-                  <BrowserRouter>
+    <SecurityHeaders />
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <LanguageProvider>
+        <TooltipProvider>
+          <OptimizedSecurityProvider enableRateLimit={true}>
+            <AuthProvider>
+              <Toaster />
+              <BrowserRouter>
                     <CommandPalette />
                     <OptimizedLayout>
                       <Suspense fallback={<LoadingSpinner />}>
@@ -478,14 +474,13 @@ const App = () => (
                       </Suspense>
                     </OptimizedLayout>
                   </BrowserRouter>
-                </GlobalErrorBoundary>
               </AuthProvider>
             </OptimizedSecurityProvider>
           </TooltipProvider>
         </LanguageProvider>
       </ThemeProvider>
-    </HelmetProvider>
   </QueryClientProvider>
 );
 
 export default App;
+
