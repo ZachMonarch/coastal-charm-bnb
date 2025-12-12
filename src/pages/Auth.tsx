@@ -495,7 +495,11 @@ export default function Auth() {
                       </div>
                     </div>
 
-                    <Button type="submit" className="w-full h-12 text-base font-semibold" disabled={isLoading}>
+                    <Button
+                      type="submit"
+                      className="w-full h-12 text-base font-semibold bg-primary text-primary-foreground shadow-md hover:bg-primary/90"
+                      disabled={isLoading}
+                    >
                       {isLoading ? (
                         <span className="flex items-center gap-2">
                           <span className="animate-spin rounded-full h-4 w-4 border-2 border-current border-t-transparent" />
@@ -690,7 +694,11 @@ export default function Auth() {
                       </div>
                     )}
 
-                    <Button type="submit" className="w-full h-12 text-base font-semibold" disabled={isLoading}>
+                    <Button
+                      type="submit"
+                      className="w-full h-12 text-base font-semibold bg-primary text-primary-foreground shadow-md hover:bg-primary/90"
+                      disabled={isLoading}
+                    >
                       {isLoading ? (
                         <span className="flex items-center gap-2">
                           <span className="animate-spin rounded-full h-4 w-4 border-2 border-current border-t-transparent" />
