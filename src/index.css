@@ -39,7 +39,7 @@
     --success-foreground: 0 0% 100%;
     
     --warning: 38 92% 50%;              /* Amber - harmonizes with gold */
-    --warning-foreground: 0 0% 10%;
+    --warning-foreground: 0 0% 5%;      /* Very dark text on amber - high contrast */
     
     --error: 0 75% 55%;                 /* Softer red */
     --error-foreground: 0 0% 100%;
@@ -201,7 +201,7 @@
   .dark {
     /* === BRAND COLORS (adjusted for dark mode) - WCAG Compliant === */
     --primary: 34 85% 55%;              /* Brighter gold for dark backgrounds - WCAG compliant */
-    --primary-foreground: 0 0% 8%;      /* Dark text on gold */
+    --primary-foreground: 0 0% 100%;    /* WHITE text on gold - high contrast */
     --primary-light: 36 80% 62%;
     --primary-dark: 30 90% 45%;
     
@@ -228,7 +228,7 @@
     --success: 155 55% 45%;
     --success-foreground: 0 0% 100%;
     --warning: 38 90% 55%;
-    --warning-foreground: 0 0% 10%;
+    --warning-foreground: 0 0% 5%;      /* Very dark text on amber - high contrast */
     --error: 0 70% 60%;
     --error-foreground: 0 0% 100%;
     --info: 200 65% 55%;

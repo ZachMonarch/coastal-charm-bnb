@@ -275,7 +275,7 @@ export default function Navbar() {
             </p>
             <Button
               asChild
-              className="w-full h-12 bg-primary text-primary-foreground font-semibold text-base shadow-md hover:bg-primary/90 hover:shadow-lg transition-all"
+              className="w-full h-12 bg-primary text-white font-semibold text-base shadow-md hover:bg-primary/90 hover:shadow-lg transition-all"
             >
               <Link to="/auth?tab=register" onClick={() => setMobileMenuOpen(false)}>
                 Join Now

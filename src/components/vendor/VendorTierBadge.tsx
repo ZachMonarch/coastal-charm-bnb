@@ -26,7 +26,7 @@ const tierConfig = {
   bronze: {
     label: 'Bronze',
     icon: Medal,
-    color: 'bg-warning/20 text-warning-foreground dark:bg-warning/30 border-warning/50',
+    color: 'bg-warning/20 text-foreground dark:text-foreground dark:bg-warning/30 border-warning/50',
     description: 'Starting tier for new vendors',
     requirements: { jobs: 0, rating: 0, reviews: 0 }
   },

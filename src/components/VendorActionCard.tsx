@@ -38,9 +38,9 @@ export default function VendorActionCard({
 
   const getCountStyles = () => {
     switch (urgencyLevel) {
-      case 'high': return 'bg-destructive text-destructive-foreground';
-      case 'medium': return 'bg-warning text-warning-foreground';
-      default: return 'bg-primary text-primary-foreground';
+      case 'high': return 'bg-destructive text-white font-bold';
+      case 'medium': return 'bg-warning text-black font-bold';
+      default: return 'bg-primary text-white font-bold';
     }
   };
 

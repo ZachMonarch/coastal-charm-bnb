@@ -107,17 +107,17 @@ export default function SecurityReviewScheduler() {
       return <Badge variant="destructive">Overdue</Badge>;
     }
     if (daysUntil <= 7) {
-      return <Badge variant="default" className="bg-warning text-warning-foreground">Due Soon</Badge>;
+      return <Badge variant="default" className="bg-warning text-black font-semibold">Due Soon</Badge>;
     }
     return <Badge variant="outline">Scheduled</Badge>;
   };
 
   const getTypeBadge = (type: SecurityReview['review_type']) => {
     const colors = {
-      weekly: 'bg-info text-info-foreground',
-      monthly: 'bg-primary text-primary-foreground',
-      quarterly: 'bg-warning text-warning-foreground',
-      annual: 'bg-destructive text-destructive-foreground'
+      weekly: 'bg-info text-white',
+      monthly: 'bg-primary text-white',
+      quarterly: 'bg-warning text-black font-semibold',
+      annual: 'bg-destructive text-white'
     };
     return <Badge className={colors[type]}>{type.toUpperCase()}</Badge>;
   };
