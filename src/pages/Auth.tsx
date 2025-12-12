@@ -13,6 +13,7 @@ import { Eye, EyeOff, LogIn, UserPlus, Building2, Shield, User, Wrench, Lock, Ma
 import { getRoleHomeRouteForRoles } from "@/lib/roleRoutes";
 import { AuthHeroSection } from "@/components/auth/AuthHeroSection";
 import { PasswordStrengthMeter } from "@/components/auth/PasswordStrengthMeter";
+import { getEmailRedirectUrl, getPasswordResetRedirectUrl, logAuthConfig } from "@/utils/authRedirects";
 
 function useAuthParams() {
   const location = useLocation();
@@ -255,11 +256,17 @@ export default function Auth() {
     }
 
     try {
-      const redirectUrl = `${window.location.origin}/auth/verify`;
+      // Use centralized redirect URL helper for consistent https:// protocol
+      const redirectUrl = getEmailRedirectUrl('/auth/verify');
       const fullName = `${firstName.trim()} ${lastName.trim()}`.trim();
 
+      // Log auth config in dev mode for debugging
+      logAuthConfig();
+
+      console.log('[Auth] Signup redirect URL:', redirectUrl);
+
       const { data, error } = await supabase.auth.signUp({
-        email: email.trim(),
+        email: email.trim().toLowerCase(), // Normalize email to lowercase
         password,
         options: {
           emailRedirectTo: redirectUrl,
@@ -499,9 +506,14 @@ export default function Auth() {
                           }
                           setIsLoading(true);
                           try {
-                            const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
-                              redirectTo: `${window.location.origin}/auth?reset=true`,
-                            });
+                            // Use centralized redirect URL helper
+                            const resetRedirectUrl = getPasswordResetRedirectUrl();
+                            console.log('[Auth] Password reset redirect URL:', resetRedirectUrl);
+                            
+                            const { error } = await supabase.auth.resetPasswordForEmail(
+                              email.trim().toLowerCase(), // Normalize email
+                              { redirectTo: resetRedirectUrl }
+                            );
                             if (error) toast.error(error.message);
                             else toast.success("Password reset link sent to your email!");
                           } catch {
