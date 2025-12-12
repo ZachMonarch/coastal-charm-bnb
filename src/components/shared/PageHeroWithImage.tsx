@@ -93,11 +93,8 @@ export default function PageHeroWithImage({
                 key={index}
                 asChild
                 size="lg"
-                variant={action.variant || "default"}
-                className={cn(
-                  "text-lg px-8 py-6 shadow-lg",
-                  action.variant === "outline" && "bg-black/30 backdrop-blur-md border-white/30 text-white hover:bg-black/50"
-                )}
+                variant={action.variant === "outline" ? "heroAction" : "heroAction"}
+                className="text-lg px-8 py-6 shadow-lg"
               >
                 <Link to={action.href}>{action.label}</Link>
               </Button>

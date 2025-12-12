@@ -182,24 +182,40 @@ export default function Navbar() {
               <span className="text-xs text-primary/70 dark:text-primary/60 -mt-1 font-semibold tracking-wide uppercase">Property Mgmt</span>
             </div>
           </div>}>
+        {/* Sign In / Sign Up for unauthenticated users */}
+        {!isAuthenticated && (
+          <div className="p-6 space-y-3 border-b border-primary/20 bg-muted/30">
+            <Button asChild className="w-full bg-primary text-primary-foreground font-semibold shadow-md hover:bg-primary/90">
+              <Link to="/auth?tab=register" onClick={() => setMobileMenuOpen(false)}>
+                Sign Up
+              </Link>
+            </Button>
+            <Button asChild variant="outline" className="w-full border-primary/50 text-foreground font-medium hover:bg-primary/10">
+              <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
+                Sign In
+              </Link>
+            </Button>
+          </div>
+        )}
+
         {/* Navigation Links */}
         <nav className="p-6" aria-label="Mobile navigation">
           <ul className="space-y-2" role="list">
             <li>
-              <Link to="/" onClick={() => setMobileMenuOpen(false)} className={cn("block px-4 py-3 text-base font-medium rounded-lg border-l-4 transition-all", "hover:border-primary hover:bg-primary/5 hover:text-primary", "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none", location.pathname === "/" ? "border-primary bg-primary/5 text-primary" : "border-transparent")}>
+              <Link to="/" onClick={() => setMobileMenuOpen(false)} className={cn("block px-4 py-3 text-base font-medium rounded-lg border-l-4 transition-all text-foreground", "hover:border-primary hover:bg-primary/5 hover:text-primary", "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none", location.pathname === "/" ? "border-primary bg-primary/5 text-primary" : "border-transparent")}>
                 {t.nav.home}
               </Link>
             </li>
             
             {/* Properties Dropdown */}
             <li>
-              <details className="group rounded">
-                <summary className="cursor-pointer px-4 py-3 text-base font-semibold text-foreground text-shadow-nav-light dark:text-shadow-nav transition-colors duration-200 hover:text-primary hover:bg-primary/5 rounded-lg flex items-center justify-between">
+              <details className="group rounded bg-muted/20">
+                <summary className="cursor-pointer px-4 py-3 text-base font-semibold text-foreground bg-card/80 rounded-lg flex items-center justify-between shadow-sm border border-border/50 hover:bg-primary/10 hover:text-primary transition-colors duration-200">
                   <span>Properties</span>
                   <X className="w-4 h-4 rotate-45 group-open:rotate-0 transition-transform text-primary" />
                 </summary>
-                <div className="ml-4 mt-1 space-y-1">
-                  {propertiesDropdownItems.map((item, idx) => <Link key={idx} to={item.href} className="flex items-center gap-2 px-4 py-2 text-sm text-foreground text-shadow-nav-light dark:text-shadow-nav hover:text-primary hover:bg-primary/5 rounded-lg transition-colors border-l-2 border-transparent hover:border-primary" onClick={() => setMobileMenuOpen(false)}>
+                <div className="ml-4 mt-2 space-y-1 bg-card/60 rounded-lg p-2">
+                  {propertiesDropdownItems.map((item, idx) => <Link key={idx} to={item.href} className="flex items-center gap-2 px-4 py-2 text-sm text-foreground font-medium hover:text-primary hover:bg-primary/10 rounded-lg transition-colors border-l-2 border-transparent hover:border-primary" onClick={() => setMobileMenuOpen(false)}>
                       <span className="text-primary">{item.icon}</span>
                       <span>{item.label}</span>
                     </Link>)}
@@ -209,13 +225,13 @@ export default function Navbar() {
 
             {/* Services Dropdown */}
             <li>
-              <details className="group rounded">
-                <summary className="cursor-pointer px-4 py-3 text-base font-semibold text-foreground text-shadow-nav-light dark:text-shadow-nav transition-colors duration-200 hover:text-primary hover:bg-primary/5 rounded-lg flex items-center justify-between">
+              <details className="group rounded bg-muted/20">
+                <summary className="cursor-pointer px-4 py-3 text-base font-semibold text-foreground bg-card/80 rounded-lg flex items-center justify-between shadow-sm border border-border/50 hover:bg-primary/10 hover:text-primary transition-colors duration-200">
                   <span>Services</span>
                   <X className="w-4 h-4 rotate-45 group-open:rotate-0 transition-transform text-primary" />
                 </summary>
-                <div className="ml-4 mt-1 space-y-1">
-                  {servicesDropdownItems.map((item, idx) => <Link key={idx} to={item.href} className="flex items-center gap-2 px-4 py-2 text-sm text-foreground text-shadow-nav-light dark:text-shadow-nav hover:text-primary hover:bg-primary/5 rounded-lg transition-colors border-l-2 border-transparent hover:border-primary" onClick={() => setMobileMenuOpen(false)}>
+                <div className="ml-4 mt-2 space-y-1 bg-card/60 rounded-lg p-2">
+                  {servicesDropdownItems.map((item, idx) => <Link key={idx} to={item.href} className="flex items-center gap-2 px-4 py-2 text-sm text-foreground font-medium hover:text-primary hover:bg-primary/10 rounded-lg transition-colors border-l-2 border-transparent hover:border-primary" onClick={() => setMobileMenuOpen(false)}>
                       <span className="text-primary">{item.icon}</span>
                       <span>{item.label}</span>
                     </Link>)}
