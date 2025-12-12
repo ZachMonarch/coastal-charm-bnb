@@ -1,77 +1,169 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { getAuthBaseUrl, isValidRedirectUrl } from "@/utils/authRedirects";
 
 /**
  * LoginBridge: Handles authentication tokens from magic links, password reset, and invites
  * Parses tokens from URL query/hash, establishes session, and redirects appropriately
+ * 
+ * Debug: Set localStorage.DEBUG_AUTH = '1' to enable verbose logging
  */
+
+const DEBUG = typeof window !== 'undefined' && localStorage.getItem('DEBUG_AUTH') === '1';
+
+function debugLog(message: string, data?: any) {
+  if (!DEBUG) return;
+  console.log(`[LoginBridge] ${message}`, data ?? '');
+}
+
 function useAuthParams() {
   const location = useLocation();
   
-  const all = new URLSearchParams();
-  
-  // Parse query params
-  new URLSearchParams(location.search).forEach((v, k) => all.set(k, v));
-  
-  // Parse hash params (#access_token=...)
-  const hash = location.hash.startsWith("#") ? location.hash.slice(1) : location.hash;
-  if (hash) {
-    new URLSearchParams(hash).forEach((v, k) => all.set(k, v));
-  }
-  
-  const access_token = all.get("access_token") || "";
-  const refresh_token = all.get("refresh_token") || "";
-  const typeRaw = (all.get("type") || "").toLowerCase();
-  
-  // Normalize token types
-  const type = typeRaw.includes("recovery") ? "recovery"
-    : typeRaw.includes("magic") ? "magiclink"
-    : typeRaw.includes("invite") ? "invite"
-    : typeRaw.includes("signup") ? "signup"
-    : typeRaw;
-  
-  const resetFlag = all.get("reset") === "true" || type === "recovery";
-  
-  return { access_token, refresh_token, type, resetFlag };
+  return useMemo(() => {
+    const all = new URLSearchParams();
+    
+    // Parse query params
+    new URLSearchParams(location.search).forEach((v, k) => all.set(k, v));
+    
+    // Parse hash params (#access_token=...) - Supabase often puts tokens here
+    const hash = location.hash.startsWith("#") ? location.hash.slice(1) : location.hash;
+    if (hash) {
+      new URLSearchParams(hash).forEach((v, k) => all.set(k, v));
+    }
+    
+    // Also check for error params in hash (e.g., #error=access_denied)
+    const error = all.get("error") || "";
+    const errorCode = all.get("error_code") || "";
+    const errorDescription = all.get("error_description") || "";
+    
+    const access_token = all.get("access_token") || "";
+    const refresh_token = all.get("refresh_token") || "";
+    const token = all.get("token") || ""; // Some flows use 'token' instead
+    const typeRaw = (all.get("type") || "").toLowerCase();
+    
+    // Normalize token types
+    const type = typeRaw.includes("recovery") ? "recovery"
+      : typeRaw.includes("magic") ? "magiclink"
+      : typeRaw.includes("invite") ? "invite"
+      : typeRaw.includes("signup") ? "signup"
+      : typeRaw.includes("email") ? "email_change"
+      : typeRaw;
+    
+    const resetFlag = all.get("reset") === "true" || type === "recovery";
+    
+    debugLog('Parsed auth params', { 
+      access_token: access_token ? '***' : '', 
+      refresh_token: refresh_token ? '***' : '',
+      token: token ? '***' : '',
+      type, 
+      resetFlag,
+      error,
+      errorCode,
+      errorDescription,
+      fullHash: hash ? hash.substring(0, 50) + '...' : '',
+      fullSearch: location.search
+    });
+    
+    return { 
+      access_token, 
+      refresh_token, 
+      token,
+      type, 
+      resetFlag,
+      error,
+      errorCode,
+      errorDescription
+    };
+  }, [location.search, location.hash]);
 }
 
 export default function LoginBridge() {
   const navigate = useNavigate();
-  const { access_token, refresh_token, type, resetFlag } = useAuthParams();
+  const { 
+    access_token, 
+    refresh_token, 
+    token,
+    type, 
+    resetFlag,
+    error,
+    errorCode,
+    errorDescription
+  } = useAuthParams();
   const [processing, setProcessing] = useState(true);
+  const [status, setStatus] = useState("Processing secure link…");
 
   useEffect(() => {
     const run = async () => {
-      // No tokens = redirect to auth
-      if (!access_token || !refresh_token) {
+      debugLog('Starting LoginBridge flow', { 
+        hasAccessToken: !!access_token,
+        hasRefreshToken: !!refresh_token,
+        hasToken: !!token,
+        type,
+        resetFlag,
+        error
+      });
+
+      // Handle error responses from Supabase (e.g., expired links)
+      if (error) {
+        const friendlyMessage = errorCode === 'otp_expired' 
+          ? "This link has expired. Please request a new one."
+          : errorDescription?.replace(/\+/g, ' ') || "Authentication failed.";
+        
+        debugLog('Error in URL params', { error, errorCode, errorDescription });
+        toast.error(friendlyMessage);
         navigate("/auth", { replace: true });
         return;
       }
 
+      // No tokens = redirect to auth
+      if (!access_token || !refresh_token) {
+        debugLog('Missing tokens, redirecting to /auth');
+        navigate("/auth", { replace: true });
+        return;
+      }
+
+      setStatus("Establishing secure session…");
+
       try {
-        // Clear any existing session
+        // Clear any existing session to prevent conflicts
         try {
           await supabase.auth.signOut();
-        } catch {
-          // Ignore signout errors
+          debugLog('Cleared existing session');
+        } catch (e) {
+          debugLog('Signout failed (non-critical)', e);
         }
 
         // Establish new session with tokens
-        const { error } = await supabase.auth.setSession({ 
+        debugLog('Setting session with tokens');
+        const { data, error: sessionError } = await supabase.auth.setSession({ 
           access_token, 
           refresh_token 
         });
 
-        if (error) {
-          toast.error("Authentication failed. Please request a new link.");
+        if (sessionError) {
+          debugLog('Session error', sessionError);
+          
+          // Provide specific error messages
+          let errorMsg = "Authentication failed.";
+          if (sessionError.message?.includes('expired')) {
+            errorMsg = "This link has expired. Please request a new one.";
+          } else if (sessionError.message?.includes('invalid')) {
+            errorMsg = "Invalid authentication link. Please request a new one.";
+          }
+          
+          toast.error(errorMsg);
           navigate("/auth", { replace: true });
           return;
         }
 
+        debugLog('Session established', { userId: data?.user?.id });
+        setStatus("Redirecting…");
+
         // Handle password reset flow
         if (resetFlag) {
+          debugLog('Password reset flow detected');
           toast.info("Please set a new password to continue.");
           window.history.replaceState({}, "", "/auth?reset=true");
           navigate("/auth?reset=true", { replace: true });
@@ -80,30 +172,42 @@ export default function LoginBridge() {
 
         // Success - redirect to dashboard
         toast.success("Signed in successfully!");
-        const destination = type === "magiclink" || type === "invite" || type === "signup" 
-          ? "/dashboard" 
-          : "/dashboard";
+        const destination = "/dashboard";
         
+        debugLog('Redirecting to', destination);
         window.history.replaceState({}, "", destination);
         navigate(destination, { replace: true });
 
-      } catch (error: any) {
-        console.error("LoginBridge error:", error);
-        toast.error("Unexpected error during authentication.");
+      } catch (err: any) {
+        debugLog('Unexpected error', err);
+        console.error("LoginBridge error:", err);
+        toast.error("Unexpected error during authentication. Please try again.");
         navigate("/auth", { replace: true });
       }
     };
 
     run().finally(() => setProcessing(false));
-  }, [access_token, refresh_token, type, resetFlag, navigate]);
+  }, [access_token, refresh_token, token, type, resetFlag, error, errorCode, errorDescription, navigate]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="flex flex-col items-center gap-3">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" />
-        <div className="text-sm text-muted-foreground">
-          {processing ? "Processing secure link…" : "Redirecting…"}
+      <div className="flex flex-col items-center gap-4">
+        <div className="relative">
+          <div className="animate-spin rounded-full h-16 w-16 border-4 border-primary/20 border-t-primary" />
+          <img 
+            src="/lovable-uploads/318cdd13-7256-4cfe-99e0-948e43902b7b.png" 
+            alt="Monarch Logo"
+            className="absolute inset-0 m-auto h-8 w-8 rounded object-contain"
+          />
         </div>
+        <div className="text-sm text-muted-foreground font-medium">
+          {status}
+        </div>
+        {DEBUG && (
+          <div className="text-xs text-muted-foreground/60 max-w-xs text-center">
+            Debug mode enabled. Check console for details.
+          </div>
+        )}
       </div>
     </div>
   );
