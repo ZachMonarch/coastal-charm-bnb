@@ -107,7 +107,7 @@ export default function SecurityReviewScheduler() {
       return <Badge variant="destructive">Overdue</Badge>;
     }
     if (daysUntil <= 7) {
-      return <Badge variant="default" className="bg-warning text-black font-semibold">Due Soon</Badge>;
+      return <Badge variant="default" className="bg-warning text-warning-foreground font-semibold">Due Soon</Badge>;
     }
     return <Badge variant="outline">Scheduled</Badge>;
   };
