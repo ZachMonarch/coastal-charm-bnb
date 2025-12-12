@@ -352,7 +352,7 @@ export default function VendorDashboardComplete({ canApply, canViewAll }: Vendor
                     </div>
                   </div>
                   
-                  <Button asChild className="w-full">
+                  <Button asChild className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold shadow-md">
                     <Link to="/vendor/profile">Complete Profile</Link>
                   </Button>
                 </CardContent>

@@ -240,7 +240,7 @@ export default function Navbar() {
             </li>
 
             {simpleNavLinks.slice(1).map(link => <li key={link.id}>
-                <Link to={link.path} onClick={() => setMobileMenuOpen(false)} className={cn("block px-4 py-3 text-base font-medium rounded-lg border-l-4 transition-all", "text-foreground text-shadow-nav-light dark:text-shadow-nav", "hover:border-primary hover:bg-primary/5 hover:text-primary", "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none", location.pathname === link.path ? "border-primary bg-primary/5 text-primary" : "border-transparent")}>
+                <Link to={link.path} onClick={() => setMobileMenuOpen(false)} className={cn("block px-4 py-3 text-base font-medium rounded-lg border-l-4 transition-all", "text-foreground", "hover:border-primary hover:bg-primary/10 hover:text-primary", "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none", location.pathname === link.path ? "border-primary bg-primary/10 text-primary" : "border-transparent")}>
                   {link.name}
                 </Link>
               </li>)}

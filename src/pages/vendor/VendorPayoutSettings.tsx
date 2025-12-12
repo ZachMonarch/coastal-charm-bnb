@@ -444,7 +444,7 @@ export default function VendorPayoutSettings() {
 
         {/* Save Button */}
         <Button 
-          className="w-full" 
+          className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold shadow-lg" 
           onClick={handleSave}
           disabled={saving}
         >
