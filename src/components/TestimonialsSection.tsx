@@ -195,10 +195,10 @@ export default function TestimonialsSection() {
           <div className="flex justify-between items-center mt-12">
             <button
               onClick={prevTestimonial}
-              className="bg-card border-2 border-border shadow-lg p-4 rounded-2xl hover:bg-muted hover:border-primary/50 transition-all duration-300 group"
+              className="bg-primary text-primary-foreground border-2 border-primary shadow-lg p-4 rounded-2xl hover:bg-primary/80 transition-all duration-300 group"
               disabled={isAnimating}
             >
-              <ChevronLeft className="h-6 w-6 text-primary group-hover:animate-pulse" />
+              <ChevronLeft className="h-6 w-6 text-primary-foreground group-hover:scale-110 transition-transform" />
               <span className="sr-only">Previous testimonial</span>
             </button>
             
@@ -213,10 +213,10 @@ export default function TestimonialsSection() {
                     setTimeout(() => setIsAnimating(false), 600);
                   }}
                   className={cn(
-                    "transition-all duration-300 border border-border",
+                    "transition-all duration-300 shadow-md",
                     activeIndex === index 
-                      ? "bg-primary w-8 h-4 rounded-full" 
-                      : "bg-card w-4 h-4 rounded-full hover:bg-muted"
+                      ? "bg-primary w-8 h-4 rounded-full border-2 border-primary" 
+                      : "bg-muted w-4 h-4 rounded-full border-2 border-border hover:bg-primary/50"
                   )}
                   aria-label={`Go to testimonial ${index + 1}`}
                 />
@@ -225,10 +225,10 @@ export default function TestimonialsSection() {
             
             <button
               onClick={nextTestimonial}
-              className="bg-card border-2 border-border shadow-lg p-4 rounded-2xl hover:bg-muted hover:border-primary/50 transition-all duration-300 group"
+              className="bg-primary text-primary-foreground border-2 border-primary shadow-lg p-4 rounded-2xl hover:bg-primary/80 transition-all duration-300 group"
               disabled={isAnimating}
             >
-              <ChevronRight className="h-6 w-6 text-primary group-hover:animate-pulse" />
+              <ChevronRight className="h-6 w-6 text-primary-foreground group-hover:scale-110 transition-transform" />
               <span className="sr-only">Next testimonial</span>
             </button>
           </div>
