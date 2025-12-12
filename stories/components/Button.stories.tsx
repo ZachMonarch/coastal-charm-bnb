@@ -39,12 +39,16 @@ export const AllVariants: Story = {
         <Button variant="secondary">Secondary</Button>
         <Button variant="ghost">Ghost</Button>
         <Button variant="link">Link</Button>
+        <Button variant="warning">Warning</Button>
       </div>
       <div className="flex flex-wrap gap-4 bg-gradient-to-r from-primary/20 to-accent/20 p-4 rounded-lg">
         <Button variant="hero">Hero</Button>
         <Button variant="heroSolid">Hero Solid</Button>
         <Button variant="neumorphic">Neumorphic</Button>
         <Button variant="glass">Glass</Button>
+        <Button variant="shimmer">Shimmer</Button>
+        <Button variant="gradient">Gradient</Button>
+        <Button variant="glow">Glow</Button>
       </div>
     </div>
   ),

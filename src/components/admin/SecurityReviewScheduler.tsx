@@ -114,10 +114,10 @@ export default function SecurityReviewScheduler() {
 
   const getTypeBadge = (type: SecurityReview['review_type']) => {
     const colors = {
-      weekly: 'bg-info text-white',
-      monthly: 'bg-primary text-white',
-      quarterly: 'bg-warning text-black font-semibold',
-      annual: 'bg-destructive text-white'
+      weekly: 'bg-info text-info-foreground',
+      monthly: 'bg-primary text-primary-foreground',
+      quarterly: 'bg-warning text-warning-foreground font-semibold',
+      annual: 'bg-destructive text-destructive-foreground'
     };
     return <Badge className={colors[type]}>{type.toUpperCase()}</Badge>;
   };

@@ -190,10 +190,10 @@ export default function TestimonialsSection() {
           <div className="flex justify-between items-center mt-12">
             <button
               onClick={prevTestimonial}
-              className="bg-primary text-white border-2 border-primary shadow-lg p-4 rounded-2xl hover:bg-primary/80 transition-all duration-300 group"
+              className="bg-primary text-primary-foreground border-2 border-primary shadow-lg p-4 rounded-2xl hover:bg-primary-dark transition-all duration-300 group"
               disabled={isAnimating}
             >
-              <ChevronLeft className="h-6 w-6 text-white group-hover:scale-110 transition-transform" />
+              <ChevronLeft className="h-6 w-6 text-primary-foreground group-hover:scale-110 transition-transform" />
               <span className="sr-only">Previous testimonial</span>
             </button>
             
@@ -220,10 +220,10 @@ export default function TestimonialsSection() {
             
             <button
               onClick={nextTestimonial}
-              className="bg-primary text-white border-2 border-primary shadow-lg p-4 rounded-2xl hover:bg-primary/80 transition-all duration-300 group"
+              className="bg-primary text-primary-foreground border-2 border-primary shadow-lg p-4 rounded-2xl hover:bg-primary-dark transition-all duration-300 group"
               disabled={isAnimating}
             >
-              <ChevronRight className="h-6 w-6 text-white group-hover:scale-110 transition-transform" />
+              <ChevronRight className="h-6 w-6 text-primary-foreground group-hover:scale-110 transition-transform" />
               <span className="sr-only">Next testimonial</span>
             </button>
           </div>

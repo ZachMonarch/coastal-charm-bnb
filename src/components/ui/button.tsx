@@ -10,24 +10,24 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-white shadow-sm hover:bg-primary/90 hover:shadow-md dark:bg-primary dark:text-white dark:hover:bg-primary/80",
+        default: "bg-primary text-primary-foreground shadow-sm hover:bg-primary-dark hover:shadow-md [&>a]:text-primary-foreground [&_a]:text-primary-foreground",
         destructive:
-          "bg-destructive text-white shadow-sm hover:bg-destructive/90 hover:shadow-md dark:bg-destructive dark:text-white",
+          "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90 hover:shadow-md",
         outline:
           "border border-input bg-background text-foreground hover:bg-accent hover:text-accent-foreground hover:border-accent-foreground/20 dark:border-border dark:bg-background dark:text-foreground dark:hover:bg-muted dark:hover:text-foreground",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80 hover:shadow-sm dark:bg-secondary dark:text-secondary-foreground",
         ghost: "text-foreground hover:bg-accent hover:text-accent-foreground dark:text-foreground dark:hover:bg-muted dark:hover:text-foreground",
         link: "text-primary underline-offset-4 hover:underline active:scale-100 dark:text-primary",
-        hero: "bg-overlay/20 text-white backdrop-blur-sm border border-white/30 hover:bg-overlay/30 shadow-lg hover:shadow-xl",
-        heroSolid: "bg-primary text-white shadow-lg hover:bg-primary/90 hover:shadow-xl hover:scale-[1.02] active:scale-[0.99]",
+        hero: "bg-overlay/20 text-primary-foreground backdrop-blur-sm border border-white/30 hover:bg-overlay/30 shadow-lg hover:shadow-xl",
+        heroSolid: "bg-primary text-primary-foreground shadow-lg hover:bg-primary-dark hover:shadow-xl hover:scale-[1.02] active:scale-[0.99]",
         neumorphic: "neumorphic-card hover:neumorphic-inset text-foreground dark:text-foreground",
         glass: "glass-card text-foreground hover:bg-white/20 dark:text-foreground dark:hover:bg-black/30",
-        shimmer: "bg-gradient-to-r from-primary via-primary-light to-primary bg-[length:200%_100%] text-white hover:bg-[position:100%_0] transition-all duration-500 shadow-md hover:shadow-primary/40",
-        gradient: "bg-gradient-to-r from-primary to-primary-dark text-white shadow-md hover:shadow-lg hover:shadow-primary/30 hover:scale-[1.02] active:scale-[0.99]",
-        glow: "bg-primary text-white shadow-[0_0_20px_hsl(var(--primary)/0.3)] hover:bg-primary/90 hover:shadow-[0_0_30px_hsl(var(--primary)/0.5)] hover:scale-[1.02] active:scale-[0.99] transition-all duration-300",
-        heroAction: "bg-black/70 text-white border border-white/40 hover:bg-black/80 hover:text-white shadow-lg backdrop-blur-sm font-semibold",
-        warning: "bg-warning text-black shadow-sm hover:bg-warning/90 hover:shadow-md font-semibold",
+        shimmer: "bg-gradient-to-r from-primary via-primary-light to-primary bg-[length:200%_100%] text-primary-foreground hover:bg-[position:100%_0] transition-all duration-500 shadow-md hover:shadow-primary/40",
+        gradient: "bg-gradient-to-r from-primary to-primary-dark text-primary-foreground shadow-md hover:shadow-lg hover:shadow-primary/30 hover:scale-[1.02] active:scale-[0.99]",
+        glow: "bg-primary text-primary-foreground shadow-[0_0_20px_hsl(var(--primary)/0.3)] hover:bg-primary-dark hover:shadow-[0_0_30px_hsl(var(--primary)/0.5)] hover:scale-[1.02] active:scale-[0.99] transition-all duration-300",
+        heroAction: "bg-black/70 text-primary-foreground border border-white/40 hover:bg-black/80 shadow-lg backdrop-blur-sm font-semibold",
+        warning: "bg-warning text-warning-foreground shadow-sm hover:bg-warning/90 hover:shadow-md font-semibold",
       },
       size: {
         default: "h-10 px-4 py-2",
