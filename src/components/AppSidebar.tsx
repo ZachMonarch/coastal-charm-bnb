@@ -292,10 +292,11 @@ export function AppSidebar() {
 
   const getNavCls = ({ isActive, groupTitle }: { isActive: boolean; groupTitle: string }) => {
     if (isActive) {
-      return "bg-muted text-foreground font-semibold border-l-4 border-primary";
+      // Very subtle faint active state - low opacity background with delicate left border
+      return "bg-primary/8 text-foreground font-medium border-l-2 border-primary/40";
     }
     const iconColor = getGroupIconColor(groupTitle);
-    return `hover:bg-muted/50 ${iconColor} hover:text-foreground`;
+    return `hover:bg-primary/5 ${iconColor} hover:text-foreground`;
   };
 
   // Role-based navigation items
