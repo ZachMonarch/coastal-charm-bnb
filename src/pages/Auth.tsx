@@ -127,11 +127,19 @@ export default function Auth() {
     const emailParam = params.get("email");
     const companyParam = params.get("company");
     const roleParam = params.get("role");
+    const modeParam = params.get("mode");
 
     if (emailParam && !email) setEmail(decodeURIComponent(emailParam));
     if (companyParam && !companyName) setCompanyName(decodeURIComponent(companyParam));
     if (roleParam && !role) setRole(decodeURIComponent(roleParam));
-  }, [location.search]);
+
+    // Ensure correct tab is shown for explicit auth mode
+    if (modeParam === "signup") {
+      setActiveTab("signup");
+    } else if (modeParam === "signin") {
+      setActiveTab("signin");
+    }
+  }, [location.search, email, companyName, role]);
 
   useEffect(() => {
     if (!authLoading && isAuthenticated && user && !isResettingPassword && !processingRedirect) {
