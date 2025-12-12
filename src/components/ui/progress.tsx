@@ -29,15 +29,15 @@ const progressVariants = cva(
 )
 
 const indicatorVariants = cva(
-  "h-full w-full flex-1 transition-all duration-500 ease-out",
+  "h-full w-full flex-1 transition-all duration-500 ease-out shadow-sm",
   {
     variants: {
       variant: {
-        default: "bg-primary",
-        success: "bg-success",
-        warning: "bg-warning",
-        error: "bg-destructive",
-        info: "bg-info",
+        default: "bg-primary shadow-[0_0_8px_hsl(32_80%_40%/0.4)]",
+        success: "bg-success shadow-[0_0_8px_hsl(155_60%_35%/0.4)]",
+        warning: "bg-warning shadow-[0_0_8px_hsl(38_92%_50%/0.4)]",
+        error: "bg-destructive shadow-[0_0_8px_hsl(0_75%_55%/0.4)]",
+        info: "bg-info shadow-[0_0_8px_hsl(200_70%_50%/0.4)]",
         gradient: "bg-gradient-to-r from-primary via-secondary to-info",
       },
       animated: {
