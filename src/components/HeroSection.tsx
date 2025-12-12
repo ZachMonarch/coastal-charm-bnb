@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ChevronDown, Play, Sparkles, Building } from "lucide-react";
+import { ChevronDown, Sparkles, Building } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -95,14 +95,14 @@ export default function HeroSection() {
           {/* Enhanced CTA buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-16">
             <Button asChild size="lg" className="btn-primary tech-glow min-w-[240px] group">
-              <Link to="/contact">
-                <Building className="mr-2 h-5 w-5 group-hover:animate-bounce" />
-                {t.hero.bookStay}
+              <Link to="/auth?mode=signup">
+                <Sparkles className="mr-2 h-5 w-5 group-hover:animate-bounce" />
+                Get Started
               </Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="min-w-[240px] group bg-white/10 backdrop-blur-md border-white/30 text-white hover:bg-white/20 hover:text-white hover:border-white/50">
               <Link to="/properties">
-                <Play className="mr-2 h-5 w-5 group-hover:animate-pulse" />
+                <Building className="mr-2 h-5 w-5 group-hover:animate-pulse" />
                 {t.hero.exploreApartments}
               </Link>
             </Button>
