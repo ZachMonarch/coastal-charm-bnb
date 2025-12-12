@@ -154,10 +154,10 @@ export default function Navbar() {
                 to="/"
                 className={cn(
                   "px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200",
-                  "text-foreground hover:text-primary hover:bg-primary/10",
+                  "text-foreground hover:text-primary hover:bg-primary/5",
                   "text-shadow-nav-light dark:text-shadow-nav",
                   "relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2",
-                  "after:w-0 hover:after:w-3/4 after:h-0.5 after:bg-primary after:transition-all",
+                  "after:w-0 hover:after:w-3/4 after:h-0.5 after:bg-primary/60 after:transition-all",
                   "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none",
                   location.pathname === "/" && "text-primary after:w-3/4",
                 )}
@@ -177,10 +177,10 @@ export default function Navbar() {
                   to={link.path}
                   className={cn(
                     "px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200",
-                    "text-foreground hover:text-primary hover:bg-primary/10",
+                    "text-foreground hover:text-primary hover:bg-primary/5",
                     "text-shadow-nav-light dark:text-shadow-nav",
                     "relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2",
-                    "after:w-0 hover:after:w-3/4 after:h-0.5 after:bg-primary after:transition-all",
+                    "after:w-0 hover:after:w-3/4 after:h-0.5 after:bg-primary/60 after:transition-all",
                     "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none",
                     location.pathname === link.path && "text-primary after:w-3/4",
                   )}
@@ -267,29 +267,31 @@ export default function Navbar() {
           </div>
         }
       >
-        {/* Sign In / Sign Up buttons - ALWAYS visible in mobile drawer */}
-        <div className="p-4 space-y-3 border-b-2 border-primary/30 bg-gradient-to-r from-primary/10 to-primary/5">
-          <p className="text-sm text-foreground font-medium text-center mb-3">
-            Join Monarch Property Management
-          </p>
-          <Button
-            asChild
-            className="w-full h-12 bg-primary text-primary-foreground font-bold text-base shadow-lg hover:bg-primary/90 hover:shadow-xl transition-all"
-          >
-            <Link to="/auth?tab=register" onClick={() => setMobileMenuOpen(false)}>
-              Sign Up Now
-            </Link>
-          </Button>
-          <Button
-            asChild
-            variant="outline"
-            className="w-full h-12 border-2 border-primary text-primary font-semibold text-base bg-background hover:bg-primary hover:text-primary-foreground transition-all"
-          >
-            <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
-              Sign In
-            </Link>
-          </Button>
-        </div>
+        {/* Sign In / Sign Up buttons - visible for guests only */}
+        {!isAuthenticated && (
+          <div className="p-4 space-y-3 border-b border-border bg-card">
+            <p className="text-sm text-foreground font-medium text-center mb-2">
+              Join Monarch Property Management
+            </p>
+            <Button
+              asChild
+              className="w-full h-12 bg-primary text-primary-foreground font-semibold text-base shadow-md hover:bg-primary/90 hover:shadow-lg transition-all"
+            >
+              <Link to="/auth?tab=register" onClick={() => setMobileMenuOpen(false)}>
+                Join Now
+              </Link>
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              className="w-full h-12 border border-border text-foreground font-medium text-base bg-card hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all"
+            >
+              <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
+                Sign In
+              </Link>
+            </Button>
+          </div>
+        )}
 
         {/* Navigation Links */}
         <nav className="p-6" aria-label="Mobile navigation">
@@ -299,10 +301,10 @@ export default function Navbar() {
                 to="/"
                 onClick={() => setMobileMenuOpen(false)}
                 className={cn(
-                  "block px-4 py-3 text-base font-medium rounded-lg border-l-4 transition-all text-foreground",
-                  "hover:border-primary hover:bg-primary/5 hover:text-primary",
+                  "block px-4 py-3 text-base font-medium rounded-lg border-l-4 transition-all",
+                  "text-foreground hover:border-primary/80 hover:bg-muted hover:text-foreground",
                   "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none",
-                  location.pathname === "/" ? "border-primary bg-primary/5 text-primary" : "border-transparent",
+                  location.pathname === "/" ? "border-primary/80 bg-muted text-foreground" : "border-transparent",
                 )}
               >
                 {t.nav.home}
@@ -311,17 +313,17 @@ export default function Navbar() {
 
             {/* Properties Dropdown */}
             <li>
-              <details className="group rounded bg-muted/20">
-                <summary className="cursor-pointer px-4 py-3 text-base font-semibold text-foreground bg-card/80 rounded-lg flex items-center justify-between shadow-sm border border-border/50 hover:bg-primary/10 hover:text-primary transition-colors duration-200">
+              <details className="group rounded bg-muted/30">
+                <summary className="cursor-pointer px-4 py-3 text-base font-semibold text-foreground bg-card rounded-lg flex items-center justify-between shadow-sm border border-border hover:bg-muted hover:text-foreground transition-colors duration-200">
                   <span>Properties</span>
-                  <X className="w-4 h-4 rotate-45 group-open:rotate-0 transition-transform text-primary" />
+                  <X className="w-4 h-4 rotate-45 group-open:rotate-0 transition-transform text-muted-foreground" />
                 </summary>
-                <div className="ml-4 mt-2 space-y-1 bg-card/60 rounded-lg p-2">
+                <div className="ml-4 mt-2 space-y-1 bg-card rounded-lg p-2">
                   {propertiesDropdownItems.map((item, idx) => (
                     <Link
                       key={idx}
                       to={item.href}
-                      className="flex items-center gap-2 px-4 py-2 text-sm text-foreground font-medium hover:text-primary hover:bg-primary/10 rounded-lg transition-colors border-l-2 border-transparent hover:border-primary"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors border-l-2 border-transparent hover:border-primary/80"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       <span className="text-primary">{item.icon}</span>
@@ -334,17 +336,17 @@ export default function Navbar() {
 
             {/* Services Dropdown */}
             <li>
-              <details className="group rounded bg-muted/20">
-                <summary className="cursor-pointer px-4 py-3 text-base font-semibold text-foreground bg-card/80 rounded-lg flex items-center justify-between shadow-sm border border-border/50 hover:bg-primary/10 hover:text-primary transition-colors duration-200">
+              <details className="group rounded bg-muted/30">
+                <summary className="cursor-pointer px-4 py-3 text-base font-semibold text-foreground bg-card rounded-lg flex items-center justify-between shadow-sm border border-border hover:bg-muted hover:text-foreground transition-colors duration-200">
                   <span>Services</span>
-                  <X className="w-4 h-4 rotate-45 group-open:rotate-0 transition-transform text-primary" />
+                  <X className="w-4 h-4 rotate-45 group-open:rotate-0 transition-transform text-muted-foreground" />
                 </summary>
-                <div className="ml-4 mt-2 space-y-1 bg-card/60 rounded-lg p-2">
+                <div className="ml-4 mt-2 space-y-1 bg-card rounded-lg p-2">
                   {servicesDropdownItems.map((item, idx) => (
                     <Link
                       key={idx}
                       to={item.href}
-                      className="flex items-center gap-2 px-4 py-2 text-sm text-foreground font-medium hover:text-primary hover:bg-primary/10 rounded-lg transition-colors border-l-2 border-transparent hover:border-primary"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors border-l-2 border-transparent hover:border-primary/80"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       <span className="text-primary">{item.icon}</span>
@@ -361,10 +363,10 @@ export default function Navbar() {
                   to={link.path}
                   onClick={() => setMobileMenuOpen(false)}
                   className={cn(
-                    "block px-4 py-3 text-base font-medium rounded-lg border-l-4 transition-all text-foreground",
-                    "hover:border-primary hover:bg-primary/10 hover:text-primary",
+                    "block px-4 py-3 text-base font-medium rounded-lg border-l-4 transition-all",
+                    "text-foreground hover:border-primary/80 hover:bg-muted hover:text-foreground",
                     "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none",
-                    location.pathname === link.path ? "border-primary bg-primary/10 text-primary" : "border-transparent",
+                    location.pathname === link.path ? "border-primary/80 bg-muted text-foreground" : "border-transparent",
                   )}
                 >
                   {link.name}
@@ -375,22 +377,24 @@ export default function Navbar() {
         </nav>
 
         {/* Appearance Toggle - Mobile */}
-        <section className="px-6 pb-4 border-top border-border/40 bg-card/80 border-t">
+        <section className="px-6 pb-4 bg-card border-t border-border">
           <div className="flex items-center justify-between pt-4">
             <div className="flex flex-col">
               <span className="text-sm font-medium text-foreground">Appearance</span>
               <span className="text-xs text-muted-foreground">Switch between light and dark mode</span>
             </div>
-            <div className="rounded-full border border-primary/30 bg-background/80 p-1 shadow-sm">
+            <div className="rounded-full border border-border bg-background p-1 shadow-sm">
               <ThemeToggle />
             </div>
           </div>
         </section>
 
-        {/* User Menu */}
-        <div className="p-6 border-t border-primary/20">
-          <OptimizedUserMenu />
-        </div>
+        {/* User Menu - only for authenticated users */}
+        {isAuthenticated && (
+          <div className="p-6 border-t border-border bg-card">
+            <OptimizedUserMenu />
+          </div>
+        )}
       </MobileDrawer>
     </>
   );
