@@ -283,7 +283,7 @@ export default function VendorPayoutsManagement() {
                   <p className="font-medium text-warning">Payout Settings Required</p>
                   <p className="text-sm text-muted-foreground">Set up your bank account to receive payouts</p>
                 </div>
-                <Button onClick={() => navigate('/vendor/payout-settings')}>
+                <Button onClick={() => navigate('/vendor/payout-settings')} className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold shadow-md">
                   Set Up Now
                 </Button>
               </div>
