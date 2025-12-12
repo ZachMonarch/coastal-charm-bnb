@@ -4107,6 +4107,7 @@ export type Database = {
           role: string
         }[]
       }
+      get_user_tenant_id: { Args: { _user_id?: string }; Returns: string }
       get_vendor_dashboard_summary_optimized: {
         Args: { vendor_user_id: string }
         Returns: Json
