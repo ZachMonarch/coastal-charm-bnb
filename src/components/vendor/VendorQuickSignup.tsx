@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -432,13 +432,13 @@ export default function VendorQuickSignup({ open, onOpenChange }: VendorQuickSig
                     <div className="space-y-1 leading-none">
                       <FormLabel className="text-sm font-normal cursor-pointer">
                         I agree to the{" "}
-                        <a href="/terms" target="_blank" className="text-primary underline">
+                        <Link to="/terms" target="_blank" className="text-primary underline">
                           Terms of Service
-                        </a>{" "}
+                        </Link>{" "}
                         and{" "}
-                        <a href="/privacy" target="_blank" className="text-primary underline">
+                        <Link to="/privacy" target="_blank" className="text-primary underline">
                           Privacy Policy
-                        </a>
+                        </Link>
                       </FormLabel>
                     </div>
                   </FormItem>
