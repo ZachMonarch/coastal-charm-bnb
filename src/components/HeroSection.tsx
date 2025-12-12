@@ -131,14 +131,25 @@ export default function HeroSection() {
       
       {/* Enhanced scroll indicator - z-[10] */}
       <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-[10] pointer-events-auto">
-        <a href="#welcome" className="bg-black/40 backdrop-blur-md border border-white/20 p-4 rounded-full hover:bg-black/50 transition-all duration-300 group inline-block" aria-label="Scroll down to learn more">
+        <button 
+          onClick={() => {
+            const welcomeSection = document.getElementById('welcome');
+            if (welcomeSection) {
+              welcomeSection.scrollIntoView({ behavior: 'smooth' });
+            } else {
+              window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+            }
+          }}
+          className="bg-black/70 backdrop-blur-md border border-white/30 p-4 rounded-full hover:bg-black/80 transition-all duration-300 group" 
+          aria-label="Scroll down to learn more"
+        >
           <div className="flex flex-col items-center">
             <span className="text-sm text-white mb-2 group-hover:text-primary transition-colors font-medium">
               {t.hero.scrollDown}
             </span>
             <ChevronDown className="h-6 w-6 text-white animate-bounce group-hover:text-primary transition-colors" />
           </div>
-        </a>
+        </button>
       </div>
       
       {/* Enhanced animated wave with tech pattern */}

@@ -195,7 +195,7 @@ export default function TestimonialsSection() {
           <div className="flex justify-between items-center mt-12">
             <button
               onClick={prevTestimonial}
-              className="neumorphic-card p-4 rounded-2xl hover:neumorphic-inset transition-all duration-300 group"
+              className="bg-card border-2 border-border shadow-lg p-4 rounded-2xl hover:bg-muted hover:border-primary/50 transition-all duration-300 group"
               disabled={isAnimating}
             >
               <ChevronLeft className="h-6 w-6 text-primary group-hover:animate-pulse" />
@@ -213,10 +213,10 @@ export default function TestimonialsSection() {
                     setTimeout(() => setIsAnimating(false), 600);
                   }}
                   className={cn(
-                    "transition-all duration-300",
+                    "transition-all duration-300 border border-border",
                     activeIndex === index 
-                      ? "neumorphic-inset w-8 h-4 rounded-full" 
-                      : "neumorphic-card w-4 h-4 rounded-full hover:neumorphic-inset"
+                      ? "bg-primary w-8 h-4 rounded-full" 
+                      : "bg-card w-4 h-4 rounded-full hover:bg-muted"
                   )}
                   aria-label={`Go to testimonial ${index + 1}`}
                 />
@@ -225,7 +225,7 @@ export default function TestimonialsSection() {
             
             <button
               onClick={nextTestimonial}
-              className="neumorphic-card p-4 rounded-2xl hover:neumorphic-inset transition-all duration-300 group"
+              className="bg-card border-2 border-border shadow-lg p-4 rounded-2xl hover:bg-muted hover:border-primary/50 transition-all duration-300 group"
               disabled={isAnimating}
             >
               <ChevronRight className="h-6 w-6 text-primary group-hover:animate-pulse" />

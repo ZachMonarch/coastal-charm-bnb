@@ -26,6 +26,7 @@ const buttonVariants = cva(
         shimmer: "bg-gradient-to-r from-primary via-primary-light to-primary bg-[length:200%_100%] text-primary-foreground hover:bg-[position:100%_0] transition-all duration-500 shadow-md hover:shadow-primary/40",
         gradient: "bg-gradient-to-r from-primary to-primary-dark text-primary-foreground hover:shadow-lg hover:shadow-primary/30 hover:scale-[1.02] active:scale-[0.99]",
         glow: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_0_20px_hsl(var(--primary)/0.3)] hover:shadow-[0_0_30px_hsl(var(--primary)/0.5)] hover:scale-[1.02] active:scale-[0.99] transition-all duration-300",
+        heroAction: "bg-black/70 text-white border border-white/40 hover:bg-black/80 hover:text-white shadow-lg backdrop-blur-sm font-semibold",
       },
       size: {
         default: "h-10 px-4 py-2",

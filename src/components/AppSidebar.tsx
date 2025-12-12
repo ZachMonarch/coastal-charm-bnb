@@ -292,7 +292,7 @@ export function AppSidebar() {
 
   const getNavCls = ({ isActive, groupTitle }: { isActive: boolean; groupTitle: string }) => {
     if (isActive) {
-      return "bg-primary/10 text-primary font-medium border-l-2 border-primary";
+      return "bg-muted text-foreground font-semibold border-l-4 border-primary";
     }
     const iconColor = getGroupIconColor(groupTitle);
     return `hover:bg-muted/50 ${iconColor} hover:text-foreground`;
