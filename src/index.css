@@ -462,7 +462,14 @@
 }
 
 @layer components {
-  /* Performance optimizations */
+  /* === PERFORMANCE OPTIMIZATIONS === */
+  
+  /* Content visibility for below-fold sections - huge rendering performance boost */
+  .content-visibility-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 500px;
+  }
+  
   .lazy-load {
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
@@ -472,10 +479,17 @@
     opacity: 1;
   }
 
+  /* GPU-accelerated transforms */
   .fast-refresh {
     will-change: transform;
     backface-visibility: hidden;
-    perspective: 1000px;
+    transform: translateZ(0);
+  }
+  
+  /* Optimized transition - use transform instead of layout properties */
+  .optimized-transition {
+    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+    will-change: transform, opacity;
   }
 
   /* Full-width layout utilities */

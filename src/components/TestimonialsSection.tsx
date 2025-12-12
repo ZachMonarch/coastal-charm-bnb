@@ -70,18 +70,16 @@ export default function TestimonialsSection() {
     }, 600);
   };
   
-  useEffect(() => {
-    const interval = setInterval(nextTestimonial, 8000);
-    return () => clearInterval(interval);
-  }, []);
+  // Auto-rotation disabled for performance - user-initiated only
+  // Reduces continuous repaints and CPU usage
   
   return (
-    <section className="section bg-gradient-to-br from-background via-muted/30 to-background py-24 relative overflow-hidden">
-      {/* Enhanced background elements */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-20 left-20 w-64 h-64 neumorphic-card rounded-full animate-morphic-float" />
-        <div className="absolute bottom-20 right-20 w-48 h-48 glass-card rounded-3xl rotate-45 animate-pulse-glow" />
-        <div className="absolute top-1/2 left-1/3 w-32 h-32 tech-glow rounded-2xl animate-morphic-float" />
+    <section className="section bg-gradient-to-br from-background via-muted/30 to-background py-24 relative overflow-hidden content-visibility-auto">
+      {/* Static background - animations removed for performance */}
+      <div className="absolute inset-0 opacity-5 pointer-events-none">
+        <div className="absolute top-20 left-20 w-64 h-64 neumorphic-card rounded-full" />
+        <div className="absolute bottom-20 right-20 w-48 h-48 glass-card rounded-3xl rotate-45" />
+        <div className="absolute top-1/2 left-1/3 w-32 h-32 rounded-2xl bg-primary/10" />
       </div>
       
       <div className="container relative z-10">
@@ -110,19 +108,16 @@ export default function TestimonialsSection() {
               <div
                 key={testimonial.id}
                 className={cn(
-                  "absolute inset-0 transition-all duration-700 ease-in-out",
+                  "absolute inset-0 transition-opacity duration-300 ease-out",
                   activeIndex === index 
-                    ? "opacity-100 translate-x-0 z-10 scale-100"
-                    : index < activeIndex 
-                      ? "opacity-0 -translate-x-full z-0 scale-95" 
-                      : "opacity-0 translate-x-full z-0 scale-95"
+                    ? "opacity-100 z-10 visible"
+                    : "opacity-0 z-0 invisible"
                 )}
+                style={{ transform: 'translateZ(0)' }}
               >
                 <div className="neumorphic-card p-12 rounded-3xl h-full relative overflow-hidden">
-                  {/* Tech accent */}
-                  <div className="absolute top-6 right-6 w-16 h-16 opacity-10">
-                    <div className="tech-glow w-full h-full rounded-full animate-pulse-glow" />
-                  </div>
+                  {/* Static accent - no animation */}
+                  <div className="absolute top-6 right-6 w-16 h-16 opacity-10 bg-primary/20 rounded-full" />
                   
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-8 h-full">
                     {/* Enhanced Profile Section */}
