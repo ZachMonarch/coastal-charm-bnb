@@ -164,13 +164,13 @@ export default function RealtimeNotifications() {
   const getNotificationClass = (type: string) => {
     switch (type) {
       case 'success':
-        return 'border-l-green-500';
+        return 'border-l-success';
       case 'warning':
-        return 'border-l-yellow-500';
+        return 'border-l-warning';
       case 'error':
-        return 'border-l-red-500';
+        return 'border-l-destructive';
       default:
-        return 'border-l-blue-500';
+        return 'border-l-info';
     }
   };
 

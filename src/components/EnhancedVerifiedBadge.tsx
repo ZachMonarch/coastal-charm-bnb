@@ -104,7 +104,7 @@ export default function EnhancedVerifiedBadge({
             </p>
             {isVerified && tier !== 'basic' && (
               <div className="flex items-center gap-1 mt-2">
-                <Star className="h-3 w-3 text-yellow-500" />
+                <Star className="h-3 w-3 text-primary" />
                 <span className="text-xs">Premium Features Enabled</span>
               </div>
             )}

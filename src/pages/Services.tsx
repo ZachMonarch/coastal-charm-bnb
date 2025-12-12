@@ -203,7 +203,7 @@ export default function Services() {
               <div className="flex items-center justify-center gap-2 mb-4">
                 <div className="flex">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
+                    <Star key={i} className="h-5 w-5 text-primary fill-current" />
                   ))}
                 </div>
                 <span className="text-lg font-semibold">4.9/5</span>

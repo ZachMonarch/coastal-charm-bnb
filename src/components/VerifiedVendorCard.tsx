@@ -15,10 +15,10 @@ interface VerifiedVendorCardProps {
 
 export default function VerifiedVendorCard({ vendor, featured = false }: VerifiedVendorCardProps) {
   const subscriptionTierColors = {
-    premium: 'from-amber-500 to-yellow-500',
-    enterprise: 'from-purple-500 to-pink-500',
-    basic: 'from-blue-500 to-cyan-500',
-    free: 'from-gray-400 to-gray-500'
+    premium: 'from-primary to-primary-light',
+    enterprise: 'from-feature-violet to-feature-violet-dark',
+    basic: 'from-feature-sky to-feature-sky-dark',
+    free: 'from-muted to-background'
   };
 
   const tierGradient = subscriptionTierColors[vendor.subscription_plan as keyof typeof subscriptionTierColors] || subscriptionTierColors.free;
