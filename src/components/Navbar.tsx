@@ -12,68 +12,81 @@ import RealtimeNotifications from "./RealtimeNotifications";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/OptimizedAuthContext";
 import { rafBatch } from "@/utils/rafBatch";
+
 export default function Navbar() {
-  const {
-    t
-  } = useLanguage();
+  const { t } = useLanguage();
   const location = useLocation();
-  const {
-    user,
-    isAuthenticated,
-    signOut
-  } = useAuth();
+  const { user, isAuthenticated, signOut } = useAuth();
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [logoError, setLogoError] = useState(false);
-  const propertiesDropdownItems = [{
-    label: "Residential",
-    href: "/properties?type=residential",
-    icon: <HomeIcon className="w-4 h-4" />,
-    description: "Homes and apartments"
-  }, {
-    label: "Commercial",
-    href: "/properties?type=commercial",
-    icon: <Briefcase className="w-4 h-4" />,
-    description: "Business properties"
-  }, {
-    label: "Luxury",
-    href: "/properties?type=luxury",
-    icon: <Building2 className="w-4 h-4" />,
-    description: "High-end properties"
-  }];
-  const servicesDropdownItems = [{
-    label: "Property Management",
-    href: "/services/property-management",
-    icon: <FileText className="w-4 h-4" />,
-    description: "Full-service property care"
-  }, {
-    label: "Consultation",
-    href: "/services/consultation",
-    icon: <MessageSquare className="w-4 h-4" />,
-    description: "Expert property advice"
-  }, {
-    label: "Maintenance",
-    href: "/services/maintenance",
-    icon: <Wrench className="w-4 h-4" />,
-    description: "Repair and upkeep services"
-  }];
-  const simpleNavLinks = [{
-    id: "home",
-    name: t.nav.home,
-    path: "/"
-  }, {
-    id: "gallery",
-    name: t.nav.gallery,
-    path: "/gallery"
-  }, {
-    id: "news",
-    name: "News",
-    path: "/news"
-  }, {
-    id: "contact",
-    name: t.nav.contact,
-    path: "/contact"
-  }];
+
+  const propertiesDropdownItems = [
+    {
+      label: "Residential",
+      href: "/properties?type=residential",
+      icon: <HomeIcon className="w-4 h-4" />,
+      description: "Homes and apartments",
+    },
+    {
+      label: "Commercial",
+      href: "/properties?type=commercial",
+      icon: <Briefcase className="w-4 h-4" />,
+      description: "Business properties",
+    },
+    {
+      label: "Luxury",
+      href: "/properties?type=luxury",
+      icon: <Building2 className="w-4 h-4" />,
+      description: "High-end properties",
+    },
+  ];
+
+  const servicesDropdownItems = [
+    {
+      label: "Property Management",
+      href: "/services/property-management",
+      icon: <FileText className="w-4 h-4" />,
+      description: "Full-service property care",
+    },
+    {
+      label: "Consultation",
+      href: "/services/consultation",
+      icon: <MessageSquare className="w-4 h-4" />,
+      description: "Expert property advice",
+    },
+    {
+      label: "Maintenance",
+      href: "/services/maintenance",
+      icon: <Wrench className="w-4 h-4" />,
+      description: "Repair and upkeep services",
+    },
+  ];
+
+  const simpleNavLinks = [
+    {
+      id: "home",
+      name: t.nav.home,
+      path: "/",
+    },
+    {
+      id: "gallery",
+      name: t.nav.gallery,
+      path: "/gallery",
+    },
+    {
+      id: "news",
+      name: "News",
+      path: "/news",
+    },
+    {
+      id: "contact",
+      name: t.nav.contact,
+      path: "/contact",
+    },
+  ];
+
   useEffect(() => {
     const handleScroll = () => {
       rafBatch(() => {
@@ -83,36 +96,72 @@ export default function Navbar() {
         }
       });
     };
-    window.addEventListener("scroll", handleScroll, {
-      passive: true
-    });
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [scrolled]);
-  return <>
+
+  return (
+    <>
       {/* Skip to main content - Accessibility */}
-      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[200] focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-lg focus:shadow-lg focus:ring-2 focus:ring-primary focus:ring-offset-2">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[200] focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-lg focus:shadow-lg focus:ring-2 focus:ring-primary focus:ring-offset-2"
+      >
         Skip to main content
       </a>
 
-      <header className={cn("fixed top-0 left-0 right-0 z-[150] transition-all duration-500", scrolled ? "bg-card shadow-xl border-b-2 border-primary/30 py-3" : "bg-card backdrop-blur-md py-5 shadow-md border-b border-border")}>
+      <header
+        className={cn(
+          "fixed top-0 left-0 right-0 z-[150] transition-all duration-500",
+          scrolled
+            ? "bg-card shadow-xl border-b-2 border-primary/30 py-3"
+            : "bg-card backdrop-blur-md py-5 shadow-md border-b border-border",
+        )}
+      >
         <nav aria-label="Main navigation" className="container flex justify-between items-center">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3 group hover:opacity-90 transition-opacity focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none rounded-lg">
+          <Link
+            to="/"
+            className="flex items-center space-x-3 group hover:opacity-90 transition-opacity focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none rounded-lg"
+          >
             <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-primary/5 dark:from-primary/30 dark:to-primary/10 border-2 border-primary/40 dark:border-primary/50 rounded-xl p-2 flex items-center justify-center shadow-md shadow-primary/10 dark:shadow-primary/30 transition-all duration-300">
-              {!logoError ? <img src="/lovable-uploads/318cdd13-7256-4cfe-99e0-948e43902b7b.png" alt="Monarch Property Management Logo" className="w-full h-full object-contain" onError={() => setLogoError(true)} loading="eager" decoding="async" /> : <Crown className="h-6 w-6 text-primary" />}
+              {!logoError ? (
+                <img
+                  src="/lovable-uploads/318cdd13-7256-4cfe-99e0-948e43902b7b.png"
+                  alt="Monarch Property Management Logo"
+                  className="w-full h-full object-contain"
+                  onError={() => setLogoError(true)}
+                  loading="eager"
+                  decoding="async"
+                />
+              ) : (
+                <Crown className="h-6 w-6 text-primary" />
+              )}
             </div>
             <div className="hidden md:flex flex-col">
-              <span className="text-lg font-semibold text-primary">
-                Monarch Property
+              <span className="text-lg font-semibold text-primary">Monarch Property</span>
+              <span className="text-xs text-primary/70 dark:text-primary/60 -mt-1 font-semibold tracking-wide uppercase">
+                Management
               </span>
-              <span className="text-xs text-primary/70 dark:text-primary/60 -mt-1 font-semibold tracking-wide uppercase">Management</span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
           <ul className="hidden lg:flex space-x-1 items-center relative z-[200]">
             <li>
-              <Link to="/" className={cn("px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200", "text-foreground hover:text-primary hover:bg-primary/10", "text-shadow-nav-light dark:text-shadow-nav", "relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2", "after:w-0 hover:after:w-3/4 after:h-0.5 after:bg-primary after:transition-all", "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none", location.pathname === "/" && "text-primary after:w-3/4")}>
+              <Link
+                to="/"
+                className={cn(
+                  "px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200",
+                  "text-foreground hover:text-primary hover:bg-primary/10",
+                  "text-shadow-nav-light dark:text-shadow-nav",
+                  "relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2",
+                  "after:w-0 hover:after:w-3/4 after:h-0.5 after:bg-primary after:transition-all",
+                  "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none",
+                  location.pathname === "/" && "text-primary after:w-3/4",
+                )}
+              >
                 {t.nav.home}
               </Link>
             </li>
@@ -122,13 +171,27 @@ export default function Navbar() {
             <li>
               <NavDropdown label="Services" items={servicesDropdownItems} />
             </li>
-            {simpleNavLinks.slice(1).map(link => <li key={link.id}>
-                <Link to={link.path} className={cn("px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200", "text-foreground hover:text-primary hover:bg-primary/10", "text-shadow-nav-light dark:text-shadow-nav", "relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2", "after:w-0 hover:after:w-3/4 after:h-0.5 after:bg-primary after:transition-all", "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none", location.pathname === link.path && "text-primary after:w-3/4")}>
+            {simpleNavLinks.slice(1).map((link) => (
+              <li key={link.id}>
+                <Link
+                  to={link.path}
+                  className={cn(
+                    "px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200",
+                    "text-foreground hover:text-primary hover:bg-primary/10",
+                    "text-shadow-nav-light dark:text-shadow-nav",
+                    "relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2",
+                    "after:w-0 hover:after:w-3/4 after:h-0.5 after:bg-primary after:transition-all",
+                    "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none",
+                    location.pathname === link.path && "text-primary after:w-3/4",
+                  )}
+                >
                   {link.name}
                 </Link>
-              </li>)}
+              </li>
+            ))}
           </ul>
 
+          {/* Desktop Tools */}
           <div className="hidden md:flex items-center space-x-2">
             <div className="rounded-lg border-2 border-primary/40 bg-card/80 p-1.5 shadow-sm hover:shadow-md hover:border-primary/60 transition-all [&_svg]:text-foreground [&_svg]:dark:text-foreground">
               <LanguageSelector />
@@ -151,72 +214,101 @@ export default function Navbar() {
             <div className="rounded-lg border-2 border-primary/40 bg-card/80 p-1 shadow-sm">
               <LanguageSelector />
             </div>
+            <div className="rounded-lg border-2 border-primary/40 bg-card/80 p-1 shadow-sm">
+              <ThemeToggle />
+            </div>
             {isAuthenticated && (
               <div className="rounded-lg border-2 border-primary/40 bg-card/80 p-1 shadow-sm">
                 <RealtimeNotifications />
               </div>
             )}
-            <Button 
-              variant="outline" 
-              size="icon" 
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
-              className="relative z-[160] border-2 border-primary bg-background/95 rounded-lg w-11 h-11 min-h-[44px] min-w-[44px] hover:bg-primary/10 hover:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 shadow-md" 
-              aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"} 
-              aria-expanded={mobileMenuOpen} 
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="relative z-[160] border-2 border-primary bg-background/95 rounded-lg w-11 h-11 min-h-[44px] min-w-[44px] hover:bg-primary/10 hover:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 shadow-md"
+              aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={mobileMenuOpen}
               aria-controls="mobile-menu"
             >
               {mobileMenuOpen ? <X className="h-5 w-5 text-primary" /> : <Menu className="h-5 w-5 text-primary" />}
             </Button>
           </div>
         </nav>
-
       </header>
 
       {/* Mobile Drawer - OUTSIDE header for correct z-index stacking */}
-      <MobileDrawer isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} title="Menu" logo={<div className="flex items-center space-x-3">
+      <MobileDrawer
+        isOpen={mobileMenuOpen}
+        onClose={() => setMobileMenuOpen(false)}
+        title="Menu"
+        logo={
+          <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-gradient-to-br from-primary/20 to-primary/5 dark:from-primary/30 dark:to-primary/10 border-2 border-primary/40 dark:border-primary/50 rounded-xl p-2 flex items-center justify-center shadow-md shadow-primary/10 dark:shadow-primary/30">
-              {!logoError ? <img src="/lovable-uploads/318cdd13-7256-4cfe-99e0-948e43902b7b.png" alt="Monarch Logo" className="w-full h-full object-contain" onError={() => setLogoError(true)} /> : <Crown className="h-5 w-5 text-primary" />}
+              {!logoError ? (
+                <img
+                  src="/lovable-uploads/318cdd13-7256-4cfe-99e0-948e43902b7b.png"
+                  alt="Monarch Logo"
+                  className="w-full h-full object-contain"
+                  onError={() => setLogoError(true)}
+                />
+              ) : (
+                <Crown className="h-5 w-5 text-primary" />
+              )}
             </div>
             <div className="flex flex-col">
-              <span className="text-lg font-bold bg-gradient-to-r from-primary via-primary to-primary/80 bg-clip-text text-transparent">Monarch</span>
-              <span className="text-xs text-primary/70 dark:text-primary/60 -mt-1 font-semibold tracking-wide uppercase">Property Mgmt</span>
+              <span className="text-lg font-bold bg-gradient-to-r from-primary via-primary to-primary/80 bg-clip-text text-transparent">
+                Monarch
+              </span>
+              <span className="text-xs text-primary/70 dark:text-primary/60 -mt-1 font-semibold tracking-wide uppercase">
+                Property Mgmt
+              </span>
             </div>
-          </div>}>
-        {/* Sign In / Sign Up buttons - ALWAYS visible for unauthenticated users */}
-        {!isAuthenticated && (
-          <div className="p-4 space-y-3 border-b-2 border-primary/30 bg-gradient-to-r from-primary/10 to-primary/5">
-            <p className="text-sm text-foreground font-medium text-center mb-3">
-              Join Monarch Property Management
-            </p>
-            <Button 
-              asChild 
-              className="w-full h-12 bg-primary text-primary-foreground font-bold text-base shadow-lg hover:bg-primary/90 hover:shadow-xl transition-all"
-            >
-              <Link to="/auth?tab=register" onClick={() => setMobileMenuOpen(false)}>
-                Sign Up Now
-              </Link>
-            </Button>
-            <Button 
-              asChild 
-              variant="outline" 
-              className="w-full h-12 border-2 border-primary text-primary font-semibold text-base bg-background hover:bg-primary hover:text-primary-foreground transition-all"
-            >
-              <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
-                Sign In
-              </Link>
-            </Button>
           </div>
-        )}
+        }
+      >
+        {/* Sign In / Sign Up buttons - ALWAYS visible in mobile drawer */}
+        <div className="p-4 space-y-3 border-b-2 border-primary/30 bg-gradient-to-r from-primary/10 to-primary/5">
+          <p className="text-sm text-foreground font-medium text-center mb-3">
+            Join Monarch Property Management
+          </p>
+          <Button
+            asChild
+            className="w-full h-12 bg-primary text-primary-foreground font-bold text-base shadow-lg hover:bg-primary/90 hover:shadow-xl transition-all"
+          >
+            <Link to="/auth?tab=register" onClick={() => setMobileMenuOpen(false)}>
+              Sign Up Now
+            </Link>
+          </Button>
+          <Button
+            asChild
+            variant="outline"
+            className="w-full h-12 border-2 border-primary text-primary font-semibold text-base bg-background hover:bg-primary hover:text-primary-foreground transition-all"
+          >
+            <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
+              Sign In
+            </Link>
+          </Button>
+        </div>
 
         {/* Navigation Links */}
         <nav className="p-6" aria-label="Mobile navigation">
           <ul className="space-y-2" role="list">
             <li>
-              <Link to="/" onClick={() => setMobileMenuOpen(false)} className={cn("block px-4 py-3 text-base font-medium rounded-lg border-l-4 transition-all text-foreground", "hover:border-primary hover:bg-primary/5 hover:text-primary", "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none", location.pathname === "/" ? "border-primary bg-primary/5 text-primary" : "border-transparent")}>
+              <Link
+                to="/"
+                onClick={() => setMobileMenuOpen(false)}
+                className={cn(
+                  "block px-4 py-3 text-base font-medium rounded-lg border-l-4 transition-all text-foreground",
+                  "hover:border-primary hover:bg-primary/5 hover:text-primary",
+                  "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none",
+                  location.pathname === "/" ? "border-primary bg-primary/5 text-primary" : "border-transparent",
+                )}
+              >
                 {t.nav.home}
               </Link>
             </li>
-            
+
             {/* Properties Dropdown */}
             <li>
               <details className="group rounded bg-muted/20">
@@ -225,10 +317,17 @@ export default function Navbar() {
                   <X className="w-4 h-4 rotate-45 group-open:rotate-0 transition-transform text-primary" />
                 </summary>
                 <div className="ml-4 mt-2 space-y-1 bg-card/60 rounded-lg p-2">
-                  {propertiesDropdownItems.map((item, idx) => <Link key={idx} to={item.href} className="flex items-center gap-2 px-4 py-2 text-sm text-foreground font-medium hover:text-primary hover:bg-primary/10 rounded-lg transition-colors border-l-2 border-transparent hover:border-primary" onClick={() => setMobileMenuOpen(false)}>
+                  {propertiesDropdownItems.map((item, idx) => (
+                    <Link
+                      key={idx}
+                      to={item.href}
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-foreground font-medium hover:text-primary hover:bg-primary/10 rounded-lg transition-colors border-l-2 border-transparent hover:border-primary"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
                       <span className="text-primary">{item.icon}</span>
                       <span>{item.label}</span>
-                    </Link>)}
+                    </Link>
+                  ))}
                 </div>
               </details>
             </li>
@@ -241,26 +340,58 @@ export default function Navbar() {
                   <X className="w-4 h-4 rotate-45 group-open:rotate-0 transition-transform text-primary" />
                 </summary>
                 <div className="ml-4 mt-2 space-y-1 bg-card/60 rounded-lg p-2">
-                  {servicesDropdownItems.map((item, idx) => <Link key={idx} to={item.href} className="flex items-center gap-2 px-4 py-2 text-sm text-foreground font-medium hover:text-primary hover:bg-primary/10 rounded-lg transition-colors border-l-2 border-transparent hover:border-primary" onClick={() => setMobileMenuOpen(false)}>
+                  {servicesDropdownItems.map((item, idx) => (
+                    <Link
+                      key={idx}
+                      to={item.href}
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-foreground font-medium hover:text-primary hover:bg-primary/10 rounded-lg transition-colors border-l-2 border-transparent hover:border-primary"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
                       <span className="text-primary">{item.icon}</span>
                       <span>{item.label}</span>
-                    </Link>)}
+                    </Link>
+                  ))}
                 </div>
               </details>
             </li>
 
-            {simpleNavLinks.slice(1).map(link => <li key={link.id}>
-                <Link to={link.path} onClick={() => setMobileMenuOpen(false)} className={cn("block px-4 py-3 text-base font-medium rounded-lg border-l-4 transition-all", "text-foreground", "hover:border-primary hover:bg-primary/10 hover:text-primary", "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none", location.pathname === link.path ? "border-primary bg-primary/10 text-primary" : "border-transparent")}>
+            {simpleNavLinks.slice(1).map((link) => (
+              <li key={link.id}>
+                <Link
+                  to={link.path}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={cn(
+                    "block px-4 py-3 text-base font-medium rounded-lg border-l-4 transition-all text-foreground",
+                    "hover:border-primary hover:bg-primary/10 hover:text-primary",
+                    "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none",
+                    location.pathname === link.path ? "border-primary bg-primary/10 text-primary" : "border-transparent",
+                  )}
+                >
                   {link.name}
                 </Link>
-              </li>)}
+              </li>
+            ))}
           </ul>
         </nav>
-        
+
+        {/* Appearance Toggle - Mobile */}
+        <section className="px-6 pb-4 border-top border-border/40 bg-card/80 border-t">
+          <div className="flex items-center justify-between pt-4">
+            <div className="flex flex-col">
+              <span className="text-sm font-medium text-foreground">Appearance</span>
+              <span className="text-xs text-muted-foreground">Switch between light and dark mode</span>
+            </div>
+            <div className="rounded-full border border-primary/30 bg-background/80 p-1 shadow-sm">
+              <ThemeToggle />
+            </div>
+          </div>
+        </section>
+
         {/* User Menu */}
         <div className="p-6 border-t border-primary/20">
           <OptimizedUserMenu />
         </div>
       </MobileDrawer>
-    </>;
+    </>
+  );
 }
