@@ -1,7 +1,6 @@
 
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { AuthProvider } from "./contexts/OptimizedAuthContext";
@@ -114,10 +113,10 @@ const DesignTokens = lazy(() => import("./pages/admin/DesignTokens"));
 const ComponentPlayground = lazy(() => import("./pages/admin/ComponentPlayground"));
 const About = lazy(() => import("./pages/About"));
 
-const queryClient = new QueryClient();
+// QueryClient is provided by QueryProvider in main.tsx - no duplicate here
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
+  <>
     <SecurityHeaders />
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <LanguageProvider>
@@ -479,7 +478,7 @@ const App = () => (
           </TooltipProvider>
         </LanguageProvider>
       </ThemeProvider>
-  </QueryClientProvider>
+  </>
 );
 
 export default App;
