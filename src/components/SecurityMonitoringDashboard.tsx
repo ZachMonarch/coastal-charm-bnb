@@ -58,13 +58,13 @@ export default function SecurityMonitoringDashboard() {
   const getSeverityColor = (severity: string) => {
     switch (severity) {
       case 'critical':
-        return 'bg-destructive text-white';
+        return 'bg-destructive text-destructive-foreground';
       case 'high':
-        return 'bg-warning text-black font-semibold';
+        return 'bg-warning text-warning-foreground font-semibold';
       case 'medium':
-        return 'bg-warning/70 text-black';
+        return 'bg-warning/70 text-warning-foreground';
       default:
-        return 'bg-primary text-white';
+        return 'bg-primary text-primary-foreground';
     }
   };
 
