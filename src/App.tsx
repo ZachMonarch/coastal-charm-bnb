@@ -35,6 +35,7 @@ const Gallery = lazy(() => import("./pages/Gallery"));
 const Amenities = lazy(() => import("./pages/Amenities"));
 const News = lazy(() => import("./pages/News"));
 const Bookmarks = lazy(() => import("./pages/Bookmarks"));
+const AuthDebug = lazy(() => import("./pages/AuthDebug"));
 const AuthTest = lazy(() => import("./pages/AuthTest"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const UserProfile = lazy(() => import("./pages/UserProfile"));
@@ -152,6 +153,8 @@ const App = () => (
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/auth/verify" element={<LoginBridge />} />
                 <Route path="/auth/callback" element={<LoginBridge />} />
+                <Route path="/login-bridge" element={<LoginBridge />} />
+                <Route path="/auth-debug" element={<AuthDebug />} />
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/design-system" element={<DesignSystemShowcase />} />

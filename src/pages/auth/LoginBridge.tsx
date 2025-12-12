@@ -81,6 +81,7 @@ function useAuthParams() {
 
 export default function LoginBridge() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { 
     access_token, 
     refresh_token, 
@@ -96,13 +97,28 @@ export default function LoginBridge() {
 
   useEffect(() => {
     const run = async () => {
+      // Detect malformed Supabase redirects (missing https:// in redirect_to)
+      const pathname = window.location.pathname;
+      const fullUrl = window.location.href;
+      
+      if (pathname.includes('monarchpropertymmgt.com') || 
+          fullUrl.includes('.supabase.co/monarchpropertymmgt.com')) {
+        debugLog('Malformed redirect detected', { pathname, fullUrl });
+        console.error('[LoginBridge] Malformed Supabase redirect URL detected. Check Supabase Dashboard URL configuration.');
+        toast.error("Authentication configuration error. Please contact support.");
+        navigate("/auth", { replace: true });
+        return;
+      }
+      
       debugLog('Starting LoginBridge flow', { 
         hasAccessToken: !!access_token,
         hasRefreshToken: !!refresh_token,
         hasToken: !!token,
         type,
         resetFlag,
-        error
+        error,
+        pathname,
+        hash: location.hash ? location.hash.substring(0, 50) : ''
       });
 
       // Handle error responses from Supabase (e.g., expired links)
