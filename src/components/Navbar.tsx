@@ -275,12 +275,12 @@ export default function Navbar() {
             </p>
             <Button
               asChild
-              className="w-full h-12 bg-primary font-semibold text-base shadow-md hover:bg-primary-dark hover:shadow-lg transition-all"
+              className="w-full h-12 bg-primary font-semibold text-base shadow-md hover:bg-primary-dark hover:shadow-lg transition-all text-white"
             >
               <Link 
                 to="/auth?tab=register" 
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-white"
+                className="!text-white"
               >
                 Join Now
               </Link>
@@ -288,9 +288,13 @@ export default function Navbar() {
             <Button
               asChild
               variant="outline"
-              className="w-full h-12 border border-border text-foreground font-medium text-base bg-card hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all"
+              className="w-full h-12 border-2 border-primary font-semibold text-base bg-card hover:bg-primary hover:border-primary transition-all"
             >
-              <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
+              <Link 
+                to="/auth" 
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-foreground hover:!text-white"
+              >
                 Sign In
               </Link>
             </Button>

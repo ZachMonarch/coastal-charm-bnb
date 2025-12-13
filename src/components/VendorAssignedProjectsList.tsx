@@ -137,7 +137,7 @@ export default function VendorAssignedProjectsList() {
               )}
               
               <Button asChild className="w-full mt-4">
-                <Link to={`/vendor/projects/${project.id}`}>
+                <Link to={`/vendor/projects/${project.id}`} className="text-white">
                   View Details
                 </Link>
               </Button>
