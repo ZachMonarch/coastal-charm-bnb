@@ -19,8 +19,8 @@ export default function OptimizedUserMenu() {
         <Button asChild variant="outline" size="sm" className="hidden sm:inline-flex border-primary/40 text-foreground hover:text-primary hover:border-primary">
           <Link to="/auth">Sign In</Link>
         </Button>
-        <Button asChild size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold shadow-md">
-          <Link to="/auth?tab=signup" className="whitespace-nowrap text-primary-foreground">Join Now</Link>
+        <Button asChild size="sm" className="bg-primary hover:bg-primary/90 font-semibold shadow-md !text-white">
+          <Link to="/auth?tab=signup" className="whitespace-nowrap !text-white">Join Now</Link>
         </Button>
       </div>
     );

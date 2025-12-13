@@ -2588,4 +2588,58 @@ button[class*="shadow-primary"] a {
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+
+  /* === PHASE 10: UNIVERSAL BUTTON TEXT VISIBILITY FIX === */
+  /* Force white text on ALL primary-colored buttons and their children */
+  button.bg-primary,
+  button[class*="bg-primary"],
+  .bg-primary > button,
+  button.bg-gradient-to-r,
+  button[class*="from-primary"],
+  button[class*="shadow-primary"],
+  [class*="bg-primary"] button {
+    color: white !important;
+  }
+
+  /* Force inherited color for all children inside primary buttons */
+  button.bg-primary *,
+  button[class*="bg-primary"] *,
+  [class*="bg-gradient"] button *,
+  button[class*="from-primary"] * {
+    color: inherit !important;
+  }
+
+  /* Ensure text-primary-foreground always resolves to white */
+  .text-primary-foreground {
+    color: hsl(var(--primary-foreground)) !important;
+  }
+
+  /* Force white text on any element with bg-primary class */
+  .bg-primary,
+  [class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]) {
+    color: white !important;
+  }
+
+  /* Nested spans and elements inside primary buttons */
+  .bg-primary span,
+  .bg-primary div,
+  [class*="bg-primary"]:not([class*="bg-primary/"]) span,
+  [class*="bg-primary"]:not([class*="bg-primary/"]) div {
+    color: white !important;
+  }
+
+  /* Fix for dark mode button text */
+  .dark button.bg-primary,
+  .dark button[class*="bg-primary"],
+  .dark .bg-primary,
+  .dark [class*="bg-primary"]:not([class*="bg-primary/"]) {
+    color: white !important;
+  }
+
+  .dark .bg-primary span,
+  .dark .bg-primary div,
+  .dark [class*="bg-primary"]:not([class*="bg-primary/"]) span,
+  .dark [class*="bg-primary"]:not([class*="bg-primary/"]) div {
+    color: white !important;
+  }
 }

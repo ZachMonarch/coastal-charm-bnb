@@ -400,7 +400,7 @@ export default function Auth() {
                     className="h-12 bg-input border-border text-foreground"
                   />
                 </div>
-                <Button type="submit" className="w-full h-12 text-base bg-primary hover:bg-primary/90 text-primary-foreground" disabled={isLoading}>
+                <Button type="submit" className="w-full h-12 text-base bg-primary hover:bg-primary/90 !text-white" disabled={isLoading}>
                   {isLoading ? "Updating..." : "Update Password"}
                 </Button>
               </form>
@@ -497,12 +497,13 @@ export default function Auth() {
 
                     <Button
                       type="submit"
-                      className="w-full h-12 text-base font-semibold bg-primary text-primary-foreground shadow-md hover:bg-primary/90"
+                      className="w-full h-12 text-base font-semibold bg-primary shadow-md hover:bg-primary/90"
+                      style={{ color: 'white' }}
                       disabled={isLoading}
                     >
                       {isLoading ? (
-                        <span className="flex items-center gap-2">
-                          <span className="animate-spin rounded-full h-4 w-4 border-2 border-current border-t-transparent" />
+                        <span className="flex items-center gap-2" style={{ color: 'white' }}>
+                          <span className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
                           Signing in...
                         </span>
                       ) : "Sign In"}
@@ -696,12 +697,13 @@ export default function Auth() {
 
                     <Button
                       type="submit"
-                      className="w-full h-12 text-base font-semibold bg-primary text-primary-foreground shadow-md hover:bg-primary/90"
+                      className="w-full h-12 text-base font-semibold bg-primary shadow-md hover:bg-primary/90"
+                      style={{ color: 'white' }}
                       disabled={isLoading}
                     >
                       {isLoading ? (
-                        <span className="flex items-center gap-2">
-                          <span className="animate-spin rounded-full h-4 w-4 border-2 border-current border-t-transparent" />
+                        <span className="flex items-center gap-2" style={{ color: 'white' }}>
+                          <span className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
                           Creating Account...
                         </span>
                       ) : "Create Account"}
