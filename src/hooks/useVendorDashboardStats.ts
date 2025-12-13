@@ -17,136 +17,67 @@ export interface VendorDashboardStats {
   responseTime: string;
 }
 
+const DEFAULT_STATS: VendorDashboardStats = {
+  openRFQs: 0,
+  assignedProjects: 0,
+  pendingDocuments: 0,
+  unpaidInvoices: 0,
+  profileCompletion: 0,
+  nextDeadline: null,
+  urgentTasks: 0,
+  totalApplications: 0,
+  completedProjects: 0,
+  rating: 0,
+  responseTime: '24h',
+};
+
 export function useVendorDashboardStats() {
   const { user } = useAuth();
-  const [stats, setStats] = useState<VendorDashboardStats>({
-    openRFQs: 0,
-    assignedProjects: 0,
-    pendingDocuments: 0,
-    unpaidInvoices: 0,
-    profileCompletion: 0,
-    nextDeadline: null,
-    urgentTasks: 0,
-    totalApplications: 0,
-    completedProjects: 0,
-    rating: 0,
-    responseTime: '0h',
-  });
+  const [stats, setStats] = useState<VendorDashboardStats>(DEFAULT_STATS);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const fetchStats = useCallback(async () => {
+    if (!user?.id) {
+      setLoading(false);
+      return;
+    }
+
     try {
       setLoading(true);
       setError(null);
 
-      if (!user?.id) return;
-        
-        // Fetch all stats in parallel
-        const [
-          openRFQsResult,
-          assignedProjectsResult,
-          vendorDocumentsResult,
-          vendorPaymentsResult,
-          vendorApplicationsResult,
-          vendorProfileResult
-        ] = await Promise.all([
-          // Open RFQs available to bid on (count only)
-          supabase
-            .from('projects')
-            .select('id', { count: 'exact', head: true })
-            .eq('status', 'open'),
-          
-          // Assigned projects (minimal fields for stats)
-          supabase
-            .from('projects')
-            .select('id, status, deadline')
-            .eq('assigned_vendor_id', user.id)
-            .in('status', ['in_progress', 'assigned']),
-          
-          // Vendor documents status (minimal fields)
-          supabase
-            .from('vendor_documents')
-            .select('id, is_verified')
-            .eq('vendor_id', user.id),
-          
-          // Vendor payments (minimal fields for stats)
-          supabase
-            .from('vendor_payments')
-            .select('id, status')
-            .eq('vendor_id', user.id),
-          
-          // Vendor applications (minimal fields)
-          supabase
-            .from('vendor_applications')
-            .select('id, status')
-            .eq('user_id', user.id),
-          
-          // Vendor profile (only needed fields for stats)
-          supabase
-            .from('vendor_profiles')
-            .select('company_name, description, phone, address, specialties, certifications, years_experience, rating, response_time_hours')
-            .eq('user_id', user.id)
-            .single()
-        ]);
+      // Single optimized RPC call instead of 6 parallel queries
+      const { data, error: rpcError } = await supabase.rpc('get_vendor_dashboard_stats', {
+        p_vendor_id: user.id
+      });
 
-        const openRFQs = openRFQsResult.count || 0;
-        const assignedProjects = assignedProjectsResult.data?.length || 0;
-        const assignedProjectsData = assignedProjectsResult.data || [];
-        const allDocuments = vendorDocumentsResult.data || [];
-        const pendingDocuments = allDocuments.filter(doc => !doc.is_verified).length;
-        const unpaidInvoices = vendorPaymentsResult.data?.filter(payment => payment.status === 'pending').length || 0;
-        const applications = vendorApplicationsResult.data || [];
-        const profile = vendorProfileResult.data;
-
-        // Calculate profile completion percentage
-        const profileFields = [
-          profile?.company_name,
-          profile?.description,
-          profile?.phone,
-          profile?.address,
-          profile?.specialties?.length > 0,
-          profile?.certifications?.length > 0,
-          profile?.years_experience,
-          allDocuments.length > 0
-        ];
-        const completedFields = profileFields.filter(Boolean).length;
-        const profileCompletion = Math.round((completedFields / profileFields.length) * 100);
-
-        // Find next deadline (already have deadline field from query)
-        const projectsWithDeadlines = assignedProjectsData.filter(p => p.deadline);
-        const nextDeadline = projectsWithDeadlines.length > 0 
-          ? projectsWithDeadlines.sort((a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime())[0]?.deadline
-          : null;
-
-        // Calculate urgent tasks (upcoming deadlines + pending payments)
-        const urgentDeadlines = projectsWithDeadlines.filter(p => {
-          const deadline = new Date(p.deadline);
-          const now = new Date();
-          const diffDays = (deadline.getTime() - now.getTime()) / (1000 * 60 * 60 * 24);
-          return diffDays <= 7; // Urgent if deadline is within 7 days
-        }).length;
-        const urgentTasks = urgentDeadlines + unpaidInvoices;
-
-        setStats({
-          openRFQs,
-          assignedProjects,
-          pendingDocuments,
-          unpaidInvoices,
-          profileCompletion,
-          nextDeadline,
-          urgentTasks,
-          totalApplications: applications.length,
-          completedProjects: applications.filter(app => app.status === 'completed').length,
-          rating: profile?.rating || 0,
-          responseTime: profile?.response_time_hours ? `${profile.response_time_hours}h` : '24h',
-        });
-      } catch (err) {
-        logger.error('Error fetching vendor dashboard stats:', err);
-        setError('Failed to load dashboard statistics');
-      } finally {
-        setLoading(false);
+      if (rpcError) {
+        throw rpcError;
       }
+
+      if (data && typeof data === 'object' && !Array.isArray(data)) {
+        const statsData = data as Record<string, unknown>;
+        setStats({
+          openRFQs: (statsData.openRFQs as number) || 0,
+          assignedProjects: (statsData.assignedProjects as number) || 0,
+          pendingDocuments: (statsData.pendingDocuments as number) || 0,
+          unpaidInvoices: (statsData.unpaidInvoices as number) || 0,
+          profileCompletion: (statsData.profileCompletion as number) || 0,
+          nextDeadline: (statsData.nextDeadline as string) || null,
+          urgentTasks: (statsData.urgentTasks as number) || 0,
+          totalApplications: (statsData.totalApplications as number) || 0,
+          completedProjects: (statsData.completedProjects as number) || 0,
+          rating: (statsData.rating as number) || 0,
+          responseTime: (statsData.responseTime as string) || '24h',
+        });
+      }
+    } catch (err) {
+      logger.error('Error fetching vendor dashboard stats:', err);
+      setError('Failed to load dashboard statistics');
+    } finally {
+      setLoading(false);
+    }
   }, [user?.id]);
 
   useEffect(() => {
@@ -157,24 +88,31 @@ export function useVendorDashboardStats() {
 
     fetchStats();
 
-    // Set up real-time subscriptions for live updates
+    // Set up real-time subscriptions for live updates (debounced)
+    let debounceTimer: NodeJS.Timeout;
+    const debouncedFetch = () => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(fetchStats, 500);
+    };
+
     const projectsChannel = supabase
-      .channel('vendor-dashboard-projects')
+      .channel('vendor-dashboard-stats')
       .on('postgres_changes', 
         { event: '*', schema: 'public', table: 'projects' }, 
-        () => fetchStats()
+        debouncedFetch
       )
       .on('postgres_changes', 
         { event: '*', schema: 'public', table: 'vendor_documents', filter: `vendor_id=eq.${user.id}` }, 
-        () => fetchStats()
+        debouncedFetch
       )
       .on('postgres_changes', 
         { event: '*', schema: 'public', table: 'vendor_payments', filter: `vendor_id=eq.${user.id}` }, 
-        () => fetchStats()
+        debouncedFetch
       )
       .subscribe();
 
     return () => {
+      clearTimeout(debounceTimer);
       supabase.removeChannel(projectsChannel);
     };
   }, [user?.id, fetchStats]);
