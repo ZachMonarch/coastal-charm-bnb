@@ -6,13 +6,14 @@ import A11yProvider from '@/providers/A11yProvider'
 import { GlobalErrorBoundary } from '@/components/GlobalErrorBoundary'
 import { initPerformanceMonitoring } from '@/utils/performanceMonitoring'
 import { SessionProvider } from '@/providers/SessionProvider'
+import { AuthProvider } from '@/contexts/OptimizedAuthContext'
 import { setupAutoOptimizations, preloadCriticalAssets } from '@/lib/performanceOptimizations'
 import QueryProvider from '@/providers/QueryProvider'
 import { HelmetProvider } from 'react-helmet-async'
 import { initializeCSRFProtection } from '@/utils/csrfProtection'
 import { inject } from '@vercel/analytics'
 
-// Initialize Vercel Web Analytics on the client side
+// Initialize Vercel Web Analytics
 inject();
 
 // Initialize performance optimizations immediately
@@ -29,15 +30,11 @@ if (import.meta.env.PROD) {
   initPerformanceMonitoring();
 }
 
-// Performance optimizations - Defer all non-critical work
+// Defer non-critical work
 if (typeof window !== 'undefined') {
-  // Defer Service Worker registration until page is fully loaded and idle
   if ('serviceWorker' in navigator && import.meta.env.PROD) {
-    // Use requestIdleCallback or fallback to setTimeout to avoid blocking critical path
     const registerSW = () => {
-      navigator.serviceWorker.register('/sw.js').catch(() => {
-        // Service worker registration failed - continue without it
-      });
+      navigator.serviceWorker.register('/sw.js').catch(() => {});
     };
     
     const windowWithIdleCallback = window as Window & { requestIdleCallback?: (callback: () => void) => void };
@@ -48,7 +45,6 @@ if (typeof window !== 'undefined') {
     }
   }
   
-  // Initialize production monitoring after page is interactive
   if (import.meta.env.PROD) {
     const windowWithIdleCallback = window as Window & { requestIdleCallback?: (callback: () => void) => void };
     if (windowWithIdleCallback.requestIdleCallback) {
@@ -74,10 +70,12 @@ createRoot(document.getElementById("root")!).render(
     <HelmetProvider>
       <QueryProvider>
         <SessionProvider>
-          <A11yProvider>
-            <UnifiedPerformanceMonitor />
-            <App />
-          </A11yProvider>
+          <AuthProvider>
+            <A11yProvider>
+              <UnifiedPerformanceMonitor />
+              <App />
+            </A11yProvider>
+          </AuthProvider>
         </SessionProvider>
       </QueryProvider>
     </HelmetProvider>

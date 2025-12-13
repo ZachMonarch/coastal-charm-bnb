@@ -4101,6 +4101,10 @@ export type Database = {
         Returns: Json
       }
       get_user_id: { Args: never; Returns: string }
+      get_user_profile_with_roles: {
+        Args: { p_user_id: string }
+        Returns: Json
+      }
       get_user_roles: {
         Args: { user_uuid: string }
         Returns: {
@@ -4108,6 +4112,10 @@ export type Database = {
         }[]
       }
       get_user_tenant_id: { Args: { _user_id?: string }; Returns: string }
+      get_vendor_dashboard_stats: {
+        Args: { p_vendor_id: string }
+        Returns: Json
+      }
       get_vendor_dashboard_summary_optimized: {
         Args: { vendor_user_id: string }
         Returns: Json

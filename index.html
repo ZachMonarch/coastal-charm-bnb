@@ -254,26 +254,7 @@
       }
     </style>
     
-    <!-- Async CSS loading to prevent render blocking -->
-    <script>
-      (function() {
-        // Preload main CSS asynchronously
-        var link = document.createElement('link');
-        link.rel = 'preload';
-        link.as = 'style';
-        link.href = '/assets/index-C-flpclJ.css';
-        link.onload = function() {
-          this.onload = null;
-          this.rel = 'stylesheet';
-        };
-        document.head.appendChild(link);
-        
-        // Fallback for browsers that don't support preload
-        var noscriptLink = document.createElement('noscript');
-        noscriptLink.innerHTML = '<link rel="stylesheet" href="/assets/index-C-flpclJ.css">';
-        document.head.appendChild(noscriptLink);
-      })();
-    </script>
+    <!-- CSS is now handled by Vite - no hardcoded filenames -->
     
     <!-- Optimized async font loading with display=optional for fastest FCP -->
     <link 
