@@ -153,6 +153,14 @@ export default function VendorInquiries() {
           actions={[]}
         />
 
+        {/* Submit Inquiry Button */}
+        <div className="flex justify-end -mt-2">
+          <Button onClick={() => setIsCreateOpen(true)} className="gap-2">
+            <Plus className="h-4 w-4" />
+            Submit Inquiry
+          </Button>
+        </div>
+
         <Tabs defaultValue="all" className="space-y-6">
           <TabsList>
             <TabsTrigger value="all">All ({inquiries.length})</TabsTrigger>
