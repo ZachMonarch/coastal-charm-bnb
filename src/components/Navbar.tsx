@@ -222,6 +222,21 @@ export default function Navbar() {
                 <RealtimeNotifications />
               </div>
             )}
+            {!isLoading && !isAuthenticated && (
+              <Button
+                asChild
+                variant="outline"
+                size="sm"
+                className="h-9 px-3 text-xs font-semibold"
+              >
+                <Link to="/auth">Sign In</Link>
+              </Button>
+            )}
+            {isAuthenticated && (
+              <div className="rounded-lg border-2 border-primary/40 bg-card/80 p-1 shadow-sm">
+                <OptimizedUserMenu />
+              </div>
+            )}
             <Button
               variant="outline"
               size="icon"
@@ -306,6 +321,25 @@ export default function Navbar() {
               </Link>
             </Button>
           </div>
+        )}
+
+        {/* Quick account actions for signed-in users */}
+        {!isLoading && isAuthenticated && (
+          <section className="px-6 pt-4 pb-4 border-b border-border bg-card">
+            <p className="text-sm font-medium text-foreground mb-2">
+              Signed in as {user?.email}
+            </p>
+            <Button
+              variant="destructive"
+              className="w-full h-11 font-semibold"
+              onClick={async () => {
+                await signOut();
+                setMobileMenuOpen(false);
+              }}
+            >
+              Sign Out
+            </Button>
+          </section>
         )}
 
         {/* Navigation Links */}
