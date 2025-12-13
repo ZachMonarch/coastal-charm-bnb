@@ -27,14 +27,14 @@ const plans: SubscriptionPlan[] = [
     name: 'Free',
     price: 0,
     interval: 'month',
-    description: 'Basic access to view projects',
+    description: 'Basic access only - no marketplace visibility',
     features: [
       'View public project listings',
       'Basic profile creation',
-      'Contact property managers',
       'Access to basic resources'
     ],
     limitations: [
+      'Not visible in vendor marketplace',
       'Cannot apply to projects',
       'No verified badge',
       'Limited support',
@@ -50,7 +50,9 @@ const plans: SubscriptionPlan[] = [
     interval: 'month',
     description: 'Essential features for active vendors',
     features: [
+      'Visible in vendor marketplace',
       'Apply to up to 5 projects/month',
+      'Public profile showcase page',
       'Basic verified badge eligibility',
       'Email support',
       'Basic analytics',
@@ -72,11 +74,13 @@ const plans: SubscriptionPlan[] = [
     interval: 'month',
     description: 'Advanced features for growing businesses',
     features: [
+      'Featured vendor listing in marketplace',
       'Unlimited project applications',
+      'Premium profile showcase with portfolio',
       'Full verified badge with priority display',
+      'Trusted Vendor badge',
       'Priority email & phone support',
       'Advanced analytics & insights',
-      'Featured vendor listing',
       'Access to exclusive RFQ opportunities',
       'Custom proposals & contracts',
       'Project management tools'
@@ -93,7 +97,9 @@ const plans: SubscriptionPlan[] = [
     interval: 'month',
     description: 'Full-featured solution for large operations',
     features: [
+      'Priority marketplace placement',
       'All Premium features',
+      'Enterprise verified badge',
       'White-label vendor portal',
       'API access for integrations',
       'Dedicated account manager',

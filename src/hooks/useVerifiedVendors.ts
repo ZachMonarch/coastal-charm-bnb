@@ -41,6 +41,7 @@ export const useVerifiedVendors = (options: UseVerifiedVendorsOptions = {}) => {
       setLoading(true);
       setError(null);
 
+      // Only show vendors with paid plans (basic, premium, enterprise) - exclude 'free'
       let query = supabase
         .from('vendor_profiles')
         .select(`
@@ -67,6 +68,8 @@ export const useVerifiedVendors = (options: UseVerifiedVendorsOptions = {}) => {
         `)
         .eq('is_verified', true)
         .in('subscription_status', ['active', 'trial'])
+        .in('subscription_plan', ['basic', 'premium', 'enterprise']) // Exclude free tier from marketplace
+        .order('subscription_plan', { ascending: false }) // Enterprise/Premium first
         .order('rating', { ascending: false })
         .order('completed_jobs', { ascending: false });
 

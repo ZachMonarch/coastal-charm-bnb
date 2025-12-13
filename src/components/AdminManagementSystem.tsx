@@ -9,8 +9,10 @@ import AdminUserManagement from "@/pages/AdminUserManagement";
 import AdminTesting from "@/pages/AdminTesting";
 import NewsAdminPanel from "@/components/admin/NewsAdminPanel";
 import AdminBidManagement from "@/components/admin/AdminBidManagement";
+import AdminNotificationCenter from "@/components/admin/AdminNotificationCenter";
+import AdminInquiryManagement from "@/components/admin/AdminInquiryManagement";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { Building, Users, UserPlus, FileText, Shield, BarChart3, CreditCard, Newspaper, UsersRound, Gavel } from "lucide-react";
+import { Building, Users, UserPlus, FileText, Shield, BarChart3, CreditCard, Newspaper, UsersRound, Gavel, Bell, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import EnhancedPageBackground from "@/components/shared/EnhancedPageBackground";
 import PageHero from "@/components/shared/PageHero";
@@ -36,6 +38,8 @@ export default function AdminManagementSystem() {
     { value: 'projects', icon: FileText, label: 'Projects', color: 'text-warning' },
     { value: 'bids', icon: Gavel, label: 'Bids', color: 'text-primary' },
     { value: 'payments', icon: CreditCard, label: 'Payments', color: 'text-success' },
+    { value: 'notifications', icon: Bell, label: 'Notifications', color: 'text-warning' },
+    { value: 'inquiries', icon: MessageSquare, label: 'Inquiries', color: 'text-info' },
     { value: 'news', icon: Newspaper, label: 'News', color: 'text-info' },
     { value: 'verification', icon: Shield, label: 'Verify', color: 'text-warning' },
     { value: 'testing', icon: Shield, label: 'Testing', color: 'text-muted-foreground' },
@@ -93,6 +97,14 @@ export default function AdminManagementSystem() {
 
             <TabsContent value="payments" className="animate-fade-in">
               <EnhancedPaymentManagement />
+            </TabsContent>
+
+            <TabsContent value="notifications" className="animate-fade-in">
+              <AdminNotificationCenter />
+            </TabsContent>
+
+            <TabsContent value="inquiries" className="animate-fade-in">
+              <AdminInquiryManagement />
             </TabsContent>
 
             <TabsContent value="news" className="animate-fade-in">

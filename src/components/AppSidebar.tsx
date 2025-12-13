@@ -103,6 +103,8 @@ const vendorNavigationConfig: NavigationGroup[] = [
     title: "Account",
     items: [
       { title: "Profile", url: "/vendor/profile", icon: "User", description: "Your vendor profile" },
+      { title: "Profile Showcase", url: "/vendor/profile-showcase", icon: "Star", description: "Edit your public showcase profile" },
+      { title: "Inquiries & Support", url: "/vendor/inquiries", icon: "FileText", description: "Submit inquiries and support requests" },
       { title: "Documents", url: "/vendor/documents", icon: "FolderOpen", description: "Document management" },
       { title: "Reports", url: "/vendor/reports", icon: "BarChart", description: "Analytics and reports" },
       { title: "Settings", url: "/vendor/settings", icon: "Settings", description: "Account settings and preferences" }

@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { 
   Search, MapPin, Star, Clock, CheckCircle2, Shield, 
-  Filter, ArrowRight, Building2, Phone, Mail, Users
+  Filter, ArrowRight, Building2, Phone, Mail, Users, Crown, Award
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import { useVerifiedVendors } from "@/hooks/useVerifiedVendors";
@@ -239,37 +239,59 @@ export default function VendorMarketplace() {
             {/* Vendor Grid */}
             {!loading && !error && filteredVendors.length > 0 && (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredVendors.map((vendor) => (
-                  <Card 
-                    key={vendor.id} 
-                    className="hover:shadow-lg transition-all duration-300 hover:border-primary/30 group"
-                  >
-                    <CardHeader className="pb-3">
-                      <div className="flex items-start gap-4">
-                        <Avatar className="h-14 w-14 border-2 border-primary/20">
-                          <AvatarImage src={vendor.avatar_url || ''} />
-                          <AvatarFallback className="bg-primary/10 text-primary font-semibold">
-                            {getInitials(vendor.company_name)}
-                          </AvatarFallback>
-                        </Avatar>
-                          <div className="flex-1 min-w-0 overflow-hidden">
-                          <div className="flex items-center gap-2">
-                            <CardTitle className="text-lg truncate max-w-[200px]">
-                              {vendor.company_name}
-                            </CardTitle>
-                            {vendor.is_verified && (
-                              <CheckCircle2 className="h-4 w-4 text-primary flex-shrink-0" />
+                {filteredVendors.map((vendor) => {
+                  const isPremium = vendor.subscription_plan === 'premium';
+                  const isEnterprise = vendor.subscription_plan === 'enterprise';
+                  const isFeatured = isPremium || isEnterprise;
+                  
+                  return (
+                    <Card 
+                      key={vendor.id} 
+                      className={`hover:shadow-lg transition-all duration-300 group relative ${
+                        isEnterprise ? 'ring-2 ring-primary border-primary/30' : 
+                        isPremium ? 'ring-1 ring-primary/50 border-primary/20' : 
+                        'hover:border-primary/30'
+                      }`}
+                    >
+                      {/* Featured Badge */}
+                      {isFeatured && (
+                        <div className="absolute -top-3 right-4 z-10">
+                          <Badge className={`${isEnterprise ? 'bg-gradient-to-r from-primary to-primary-dark' : 'bg-primary/90'} text-primary-foreground shadow-md`}>
+                            {isEnterprise ? (
+                              <><Crown className="h-3 w-3 mr-1" />Enterprise</>
+                            ) : (
+                              <><Award className="h-3 w-3 mr-1" />Featured</>
                             )}
-                          </div>
-                          <div className="flex items-center gap-1 mt-1">
-                            {getRatingStars(vendor.rating || 0)}
-                            <span className="text-sm text-muted-foreground ml-1">
-                              ({vendor.completed_jobs || 0} jobs)
-                            </span>
+                          </Badge>
+                        </div>
+                      )}
+                      
+                      <CardHeader className="pb-3">
+                        <div className="flex items-start gap-4">
+                          <Avatar className={`h-14 w-14 border-2 ${isEnterprise ? 'border-primary' : isPremium ? 'border-primary/50' : 'border-primary/20'}`}>
+                            <AvatarImage src={vendor.avatar_url || ''} />
+                            <AvatarFallback className="bg-primary/10 text-primary font-semibold">
+                              {getInitials(vendor.company_name)}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="flex-1 min-w-0 overflow-hidden">
+                            <div className="flex items-center gap-2">
+                              <CardTitle className="text-lg truncate max-w-[200px]">
+                                {vendor.company_name}
+                              </CardTitle>
+                              {vendor.is_verified && (
+                                <CheckCircle2 className="h-4 w-4 text-primary flex-shrink-0" />
+                              )}
+                            </div>
+                            <div className="flex items-center gap-1 mt-1">
+                              {getRatingStars(vendor.rating || 0)}
+                              <span className="text-sm text-muted-foreground ml-1">
+                                ({vendor.completed_jobs || 0} jobs)
+                              </span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </CardHeader>
+                      </CardHeader>
                     
                     <CardContent className="space-y-4 overflow-hidden">
                       {/* Description with text truncation */}
@@ -308,7 +330,20 @@ export default function VendorMarketplace() {
                       </div>
 
                       {/* Verification Badges */}
-                      <div className="flex items-center gap-2 pt-2 border-t border-border">
+                      <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-border">
+                        {/* Subscription Tier Badge */}
+                        {isEnterprise && (
+                          <Badge variant="outline" className="text-xs bg-primary/10 text-primary border-primary/30">
+                            <Crown className="h-3 w-3 mr-1" />
+                            Enterprise Partner
+                          </Badge>
+                        )}
+                        {isPremium && !isEnterprise && (
+                          <Badge variant="outline" className="text-xs bg-primary/10 text-primary border-primary/30">
+                            <Award className="h-3 w-3 mr-1" />
+                            Premium Vendor
+                          </Badge>
+                        )}
                         {vendor.insurance_verified && (
                           <Badge variant="outline" className="text-xs bg-success/10 text-success border-success/30">
                             <Shield className="h-3 w-3 mr-1" />
@@ -318,7 +353,7 @@ export default function VendorMarketplace() {
                         {vendor.background_check_verified && (
                           <Badge variant="outline" className="text-xs bg-info/10 text-info border-info/30">
                             <CheckCircle2 className="h-3 w-3 mr-1" />
-                            Background Checked
+                            Verified
                           </Badge>
                         )}
                       </div>
@@ -334,7 +369,8 @@ export default function VendorMarketplace() {
                       </Button>
                     </CardContent>
                   </Card>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>
