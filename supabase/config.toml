@@ -85,3 +85,6 @@ verify_jwt = false
 
 [functions.send-newsletter]
 verify_jwt = true
+
+[functions.send-custom-notification]
+verify_jwt = true

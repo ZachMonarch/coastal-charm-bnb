@@ -334,28 +334,14 @@ export default function VendorProfileShowcase() {
                     onChange={(e) => setProfile(prev => prev ? { ...prev, address: e.target.value } : null)}
                   />
                 </div>
-                <div className="grid md:grid-cols-3 gap-4">
-                  <div className="space-y-2">
-                    <Label>City</Label>
-                    <Input
-                      value={profile.city || ''}
-                      onChange={(e) => setProfile(prev => prev ? { ...prev, city: e.target.value } : null)}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>State</Label>
-                    <Input
-                      value={profile.state || ''}
-                      onChange={(e) => setProfile(prev => prev ? { ...prev, state: e.target.value } : null)}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>ZIP Code</Label>
-                    <Input
-                      value={profile.zip_code || ''}
-                      onChange={(e) => setProfile(prev => prev ? { ...prev, zip_code: e.target.value } : null)}
-                    />
-                  </div>
+                <div className="space-y-2">
+                  <Label>Years of Experience</Label>
+                  <Input
+                    type="number"
+                    min="0"
+                    value={profile.years_experience || 0}
+                    onChange={(e) => setProfile(prev => prev ? { ...prev, years_experience: parseInt(e.target.value) || 0 } : null)}
+                  />
                 </div>
               </CardContent>
             </Card>
