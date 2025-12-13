@@ -127,9 +127,9 @@ const App = () => (
             {/* AuthProvider is already in main.tsx - do not duplicate */}
             <Toaster />
             <BrowserRouter>
-                    <CommandPalette />
-                    <OptimizedLayout>
-                      <Suspense fallback={<LoadingSpinner />}>
+              <CommandPalette />
+              <OptimizedLayout>
+                <Suspense fallback={<LoadingSpinner />}>
                         <Routes>
                           {/* Public Routes */}
                           <Route path="/" element={<Index />} />
@@ -481,15 +481,16 @@ const App = () => (
                   
                           {/* Catch all route */}
                           <Route path="*" element={<NotFound />} />
-                        </Routes>
-                      </Suspense>
-                    </OptimizedLayout>
-                  </BrowserRouter>
-            </OptimizedSecurityProvider>
-          </TooltipProvider>
-        </LanguageProvider>
-      </ThemeProvider>
-  </>
+                </Routes>
+              </Suspense>
+            </OptimizedLayout>
+          </BrowserRouter>
+        </OptimizedSecurityProvider>
+      </TooltipProvider>
+    </LanguageProvider>
+  </ThemeProvider>
+</>
+
 );
 
 export default App;
