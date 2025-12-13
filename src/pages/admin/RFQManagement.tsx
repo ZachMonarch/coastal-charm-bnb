@@ -62,7 +62,7 @@ export default function RFQManagement() {
           icon={FileText}
           variant="gradient"
           actions={[
-            { label: 'Create RFQ', href: '/admin/rfqs/create' }
+            { label: 'Create RFQ', href: '/admin/rfq/create' }
           ]}
         />
 
@@ -136,7 +136,7 @@ export default function RFQManagement() {
                   <TableRow
                     key={rfq.id}
                     className="cursor-pointer hover:bg-muted/50"
-                    onClick={() => navigate(`/admin/rfqs/${rfq.id}`)}
+                    onClick={() => navigate(`/admin/rfq/${rfq.id}`)}
                   >
                     <TableCell className="font-medium">{rfq.title}</TableCell>
                     <TableCell>{rfq.property?.title || 'N/A'}</TableCell>
@@ -154,7 +154,7 @@ export default function RFQManagement() {
                         size="sm"
                         onClick={(e) => {
                           e.stopPropagation();
-                          navigate(`/admin/rfqs/${rfq.id}`);
+                          navigate(`/admin/rfq/${rfq.id}`);
                         }}
                       >
                         View
