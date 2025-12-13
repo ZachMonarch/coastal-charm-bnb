@@ -2793,6 +2793,66 @@ export type Database = {
         }
         Relationships: []
       }
+      vendor_inquiries: {
+        Row: {
+          admin_response: string | null
+          category: string
+          created_at: string | null
+          id: string
+          message: string
+          priority: string | null
+          responded_at: string | null
+          responded_by: string | null
+          status: string | null
+          subject: string
+          updated_at: string | null
+          vendor_id: string
+        }
+        Insert: {
+          admin_response?: string | null
+          category: string
+          created_at?: string | null
+          id?: string
+          message: string
+          priority?: string | null
+          responded_at?: string | null
+          responded_by?: string | null
+          status?: string | null
+          subject: string
+          updated_at?: string | null
+          vendor_id: string
+        }
+        Update: {
+          admin_response?: string | null
+          category?: string
+          created_at?: string | null
+          id?: string
+          message?: string
+          priority?: string | null
+          responded_at?: string | null
+          responded_by?: string | null
+          status?: string | null
+          subject?: string
+          updated_at?: string | null
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vendor_inquiries_responded_by_fkey"
+            columns: ["responded_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vendor_inquiries_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       vendor_invitations: {
         Row: {
           accepted_at: string | null
