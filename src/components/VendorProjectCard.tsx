@@ -136,7 +136,7 @@ export default function VendorProjectCard({ project }: VendorProjectCardProps) {
         {/* Action Buttons */}
         <div className="flex gap-2 pt-2">
           <Button asChild className="flex-1">
-            <Link to={`/vendor/projects/${project.id}`} className="flex items-center gap-2">
+            <Link to={`/vendor/projects/${project.id}`} className="flex items-center gap-2 text-white">
               <Eye className="h-4 w-4" />
               View Details
             </Link>

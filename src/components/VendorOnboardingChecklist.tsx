@@ -173,8 +173,11 @@ export default function VendorOnboardingChecklist() {
             <p className="text-sm text-muted-foreground mb-3">
               Complete all tasks to maximize your project opportunities
             </p>
-            <Button asChild className="bg-primary text-primary-foreground hover:bg-primary-dark font-semibold shadow-md [&>a]:text-primary-foreground">
-              <Link to={checklistItems.find(item => !item.completed)?.route || '/vendor/profile'}>
+            <Button asChild className="bg-primary hover:bg-primary-dark font-semibold shadow-md">
+              <Link 
+                to={checklistItems.find(item => !item.completed)?.route || '/vendor/profile'}
+                className="text-white"
+              >
                 Continue Setup
               </Link>
             </Button>

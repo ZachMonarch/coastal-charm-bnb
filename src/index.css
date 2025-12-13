@@ -461,6 +461,25 @@
   }
 }
 
+/* === BUTTON TEXT VISIBILITY FIX === */
+/* Ensure button text is always visible when using asChild with Link */
+/* Covers: bg-primary, gradients with primary, and default buttons */
+.bg-primary a,
+[class*="bg-primary"] a,
+[class*="from-primary"] a,
+[class*="bg-gradient"] a,
+button[class*="shadow-primary"] a {
+  color: white !important;
+}
+
+.dark .bg-primary a,
+.dark [class*="bg-primary"] a,
+.dark [class*="from-primary"] a,
+.dark [class*="bg-gradient"] a,
+.dark button[class*="shadow-primary"] a {
+  color: white !important;
+}
+
 @layer components {
   /* === PERFORMANCE OPTIMIZATIONS === */
   

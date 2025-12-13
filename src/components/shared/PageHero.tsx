@@ -130,7 +130,12 @@ export default function PageHero({
                     action.variant === 'default' && 'shadow-primary/20 hover:shadow-primary/40'
                   )}
                 >
-                  <Link to={action.href}>{action.label}</Link>
+                  <Link 
+                    to={action.href}
+                    className={action.variant === 'default' || !action.variant ? 'text-white' : undefined}
+                  >
+                    {action.label}
+                  </Link>
                 </Button>
               ))}
             </div>
