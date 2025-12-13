@@ -60,7 +60,7 @@ export default function VendorRFQTabs() {
                 </p>
               </div>
               <Button asChild className="ml-auto">
-                <Link to="/vendor/dashboard?tab=subscription">Upgrade Now</Link>
+                <Link to="/vendor/dashboard?tab=subscription" className="text-white">Upgrade Now</Link>
               </Button>
             </div>
           </CardContent>
@@ -359,7 +359,7 @@ export default function VendorRFQTabs() {
                   
                   <div className="flex justify-end gap-2">
                     <Button asChild size="sm">
-                      <Link to={`/vendor/projects/${project.project?.id}`}>
+                      <Link to={`/vendor/projects/${project.project?.id}`} className="text-white">
                         View Project
                       </Link>
                     </Button>

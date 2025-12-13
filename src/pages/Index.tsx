@@ -111,7 +111,7 @@ export default function Index() {
               
               <div className="text-center mt-12">
                 <Button asChild className="btn-primary group">
-                  <Link to="/properties">
+                  <Link to="/properties" className="text-white">
                     <Building2 className="mr-2 h-5 w-5" />
                     View All Properties 
                     <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
@@ -137,12 +137,12 @@ export default function Index() {
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                     <Button asChild className="btn-primary">
-                      <Link to="/join-as-vendor">
+                      <Link to="/join-as-vendor" className="text-white">
                         Join as a Vendor
                         <ArrowRight className="ml-2 h-4 w-4" />
                       </Link>
                     </Button>
-                    <Button asChild variant="outline">
+                    <Button asChild variant="outline" className="border-2 border-primary text-foreground hover:bg-primary hover:text-white hover:border-primary">
                       <Link to="/vendors">
                         Browse Vendors
                       </Link>

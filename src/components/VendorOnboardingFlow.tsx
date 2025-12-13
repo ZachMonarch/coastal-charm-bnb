@@ -154,7 +154,10 @@ export default function VendorOnboardingFlow() {
                       </Badge>
                     ) : step.link ? (
                       <Button asChild variant={step.id === nextIncompleteStep?.id ? 'default' : 'outline'}>
-                        <Link to={step.link}>
+                        <Link 
+                          to={step.link}
+                          className={step.id === nextIncompleteStep?.id ? 'text-white' : 'text-foreground'}
+                        >
                           {step.id === nextIncompleteStep?.id ? 'Continue' : 'Start'}
                           <ArrowRight className="h-4 w-4 ml-2" />
                         </Link>

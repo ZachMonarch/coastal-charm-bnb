@@ -132,7 +132,7 @@ export default function HeroSection() {
           {/* CTA buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-16">
             <Button asChild size="lg" className="btn-primary tech-glow min-w-[240px] group">
-              <Link to="/auth?mode=signup">
+              <Link to="/auth?mode=signup" className="text-white">
                 <Sparkles className="mr-2 h-5 w-5 group-hover:animate-bounce" />
                 Get Started
               </Link>
@@ -141,9 +141,9 @@ export default function HeroSection() {
               asChild 
               size="lg" 
               variant="outline" 
-              className="min-w-[240px] group bg-white/10 backdrop-blur-md border-white/30 text-white hover:bg-white/20 hover:text-white hover:border-white/50"
+              className="min-w-[240px] group bg-white/10 backdrop-blur-md border-white/30 hover:bg-white/20 hover:border-white/50"
             >
-              <Link to="/properties">
+              <Link to="/properties" className="text-white hover:text-white">
                 <Building className="mr-2 h-5 w-5 group-hover:animate-pulse" />
                 {t.hero.exploreApartments}
               </Link>

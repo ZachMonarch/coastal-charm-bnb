@@ -579,6 +579,13 @@ button[class*="shadow-primary"] a {
     opacity: 0.9;
   }
 
+  /* Ensure links inside btn-primary always have white text */
+  .btn-primary a,
+  .btn-primary > a,
+  a.btn-primary {
+    color: white !important;
+  }
+
   .btn-secondary {
     background: hsl(var(--secondary));
     color: hsl(var(--secondary-foreground));

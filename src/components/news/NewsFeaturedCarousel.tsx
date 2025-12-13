@@ -128,7 +128,7 @@ export function NewsFeaturedCarousel({ articles }: NewsFeaturedCarouselProps) {
           </div>
 
           <Button asChild className="w-fit">
-            <a href={currentArticle.url} target="_blank" rel="noopener noreferrer">
+            <a href={currentArticle.url} target="_blank" rel="noopener noreferrer" className="text-white">
               Read Full Article
               <ExternalLink className="ml-2 h-4 w-4" />
             </a>
