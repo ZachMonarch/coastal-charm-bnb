@@ -9,7 +9,7 @@ export default function RFQCreate() {
 
   return (
     <div className="container mx-auto py-6 space-y-6 max-w-4xl">
-      <Button variant="ghost" onClick={() => navigate('/admin/rfqs')}>
+      <Button variant="ghost" onClick={() => navigate('/admin/rfq')}>
         <ArrowLeft className="w-4 h-4 mr-2" />
         Back to RFQs
       </Button>

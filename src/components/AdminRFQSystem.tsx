@@ -1,6 +1,6 @@
 
-import { useState, useEffect } from "react";
-import { Plus, Search, Eye, Edit, Trash2, Users, Calendar, DollarSign, MapPin, Clock, CheckCircle2, AlertCircle, Upload, Briefcase, FileText, TrendingUp, Target } from "lucide-react";
+import { useState, useEffect, useCallback } from "react";
+import { Plus, Search, Eye, Edit, Trash2, Users, Calendar, DollarSign, MapPin, Clock, CheckCircle2, AlertCircle, Upload, Briefcase, FileText, TrendingUp, Target, Share2, Bell } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,11 +12,12 @@ import { secureErrorHandler } from "@/utils/secureErrorHandler";
 import { useAuth } from "@/contexts/OptimizedAuthContext";
 import { logger } from "@/utils/logger";
 import { Input } from "@/components/ui/input";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogClose } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import PageHero from "@/components/shared/PageHero";
 import ColorfulIconBox from "@/components/shared/ColorfulIconBox";
 
@@ -54,12 +55,15 @@ export default function AdminRFQSystem() {
   const { user } = useAuth();
   const [rfqProjects, setRfqProjects] = useState<RFQProject[]>([]);
   const [selectedProject, setSelectedProject] = useState<RFQProject | null>(null);
+  const [editingProject, setEditingProject] = useState<RFQProject | null>(null);
   const [projectBids, setProjectBids] = useState<Bid[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
   const [isBidsOpen, setIsBidsOpen] = useState(false);
+  const [uploadingFiles, setUploadingFiles] = useState(false);
 
   const [newProject, setNewProject] = useState({
     title: '',
@@ -80,24 +84,37 @@ export default function AdminRFQSystem() {
 
   const fetchRFQProjects = async () => {
     try {
+      // Single query with bid count aggregation to fix N+1
       const { data, error } = await supabase
         .from('projects')
-        .select('id, title, description, category, status, budget_min, budget_max, deadline, created_at, created_by, assigned_vendor_id, priority, skills_required, location, preferred_start_date, property_id, documents, attachments')
-        .order('created_at', { ascending: false });
+        .select(`
+          id, title, description, category, status, budget_min, budget_max, 
+          deadline, created_at, created_by, assigned_vendor_id, priority, 
+          skills_required, location, preferred_start_date, property_id
+        `)
+        .order('created_at', { ascending: false })
+        .limit(100);
 
       if (error) throw error;
 
-      // Get bid counts for each project
-      const projectsWithBids = await Promise.all(
-        (data || []).map(async (project) => {
-          const { count } = await supabase
-            .from('vendor_bids')
-            .select('id', { count: 'exact', head: true })
-            .or(`application_id.eq.${project.id},project_id.eq.${project.id}`);
+      // Get bid counts in a single query
+      const projectIds = (data || []).map(p => p.id);
+      const { data: bidCounts, error: bidError } = await supabase
+        .from('vendor_bids')
+        .select('project_id')
+        .in('project_id', projectIds);
+      
+      // Count bids per project
+      const bidCountMap = new Map<string, number>();
+      (bidCounts || []).forEach(bid => {
+        const count = bidCountMap.get(bid.project_id) || 0;
+        bidCountMap.set(bid.project_id, count + 1);
+      });
 
-          return { ...project, bids_count: count || 0 };
-        })
-      );
+      const projectsWithBids = (data || []).map(project => ({
+        ...project,
+        bids_count: bidCountMap.get(project.id) || 0
+      }));
 
       setRfqProjects(projectsWithBids);
     } catch (error) {
@@ -171,22 +188,161 @@ export default function AdminRFQSystem() {
 
       toast.success('RFQ project created successfully');
       setIsCreateOpen(false);
-      setNewProject({
-        title: '',
-        description: '',
-        category: '',
-        priority: 'medium',
-        budget_min: 0,
-        budget_max: 0,
-        deadline: '',
-        preferred_start_date: '',
-        location: '',
-        skills_required: []
-      });
+      resetNewProject();
       fetchRFQProjects();
     } catch (error) {
       logger.error('Error creating RFQ project:', error);
       toast.error('Failed to create RFQ project');
+    }
+  };
+
+  const resetNewProject = () => {
+    setNewProject({
+      title: '',
+      description: '',
+      category: '',
+      priority: 'medium',
+      budget_min: 0,
+      budget_max: 0,
+      deadline: '',
+      preferred_start_date: '',
+      location: '',
+      skills_required: []
+    });
+  };
+
+  const handleEditProject = async () => {
+    if (!editingProject) return;
+    
+    try {
+      const { error } = await supabase
+        .from('projects')
+        .update({
+          title: editingProject.title,
+          description: editingProject.description,
+          category: editingProject.category,
+          priority: editingProject.priority,
+          budget_min: editingProject.budget_min,
+          budget_max: editingProject.budget_max,
+          deadline: editingProject.deadline,
+          preferred_start_date: editingProject.preferred_start_date,
+          location: editingProject.location
+        })
+        .eq('id', editingProject.id);
+
+      if (error) throw error;
+
+      toast.success('Project updated successfully');
+      setIsEditOpen(false);
+      setEditingProject(null);
+      fetchRFQProjects();
+    } catch (error) {
+      logger.error('Error updating project:', error);
+      toast.error('Failed to update project');
+    }
+  };
+
+  const handleDeleteProject = async (projectId: string) => {
+    try {
+      const { error } = await supabase
+        .from('projects')
+        .delete()
+        .eq('id', projectId);
+
+      if (error) throw error;
+
+      toast.success('Project deleted successfully');
+      setRfqProjects(prev => prev.filter(p => p.id !== projectId));
+    } catch (error) {
+      logger.error('Error deleting project:', error);
+      toast.error('Failed to delete project');
+    }
+  };
+
+  const handleShareProject = (project: RFQProject) => {
+    const url = `${window.location.origin}/dashboard/projects/${project.id}`;
+    navigator.clipboard.writeText(url);
+    toast.success('Project link copied to clipboard');
+  };
+
+  const handleSendNotification = async (project: RFQProject) => {
+    try {
+      // Get all vendors to notify
+      const { data: vendors, error: vendorsError } = await supabase
+        .from('vendor_profiles')
+        .select('user_id')
+        .eq('is_verified', true)
+        .eq('availability_status', 'available')
+        .limit(50);
+
+      if (vendorsError) throw vendorsError;
+
+      if (!vendors || vendors.length === 0) {
+        toast.info('No available vendors to notify');
+        return;
+      }
+
+      // Create notifications for each vendor
+      const notifications = vendors.map(vendor => ({
+        user_id: vendor.user_id,
+        title: 'New Project Available',
+        message: `A new project "${project.title}" is available for bidding.`,
+        type: 'info',
+        action_url: `/vendor/projects`
+      }));
+
+      const { error: notifyError } = await supabase
+        .from('notifications')
+        .insert(notifications);
+
+      if (notifyError) throw notifyError;
+
+      toast.success(`Notifications sent to ${vendors.length} vendors`);
+    } catch (error) {
+      logger.error('Error sending notifications:', error);
+      toast.error('Failed to send notifications');
+    }
+  };
+
+  const handleFileUpload = async (files: FileList | null, projectId?: string) => {
+    if (!files || files.length === 0) return;
+    
+    setUploadingFiles(true);
+    try {
+      for (const file of Array.from(files)) {
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+        const filePath = `project-documents/${projectId || 'new'}/${fileName}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from('documents')
+          .upload(filePath, file);
+
+        if (uploadError) throw uploadError;
+
+        // If we have a project ID, save the document reference
+        if (projectId) {
+          const { error: docError } = await supabase
+            .from('project_documents')
+            .insert({
+              project_id: projectId,
+              file_name: file.name,
+              file_path: filePath,
+              file_size: file.size,
+              file_type: file.type || 'application/octet-stream',
+              uploaded_by: user?.id
+            });
+
+          if (docError) throw docError;
+        }
+      }
+
+      toast.success('Files uploaded successfully');
+    } catch (error) {
+      logger.error('Error uploading files:', error);
+      toast.error('Failed to upload files');
+    } finally {
+      setUploadingFiles(false);
     }
   };
 
@@ -456,18 +612,16 @@ export default function AdminRFQSystem() {
                           type="file"
                           multiple
                           accept=".pdf,.doc,.docx,.xls,.xlsx,.txt,.jpg,.jpeg,.png"
-                          onChange={(e) => {
-                            const files = Array.from(e.target.files || []);
-                            // Handle file upload here - implementation needed
-                          }}
+                          onChange={(e) => handleFileUpload(e.target.files)}
                           className="hidden"
                           id="file-upload"
+                          disabled={uploadingFiles}
                         />
                         <label htmlFor="file-upload" className="cursor-pointer">
                           <div className="text-center">
-                            <Upload className="mx-auto h-8 w-8 text-muted-foreground" />
+                            <Upload className={`mx-auto h-8 w-8 ${uploadingFiles ? 'animate-pulse text-primary' : 'text-muted-foreground'}`} />
                             <p className="mt-1 text-sm text-foreground">
-                              Click to upload project documents or drag and drop
+                              {uploadingFiles ? 'Uploading...' : 'Click to upload project documents or drag and drop'}
                             </p>
                             <p className="text-xs text-muted-foreground">
                               PDF, DOC, XLS, TXT, or images up to 10MB each
@@ -619,6 +773,70 @@ export default function AdminRFQSystem() {
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex gap-2 justify-end">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setEditingProject(project);
+                            setIsEditOpen(true);
+                          }}
+                          title="Edit project"
+                        >
+                          <Edit className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleShareProject(project);
+                          }}
+                          title="Share project link"
+                        >
+                          <Share2 className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleSendNotification(project);
+                          }}
+                          title="Notify vendors"
+                        >
+                          <Bell className="h-4 w-4" />
+                        </Button>
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="text-destructive hover:text-destructive"
+                              onClick={(e) => e.stopPropagation()}
+                              title="Delete project"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Delete Project</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                Are you sure you want to delete "{project.title}"? This action cannot be undone.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogAction
+                                onClick={() => handleDeleteProject(project.id)}
+                                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                              >
+                                Delete
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
                         <Select 
                           value={project.status} 
                           onValueChange={(value) => updateProjectStatus(project.id, value)}
@@ -708,6 +926,132 @@ export default function AdminRFQSystem() {
               </div>
             )}
           </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Project Dialog */}
+      <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Edit Project</DialogTitle>
+            <DialogDescription>Update project details</DialogDescription>
+          </DialogHeader>
+          {editingProject && (
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="edit-title">Project Title</Label>
+                <Input
+                  id="edit-title"
+                  value={editingProject.title}
+                  onChange={(e) => setEditingProject({ ...editingProject, title: e.target.value })}
+                />
+              </div>
+              <div>
+                <Label htmlFor="edit-description">Description</Label>
+                <Textarea
+                  id="edit-description"
+                  value={editingProject.description}
+                  onChange={(e) => setEditingProject({ ...editingProject, description: e.target.value })}
+                  rows={3}
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="edit-category">Category</Label>
+                  <Select 
+                    value={editingProject.category} 
+                    onValueChange={(value) => setEditingProject({ ...editingProject, category: value })}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Plumbing">Plumbing</SelectItem>
+                      <SelectItem value="Electrical">Electrical</SelectItem>
+                      <SelectItem value="HVAC">HVAC</SelectItem>
+                      <SelectItem value="Landscaping">Landscaping</SelectItem>
+                      <SelectItem value="Cleaning">Cleaning</SelectItem>
+                      <SelectItem value="Maintenance">General Maintenance</SelectItem>
+                      <SelectItem value="Renovation">Renovation</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label htmlFor="edit-priority">Priority</Label>
+                  <Select 
+                    value={editingProject.priority} 
+                    onValueChange={(value) => setEditingProject({ ...editingProject, priority: value })}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select priority" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="low">Low</SelectItem>
+                      <SelectItem value="medium">Medium</SelectItem>
+                      <SelectItem value="high">High</SelectItem>
+                      <SelectItem value="critical">Critical</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="edit-budget-min">Min Budget ($)</Label>
+                  <Input
+                    id="edit-budget-min"
+                    type="number"
+                    value={editingProject.budget_min}
+                    onChange={(e) => setEditingProject({ ...editingProject, budget_min: Number(e.target.value) })}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="edit-budget-max">Max Budget ($)</Label>
+                  <Input
+                    id="edit-budget-max"
+                    type="number"
+                    value={editingProject.budget_max}
+                    onChange={(e) => setEditingProject({ ...editingProject, budget_max: Number(e.target.value) })}
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="edit-location">Location</Label>
+                <Input
+                  id="edit-location"
+                  value={editingProject.location}
+                  onChange={(e) => setEditingProject({ ...editingProject, location: e.target.value })}
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="edit-start-date">Preferred Start Date</Label>
+                  <Input
+                    id="edit-start-date"
+                    type="date"
+                    value={editingProject.preferred_start_date?.split('T')[0] || ''}
+                    onChange={(e) => setEditingProject({ ...editingProject, preferred_start_date: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="edit-deadline">Deadline</Label>
+                  <Input
+                    id="edit-deadline"
+                    type="date"
+                    value={editingProject.deadline?.split('T')[0] || ''}
+                    onChange={(e) => setEditingProject({ ...editingProject, deadline: e.target.value })}
+                  />
+                </div>
+              </div>
+              <div className="flex justify-end gap-2">
+                <Button variant="outline" onClick={() => setIsEditOpen(false)}>
+                  Cancel
+                </Button>
+                <Button onClick={handleEditProject}>
+                  Save Changes
+                </Button>
+              </div>
+            </div>
+          )}
         </DialogContent>
       </Dialog>
     </div>
