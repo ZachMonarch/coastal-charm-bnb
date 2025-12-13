@@ -352,8 +352,8 @@ export default function VendorDashboardComplete({ canApply, canViewAll }: Vendor
                     </div>
                   </div>
                   
-                  <Button asChild className="w-full bg-primary text-primary-foreground hover:bg-primary-dark font-semibold shadow-md [&>a]:text-primary-foreground">
-                    <Link to="/vendor/profile">Complete Profile</Link>
+                  <Button asChild className="w-full bg-primary hover:bg-primary-dark font-semibold shadow-md">
+                    <Link to="/vendor/profile" className="text-white">Complete Profile</Link>
                   </Button>
                 </CardContent>
               </Card>
@@ -386,7 +386,7 @@ export default function VendorDashboardComplete({ canApply, canViewAll }: Vendor
                     <h3 className="text-lg font-semibold text-foreground mb-2">No recent activity</h3>
                     <p className="text-muted-foreground mb-4">Start by applying to available projects</p>
                     <Button asChild>
-                      <Link to="/vendor/rfq">Browse Projects</Link>
+                      <Link to="/vendor/rfq" className="text-white">Browse Projects</Link>
                     </Button>
                   </div>
                 ) : (
