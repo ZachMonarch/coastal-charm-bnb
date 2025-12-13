@@ -19,13 +19,20 @@ import { useCanonicalUrl } from "@/hooks/useCanonicalUrl";
 export default function Index() {
   const { t } = useLanguage();
   
-  // Memoize filters to prevent duplicate API requests
+  // Memoize filters for random properties - use random offset for variety
   const propertyFilters = useMemo(() => ({
     sortBy: 'id' as const,
     sortOrder: 'desc' as const
   }), []);
   
-  const { properties, loading } = useProperties(propertyFilters, 9);
+  const { properties, loading } = useProperties(propertyFilters, 20);
+  
+  // Randomize and pick 9 properties for display variety
+  const randomProperties = useMemo(() => {
+    if (properties.length === 0) return [];
+    const shuffled = [...properties].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, 9);
+  }, [properties]);
   
   // Set canonical URL for homepage
   useCanonicalUrl('https://monarchpropertymmgt.com/');
@@ -97,9 +104,13 @@ export default function Index() {
                     </div>
                   ))}
                 </div>
+              ) : randomProperties.length === 0 ? (
+                <div className="text-center py-12">
+                  <p className="text-muted-foreground">No properties available at this time.</p>
+                </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {properties.slice(0, 9).map((property, index) => (
+                  {randomProperties.map((property, index) => (
                     <div key={property.id} className="animate-fade-in" style={{ animationDelay: `${(index + 1) * 100}ms` }}>
                        <PropertyCard 
                          property={property}
