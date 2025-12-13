@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Building2, Briefcase, Home as HomeIcon, Wrench, FileText, MessageSquare, Crown } from "lucide-react";
+import { Menu, X, Building2, Briefcase, Home as HomeIcon, Wrench, FileText, MessageSquare, Crown, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ThemeToggle from "./ThemeToggle";
 import LanguageSelector from "./LanguageSelector";
@@ -16,7 +16,7 @@ import { rafBatch } from "@/utils/rafBatch";
 export default function Navbar() {
   const { t } = useLanguage();
   const location = useLocation();
-  const { user, isAuthenticated, signOut } = useAuth();
+  const { user, isAuthenticated, isLoading, signOut } = useAuth();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -267,8 +267,15 @@ export default function Navbar() {
           </div>
         }
       >
-        {/* Sign In / Sign Up buttons - visible for guests only */}
-        {!isAuthenticated && (
+        {/* Loading state during auth initialization */}
+        {isLoading && (
+          <div className="p-4 flex justify-center border-b border-border bg-card">
+            <Loader2 className="h-6 w-6 animate-spin text-primary" />
+          </div>
+        )}
+
+        {/* Sign In / Sign Up buttons - visible for guests only (when not loading and not authenticated) */}
+        {!isLoading && !isAuthenticated && (
           <div className="p-4 space-y-3 border-b border-border bg-card">
             <p className="text-sm text-foreground font-medium text-center mb-2">
               Join Monarch Property Management
