@@ -124,9 +124,9 @@ const App = () => (
       <LanguageProvider>
         <TooltipProvider>
           <OptimizedSecurityProvider enableRateLimit={true}>
-            <AuthProvider>
-              <Toaster />
-              <BrowserRouter>
+            {/* AuthProvider is already in main.tsx - do not duplicate */}
+            <Toaster />
+            <BrowserRouter>
                     <CommandPalette />
                     <OptimizedLayout>
                       <Suspense fallback={<LoadingSpinner />}>
@@ -485,7 +485,6 @@ const App = () => (
                       </Suspense>
                     </OptimizedLayout>
                   </BrowserRouter>
-              </AuthProvider>
             </OptimizedSecurityProvider>
           </TooltipProvider>
         </LanguageProvider>
