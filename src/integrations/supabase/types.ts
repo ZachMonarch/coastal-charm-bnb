@@ -273,13 +273,6 @@ export type Database = {
             foreignKeyName: "bookings_property_id_fkey"
             columns: ["property_id"]
             isOneToOne: false
-            referencedRelation: "public_property_listings"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "bookings_property_id_fkey"
-            columns: ["property_id"]
-            isOneToOne: false
             referencedRelation: "safe_property_listings"
             referencedColumns: ["id"]
           },
@@ -1678,13 +1671,6 @@ export type Database = {
             foreignKeyName: "property_inquiries_property_id_fkey"
             columns: ["property_id"]
             isOneToOne: false
-            referencedRelation: "public_property_listings"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "property_inquiries_property_id_fkey"
-            columns: ["property_id"]
-            isOneToOne: false
             referencedRelation: "safe_property_listings"
             referencedColumns: ["id"]
           },
@@ -1791,13 +1777,6 @@ export type Database = {
             columns: ["property_id"]
             isOneToOne: false
             referencedRelation: "properties"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "quick_quote_requests_property_id_fkey"
-            columns: ["property_id"]
-            isOneToOne: false
-            referencedRelation: "public_property_listings"
             referencedColumns: ["id"]
           },
           {
@@ -2003,13 +1982,6 @@ export type Database = {
             columns: ["property_id"]
             isOneToOne: false
             referencedRelation: "properties"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "rfqs_property_id_fkey"
-            columns: ["property_id"]
-            isOneToOne: false
-            referencedRelation: "public_property_listings"
             referencedColumns: ["id"]
           },
           {
@@ -2606,13 +2578,6 @@ export type Database = {
             foreignKeyName: "vendor_applications_property_id_fkey"
             columns: ["property_id"]
             isOneToOne: false
-            referencedRelation: "public_property_listings"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "vendor_applications_property_id_fkey"
-            columns: ["property_id"]
-            isOneToOne: false
             referencedRelation: "safe_property_listings"
             referencedColumns: ["id"]
           },
@@ -2737,6 +2702,13 @@ export type Database = {
             columns: ["document_id"]
             isOneToOne: false
             referencedRelation: "vendor_documents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vendor_document_comments_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "vendor_documents_safe"
             referencedColumns: ["id"]
           },
           {
@@ -3714,13 +3686,6 @@ export type Database = {
             foreignKeyName: "work_orders_property_id_fkey"
             columns: ["property_id"]
             isOneToOne: false
-            referencedRelation: "public_property_listings"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "work_orders_property_id_fkey"
-            columns: ["property_id"]
-            isOneToOne: false
             referencedRelation: "safe_property_listings"
             referencedColumns: ["id"]
           },
@@ -3735,57 +3700,6 @@ export type Database = {
       }
     }
     Views: {
-      public_property_listings: {
-        Row: {
-          amenities: string | null
-          available_date: string | null
-          bathrooms: number | null
-          bedrooms: number | null
-          city: string | null
-          description: string | null
-          id: number | null
-          image_urls: string | null
-          price: number | null
-          property_type: string | null
-          square_feet: string | null
-          state: string | null
-          status: string | null
-          title: string | null
-        }
-        Insert: {
-          amenities?: string | null
-          available_date?: string | null
-          bathrooms?: number | null
-          bedrooms?: number | null
-          city?: string | null
-          description?: string | null
-          id?: number | null
-          image_urls?: string | null
-          price?: number | null
-          property_type?: string | null
-          square_feet?: string | null
-          state?: string | null
-          status?: string | null
-          title?: string | null
-        }
-        Update: {
-          amenities?: string | null
-          available_date?: string | null
-          bathrooms?: number | null
-          bedrooms?: number | null
-          city?: string | null
-          description?: string | null
-          id?: number | null
-          image_urls?: string | null
-          price?: number | null
-          property_type?: string | null
-          square_feet?: string | null
-          state?: string | null
-          status?: string | null
-          title?: string | null
-        }
-        Relationships: []
-      }
       safe_property_listings: {
         Row: {
           amenities: string | null
@@ -3802,6 +3716,7 @@ export type Database = {
           state: string | null
           status: string | null
           title: string | null
+          zip_code: number | null
         }
         Insert: {
           amenities?: string | null
@@ -3811,13 +3726,14 @@ export type Database = {
           city?: string | null
           description?: string | null
           id?: number | null
-          image_urls?: never
+          image_urls?: string | null
           price?: number | null
           property_type?: string | null
           square_feet?: string | null
           state?: string | null
           status?: string | null
           title?: string | null
+          zip_code?: number | null
         }
         Update: {
           amenities?: string | null
@@ -3827,13 +3743,14 @@ export type Database = {
           city?: string | null
           description?: string | null
           id?: number | null
-          image_urls?: never
+          image_urls?: string | null
           price?: number | null
           property_type?: string | null
           square_feet?: string | null
           state?: string | null
           status?: string | null
           title?: string | null
+          zip_code?: number | null
         }
         Relationships: []
       }
@@ -3925,6 +3842,51 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      vendor_documents_safe: {
+        Row: {
+          document_type: string | null
+          file_name: string | null
+          file_path: string | null
+          file_size: number | null
+          file_url: string | null
+          id: string | null
+          is_verified: boolean | null
+          mime_type: string | null
+          uploaded_at: string | null
+          vendor_id: string | null
+          verified_at: string | null
+          verified_by: string | null
+        }
+        Insert: {
+          document_type?: string | null
+          file_name?: string | null
+          file_path?: never
+          file_size?: number | null
+          file_url?: never
+          id?: string | null
+          is_verified?: boolean | null
+          mime_type?: string | null
+          uploaded_at?: string | null
+          vendor_id?: string | null
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Update: {
+          document_type?: string | null
+          file_name?: string | null
+          file_path?: never
+          file_size?: number | null
+          file_url?: never
+          id?: string | null
+          is_verified?: boolean | null
+          mime_type?: string | null
+          uploaded_at?: string | null
+          vendor_id?: string | null
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Relationships: []
       }
     }
     Functions: {
