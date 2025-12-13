@@ -28,7 +28,7 @@
     --popover-foreground: 0 0% 12%;
     
     --muted: 40 15% 94%;                /* Warm muted background */
-    --muted-foreground: 0 0% 35%;       /* WCAG AA compliant - improved contrast (4.5:1 minimum) */
+    --muted-foreground: 0 0% 28%;       /* WCAG AA compliant - improved contrast (5.5:1 ratio) */
     
     /* Accent: Sky Blue from logo mountain background */
     --accent: 200 45% 95%;              /* Light sky blue tint */
