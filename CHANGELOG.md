@@ -64,6 +64,39 @@ All 11 email edge functions now use centralized configuration and include anti-s
 
 ---
 
+## [2.6.1] - 2025-12-14 🔒 Security Hardening - Circuit Breaker & Info Leakage Fix
+
+### Fixed - Critical Security Issues
+
+**Rate Limiter Circuit Breaker (Critical)**
+- **Problem**: Rate limiter was "failing open" on all errors, allowing unlimited requests
+- **Solution**: Implemented 3-failure circuit breaker pattern
+  - Tracks consecutive failures per endpoint:identifier
+  - After 3 failures within 60 seconds, blocks all requests
+  - Logs `RATE_LIMIT_CIRCUIT_OPEN` and `RATE_LIMIT_CHECK_FAILED` to security_events
+  - Auto-recovers after 60-second cooldown
+  - Clears failure counter on successful rate limit check
+
+**Stripe Webhook Information Leakage (Warning)**
+- **Problem**: Error responses exposed internal error messages, stack traces
+- **Solution**: Generic error responses to clients
+  - Returns only `{ error: "Webhook processing failed", errorId: "<uuid>" }`
+  - Full error details logged server-side only
+  - Security events table records all webhook errors for monitoring
+  - Error ID allows support correlation without exposing internals
+
+### Files Modified
+1. `supabase/functions/_shared/rateLimiter.ts` - Added circuit breaker pattern
+2. `supabase/functions/stripe-webhook/index.ts` - Generic error responses
+
+### Security Status
+- ✅ Rate limiter circuit breaker: FIXED
+- ✅ Stripe webhook info leakage: FIXED
+- ⚠️ Properties owner_id exposure: Documented (requires business decision)
+- ⚠️ Leaked Password Protection: Enable in Supabase Dashboard
+
+---
+
 ## [2.5.1] - 2025-12-01 🐛🎨 Critical Z-Index Fix & Colorful Dashboard
 
 ### Fixed - Payment Dropdown Visibility (Critical)
