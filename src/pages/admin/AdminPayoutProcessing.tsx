@@ -333,16 +333,16 @@ export default function AdminPayoutProcessing() {
                   <p className="text-muted-foreground">No payout requests match your filters.</p>
                 </div>
               ) : (
-                <div className="overflow-x-auto">
+                <div className="overflow-x-auto" role="region" aria-label="Payout requests table">
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Vendor</TableHead>
-                        <TableHead>Amount</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Reference</TableHead>
-                        <TableHead>Requested</TableHead>
-                        <TableHead className="text-right">Actions</TableHead>
+                        <TableHead scope="col">Vendor</TableHead>
+                        <TableHead scope="col">Amount</TableHead>
+                        <TableHead scope="col">Status</TableHead>
+                        <TableHead scope="col">Reference</TableHead>
+                        <TableHead scope="col">Requested</TableHead>
+                        <TableHead scope="col" className="text-right">Actions</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -384,8 +384,9 @@ export default function AdminPayoutProcessing() {
                                     variant="outline"
                                     className="text-success border-success/30"
                                     onClick={() => openProcessDialog(payout, 'approve')}
+                                    aria-label={`Approve payout for ${payout.vendor_profile?.company_name || payout.profile?.full_name}`}
                                   >
-                                    <CheckCircle className="h-4 w-4 mr-1" />
+                                    <CheckCircle className="h-4 w-4 mr-1" aria-hidden="true" />
                                     Approve
                                   </Button>
                                   <Button
@@ -393,8 +394,9 @@ export default function AdminPayoutProcessing() {
                                     variant="outline"
                                     className="text-destructive border-destructive/30"
                                     onClick={() => openProcessDialog(payout, 'reject')}
+                                    aria-label={`Reject payout for ${payout.vendor_profile?.company_name || payout.profile?.full_name}`}
                                   >
-                                    <XCircle className="h-4 w-4 mr-1" />
+                                    <XCircle className="h-4 w-4 mr-1" aria-hidden="true" />
                                     Reject
                                   </Button>
                                 </>
@@ -403,8 +405,9 @@ export default function AdminPayoutProcessing() {
                                 <Button
                                   size="sm"
                                   onClick={() => openProcessDialog(payout, 'complete')}
+                                  aria-label={`Complete payout for ${payout.vendor_profile?.company_name || payout.profile?.full_name}`}
                                 >
-                                  <Send className="h-4 w-4 mr-1" />
+                                  <Send className="h-4 w-4 mr-1" aria-hidden="true" />
                                   Complete
                                 </Button>
                               )}

@@ -274,17 +274,21 @@ export default function BulkContactImport({ existingEmails, onImport }: BulkCont
               onChange={handleFileSelect}
               className="hidden"
               id="csv-upload"
+              aria-label="Upload CSV file for bulk contact import"
             />
-            <Button onClick={() => fileInputRef.current?.click()}>
-              <Upload className="h-4 w-4 mr-2" />
+            <Button 
+              onClick={() => fileInputRef.current?.click()}
+              aria-describedby="csv-upload-description"
+            >
+              <Upload className="h-4 w-4 mr-2" aria-hidden="true" />
               Upload CSV
             </Button>
             <Button variant="outline" onClick={downloadTemplate}>
-              <Download className="h-4 w-4 mr-2" />
+              <Download className="h-4 w-4 mr-2" aria-hidden="true" />
               Download Template
             </Button>
           </div>
-          <p className="text-sm text-muted-foreground">
+          <p id="csv-upload-description" className="text-sm text-muted-foreground">
             CSV must include a <code className="bg-muted px-1 rounded">name</code> column. 
             Optional: <code className="bg-muted px-1 rounded">email</code>, <code className="bg-muted px-1 rounded">phone</code>, <code className="bg-muted px-1 rounded">company</code>, <code className="bg-muted px-1 rounded">type</code>, <code className="bg-muted px-1 rounded">notes</code>, <code className="bg-muted px-1 rounded">source</code>
           </p>
@@ -300,24 +304,24 @@ export default function BulkContactImport({ existingEmails, onImport }: BulkCont
             </DialogDescription>
           </DialogHeader>
 
-          <div className="flex gap-4 py-4">
+          <div className="flex gap-4 py-4" role="status" aria-live="polite">
             <div className="flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 text-success" />
+              <CheckCircle2 className="h-4 w-4 text-success" aria-hidden="true" />
               <span className="text-sm">{validCount} valid</span>
             </div>
             <div className="flex items-center gap-2">
-              <XCircle className="h-4 w-4 text-destructive" />
+              <XCircle className="h-4 w-4 text-destructive" aria-hidden="true" />
               <span className="text-sm">{invalidCount} invalid</span>
             </div>
             <div className="flex items-center gap-2">
-              <AlertTriangle className="h-4 w-4 text-warning" />
+              <AlertTriangle className="h-4 w-4 text-warning" aria-hidden="true" />
               <span className="text-sm">{duplicateCount} duplicates</span>
             </div>
           </div>
 
           {importing && (
-            <div className="space-y-2">
-              <Progress value={progress} />
+            <div className="space-y-2" role="progressbar" aria-valuenow={Math.round(progress)} aria-valuemin={0} aria-valuemax={100}>
+              <Progress value={progress} aria-label="Import progress" />
               <p className="text-sm text-muted-foreground text-center">Importing contacts... {Math.round(progress)}%</p>
             </div>
           )}
