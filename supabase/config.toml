@@ -91,3 +91,12 @@ verify_jwt = true
 
 [functions.send-invoice]
 verify_jwt = true
+
+[functions.send-sms]
+verify_jwt = true
+
+[functions.request-subscription-upgrade]
+verify_jwt = true
+
+[functions.admin-update-vendor-subscription]
+verify_jwt = true

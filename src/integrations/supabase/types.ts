@@ -1279,6 +1279,7 @@ export type Database = {
           id: string
           phone: string | null
           role: string | null
+          sms_enabled: boolean | null
           state: string | null
           status: string | null
           tenant_id: string | null
@@ -1295,6 +1296,7 @@ export type Database = {
           id: string
           phone?: string | null
           role?: string | null
+          sms_enabled?: boolean | null
           state?: string | null
           status?: string | null
           tenant_id?: string | null
@@ -1311,6 +1313,7 @@ export type Database = {
           id?: string
           phone?: string | null
           role?: string | null
+          sms_enabled?: boolean | null
           state?: string | null
           status?: string | null
           tenant_id?: string | null
@@ -2274,6 +2277,63 @@ export type Database = {
           user_id?: string | null
         }
         Relationships: []
+      }
+      subscription_requests: {
+        Row: {
+          admin_notes: string | null
+          created_at: string | null
+          current_plan: string | null
+          id: string
+          processed_at: string | null
+          processed_by: string | null
+          requested_at: string | null
+          requested_plan: string
+          status: string
+          updated_at: string | null
+          vendor_id: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          created_at?: string | null
+          current_plan?: string | null
+          id?: string
+          processed_at?: string | null
+          processed_by?: string | null
+          requested_at?: string | null
+          requested_plan: string
+          status?: string
+          updated_at?: string | null
+          vendor_id: string
+        }
+        Update: {
+          admin_notes?: string | null
+          created_at?: string | null
+          current_plan?: string | null
+          id?: string
+          processed_at?: string | null
+          processed_by?: string | null
+          requested_at?: string | null
+          requested_plan?: string
+          status?: string
+          updated_at?: string | null
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscription_requests_processed_by_fkey"
+            columns: ["processed_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "subscription_requests_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       system_health: {
         Row: {

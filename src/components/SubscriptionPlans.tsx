@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Check, Crown, Zap, Star, ExternalLink } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Check, Crown, Zap, Star, Clock, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -19,6 +19,13 @@ interface SubscriptionPlan {
   popular?: boolean;
   icon: React.ComponentType<{ className?: string }>;
   color: string;
+}
+
+interface PendingRequest {
+  id: string;
+  requested_plan: string;
+  status: string;
+  requested_at: string;
 }
 
 const plans: SubscriptionPlan[] = [
@@ -119,10 +126,43 @@ const plans: SubscriptionPlan[] = [
 export default function SubscriptionPlans() {
   const [selectedPlan, setSelectedPlan] = useState<string>('');
   const [isProcessing, setIsProcessing] = useState(false);
-  const { user, updateProfile } = useAuth();
+  const [pendingRequest, setPendingRequest] = useState<PendingRequest | null>(null);
+  const [loadingRequest, setLoadingRequest] = useState(true);
+  const { user } = useAuth();
   const { toast } = useToast();
 
-  const handleSelectPlan = async (planId: string) => {
+  // Check for pending subscription request
+  useEffect(() => {
+    const checkPendingRequest = async () => {
+      if (!user?.id) {
+        setLoadingRequest(false);
+        return;
+      }
+
+      try {
+        const { data, error } = await supabase
+          .from('subscription_requests')
+          .select('id, requested_plan, status, requested_at')
+          .eq('vendor_id', user.id)
+          .eq('status', 'pending')
+          .maybeSingle();
+
+        if (error && error.code !== 'PGRST116') {
+          console.error('Error checking pending request:', error);
+        }
+        
+        setPendingRequest(data);
+      } catch (error) {
+        console.error('Error checking pending request:', error);
+      } finally {
+        setLoadingRequest(false);
+      }
+    };
+
+    checkPendingRequest();
+  }, [user?.id]);
+
+  const handleRequestUpgrade = async (planId: string) => {
     if (planId === 'free') return;
     
     setIsProcessing(true);
@@ -134,32 +174,36 @@ export default function SubscriptionPlans() {
         throw new Error('Plan not found or user not authenticated');
       }
 
-      // Create Stripe checkout session
-      const { data, error } = await supabase.functions.invoke('create-checkout', {
+      const currentPlan = user?.subscription?.plan || 'free';
+
+      // Call the request-subscription-upgrade edge function
+      const { data, error } = await supabase.functions.invoke('request-subscription-upgrade', {
         body: {
-          planId: planId,
-          planName: plan.name,
-          price: plan.price,
-          interval: plan.interval
+          requestedPlan: planId,
+          currentPlan: currentPlan
         }
       });
 
       if (error) throw error;
 
-      if (data?.url) {
-        // Open Stripe checkout in a new tab
-        window.open(data.url, '_blank');
-        
-        toast({
-          title: "Redirecting to payment",
-          description: "Opening Stripe checkout in a new tab.",
-        });
-      }
-    } catch (error: unknown) {
-      console.error('Subscription error:', error);
-      const errorMessage = error instanceof Error ? error.message : "There was an error processing your payment. Please try again.";
       toast({
-        title: "Payment Failed",
+        title: "Upgrade Request Submitted",
+        description: "Your subscription upgrade request has been submitted. An admin will review it shortly.",
+      });
+
+      // Update local state
+      setPendingRequest({
+        id: data.request.id,
+        requested_plan: planId,
+        status: 'pending',
+        requested_at: new Date().toISOString()
+      });
+
+    } catch (error: unknown) {
+      console.error('Subscription request error:', error);
+      const errorMessage = error instanceof Error ? error.message : "There was an error submitting your request. Please try again.";
+      toast({
+        title: "Request Failed",
         description: errorMessage,
         variant: "destructive"
       });
@@ -182,11 +226,44 @@ export default function SubscriptionPlans() {
         </p>
       </div>
 
+      {/* Pending Request Banner */}
+      {pendingRequest && (
+        <Card className="border-warning/30 bg-warning/10">
+          <CardContent className="p-4">
+            <div className="flex items-center gap-3">
+              <Clock className="h-5 w-5 text-warning" />
+              <div className="flex-1">
+                <p className="font-medium text-warning">Pending Upgrade Request</p>
+                <p className="text-sm text-warning/80">
+                  Your request to upgrade to <strong>{pendingRequest.requested_plan}</strong> plan is being reviewed by an admin.
+                </p>
+              </div>
+              <Badge variant="outline" className="bg-warning/10 text-warning border-warning/30">
+                Pending Review
+              </Badge>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Admin-only notice */}
+      <Card className="border-info/30 bg-info/10">
+        <CardContent className="p-4">
+          <div className="flex items-center gap-3">
+            <AlertCircle className="h-5 w-5 text-info" />
+            <p className="text-sm text-info">
+              <strong>Note:</strong> Subscription upgrades require admin approval. When you request an upgrade, an administrator will review and process your request.
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {plans.map((plan) => {
           const Icon = plan.icon;
           const isCurrentPlan = currentPlan === plan.id;
           const canUpgrade = plans.findIndex(p => p.id === currentPlan) < plans.findIndex(p => p.id === plan.id);
+          const isPendingPlan = pendingRequest?.requested_plan === plan.id;
           
           return (
             <Card 
@@ -249,21 +326,30 @@ export default function SubscriptionPlans() {
                     <Button variant="outline" disabled className="w-full">
                       Free Forever
                     </Button>
+                  ) : isPendingPlan ? (
+                    <Button disabled className="w-full" variant="outline">
+                      <Clock className="h-4 w-4 mr-2" />
+                      Pending Approval
+                    </Button>
+                  ) : pendingRequest ? (
+                    <Button disabled variant="outline" className="w-full">
+                      Request Pending
+                    </Button>
                   ) : canUpgrade ? (
                     <Button 
                       className="w-full btn-primary" 
-                      onClick={() => handleSelectPlan(plan.id)}
-                      disabled={isProcessing || selectedPlan === plan.id}
+                      onClick={() => handleRequestUpgrade(plan.id)}
+                      disabled={isProcessing || selectedPlan === plan.id || loadingRequest}
                     >
                       {isProcessing && selectedPlan === plan.id ? (
                         <>
                           <ButtonSpinner className="mr-2" />
-                          Processing...
+                          Submitting...
                         </>
                       ) : (
                         <>
-                          <ExternalLink className="h-4 w-4 mr-2" />
-                          Upgrade to {plan.name}
+                          <Crown className="h-4 w-4 mr-2" />
+                          Request Upgrade
                         </>
                       )}
                     </Button>
