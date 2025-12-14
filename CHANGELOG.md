@@ -2,6 +2,76 @@
 
 All notable changes to Monarch Property Management platform will be documented in this file.
 
+## [2.7.0] - 2025-12-14 🔒 Subscription Security & SMS Notifications
+
+### Added - Subscription Request System (Admin-Only Control)
+- **Vendors can NO LONGER self-modify subscriptions** - must request upgrades
+- `subscription_requests` table with RLS policies for secure request tracking
+- `request-subscription-upgrade` edge function for vendors to submit upgrade requests
+- `admin-update-vendor-subscription` edge function for admin approval/rejection
+- Admin Subscription Management panel in Admin Vendor Management
+- Pending request notifications for both vendors and admins
+- Full audit trail for all subscription changes
+
+### Added - SMS Notification System
+- `send-sms` edge function with Twilio integration
+- `sms_enabled` column added to profiles table
+- Supports E.164 phone number formatting
+- Logs SMS notifications for audit purposes
+- **Requires Twilio secrets**: `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_PHONE_NUMBER`
+
+### Fixed - Vendor Dashboard Header
+- Changed from `height="full"` to `height="sm"` with `compact={true}`
+- Now displays as a compact, rectangular header appropriate for dashboards
+
+### Fixed - Dark Mode Button Visibility
+- Removed hardcoded `text-white` class from 7 components:
+  - `VendorDashboardComplete.tsx`
+  - `VendorProjectCard.tsx`
+  - `VendorAssignedProjectsList.tsx`
+  - `VendorRFQTabs.tsx`
+  - `VendorOnboardingChecklist.tsx`
+  - `CTASection.tsx`
+  - `HeroSection.tsx`
+- Buttons now properly use theme-aware foreground colors
+
+### Updated Components
+- `SubscriptionPlans.tsx` - Changed to request-based system
+- `SubscriptionPlansEnhanced.tsx` - Changed to request-based system
+- `AdminVendorManagement.tsx` - Added Subscriptions tab
+- `AdminSubscriptionManagement.tsx` - New component for managing requests
+
+### Security Improvements
+- RLS policies on `subscription_requests` table
+- Admin-only access for subscription modifications
+- Audit logging for all subscription changes
+- Notification system for request workflow
+
+### Files Modified
+- `src/components/SubscriptionPlans.tsx`
+- `src/components/SubscriptionPlansEnhanced.tsx`
+- `src/components/VendorDashboardComplete.tsx`
+- `src/components/VendorProjectCard.tsx`
+- `src/components/VendorAssignedProjectsList.tsx`
+- `src/components/VendorRFQTabs.tsx`
+- `src/components/VendorOnboardingChecklist.tsx`
+- `src/components/CTASection.tsx`
+- `src/components/HeroSection.tsx`
+- `src/components/AdminVendorManagement.tsx`
+
+### Files Created
+- `src/components/admin/AdminSubscriptionManagement.tsx`
+- `supabase/functions/send-sms/index.ts`
+- `supabase/functions/request-subscription-upgrade/index.ts`
+- `supabase/functions/admin-update-vendor-subscription/index.ts`
+
+### Database Migrations
+- Created `subscription_requests` table with proper RLS
+- Added `sms_enabled` boolean column to `profiles` table
+- Added `updated_at` trigger for `subscription_requests`
+
+---
+
 ## [2.6.0] - 2025-12-14 📧 Complete Email System Standardization
 
 ### Added - Centralized Email Configuration
