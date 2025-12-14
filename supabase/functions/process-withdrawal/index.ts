@@ -42,7 +42,7 @@ serve(async (req) => {
     // Get payout details
     const { data: payout, error: payoutError } = await supabaseClient
       .from("vendor_payouts")
-      .select("id, vendor_id, amount, status, reference, metadata")
+      .select("id, vendor_id, amount, status, reference, notes, metadata")
       .eq("id", payoutId)
       .single();
 
@@ -50,85 +50,104 @@ serve(async (req) => {
       throw new Error("Payout not found");
     }
 
-    if (payout.status !== "pending") {
-      throw new Error("Payout has already been processed");
+    // Validate status transitions
+    const validTransitions: Record<string, string[]> = {
+      'approve': ['pending'],
+      'complete': ['pending', 'approved'],
+      'reject': ['pending', 'approved']
+    };
+
+    if (!validTransitions[action]?.includes(payout.status)) {
+      throw new Error(`Cannot ${action} a payout with status: ${payout.status}`);
     }
+
+    let newStatus = '';
+    let notificationTitle = '';
+    let notificationMessage = '';
+    let notificationType: 'info' | 'success' | 'warning' = 'info';
 
     if (action === "approve") {
-      // Update payout to processing status
+      newStatus = 'approved';
+      notificationTitle = 'Withdrawal Approved';
+      notificationMessage = `Your withdrawal of $${payout.amount.toFixed(2)} has been approved and will be processed soon.`;
+      notificationType = 'info';
+
       await supabaseClient
         .from("vendor_payouts")
         .update({
-          status: "processing",
-          transaction_id: transactionId,
-          metadata: {
-            ...payout.metadata,
-            processed_by: user.id,
-            processed_at: new Date().toISOString(),
-            notes,
-          },
+          status: newStatus,
+          processed_by: user.id,
+          notes: notes || payout.notes,
+          updated_at: new Date().toISOString(),
         })
         .eq("id", payoutId);
-
-      // Create notification for vendor
-      await supabaseClient.from("notifications").insert({
-        user_id: payout.vendor_id,
-        title: "Withdrawal Processing",
-        message: `Your withdrawal of $${payout.amount.toFixed(2)} is being processed. ${transactionId ? `Transaction ID: ${transactionId}` : ""}`,
-        type: "info",
-        category: "payment",
-      });
 
     } else if (action === "complete") {
-      // Mark payout as completed
+      if (!transactionId) {
+        throw new Error("Transaction ID is required for completion");
+      }
+
+      newStatus = 'completed';
+      notificationTitle = 'Withdrawal Completed';
+      notificationMessage = `Your withdrawal of $${payout.amount.toFixed(2)} has been completed. Transaction ID: ${transactionId}`;
+      notificationType = 'success';
+
       await supabaseClient
         .from("vendor_payouts")
         .update({
-          status: "completed",
+          status: newStatus,
           payout_date: new Date().toISOString(),
           transaction_id: transactionId,
-          metadata: {
-            ...payout.metadata,
-            completed_by: user.id,
-            completed_at: new Date().toISOString(),
-            notes,
-          },
+          reference: transactionId,
+          processed_by: user.id,
+          notes: notes || payout.notes,
+          updated_at: new Date().toISOString(),
         })
         .eq("id", payoutId);
 
-      // Create notification for vendor
-      await supabaseClient.from("notifications").insert({
-        user_id: payout.vendor_id,
-        title: "Withdrawal Completed",
-        message: `Your withdrawal of $${payout.amount.toFixed(2)} has been completed. ${transactionId ? `Transaction ID: ${transactionId}` : ""}`,
-        type: "success",
-        category: "payment",
-      });
-
     } else if (action === "reject") {
-      // Mark payout as failed
+      newStatus = 'rejected';
+      notificationTitle = 'Withdrawal Rejected';
+      notificationMessage = notes 
+        ? `Your withdrawal request was rejected: ${notes}`
+        : 'Your withdrawal request was rejected. Please contact support for details.';
+      notificationType = 'warning';
+
       await supabaseClient
         .from("vendor_payouts")
         .update({
-          status: "failed",
-          metadata: {
-            ...payout.metadata,
-            rejected_by: user.id,
-            rejected_at: new Date().toISOString(),
-            rejection_reason: notes,
-          },
+          status: newStatus,
+          processed_by: user.id,
+          notes: notes || 'Rejected by admin',
+          updated_at: new Date().toISOString(),
         })
         .eq("id", payoutId);
-
-      // Create notification for vendor
-      await supabaseClient.from("notifications").insert({
-        user_id: payout.vendor_id,
-        title: "Withdrawal Issue",
-        message: `There was an issue with your withdrawal request. ${notes || "Please contact support."}`,
-        type: "warning",
-        category: "payment",
-      });
     }
+
+    // Create notification for vendor
+    await supabaseClient.from("notifications").insert({
+      user_id: payout.vendor_id,
+      title: notificationTitle,
+      message: notificationMessage,
+      type: notificationType,
+      category: 'payment',
+      action_url: '/vendor/payouts'
+    });
+
+    // Audit log
+    await supabaseClient.from("audit_logs").insert({
+      user_id: user.id,
+      action: `PAYOUT_${action.toUpperCase()}`,
+      table_name: 'vendor_payouts',
+      record_id: payoutId,
+      old_values: { status: payout.status },
+      new_values: { 
+        status: newStatus, 
+        transaction_id: transactionId,
+        notes: notes,
+        processed_by: user.id
+      }
+    });
 
     return new Response(
       JSON.stringify({ success: true, message: `Withdrawal ${action}d successfully` }),
