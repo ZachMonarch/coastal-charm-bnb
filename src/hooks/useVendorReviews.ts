@@ -48,10 +48,11 @@ export function useVendorReviews(vendorId: string) {
     try {
       const { data, error } = await supabase
         .from('vendor_reviews')
-        .select('*')
+        .select('id, vendor_id, reviewer_id, project_id, overall_rating, quality_rating, punctuality_rating, communication_rating, value_rating, review_text, is_verified_project, vendor_response, vendor_response_at, status, created_at')
         .eq('vendor_id', vendorId)
         .eq('status', 'published')
-        .order('created_at', { ascending: false });
+        .order('created_at', { ascending: false })
+        .limit(50);
 
       if (error) throw error;
 

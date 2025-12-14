@@ -42,7 +42,7 @@ export function useQuoteRequests(options: UseQuoteRequestsOptions = {}) {
     try {
       let query = supabase
         .from('quick_quote_requests')
-        .select('*')
+        .select('id, property_manager_id, property_id, service_category, title, description, urgency, budget_min, budget_max, preferred_start_date, location_address, location_city, location_zip, contact_name, contact_phone, contact_email, status, created_at, expires_at, updated_at')
         .order('created_at', { ascending: false });
 
       if (options.status) {
@@ -53,9 +53,8 @@ export function useQuoteRequests(options: UseQuoteRequestsOptions = {}) {
         query = query.eq('service_category', options.serviceCategory);
       }
 
-      if (options.limit) {
-        query = query.limit(options.limit);
-      }
+      // Always apply a limit (default 50) to prevent unbounded queries
+      query = query.limit(options.limit || 50);
 
       const { data, error: queryError } = await query;
 
