@@ -221,6 +221,8 @@ export default function VendorPayoutSettings() {
             description="Configure how you receive payments"
             icon={Settings}
             backgroundImage="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1920&q=80"
+            compact
+            height="md"
           />
 
         {/* Verification Status */}

@@ -102,6 +102,8 @@ export default function VendorRFQDashboard() {
             description="View invitations and manage your bids for property management projects"
             icon={Briefcase}
             backgroundImage="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1920&q=80"
+            compact
+            height="md"
           />
 
           {/* Stats Grid */}
