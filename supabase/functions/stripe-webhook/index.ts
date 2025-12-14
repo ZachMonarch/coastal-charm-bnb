@@ -13,7 +13,11 @@ serve(async (req) => {
   const webhookSecret = Deno.env.get("STRIPE_WEBHOOK_SECRET");
 
   if (!signature || !webhookSecret) {
-    return new Response("Missing signature or webhook secret", { status: 400 });
+    console.warn("Missing signature or webhook secret in request");
+    return new Response(
+      JSON.stringify({ error: "Invalid request configuration" }),
+      { status: 400, headers: { "Content-Type": "application/json" } }
+    );
   }
 
   const body = await req.text();
@@ -29,9 +33,13 @@ serve(async (req) => {
       cryptoProvider
     );
   } catch (err) {
+    // Log full error server-side for debugging
     console.error("Webhook signature verification failed:", err);
-    const errorMessage = err instanceof Error ? err.message : "Webhook verification failed";
-    return new Response(`Webhook Error: ${errorMessage}`, { status: 400 });
+    // Return generic error to client - don't expose internal details
+    return new Response(
+      JSON.stringify({ error: "Webhook verification failed" }),
+      { status: 400, headers: { "Content-Type": "application/json" } }
+    );
   }
 
   console.log(`Processing webhook event: ${event.type}`);
@@ -166,9 +174,34 @@ serve(async (req) => {
       headers: { "Content-Type": "application/json" },
     });
   } catch (error) {
-    console.error("Error processing webhook:", error);
+    // Generate unique error ID for correlation
+    const errorId = crypto.randomUUID();
+    
+    // Log full error details server-side only
+    console.error(`Webhook processing error [${errorId}]:`, error);
+    
+    // Log to security_events for monitoring
+    try {
+      await supabase.from("security_events").insert({
+        event_type: "WEBHOOK_PROCESSING_ERROR",
+        severity: "high",
+        details: {
+          error_id: errorId,
+          event_type: event.type,
+          error_message: error instanceof Error ? error.message : "Unknown error",
+          stack: error instanceof Error ? error.stack : undefined
+        }
+      });
+    } catch (logError) {
+      console.error("Failed to log security event:", logError);
+    }
+    
+    // Return generic error to client - NEVER expose internal details
     return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : "Unknown error" }),
+      JSON.stringify({ 
+        error: "Webhook processing failed",
+        errorId: errorId // For support correlation only
+      }),
       { status: 500, headers: { "Content-Type": "application/json" } }
     );
   }
