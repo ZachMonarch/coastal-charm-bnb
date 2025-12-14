@@ -1,6 +1,13 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.2";
 import { Resend } from "https://esm.sh/resend@2.0.0";
+import { 
+  wrapEmailContent, 
+  formatCurrency, 
+  sanitizeForEmail,
+  BRAND_COLORS,
+  SITE_URL 
+} from "../_shared/emailHeader.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -14,6 +21,192 @@ interface PaymentNotificationRequest {
   amount: number;
   title?: string;
   reason?: string;
+}
+
+// Generate email body based on notification type
+function generatePaymentEmailBody(
+  type: string,
+  name: string,
+  amount: string,
+  title?: string,
+  reason?: string
+): { subject: string; body: string } {
+  const dashboardUrl = `${SITE_URL}/payments`;
+  const vendorPayoutsUrl = `${SITE_URL}/vendor/payouts`;
+
+  switch (type) {
+    case 'payment_request':
+      return {
+        subject: `Payment Request: ${title}`,
+        body: `
+          <p class="greeting">Hello ${name},</p>
+          
+          <p>We hope this message finds you well. You have received a new payment request that requires your attention.</p>
+          
+          <div class="details-box">
+            <h3>Payment Details</h3>
+            <p><strong>Description:</strong> ${title}</p>
+            <p><strong>Amount Due:</strong> ${amount}</p>
+          </div>
+          
+          <p>Please log in to your account to review the full details and complete the payment at your earliest convenience.</p>
+          
+          <center>
+            <a href="${dashboardUrl}" class="button">View Payment Details</a>
+          </center>
+          
+          <div class="divider"></div>
+          
+          <p style="font-size: 14px; color: ${BRAND_COLORS.gray};">
+            If you have any questions about this payment request, please don't hesitate to contact our team. We're here to help!
+          </p>
+          
+          <p>Thank you for your prompt attention to this matter.</p>
+          
+          <p>Best regards,<br><strong>Monarch Property Management Team</strong></p>
+        `
+      };
+
+    case 'payout_received':
+      return {
+        subject: `Great News! Payout Received: ${amount}`,
+        body: `
+          <p class="greeting">Hello ${name},</p>
+          
+          <p>Wonderful news! A payout has been successfully credited to your account.</p>
+          
+          <div class="amount-highlight">
+            ${amount}
+          </div>
+          
+          <div class="details-box">
+            <h3>Payout Information</h3>
+            <p><strong>Amount:</strong> ${amount}</p>
+            <p><strong>Reason:</strong> ${reason || 'Payment for completed services'}</p>
+            <p><strong>Status:</strong> <span class="success-badge">Credited</span></p>
+          </div>
+          
+          <p>You can request a withdrawal to your bank account through your vendor dashboard whenever you're ready.</p>
+          
+          <center>
+            <a href="${vendorPayoutsUrl}" class="button">View My Payouts</a>
+          </center>
+          
+          <div class="divider"></div>
+          
+          <p>Thank you for your continued partnership with Monarch Property Management. We value your excellent work!</p>
+          
+          <p>Best regards,<br><strong>Monarch Property Management Team</strong></p>
+        `
+      };
+
+    case 'payment_modified':
+      return {
+        subject: `Payment Updated: ${title}`,
+        body: `
+          <p class="greeting">Hello ${name},</p>
+          
+          <p>We're writing to inform you that a payment associated with your account has been updated.</p>
+          
+          <div class="details-box">
+            <h3>Updated Payment Information</h3>
+            <p><strong>Description:</strong> ${title}</p>
+            <p><strong>Updated Amount:</strong> ${amount}</p>
+          </div>
+          
+          <p>Please review the updated details in your account to ensure everything is accurate.</p>
+          
+          <center>
+            <a href="${dashboardUrl}" class="button">Review Payment</a>
+          </center>
+          
+          <div class="divider"></div>
+          
+          <p style="font-size: 14px; color: ${BRAND_COLORS.gray};">
+            If you have any questions or concerns about this update, our support team is ready to assist you.
+          </p>
+          
+          <p>Best regards,<br><strong>Monarch Property Management Team</strong></p>
+        `
+      };
+
+    case 'refund_approved':
+      return {
+        subject: `Refund Approved: ${amount}`,
+        body: `
+          <p class="greeting">Hello ${name},</p>
+          
+          <p>Great news! Your refund request has been approved.</p>
+          
+          <div class="amount-highlight">
+            Refund Amount: ${amount}
+          </div>
+          
+          <div class="details-box">
+            <h3>Refund Details</h3>
+            <p><strong>Amount:</strong> ${amount}</p>
+            <p><strong>Reason:</strong> ${reason}</p>
+            <p><strong>Status:</strong> <span class="success-badge">Approved</span></p>
+          </div>
+          
+          <p><strong>What happens next?</strong></p>
+          <ul>
+            <li>The refund will be processed to your original payment method</li>
+            <li>Please allow 5-10 business days for the funds to appear in your account</li>
+            <li>You'll receive a confirmation once the refund is completed</li>
+          </ul>
+          
+          <div class="divider"></div>
+          
+          <p>Thank you for your patience. If you have any questions, please don't hesitate to reach out.</p>
+          
+          <p>Best regards,<br><strong>Monarch Property Management Team</strong></p>
+        `
+      };
+
+    case 'refund_rejected':
+      return {
+        subject: `Refund Request Update`,
+        body: `
+          <p class="greeting">Hello ${name},</p>
+          
+          <p>We've reviewed your refund request and wanted to provide you with an update.</p>
+          
+          <div class="details-box">
+            <h3>Request Details</h3>
+            <p><strong>Requested Amount:</strong> ${amount}</p>
+            <p><strong>Admin Notes:</strong> ${reason || 'Please contact support for more information about this decision.'}</p>
+          </div>
+          
+          <p>We understand this may not be the outcome you were hoping for. If you have any questions or would like to discuss this further, our support team is here to help.</p>
+          
+          <center>
+            <a href="${SITE_URL}/contact" class="button">Contact Support</a>
+          </center>
+          
+          <div class="divider"></div>
+          
+          <p style="font-size: 14px; color: ${BRAND_COLORS.gray};">
+            We value your business and are committed to finding a resolution that works for everyone.
+          </p>
+          
+          <p>Best regards,<br><strong>Monarch Property Management Team</strong></p>
+        `
+      };
+
+    default:
+      return {
+        subject: 'Payment Notification',
+        body: `
+          <p class="greeting">Hello ${name},</p>
+          <p>You have a new payment notification. Please log in to your account to view the details.</p>
+          <center>
+            <a href="${dashboardUrl}" class="button">View Details</a>
+          </center>
+          <p>Best regards,<br><strong>Monarch Property Management Team</strong></p>
+        `
+      };
+  }
 }
 
 serve(async (req) => {
@@ -90,93 +283,31 @@ serve(async (req) => {
       throw new Error("User email not found");
     }
 
-    // Prepare email content based on type
-    let subject = "";
-    let html = "";
-    const formattedAmount = `$${amount.toFixed(2)}`;
+    const sanitizedName = sanitizeForEmail(profile.full_name) || 'Valued Customer';
+    const formattedAmount = formatCurrency(amount);
+    const sanitizedTitle = sanitizeForEmail(title);
+    const sanitizedReason = sanitizeForEmail(reason);
 
-    switch (type) {
-      case 'payment_request':
-        subject = `Payment Request: ${title}`;
-        html = `
-          <h1>Payment Request</h1>
-          <p>Hello ${profile.full_name || 'there'},</p>
-          <p>You have received a new payment request:</p>
-          <ul>
-            <li><strong>Title:</strong> ${title}</li>
-            <li><strong>Amount:</strong> ${formattedAmount}</li>
-          </ul>
-          <p>Please log in to your account to view details and make payment.</p>
-          <a href="${Deno.env.get("SITE_URL") || "https://monarchpropertymmgt.com"}/payments" 
-             style="display:inline-block;background:#d4af37;color:#1a1a1a;padding:12px 24px;text-decoration:none;border-radius:6px;margin-top:16px;">
-            View Payment
-          </a>
-        `;
-        break;
+    // Generate email content
+    const { subject, body } = generatePaymentEmailBody(
+      type,
+      sanitizedName,
+      formattedAmount,
+      sanitizedTitle,
+      sanitizedReason
+    );
 
-      case 'payout_received':
-        subject = `Payout Received: ${formattedAmount}`;
-        html = `
-          <h1>Payout Received</h1>
-          <p>Hello ${profile.full_name || 'there'},</p>
-          <p>You have received a payout:</p>
-          <ul>
-            <li><strong>Amount:</strong> ${formattedAmount}</li>
-            <li><strong>Reason:</strong> ${reason || 'Payment for services'}</li>
-          </ul>
-          <p>You can request withdrawal from your vendor dashboard.</p>
-          <a href="${Deno.env.get("SITE_URL") || "https://monarchpropertymmgt.com"}/vendor/payouts" 
-             style="display:inline-block;background:#d4af37;color:#1a1a1a;padding:12px 24px;text-decoration:none;border-radius:6px;margin-top:16px;">
-            View Payouts
-          </a>
-        `;
-        break;
+    // Get header subtitle based on type
+    const headerSubtitle = type === 'payout_received' 
+      ? 'Funds have been added to your account'
+      : type === 'refund_approved'
+      ? 'Your request has been processed'
+      : type === 'refund_rejected'
+      ? 'Important update about your request'
+      : 'Action required';
 
-      case 'payment_modified':
-        subject = `Payment Updated: ${title}`;
-        html = `
-          <h1>Payment Updated</h1>
-          <p>Hello ${profile.full_name || 'there'},</p>
-          <p>A payment has been updated:</p>
-          <ul>
-            <li><strong>Title:</strong> ${title}</li>
-            <li><strong>New Amount:</strong> ${formattedAmount}</li>
-          </ul>
-          <p>Please review the updated details in your account.</p>
-          <a href="${Deno.env.get("SITE_URL") || "https://monarchpropertymmgt.com"}/payments" 
-             style="display:inline-block;background:#d4af37;color:#1a1a1a;padding:12px 24px;text-decoration:none;border-radius:6px;margin-top:16px;">
-            View Payment
-          </a>
-        `;
-        break;
-
-      case 'refund_approved':
-        subject = `Refund Approved: ${formattedAmount}`;
-        html = `
-          <h1>Refund Approved</h1>
-          <p>Hello ${profile.full_name || 'there'},</p>
-          <p>Your refund request has been approved:</p>
-          <ul>
-            <li><strong>Amount:</strong> ${formattedAmount}</li>
-            <li><strong>Reason:</strong> ${reason}</li>
-          </ul>
-          <p>The refund will be processed to your original payment method within 5-10 business days.</p>
-        `;
-        break;
-
-      case 'refund_rejected':
-        subject = `Refund Request Update`;
-        html = `
-          <h1>Refund Request Update</h1>
-          <p>Hello ${profile.full_name || 'there'},</p>
-          <p>Your refund request has been reviewed:</p>
-          <ul>
-            <li><strong>Amount:</strong> ${formattedAmount}</li>
-            <li><strong>Admin Note:</strong> ${reason || 'Please contact support for more information'}</li>
-          </ul>
-        `;
-        break;
-    }
+    // Wrap with branded template
+    const html = wrapEmailContent('Payment Notification', headerSubtitle, body);
 
     // Send email using Resend
     const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
@@ -193,7 +324,7 @@ serve(async (req) => {
       throw emailError;
     }
 
-    console.log(`Email notification sent to ${profile.email} for ${type}`);
+    console.log(`Payment notification email sent to ${profile.email} for ${type}`);
 
     return new Response(
       JSON.stringify({ success: true, message: "Notification sent" }),
