@@ -30,6 +30,9 @@ export interface VendorBidWithProject {
   status: 'draft' | 'submitted' | 'under_review' | 'awarded' | 'rejected' | 'expired' | 'open' | 'in_progress' | 'completed' | 'cancelled';
   submitted_at: string;
   project?: RFQProject;
+  admin_feedback?: string | null;
+  feedback_at?: string | null;
+  feedback_by?: string | null;
 }
 
 export interface DraftBid {
@@ -91,6 +94,9 @@ export const useVendorRFQs = () => {
           estimated_duration,
           status,
           submitted_at,
+          admin_feedback,
+          feedback_at,
+          feedback_by,
           projects!vendor_bids_project_id_fkey (
             id,
             title,

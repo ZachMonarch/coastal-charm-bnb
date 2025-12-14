@@ -8,9 +8,10 @@ import PrivatePageWrapper from "@/components/PrivatePageWrapper";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { FileText, Clock, CheckCircle, XCircle } from "lucide-react";
+import { FileText, Clock, CheckCircle, XCircle, MessageSquare, AlertCircle } from "lucide-react";
 import PageHero from "@/components/shared/PageHero";
 import StatsCard from "@/components/shared/StatsCard";
+import { formatDistanceToNow } from "date-fns";
 
 export default function VendorApplications() {
   const { myBids: vendorApplications, loading: isLoading } = useVendorRFQs();
@@ -38,6 +39,7 @@ export default function VendorApplications() {
   const pendingCount = vendorApplications.filter(a => a.status === 'submitted' || a.status === 'under_review').length;
   const acceptedCount = vendorApplications.filter(a => a.status === 'awarded' || a.status === 'completed').length;
   const rejectedCount = vendorApplications.filter(a => a.status === 'rejected').length;
+  const withFeedback = vendorApplications.filter(a => a.admin_feedback).length;
 
   return (
     <PrivatePageWrapper title="My Applications">
@@ -52,7 +54,7 @@ export default function VendorApplications() {
           />
 
           {/* Stats Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             <StatsCard
               title="Total Applications"
               value={vendorApplications.length}
@@ -76,6 +78,12 @@ export default function VendorApplications() {
               value={rejectedCount}
               icon={XCircle}
               color="error"
+            />
+            <StatsCard
+              title="With Feedback"
+              value={withFeedback}
+              icon={MessageSquare}
+              color="info"
             />
           </div>
 
@@ -112,7 +120,7 @@ export default function VendorApplications() {
             onView={handleView}
           />
 
-          {/* Application Details Dialog */}
+          {/* Application Details Dialog with Feedback */}
           <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
             <DialogContent className="max-w-2xl bg-gradient-to-br from-card to-card/95">
               <DialogHeader>
@@ -123,7 +131,7 @@ export default function VendorApplications() {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="p-4 rounded-lg bg-muted/30">
                       <label className="text-sm font-medium text-muted-foreground">Project</label>
-                      <p className="font-medium mt-1">{selectedApplication.projects?.title || 'N/A'}</p>
+                      <p className="font-medium mt-1">{selectedApplication.projects?.title || selectedApplication.project?.title || 'N/A'}</p>
                     </div>
                     <div className="p-4 rounded-lg bg-muted/30">
                       <label className="text-sm font-medium text-muted-foreground">Bid Amount</label>
@@ -142,7 +150,13 @@ export default function VendorApplications() {
                     <div className="p-4 rounded-lg bg-muted/30">
                       <label className="text-sm font-medium text-muted-foreground">Status</label>
                       <div className="mt-1">
-                        <Badge>{selectedApplication.status}</Badge>
+                        <Badge variant={
+                          selectedApplication.status === 'awarded' ? 'default' :
+                          selectedApplication.status === 'rejected' ? 'destructive' :
+                          'secondary'
+                        }>
+                          {selectedApplication.status}
+                        </Badge>
                       </div>
                     </div>
                   </div>
@@ -150,6 +164,32 @@ export default function VendorApplications() {
                     <label className="text-sm font-medium text-muted-foreground">Submitted</label>
                     <p className="font-medium mt-1">{new Date(selectedApplication.submitted_at).toLocaleDateString()}</p>
                   </div>
+                  
+                  {/* Admin Feedback Section */}
+                  {selectedApplication.admin_feedback && (
+                    <div className="p-4 rounded-lg bg-warning/10 border border-warning/30">
+                      <div className="flex items-center gap-2 mb-2">
+                        <MessageSquare className="h-4 w-4 text-warning" />
+                        <label className="text-sm font-medium text-warning">Admin Feedback</label>
+                      </div>
+                      <p className="whitespace-pre-wrap text-foreground">{selectedApplication.admin_feedback}</p>
+                      {selectedApplication.feedback_at && (
+                        <p className="text-xs text-muted-foreground mt-2">
+                          Received {formatDistanceToNow(new Date(selectedApplication.feedback_at), { addSuffix: true })}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                  
+                  {/* No Feedback Yet for Rejected */}
+                  {selectedApplication.status === 'rejected' && !selectedApplication.admin_feedback && (
+                    <div className="p-4 rounded-lg bg-muted/30 border border-muted">
+                      <div className="flex items-center gap-2">
+                        <AlertCircle className="h-4 w-4 text-muted-foreground" />
+                        <p className="text-sm text-muted-foreground">No feedback provided for this application.</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </DialogContent>
