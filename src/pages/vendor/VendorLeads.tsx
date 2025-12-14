@@ -371,6 +371,8 @@ export default function VendorLeads() {
             description="Manage quote requests and your business contacts"
             icon={Target}
             backgroundImage="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1920&q=80"
+            compact
+            height="md"
           />
 
           {/* Stats Grid */}

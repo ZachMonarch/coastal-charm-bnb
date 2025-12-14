@@ -228,6 +228,8 @@ export default function VendorPayoutsManagement() {
             actions={[
               { label: 'Payout Settings', href: '/vendor/payout-settings' }
             ]}
+            compact
+            height="md"
           />
 
           {/* Summary Cards */}
