@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { Resend } from "https://esm.sh/resend@2.0.0";
+import { EMAIL_CONFIG, getAntiSpamHeaders } from "../_shared/emailConfig.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -139,6 +140,13 @@ serve(async (req: Request) => {
       `;
     }
 
+    // Generate anti-spam headers
+    const emailId = `invoice-${invoiceNumber}-${Date.now()}`;
+    const antiSpamHeaders = getAntiSpamHeaders({
+      emailId,
+      category: 'invoice',
+    });
+
     // Generate email HTML
     const emailHtml = `
       <!DOCTYPE html>
@@ -227,19 +235,19 @@ serve(async (req: Request) => {
                 <strong>Payment Terms:</strong> Payment is due ${formattedDueDate}. Please reference invoice number ${invoiceNumber} when making payment.
               </p>
               <p style="color: #6b7280; font-size: 12px; margin: 0;">
-                If you have any questions regarding this invoice, please contact us at support@monarchpropertymmgt.com
+                If you have any questions regarding this invoice, please contact us at ${EMAIL_CONFIG.company.email}
               </p>
             </div>
             
             <p style="color: ${BRAND_COLORS.charcoal}; font-size: 14px; margin: 25px 0 0 0;">
               Thank you for your business!<br>
-              <strong>${vendorCompany || vendorName || 'Monarch Property Management'}</strong>
+              <strong>${vendorCompany || vendorName || EMAIL_CONFIG.company.name}</strong>
             </p>
           </div>
           
           <!-- Email Footer -->
           <div style="text-align: center; padding: 20px; color: #6b7280; font-size: 12px;">
-            <p style="margin: 0;">Monarch Property Management</p>
+            <p style="margin: 0;">${EMAIL_CONFIG.company.name}</p>
             <p style="margin: 5px 0 0 0;">This is an automated invoice notification.</p>
           </div>
         </div>
@@ -249,10 +257,12 @@ serve(async (req: Request) => {
 
     // Send email
     const emailResponse = await resend.emails.send({
-      from: "Monarch Invoicing <invoices@monarchpropertymmgt.com>",
+      from: EMAIL_CONFIG.senders.invoices,
       to: [recipientEmail],
+      reply_to: EMAIL_CONFIG.replyTo,
       subject: `Invoice ${invoiceNumber} - ${formattedAmount} Due`,
       html: emailHtml,
+      headers: antiSpamHeaders,
     });
 
     console.log('Invoice email sent successfully:', emailResponse);

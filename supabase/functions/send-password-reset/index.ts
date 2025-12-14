@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "https://esm.sh/resend@2.0.0";
 import { checkRateLimit, getClientIP, rateLimitResponse } from "../_shared/rateLimiter.ts";
 import { getCorsHeaders, handleCorsPreflightRequest } from "../_shared/cors.ts";
+import { EMAIL_CONFIG, getAntiSpamHeaders } from "../_shared/emailConfig.ts";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -59,10 +60,19 @@ serve(async (req) => {
       );
     }
 
+    // Generate anti-spam headers
+    const emailId = `pwd-reset-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    const headers = getAntiSpamHeaders({
+      emailId,
+      category: 'password-reset',
+    });
+
     const emailResponse = await resend.emails.send({
-      from: "Monarch Property Management <noreply@monarchpropertymmgt.com>",
+      from: EMAIL_CONFIG.senders.noreply,
       to: [email],
+      reply_to: EMAIL_CONFIG.replyTo,
       subject: "Reset Your Password - Monarch Property Management",
+      headers,
       html: `
         <!DOCTYPE html>
         <html>
@@ -109,6 +119,9 @@ serve(async (req) => {
               </div>
               <div class="footer">
                 <p>© ${new Date().getFullYear()} Monarch Property Management. All rights reserved.</p>
+                <p style="font-size: 12px; color: #9CA3AF;">
+                  ${EMAIL_CONFIG.company.phone1} | ${EMAIL_CONFIG.company.email}
+                </p>
               </div>
             </div>
           </body>

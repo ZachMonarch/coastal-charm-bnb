@@ -8,6 +8,7 @@ import {
   BRAND_COLORS,
   SITE_URL 
 } from "../_shared/emailHeader.ts";
+import { EMAIL_CONFIG, getAntiSpamHeaders } from "../_shared/emailConfig.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -309,14 +310,23 @@ serve(async (req) => {
     // Wrap with branded template
     const html = wrapEmailContent('Payment Notification', headerSubtitle, body);
 
+    // Generate anti-spam headers
+    const emailId = `payment-${type}-${paymentId}-${Date.now()}`;
+    const antiSpamHeaders = getAntiSpamHeaders({
+      emailId,
+      category: `payment-${type}`,
+    });
+
     // Send email using Resend
     const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
     
     const { error: emailError } = await resend.emails.send({
-      from: "Monarch Property Management <notifications@monarchpropertymmgt.com>",
+      from: EMAIL_CONFIG.senders.notifications,
       to: [profile.email],
+      reply_to: EMAIL_CONFIG.replyTo,
       subject,
       html,
+      headers: antiSpamHeaders,
     });
 
     if (emailError) {

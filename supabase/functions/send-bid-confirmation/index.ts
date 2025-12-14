@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "https://esm.sh/resend@2.0.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { EMAIL_CONFIG, getAntiSpamHeaders } from "../_shared/emailConfig.ts";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -43,10 +44,19 @@ const handler = async (req: Request): Promise<Response> => {
 
     if (!rfq || !vendor) throw new Error("RFQ or vendor not found");
 
+    // Generate anti-spam headers
+    const emailId = `bid-confirm-${rfq_id}-${vendor_id}-${Date.now()}`;
+    const headers = getAntiSpamHeaders({
+      emailId,
+      category: 'bid-confirmation',
+    });
+
     const emailResponse = await resend.emails.send({
-      from: "Monarch Property Management <noreply@monarchpropertymmgt.com>",
+      from: EMAIL_CONFIG.senders.noreply,
       to: [vendor.email],
+      reply_to: EMAIL_CONFIG.replyTo,
       subject: `Bid Confirmation: ${rfq.title}`,
+      headers,
       html: `
         <!DOCTYPE html>
         <html>
@@ -92,10 +102,13 @@ const handler = async (req: Request): Promise<Response> => {
                 
                 <p>You can track your bid status in your vendor dashboard at any time.</p>
                 
-                <p style="color: #6B7280; font-size: 14px; margin-top: 30px;">Thank you for your submission. We appreciate your interest in working with Monarch Property Management.</p>
+                <p style="color: #6B7280; font-size: 14px; margin-top: 30px;">Thank you for your submission. We appreciate your interest in working with ${EMAIL_CONFIG.company.name}.</p>
               </div>
               <div class="footer">
-                <p>© ${new Date().getFullYear()} Monarch Property Management. All rights reserved.</p>
+                <p>© ${new Date().getFullYear()} ${EMAIL_CONFIG.company.name}. All rights reserved.</p>
+                <p style="font-size: 12px; color: #9CA3AF;">
+                  ${EMAIL_CONFIG.company.phone1} | ${EMAIL_CONFIG.company.email}
+                </p>
               </div>
             </div>
           </body>
