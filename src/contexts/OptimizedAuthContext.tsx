@@ -349,6 +349,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  /**
+   * Client-side role check for UI visibility only.
+   * 
+   * SECURITY NOTE: This function is for UI/UX purposes ONLY.
+   * It controls what users see in the interface, NOT what they can access.
+   * 
+   * All actual authorization is enforced server-side via:
+   * - Supabase RLS policies using is_admin_user() and user_roles table
+   * - Edge function authentication checks
+   * - Database-level security definer functions
+   * 
+   * An attacker bypassing these UI checks will still be blocked by RLS policies.
+   * See: is_admin_user(), user_has_role(), has_role() SQL functions
+   */
   const hasRole = useCallback((role: UserRole | UserRole[]): boolean => {
     if (!userRoles.length) return false;
     if (Array.isArray(role)) {
@@ -357,6 +371,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return userRoles.includes(role);
   }, [userRoles]);
 
+  /**
+   * Client-side permission check for UI visibility only.
+   * 
+   * SECURITY NOTE: This is a UI hint, not a security control.
+   * Backend RLS policies enforce actual data access restrictions.
+   * All Supabase tables have proper RLS using is_admin_user() checks.
+   */
   const hasPermission = useCallback((permission: string): boolean => {
     return hasRole(['admin', 'property_manager']);
   }, [hasRole]);
