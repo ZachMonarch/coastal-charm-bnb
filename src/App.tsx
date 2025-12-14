@@ -114,6 +114,7 @@ const VendorShowcase = lazy(() => import("./pages/VendorShowcase"));
 const ThemePreview = lazy(() => import("./pages/ThemePreview"));
 const DesignTokens = lazy(() => import("./pages/admin/DesignTokens"));
 const ComponentPlayground = lazy(() => import("./pages/admin/ComponentPlayground"));
+const AdminPayoutProcessing = lazy(() => import("./pages/admin/AdminPayoutProcessing"));
 const About = lazy(() => import("./pages/About"));
 
 // QueryClient is provided by QueryProvider in main.tsx - no duplicate here
@@ -481,7 +482,12 @@ const App = () => (
               } />
               <Route path="/admin/component-playground" element={
                 <OptimizedProtectedRoute requiredRole="admin">
-                  <ComponentPlayground />
+              <ComponentPlayground />
+                </OptimizedProtectedRoute>
+              } />
+              <Route path="/admin/payouts" element={
+                <OptimizedProtectedRoute requiredRole="admin">
+                  <AdminPayoutProcessing />
                 </OptimizedProtectedRoute>
               } />
                   
