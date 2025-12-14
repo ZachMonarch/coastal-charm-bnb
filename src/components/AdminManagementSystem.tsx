@@ -11,8 +11,12 @@ import NewsAdminPanel from "@/components/admin/NewsAdminPanel";
 import AdminBidManagement from "@/components/admin/AdminBidManagement";
 import AdminNotificationCenter from "@/components/admin/AdminNotificationCenter";
 import AdminInquiryManagement from "@/components/admin/AdminInquiryManagement";
+import EmailTemplateManager from "@/components/admin/EmailTemplateManager";
+import NewsletterManagement from "@/components/admin/NewsletterManagement";
+import UserApprovalQueue from "@/components/admin/UserApprovalQueue";
+import AdminMessages from "@/components/admin/AdminMessages";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { Building, Users, UserPlus, FileText, Shield, BarChart3, CreditCard, Newspaper, UsersRound, Gavel, Bell, MessageSquare } from "lucide-react";
+import { Building, Users, UserPlus, FileText, Shield, BarChart3, CreditCard, Newspaper, UsersRound, Gavel, Bell, MessageSquare, Mail, UserCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import EnhancedPageBackground from "@/components/shared/EnhancedPageBackground";
 import PageHero from "@/components/shared/PageHero";
@@ -40,7 +44,11 @@ export default function AdminManagementSystem() {
     { value: 'payments', icon: CreditCard, label: 'Payments', color: 'text-success' },
     { value: 'notifications', icon: Bell, label: 'Notifications', color: 'text-warning' },
     { value: 'inquiries', icon: MessageSquare, label: 'Inquiries', color: 'text-info' },
+    { value: 'messages', icon: MessageSquare, label: 'Messages', color: 'text-primary' },
     { value: 'news', icon: Newspaper, label: 'News', color: 'text-info' },
+    { value: 'templates', icon: Mail, label: 'Templates', color: 'text-secondary' },
+    { value: 'newsletter', icon: Newspaper, label: 'Newsletter', color: 'text-info' },
+    { value: 'approvals', icon: UserCheck, label: 'Approvals', color: 'text-warning' },
     { value: 'verification', icon: Shield, label: 'Verify', color: 'text-warning' },
     { value: 'testing', icon: Shield, label: 'Testing', color: 'text-muted-foreground' },
     { value: 'users', icon: Users, label: 'Users', color: 'text-info' },
@@ -109,6 +117,22 @@ export default function AdminManagementSystem() {
 
             <TabsContent value="news" className="animate-fade-in">
               <NewsAdminPanel />
+            </TabsContent>
+
+            <TabsContent value="templates" className="animate-fade-in">
+              <EmailTemplateManager />
+            </TabsContent>
+
+            <TabsContent value="newsletter" className="animate-fade-in">
+              <NewsletterManagement />
+            </TabsContent>
+
+            <TabsContent value="messages" className="animate-fade-in">
+              <AdminMessages />
+            </TabsContent>
+
+            <TabsContent value="approvals" className="animate-fade-in">
+              <UserApprovalQueue />
             </TabsContent>
             
             <TabsContent value="verification" className="animate-fade-in">

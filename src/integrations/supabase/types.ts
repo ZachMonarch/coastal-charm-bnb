@@ -699,6 +699,50 @@ export type Database = {
         }
         Relationships: []
       }
+      messages: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          is_read: boolean | null
+          parent_message_id: string | null
+          recipient_id: string
+          sender_id: string
+          subject: string
+          updated_at: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          is_read?: boolean | null
+          parent_message_id?: string | null
+          recipient_id: string
+          sender_id: string
+          subject: string
+          updated_at?: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          is_read?: boolean | null
+          parent_message_id?: string | null
+          recipient_id?: string
+          sender_id?: string
+          subject?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_parent_message_id_fkey"
+            columns: ["parent_message_id"]
+            isOneToOne: false
+            referencedRelation: "messages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       milestone_deliverables: {
         Row: {
           approved_at: string | null
@@ -2436,6 +2480,51 @@ export type Database = {
           },
         ]
       }
+      user_approval_requests: {
+        Row: {
+          admin_notes: string | null
+          company_name: string | null
+          created_at: string
+          email: string
+          full_name: string | null
+          id: string
+          phone: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          role_requested: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          company_name?: string | null
+          created_at?: string
+          email: string
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          role_requested?: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          admin_notes?: string | null
+          company_name?: string | null
+          created_at?: string
+          email?: string
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          role_requested?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_notification_settings: {
         Row: {
           created_at: string
@@ -2640,10 +2729,13 @@ export type Database = {
       }
       vendor_bids: {
         Row: {
+          admin_feedback: string | null
           admin_notes: Json | null
           application_id: string | null
           bid_amount: number
           estimated_duration: string | null
+          feedback_at: string | null
+          feedback_by: string | null
           id: string
           project_id: string | null
           proposal_details: string
@@ -2652,10 +2744,13 @@ export type Database = {
           vendor_id: string
         }
         Insert: {
+          admin_feedback?: string | null
           admin_notes?: Json | null
           application_id?: string | null
           bid_amount: number
           estimated_duration?: string | null
+          feedback_at?: string | null
+          feedback_by?: string | null
           id?: string
           project_id?: string | null
           proposal_details: string
@@ -2664,10 +2759,13 @@ export type Database = {
           vendor_id: string
         }
         Update: {
+          admin_feedback?: string | null
           admin_notes?: Json | null
           application_id?: string | null
           bid_amount?: number
           estimated_duration?: string | null
+          feedback_at?: string | null
+          feedback_by?: string | null
           id?: string
           project_id?: string | null
           proposal_details?: string

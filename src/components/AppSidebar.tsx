@@ -3,7 +3,7 @@ import {
   Building2, Home, Settings, User, Shield, Zap, Users, FileText, Star, Wrench, 
   BarChart, Plus, Gauge, Search, ClipboardList, CreditCard, FolderOpen, Crown, 
   Files, FileCheck, Beaker, Receipt, Bell, Target, Wallet, UserCheck, Gavel, 
-  ListChecks, Newspaper, Building, HardHat, Briefcase, ShieldCheck, Activity,
+  ListChecks, Newspaper, Building, HardHat, Briefcase, ShieldCheck, Activity, MessageSquare, Mail,
   Palette, Layers
 } from "lucide-react";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar";
@@ -77,7 +77,8 @@ const vendorNavigationConfig: NavigationGroup[] = [
     title: "Portal",
     items: [
       { title: "Dashboard", url: "/vendor", icon: "Gauge", description: "Overview of your vendor activities" },
-      { title: "Notifications", url: "/vendor/notifications", icon: "Bell", description: "View all notifications" }
+      { title: "Notifications", url: "/vendor/notifications", icon: "Bell", description: "View all notifications" },
+      { title: "Messages", url: "/vendor/messages", icon: "MessageSquare", description: "Direct messaging with admin" }
     ]
   },
   {
@@ -165,12 +166,16 @@ const adminNavigationConfig: NavigationGroup[] = [
   {
     title: "Content",
     items: [
-      { title: "News & Articles", url: "/admin?tab=news", icon: "Newspaper", description: "Manage news content" }
+      { title: "News & Articles", url: "/admin?tab=news", icon: "Newspaper", description: "Manage news content" },
+      { title: "Email Templates", url: "/admin?tab=templates", icon: "Mail", description: "Manage email templates" },
+      { title: "Newsletter", url: "/admin?tab=newsletter", icon: "Newspaper", description: "Newsletter subscribers" }
     ]
   },
   {
     title: "System",
     items: [
+      { title: "Messages", url: "/admin?tab=messages", icon: "MessageSquare", description: "Admin message center" },
+      { title: "Approvals", url: "/admin?tab=approvals", icon: "UserCheck", description: "Pending user approvals" },
       { title: "Operations", url: "/admin/operations", icon: "Shield", description: "Admin governance & operations" },
       { title: "Security", url: "/admin?tab=testing", icon: "ShieldCheck", description: "Security command center" },
       { title: "Monitoring", url: "/admin/monitoring", icon: "Activity", description: "System monitoring" },
