@@ -18,9 +18,6 @@ export interface Property {
   available_date: string;
   image_urls: string;
   amenities: string;
-  latitude: number;
-  longitude: number;
-  owner_id: string;
   qualityImages?: string[];
 }
 
