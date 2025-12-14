@@ -243,8 +243,9 @@ export async function fetchSecurePropertyData(
   try {
     const { data, error } = await supabase
       .from('properties')
-      .select('*')
-      .order('created_at', { ascending: false });
+      .select('id, title, description, address, city, state, zip_code, price, bedrooms, bathrooms, square_feet, property_type, status, image_urls, amenities, latitude, longitude')
+      .order('id', { ascending: false })
+      .limit(100);
     
     if (error) throw error;
     

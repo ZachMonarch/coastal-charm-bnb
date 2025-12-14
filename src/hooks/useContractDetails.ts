@@ -109,9 +109,10 @@ export function useContractDetails(contractId: string) {
         const milestoneIds = milestones.map(m => m.id);
         const { data: deliverablesData, error: deliverablesError } = await supabase
           .from('milestone_deliverables')
-          .select('*')
+          .select('id, milestone_id, file_name, file_path, file_url, file_size, mime_type, uploaded_by, uploaded_at, is_approved, approved_by, approved_at')
           .in('milestone_id', milestoneIds)
-          .order('uploaded_at', { ascending: false });
+          .order('uploaded_at', { ascending: false })
+          .limit(100);
 
         if (deliverablesError) throw deliverablesError;
         setDeliverables(deliverablesData || []);

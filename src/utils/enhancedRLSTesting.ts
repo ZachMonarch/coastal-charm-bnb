@@ -27,7 +27,7 @@ export const testVendorProfilesRLS = async (): Promise<RLSTestResult[]> => {
   // Test 1: Own profile access
   const { data: ownProfile, error: ownError } = await supabase
     .from('vendor_profiles')
-    .select('*')
+    .select('id, user_id, company_name, description')
     .eq('user_id', currentUser?.id)
     .single();
 
@@ -45,7 +45,7 @@ export const testVendorProfilesRLS = async (): Promise<RLSTestResult[]> => {
   // Test 2: Other vendor profiles (restricted public read)
   const { data: otherProfiles, error: otherError } = await supabase
     .from('vendor_profiles')
-    .select('*')
+    .select('id, user_id, company_name')
     .neq('user_id', currentUser?.id)
     .limit(5);
 
@@ -91,7 +91,7 @@ export const testProjectsRLS = async (): Promise<RLSTestResult[]> => {
   // Test 1: View open projects (vendors should see these)
   const { data: openProjects, error: openError } = await supabase
     .from('projects')
-    .select('*')
+    .select('id, title, status, created_by')
     .eq('status', 'open')
     .limit(5);
 
@@ -109,7 +109,7 @@ export const testProjectsRLS = async (): Promise<RLSTestResult[]> => {
   // Test 2: View own created projects
   const { data: ownProjects, error: ownError } = await supabase
     .from('projects')
-    .select('*')
+    .select('id, title, status, created_by')
     .eq('created_by', currentUser?.id)
     .limit(5);
 
@@ -162,7 +162,7 @@ export const testAuditLogsRLS = async (): Promise<RLSTestResult[]> => {
   // Test 1: Try to read audit logs (should be admin-only)
   const { data: auditData, error: auditError } = await supabase
     .from('audit_logs')
-    .select('*')
+    .select('id, action, table_name, created_at')
     .limit(5);
 
   results.push({
@@ -222,7 +222,7 @@ export const testPropertiesRLS = async (): Promise<RLSTestResult[]> => {
   // Test 1: Read available properties
   const { data: availableProps, error: availableError } = await supabase
     .from('properties')
-    .select('*')
+    .select('id, title, status, property_type')
     .in('status', ['available', 'published'])
     .limit(5);
 
@@ -240,7 +240,7 @@ export const testPropertiesRLS = async (): Promise<RLSTestResult[]> => {
   // Test 2: Try to read draft properties (should be restricted)
   const { data: draftProps, error: draftError } = await supabase
     .from('properties')
-    .select('*')
+    .select('id, title, status')
     .eq('status', 'draft')
     .limit(5);
 
@@ -268,7 +268,7 @@ export const testUserRolesRLS = async (): Promise<RLSTestResult[]> => {
   // Test 1: Read own roles
   const { data: ownRoles, error: ownError } = await supabase
     .from('user_roles')
-    .select('*')
+    .select('id, user_id, role')
     .eq('user_id', currentUser?.id);
 
   results.push({
@@ -285,7 +285,7 @@ export const testUserRolesRLS = async (): Promise<RLSTestResult[]> => {
   // Test 2: Try to read other user's roles
   const { data: otherRoles, error: otherError } = await supabase
     .from('user_roles')
-    .select('*')
+    .select('id, user_id, role')
     .neq('user_id', currentUser?.id)
     .limit(5);
 

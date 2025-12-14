@@ -19,7 +19,7 @@ export const createNotification = async ({
     // Check user's notification preferences before creating notification
     const { data: settings } = await supabase
       .from('user_notification_settings')
-      .select('*')
+      .select('user_id, push_notifications, email_notifications, security_alerts, project_updates, payment_alerts, invoice_alerts')
       .eq('user_id', userId)
       .single();
 

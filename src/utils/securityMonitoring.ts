@@ -301,7 +301,7 @@ class SecurityMonitor {
   public async getRecentAlerts(limit: number = 10): Promise<SecurityAlert[]> {
     const { data, error } = await supabase
       .from('security_events')
-      .select('*')
+      .select('id, event_type, severity, details, created_at, user_id')
       .eq('event_type', 'SECURITY_ALERT')
       .order('created_at', { ascending: false })
       .limit(limit);

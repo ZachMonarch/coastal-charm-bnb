@@ -37,7 +37,7 @@ export function useVendorTier(vendorId: string) {
     try {
       const { data, error } = await supabase
         .from('vendor_tiers')
-        .select('*')
+        .select('vendor_id, current_tier, total_completed_jobs, total_revenue, average_rating, review_count, tier_updated_at')
         .eq('vendor_id', vendorId)
         .single();
 

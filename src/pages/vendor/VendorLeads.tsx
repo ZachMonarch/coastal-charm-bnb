@@ -92,9 +92,10 @@ export default function VendorLeads() {
       // Fetch open quote requests
       const { data, error } = await supabase
         .from('quick_quote_requests')
-        .select('*')
+        .select('id, title, description, service_category, urgency, budget_min, budget_max, location_city, location_zip, preferred_start_date, contact_name, status, created_at, expires_at')
         .eq('status', 'open')
-        .order('created_at', { ascending: false });
+        .order('created_at', { ascending: false })
+        .limit(50);
 
       if (error) throw error;
       

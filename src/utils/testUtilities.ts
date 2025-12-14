@@ -21,7 +21,8 @@ export const testRLSPolicies = async () => {
     // Test 1: Vendor can only see their own profile
     const { data: vendorProfiles, error } = await supabase
       .from('vendor_profiles')
-      .select('*');
+      .select('id, user_id, company_name')
+      .limit(10);
 
     results.push({
       table: 'vendor_profiles',
@@ -32,7 +33,8 @@ export const testRLSPolicies = async () => {
     // Test 2: Bookings restricted to user's own bookings
     const { data: bookings, error: bookingError } = await supabase
       .from('bookings')
-      .select('*');
+      .select('id, user_id, property_id, status')
+      .limit(10);
 
     results.push({
       table: 'bookings',
@@ -43,7 +45,8 @@ export const testRLSPolicies = async () => {
     // Test 3: Audit logs only visible to admins
     const { data: auditLogs, error: auditError } = await supabase
       .from('audit_logs')
-      .select('*');
+      .select('id, action, table_name')
+      .limit(10);
 
     results.push({
       table: 'audit_logs',
@@ -159,7 +162,7 @@ export const testQueryPerformance = async () => {
   const tests = [
     {
       name: 'Vendor Profiles Query',
-      query: () => supabase.from('vendor_profiles').select('*').limit(50),
+      query: () => supabase.from('vendor_profiles').select('id, user_id, company_name, is_verified').limit(50),
       threshold: 1000, // 1 second
     },
     {
