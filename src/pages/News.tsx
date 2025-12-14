@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Newspaper, RefreshCw, TrendingUp, AlertCircle, Wifi, WifiOff, Radio } from "lucide-react";
+import { Newspaper, RefreshCw, TrendingUp, AlertCircle, WifiOff, Radio } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,7 @@ import { NewsFilters, type NewsCategory, type NewsRegion } from "@/components/ne
 import { NewsFeaturedCarousel } from "@/components/news/NewsFeaturedCarousel";
 import { NewsArticleCard } from "@/components/news/NewsArticleCard";
 import { NewsletterSubscription } from "@/components/news/NewsletterSubscription";
+import Footer from "@/components/Footer";
 
 interface Article {
   id: string;
@@ -80,7 +81,7 @@ export default function News() {
         <meta name="description" content="Stay updated with the latest news, trends, and advice in property management, real estate markets, and industry careers from around the world." />
       </Helmet>
 
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen w-full flex flex-col">
         {/* Hero Header with Background Image */}
         <div className="relative overflow-hidden border-b">
           {/* Background Image */}
@@ -292,6 +293,8 @@ export default function News() {
             </Card>
           )}
         </div>
+        
+        <Footer />
       </div>
     </>
   );
