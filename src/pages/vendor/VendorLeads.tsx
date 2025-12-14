@@ -12,8 +12,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/OptimizedAuthContext";
-import { useVendorContacts, ContactType, VendorContact } from "@/hooks/useVendorContacts";
+import { useVendorContacts, ContactType, VendorContact, CreateContactInput } from "@/hooks/useVendorContacts";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import BulkContactImport from "@/components/vendor/BulkContactImport";
 import { 
   Search, MapPin, Clock, DollarSign, Calendar, ArrowRight, Plus,
   CheckCircle2, XCircle, Eye, Send, AlertCircle, Zap, Target,
@@ -406,6 +407,16 @@ export default function VendorLeads() {
               animated
             />
           </div>
+
+          {/* Bulk Import Section */}
+          <BulkContactImport 
+            existingEmails={contacts.filter(c => c.email).map(c => c.email!)}
+            onImport={async (contactsToImport) => {
+              for (const contact of contactsToImport) {
+                await createContact(contact);
+              }
+            }}
+          />
 
           <Tabs defaultValue="available" className="space-y-6">
             <TabsList>

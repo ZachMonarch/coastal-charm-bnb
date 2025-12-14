@@ -88,3 +88,6 @@ verify_jwt = true
 
 [functions.send-custom-notification]
 verify_jwt = true
+
+[functions.send-invoice]
+verify_jwt = true
