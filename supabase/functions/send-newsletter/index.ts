@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.75.0";
+import { EMAIL_CONFIG, getAntiSpamHeaders } from "../_shared/emailConfig.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -151,12 +152,22 @@ const handler = async (req: Request): Promise<Response> => {
 </html>
     `;
 
-    // Send emails using Resend API directly
+    // Send emails using Resend API directly with anti-spam headers
     let successCount = 0;
     let errorCount = 0;
 
     for (const subscriber of subscribers) {
       try {
+        // Generate unique email ID for tracking
+        const emailId = `newsletter-${subscriptionType}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+        
+        // Get anti-spam headers for better deliverability
+        const antiSpamHeaders = getAntiSpamHeaders({
+          emailId,
+          listUnsubscribeUrl: `${EMAIL_CONFIG.siteUrl}/news/unsubscribe?email=${encodeURIComponent(subscriber.email)}`,
+          category: 'newsletter',
+        });
+
         const response = await fetch("https://api.resend.com/emails", {
           method: "POST",
           headers: {
@@ -164,24 +175,26 @@ const handler = async (req: Request): Promise<Response> => {
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
-            from: "Monarch Property News <onboarding@resend.dev>",
+            from: EMAIL_CONFIG.senders.newsletter,
             to: [subscriber.email],
             subject: `${frequencyLabel} Property News Digest - ${new Date().toLocaleDateString()}`,
             html: emailHtml,
+            reply_to: EMAIL_CONFIG.replyTo,
+            headers: antiSpamHeaders,
           })
         });
 
         if (response.ok) {
           successCount++;
-          console.log(`Email sent to ${subscriber.email}`);
+          console.log(`Newsletter sent to ${subscriber.email}, id: ${emailId}`);
         } else {
           errorCount++;
           const errorData = await response.json();
-          console.error(`Failed to send to ${subscriber.email}:`, errorData);
+          console.error(`Failed to send newsletter to ${subscriber.email}:`, errorData);
         }
       } catch (err) {
         errorCount++;
-        console.error(`Failed to send to ${subscriber.email}:`, err);
+        console.error(`Failed to send newsletter to ${subscriber.email}:`, err);
       }
     }
 

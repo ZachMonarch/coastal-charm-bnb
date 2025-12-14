@@ -4,6 +4,7 @@ import { Resend } from "https://esm.sh/resend@2.0.0";
 import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 import { getCorsHeaders, handleCorsPreflightRequest } from "../_shared/cors.ts";
 import { BRAND_COLORS, LOGO_URL, SITE_URL, emailStyles, generateEmailFooter } from "../_shared/emailHeader.ts";
+import { EMAIL_CONFIG, getAntiSpamHeaders } from "../_shared/emailConfig.ts";
 
 // Phase 4.4: Validate RESEND_API_KEY exists at startup
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
@@ -254,11 +255,22 @@ const handler = async (req: Request): Promise<Response> => {
       console.warn('Failed to log security event:', logResult.error);
     }
 
+    // Generate unique email ID for tracking
+    const emailId = `email-${emailType || template || 'general'}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    
+    // Get anti-spam headers for better deliverability
+    const antiSpamHeaders = getAntiSpamHeaders({
+      emailId,
+      category: emailType || template || 'transactional',
+    });
+
     const emailResponse = await resend.emails.send({
-      from: "Monarch Property Management <noreply@monarchpropertymmgt.com>",
+      from: EMAIL_CONFIG.senders.noreply,
       to: [to],
       subject: sanitizedSubject,
       html: emailHtml,
+      reply_to: EMAIL_CONFIG.replyTo,
+      headers: antiSpamHeaders,
     });
 
     console.log("Email sent successfully:", emailResponse);

@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "https://esm.sh/resend@2.0.0";
 import { checkRateLimit, getClientIP, rateLimitResponse } from "../_shared/rateLimiter.ts";
 import { getCorsHeaders, handleCorsPreflightRequest } from "../_shared/cors.ts";
+import { EMAIL_CONFIG, getAntiSpamHeaders } from "../_shared/emailConfig.ts";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -60,10 +61,21 @@ serve(async (req) => {
     // Sanitize name to prevent XSS in email
     const sanitizedName = (name || 'User').replace(/[<>]/g, '');
 
+    // Generate unique email ID for tracking
+    const emailId = `welcome-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    
+    // Get anti-spam headers for better deliverability
+    const antiSpamHeaders = getAntiSpamHeaders({
+      emailId,
+      category: 'welcome',
+    });
+
     const emailResponse = await resend.emails.send({
-      from: "Monarch Property Management <welcome@monarchpropertymmgt.com>",
+      from: EMAIL_CONFIG.senders.welcome,
       to: [email],
       subject: "Welcome to Monarch Property Management!",
+      reply_to: EMAIL_CONFIG.replyTo,
+      headers: antiSpamHeaders,
       html: `
         <!DOCTYPE html>
         <html>
