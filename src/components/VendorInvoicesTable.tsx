@@ -9,6 +9,7 @@ import { VendorInvoice } from '@/hooks/useVendorInvoicing';
 import { generateInvoicePDF } from '@/utils/pdfGenerator';
 import { getPaymentStatusColor } from '@/utils/themeColors';
 import { toast } from 'sonner';
+import { supabase } from '@/integrations/supabase/client';
 
 interface VendorInvoicesTableProps {
   invoices: VendorInvoice[];
@@ -35,15 +36,35 @@ export default function VendorInvoicesTable({ invoices, loading, onUpdateStatus 
   const handleSendInvoice = async () => {
     if (!confirmSendDialog.invoice) return;
     
+    const invoice = confirmSendDialog.invoice;
     setIsSending(true);
+    
     try {
-      // Update status to 'sent'
-      await onUpdateStatus(confirmSendDialog.invoice.id, 'sent');
-      toast.success(`Invoice ${confirmSendDialog.invoice.invoice_number} sent to ${confirmSendDialog.invoice.client_email}`);
+      // Call the send-invoice edge function
+      const { data, error } = await supabase.functions.invoke('send-invoice', {
+        body: {
+          invoiceId: invoice.id,
+          recipientEmail: invoice.client_email,
+          recipientName: invoice.client_name,
+          invoiceNumber: invoice.invoice_number,
+          amount: invoice.amount,
+          dueDate: invoice.due_date,
+          projectTitle: invoice.project?.title || invoice.milestone?.name || 'Services',
+          description: invoice.description,
+          lineItems: invoice.line_items,
+        },
+      });
+
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+
+      // Update local status
+      await onUpdateStatus(invoice.id, 'sent');
+      toast.success(`Invoice ${invoice.invoice_number} sent to ${invoice.client_email}`);
       setConfirmSendDialog({ open: false, invoice: null });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error sending invoice:', error);
-      toast.error('Failed to send invoice');
+      toast.error(error.message || 'Failed to send invoice');
     } finally {
       setIsSending(false);
     }
