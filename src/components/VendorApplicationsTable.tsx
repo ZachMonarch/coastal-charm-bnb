@@ -215,7 +215,7 @@ export default function VendorApplicationsTable({
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={() => onEdit(application)}
+                      onClick={() => onEdit?.(application)}
                       aria-label="Edit application"
                       className="min-w-[44px] min-h-[44px]"
                     >

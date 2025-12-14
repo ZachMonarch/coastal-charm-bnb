@@ -43,23 +43,44 @@ export function useVendorContacts() {
   const [error, setError] = useState<string | null>(null);
 
   const fetchContacts = useCallback(async () => {
-    if (!user?.id) return;
+    if (!user?.id) {
+      console.log('[VendorContacts] No user ID, skipping fetch');
+      setLoading(false);
+      return;
+    }
 
+    console.log('[VendorContacts] Fetching contacts for user:', user.id);
     setLoading(true);
     setError(null);
     
     try {
-      const { data, error: fetchError } = await supabase
+      const { data, error: fetchError, status } = await supabase
         .from('vendor_contacts')
         .select('id, vendor_id, contact_type, name, email, phone, company, notes, source, status, last_contact_date, next_followup_date, created_at, updated_at')
         .eq('vendor_id', user.id)
         .order('created_at', { ascending: false });
 
-      if (fetchError) throw fetchError;
+      console.log('[VendorContacts] Query result:', { dataCount: data?.length, status, error: fetchError });
+
+      if (fetchError) {
+        console.error('[VendorContacts] Fetch error:', fetchError);
+        // Check if it's a table not found or RLS issue
+        if (fetchError.code === '42P01') {
+          setError('Contacts table not available. Please contact support.');
+        } else if (fetchError.code === 'PGRST301') {
+          setError('Permission denied. Please ensure you have access to contacts.');
+        } else {
+          throw fetchError;
+        }
+        return;
+      }
+      
       setContacts((data as VendorContact[]) || []);
+      console.log('[VendorContacts] Loaded contacts:', data?.length || 0);
     } catch (err: any) {
-      console.error('Error fetching contacts:', err);
-      setError(err.message);
+      console.error('[VendorContacts] Error fetching contacts:', err);
+      setError(err.message || 'Failed to load contacts');
+      toast.error('Failed to load contacts. Please refresh the page.');
     } finally {
       setLoading(false);
     }

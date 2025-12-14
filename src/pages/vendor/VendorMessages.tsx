@@ -53,18 +53,36 @@ export default function VendorMessages() {
     enabled: !!user?.id
   });
 
-  // Get admin users to send messages to
-  const { data: adminUsers = [] } = useQuery({
+  // Get admin users to send messages to - check both user_roles and profiles
+  const { data: adminUsers = [], isLoading: adminLoading, error: adminError } = useQuery({
     queryKey: ['admin-users'],
     queryFn: async () => {
-      const { data, error } = await supabase
+      // First try user_roles table
+      const { data: roleData, error: roleError } = await supabase
         .from('user_roles')
         .select('user_id')
         .eq('role', 'admin')
-        .limit(1);
+        .limit(5);
       
-      if (error) throw error;
-      return data?.map(r => r.user_id) || [];
+      if (!roleError && roleData && roleData.length > 0) {
+        console.log('Found admins in user_roles:', roleData.length);
+        return roleData.map(r => r.user_id);
+      }
+      
+      // Fallback: check profiles table for admin role
+      const { data: profileData, error: profileError } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('role', 'admin')
+        .limit(5);
+      
+      if (!profileError && profileData && profileData.length > 0) {
+        console.log('Found admins in profiles:', profileData.length);
+        return profileData.map(p => p.id);
+      }
+      
+      console.warn('No admin users found in system');
+      return [];
     }
   });
 
@@ -84,19 +102,27 @@ export default function VendorMessages() {
   const sendMessageMutation = useMutation({
     mutationFn: async ({ subject, content, parentId }: { subject: string; content: string; parentId?: string }) => {
       if (adminUsers.length === 0) {
-        throw new Error('No admin available to receive messages');
+        throw new Error('No administrators are currently available. Please try again later or contact support.');
+      }
+
+      if (!user?.id) {
+        throw new Error('You must be logged in to send messages');
       }
 
       const { error } = await supabase
         .from('messages')
         .insert({
-          sender_id: user?.id,
+          sender_id: user.id,
           recipient_id: adminUsers[0],
           subject,
           content,
           parent_message_id: parentId || null
         });
-      if (error) throw error;
+      
+      if (error) {
+        console.error('Message send error:', error);
+        throw new Error(error.message || 'Failed to send message');
+      }
     },
     onSuccess: () => {
       toast.success('Message sent successfully');
@@ -107,6 +133,7 @@ export default function VendorMessages() {
       setReplyContent('');
     },
     onError: (error: any) => {
+      console.error('Send message mutation error:', error);
       toast.error(error.message || 'Failed to send message');
     }
   });
