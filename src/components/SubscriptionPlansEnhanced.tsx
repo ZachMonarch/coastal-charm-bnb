@@ -1,12 +1,19 @@
 
 import { useState, useEffect } from 'react';
-import { Check, Loader2, Crown, Star, Zap } from 'lucide-react';
+import { Check, Loader2, Crown, Star, Zap, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/contexts/OptimizedAuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+
+interface PendingRequest {
+  id: string;
+  requested_plan: string;
+  status: string;
+  requested_at: string;
+}
 
 interface SubscriptionInfo {
   subscribed: boolean;
@@ -77,6 +84,7 @@ const plans = [
 export default function SubscriptionPlansEnhanced() {
   const [loading, setLoading] = useState<string | null>(null);
   const [subscriptionInfo, setSubscriptionInfo] = useState<SubscriptionInfo | null>(null);
+  const [pendingRequest, setPendingRequest] = useState<PendingRequest | null>(null);
   const [refreshing, setRefreshing] = useState(false);
   const { user } = useAuth();
 
@@ -96,30 +104,52 @@ export default function SubscriptionPlansEnhanced() {
     }
   };
 
-  const handleSubscribe = async (planName: string, price: number) => {
+  const checkPendingRequest = async () => {
+    if (!user) return;
+    
+    try {
+      const { data, error } = await supabase
+        .from('subscription_requests')
+        .select('id, requested_plan, status, requested_at')
+        .eq('vendor_id', user.id)
+        .eq('status', 'pending')
+        .maybeSingle();
+      
+      if (!error && data) {
+        setPendingRequest(data);
+      }
+    } catch (error) {
+      console.error('Error checking pending request:', error);
+    }
+  };
+
+  const handleRequestUpgrade = async (planName: string) => {
     if (!user) {
-      toast.error('Please sign in to subscribe');
+      toast.error('Please sign in to request an upgrade');
+      return;
+    }
+
+    if (pendingRequest) {
+      toast.error('You already have a pending subscription request');
       return;
     }
 
     setLoading(planName);
     try {
-      const { data, error } = await supabase.functions.invoke('create-checkout', {
+      const { data, error } = await supabase.functions.invoke('request-subscription-upgrade', {
         body: {
-          priceAmount: Math.round(price * 100), // Convert to cents
-          subscriptionType: planName.toLowerCase()
+          requestedPlan: planName.toLowerCase(),
+          currentPlan: subscriptionInfo?.subscription_tier || 'none'
         }
       });
 
       if (error) throw error;
 
-      // Open Stripe checkout in new tab
-      if (data?.url) {
-        window.open(data.url, '_blank');
-      }
+      toast.success('Subscription upgrade request submitted! An admin will review it shortly.');
+      await checkPendingRequest();
     } catch (error) {
-      console.error('Error creating checkout:', error);
-      toast.error('Failed to start checkout process');
+      console.error('Error requesting upgrade:', error);
+      toast.error('Failed to submit upgrade request');
     } finally {
       setLoading(null);
     }
@@ -147,6 +177,7 @@ export default function SubscriptionPlansEnhanced() {
   useEffect(() => {
     if (user) {
       checkSubscription();
+      checkPendingRequest();
     }
   }, [user]);
 
@@ -166,21 +197,32 @@ export default function SubscriptionPlansEnhanced() {
         </p>
         
         {subscriptionInfo && (
-          <div className="flex items-center justify-center gap-4">
-            <Badge variant={subscriptionInfo.subscribed ? "default" : "secondary"} className="text-sm">
-              {subscriptionInfo.subscribed 
-                ? `Active: ${subscriptionInfo.subscription_tier}` 
-                : 'No Active Subscription'
-              }
-            </Badge>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={checkSubscription}
-              disabled={refreshing}
-            >
-              {refreshing ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Refresh Status'}
-            </Button>
+          <div className="flex flex-col items-center gap-4">
+            <div className="flex items-center gap-4">
+              <Badge variant={subscriptionInfo.subscribed ? "default" : "secondary"} className="text-sm">
+                {subscriptionInfo.subscribed 
+                  ? `Active: ${subscriptionInfo.subscription_tier}` 
+                  : 'No Active Subscription'
+                }
+              </Badge>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={checkSubscription}
+                disabled={refreshing}
+              >
+                {refreshing ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Refresh Status'}
+              </Button>
+            </div>
+            
+            {pendingRequest && (
+              <div className="flex items-center gap-2 px-4 py-2 bg-warning/10 border border-warning/30 rounded-lg">
+                <Clock className="h-4 w-4 text-warning" />
+                <span className="text-sm text-warning-foreground">
+                  Pending request for <strong>{pendingRequest.requested_plan}</strong> plan - awaiting admin approval
+                </span>
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -243,17 +285,26 @@ export default function SubscriptionPlansEnhanced() {
                       ) : null}
                       Manage Subscription
                     </Button>
+                  ) : pendingRequest?.requested_plan?.toLowerCase() === plan.name.toLowerCase() ? (
+                    <Button 
+                      variant="outline" 
+                      className="w-full"
+                      disabled
+                    >
+                      <Clock className="h-4 w-4 mr-2" />
+                      Request Pending
+                    </Button>
                   ) : (
                     <Button 
                       className={`w-full ${plan.popular ? 'btn-primary' : ''}`}
                       variant={plan.popular ? 'default' : 'outline'}
-                      onClick={() => handleSubscribe(plan.name, plan.price)}
-                      disabled={loading === plan.name || !user}
+                      onClick={() => handleRequestUpgrade(plan.name)}
+                      disabled={loading === plan.name || !user || !!pendingRequest}
                     >
                       {loading === plan.name ? (
                         <Loader2 className="h-4 w-4 animate-spin mr-2" />
                       ) : null}
-                      {subscriptionInfo?.subscribed ? 'Upgrade' : 'Subscribe'}
+                      {subscriptionInfo?.subscribed ? 'Request Upgrade' : 'Request Subscription'}
                     </Button>
                   )}
                 </div>
