@@ -2478,6 +2478,54 @@ export type Database = {
         }
         Relationships: []
       }
+      user_preferences: {
+        Row: {
+          bid_notifications: boolean | null
+          created_at: string | null
+          email_notifications: boolean | null
+          id: string
+          payment_alerts: boolean | null
+          phone_number: string | null
+          profile_visibility: string | null
+          project_alerts: boolean | null
+          sms_notifications: boolean | null
+          two_factor_enabled: boolean | null
+          two_factor_verified_at: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          bid_notifications?: boolean | null
+          created_at?: string | null
+          email_notifications?: boolean | null
+          id?: string
+          payment_alerts?: boolean | null
+          phone_number?: string | null
+          profile_visibility?: string | null
+          project_alerts?: boolean | null
+          sms_notifications?: boolean | null
+          two_factor_enabled?: boolean | null
+          two_factor_verified_at?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          bid_notifications?: boolean | null
+          created_at?: string | null
+          email_notifications?: boolean | null
+          id?: string
+          payment_alerts?: boolean | null
+          phone_number?: string | null
+          profile_visibility?: string | null
+          project_alerts?: boolean | null
+          sms_notifications?: boolean | null
+          two_factor_enabled?: boolean | null
+          two_factor_verified_at?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           granted_at: string | null

@@ -8,6 +8,7 @@ import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Skeleton } from '@/components/ui/skeleton';
 import { 
   Settings, 
   Shield, 
@@ -19,50 +20,46 @@ import {
   AlertTriangle,
   CheckCircle,
   Key,
-  User
+  User,
+  Loader2
 } from 'lucide-react';
 import { useAuth } from '@/contexts/OptimizedAuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-
-interface SecuritySettings {
-  twoFactorEnabled: boolean;
-  emailNotifications: boolean;
-  smsNotifications: boolean;
-  projectAlerts: boolean;
-  bidNotifications: boolean;
-  paymentAlerts: boolean;
-  profileVisibility: 'public' | 'verified_only' | 'private';
-}
+import { useUserPreferences } from '@/hooks/useUserPreferences';
+import TwoFactorSetup from './TwoFactorSetup';
 
 export default function VendorAccountSettings() {
   const { user } = useAuth();
-  const [loading, setLoading] = useState(false);
+  const { 
+    preferences, 
+    loading: preferencesLoading, 
+    saving,
+    updatePreference, 
+    savePreferences,
+    checkMfaStatus,
+    disableMfa 
+  } = useUserPreferences();
+  
+  const [passwordLoading, setPasswordLoading] = useState(false);
+  const [showTwoFactorSetup, setShowTwoFactorSetup] = useState(false);
+  const [mfaEnabled, setMfaEnabled] = useState(false);
   const [passwordData, setPasswordData] = useState({
     currentPassword: '',
     newPassword: '',
     confirmPassword: ''
   });
-  const [securitySettings, setSecuritySettings] = useState<SecuritySettings>({
-    twoFactorEnabled: false,
-    emailNotifications: true,
-    smsNotifications: false,
-    projectAlerts: true,
-    bidNotifications: true,
-    paymentAlerts: true,
-    profileVisibility: 'public'
-  });
 
+  // Check MFA status on mount
   useEffect(() => {
+    const checkMfa = async () => {
+      const enabled = await checkMfaStatus();
+      setMfaEnabled(enabled);
+    };
     if (user) {
-      loadSecuritySettings();
+      checkMfa();
     }
-  }, [user]);
-
-  const loadSecuritySettings = async () => {
-    // Load user preferences - this would typically come from a user_preferences table
-    // For now, we'll use default values
-  };
+  }, [user, checkMfaStatus]);
 
   const handlePasswordChange = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -78,7 +75,7 @@ export default function VendorAccountSettings() {
       return;
     }
 
-    setLoading(true);
+    setPasswordLoading(true);
     try {
       const { error } = await supabase.auth.updateUser({
         password: passwordData.newPassword
@@ -97,40 +94,32 @@ export default function VendorAccountSettings() {
       console.error('Error updating password:', error);
       toast.error('Failed to update password');
     } finally {
-      setLoading(false);
+      setPasswordLoading(false);
     }
   };
 
-  const handleSecuritySettingChange = (setting: keyof SecuritySettings, value: boolean | string) => {
-    setSecuritySettings(prev => ({
-      ...prev,
-      [setting]: value
-    }));
+  const handleToggle2FA = async () => {
+    if (mfaEnabled) {
+      // Disable 2FA
+      const confirmed = window.confirm(
+        'Are you sure you want to disable two-factor authentication? This will make your account less secure.'
+      );
+      if (confirmed) {
+        const success = await disableMfa();
+        if (success) {
+          setMfaEnabled(false);
+        }
+      }
+    } else {
+      // Show 2FA setup dialog
+      setShowTwoFactorSetup(true);
+    }
   };
 
-  const saveSecuritySettings = async () => {
-    if (!user) return;
-
-    setLoading(true);
-    try {
-      // Save to user preferences table or vendor_profiles
-      const { error } = await supabase
-        .from('vendor_profiles')
-        .update({
-          // Store as JSON in a preferences column or create separate table
-          last_active_at: new Date().toISOString()
-        })
-        .eq('user_id', user.id);
-
-      if (error) throw error;
-
-      toast.success('Security settings updated successfully');
-    } catch (error) {
-      console.error('Error updating security settings:', error);
-      toast.error('Failed to update security settings');
-    } finally {
-      setLoading(false);
-    }
+  const handleTwoFactorSuccess = async () => {
+    setMfaEnabled(true);
+    await updatePreference('two_factor_enabled', true);
+    await updatePreference('two_factor_verified_at', new Date().toISOString());
   };
 
   const handleEmailChange = async () => {
@@ -139,7 +128,6 @@ export default function VendorAccountSettings() {
     const newEmail = prompt('Enter your new email address:');
     if (!newEmail) return;
 
-    setLoading(true);
     try {
       const { error } = await supabase.auth.updateUser({
         email: newEmail
@@ -151,12 +139,40 @@ export default function VendorAccountSettings() {
     } catch (error) {
       console.error('Error updating email:', error);
       toast.error('Failed to update email');
-    } finally {
-      setLoading(false);
     }
   };
 
+  const handleSaveNotifications = async () => {
+    if (!preferences) return;
+    
+    await savePreferences({
+      email_notifications: preferences.email_notifications,
+      sms_notifications: preferences.sms_notifications,
+      project_alerts: preferences.project_alerts,
+      bid_notifications: preferences.bid_notifications,
+      payment_alerts: preferences.payment_alerts,
+    });
+  };
+
+  const handleSavePrivacy = async () => {
+    if (!preferences) return;
+    
+    await savePreferences({
+      profile_visibility: preferences.profile_visibility,
+    });
+  };
+
   if (!user) return null;
+
+  if (preferencesLoading) {
+    return (
+      <div className="space-y-6">
+        <Skeleton className="h-8 w-64" />
+        <Skeleton className="h-64 w-full" />
+        <Skeleton className="h-48 w-full" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -186,11 +202,11 @@ export default function VendorAccountSettings() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <Label>Email Address</Label>
                   <div className="flex items-center gap-2 mt-1">
-                    <Input value={user.email || ''} disabled />
+                    <Input value={user.email || ''} disabled className="flex-1" />
                     <Button variant="outline" size="sm" onClick={handleEmailChange}>
                       Change
                     </Button>
@@ -246,8 +262,15 @@ export default function VendorAccountSettings() {
                     onChange={(e) => setPasswordData(prev => ({ ...prev, confirmPassword: e.target.value }))}
                   />
                 </div>
-                <Button type="submit" disabled={loading}>
-                  Update Password
+                <Button type="submit" disabled={passwordLoading}>
+                  {passwordLoading ? (
+                    <>
+                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                      Updating...
+                    </>
+                  ) : (
+                    'Update Password'
+                  )}
                 </Button>
               </form>
             </CardContent>
@@ -261,21 +284,34 @@ export default function VendorAccountSettings() {
                 Two-Factor Authentication
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-medium">Enable 2FA</p>
                   <p className="text-sm text-muted-foreground">
-                    Add an extra layer of security to your account
+                    Add an extra layer of security using an authenticator app
                   </p>
                 </div>
                 <Switch
-                  checked={securitySettings.twoFactorEnabled}
-                  onCheckedChange={(checked) => handleSecuritySettingChange('twoFactorEnabled', checked)}
+                  checked={mfaEnabled}
+                  onCheckedChange={handleToggle2FA}
                 />
               </div>
-              {!securitySettings.twoFactorEnabled && (
-                <Alert className="mt-4">
+              
+              {mfaEnabled ? (
+                <Alert className="bg-green-500/10 border-green-500/20">
+                  <CheckCircle className="h-4 w-4 text-green-500" />
+                  <AlertDescription className="text-green-700 dark:text-green-300">
+                    Your account is protected with two-factor authentication.
+                    {preferences?.two_factor_verified_at && (
+                      <span className="block text-xs mt-1 opacity-70">
+                        Enabled on {new Date(preferences.two_factor_verified_at).toLocaleDateString()}
+                      </span>
+                    )}
+                  </AlertDescription>
+                </Alert>
+              ) : (
+                <Alert>
                   <AlertTriangle className="h-4 w-4" />
                   <AlertDescription>
                     Your account is not protected by two-factor authentication. Enable 2FA for better security.
@@ -306,8 +342,8 @@ export default function VendorAccountSettings() {
                     </div>
                   </div>
                   <Switch
-                    checked={securitySettings.emailNotifications}
-                    onCheckedChange={(checked) => handleSecuritySettingChange('emailNotifications', checked)}
+                    checked={preferences?.email_notifications ?? true}
+                    onCheckedChange={(checked) => updatePreference('email_notifications', checked)}
                   />
                 </div>
 
@@ -322,8 +358,8 @@ export default function VendorAccountSettings() {
                     </div>
                   </div>
                   <Switch
-                    checked={securitySettings.smsNotifications}
-                    onCheckedChange={(checked) => handleSecuritySettingChange('smsNotifications', checked)}
+                    checked={preferences?.sms_notifications ?? false}
+                    onCheckedChange={(checked) => updatePreference('sms_notifications', checked)}
                   />
                 </div>
 
@@ -338,8 +374,8 @@ export default function VendorAccountSettings() {
                       <p className="text-sm text-muted-foreground">Get notified about new project opportunities</p>
                     </div>
                     <Switch
-                      checked={securitySettings.projectAlerts}
-                      onCheckedChange={(checked) => handleSecuritySettingChange('projectAlerts', checked)}
+                      checked={preferences?.project_alerts ?? true}
+                      onCheckedChange={(checked) => updatePreference('project_alerts', checked)}
                     />
                   </div>
 
@@ -349,8 +385,8 @@ export default function VendorAccountSettings() {
                       <p className="text-sm text-muted-foreground">Updates about your submitted bids</p>
                     </div>
                     <Switch
-                      checked={securitySettings.bidNotifications}
-                      onCheckedChange={(checked) => handleSecuritySettingChange('bidNotifications', checked)}
+                      checked={preferences?.bid_notifications ?? true}
+                      onCheckedChange={(checked) => updatePreference('bid_notifications', checked)}
                     />
                   </div>
 
@@ -360,15 +396,22 @@ export default function VendorAccountSettings() {
                       <p className="text-sm text-muted-foreground">Notifications about payments and invoices</p>
                     </div>
                     <Switch
-                      checked={securitySettings.paymentAlerts}
-                      onCheckedChange={(checked) => handleSecuritySettingChange('paymentAlerts', checked)}
+                      checked={preferences?.payment_alerts ?? true}
+                      onCheckedChange={(checked) => updatePreference('payment_alerts', checked)}
                     />
                   </div>
                 </div>
               </div>
 
-              <Button onClick={saveSecuritySettings} disabled={loading}>
-                Save Notification Preferences
+              <Button onClick={handleSaveNotifications} disabled={saving}>
+                {saving ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    Saving...
+                  </>
+                ) : (
+                  'Save Notification Preferences'
+                )}
               </Button>
             </CardContent>
           </Card>
@@ -389,8 +432,8 @@ export default function VendorAccountSettings() {
                 <select
                   id="profile-visibility"
                   className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2"
-                  value={securitySettings.profileVisibility}
-                  onChange={(e) => handleSecuritySettingChange('profileVisibility', e.target.value)}
+                  value={preferences?.profile_visibility ?? 'public'}
+                  onChange={(e) => updatePreference('profile_visibility', e.target.value as 'public' | 'verified_only' | 'private')}
                 >
                   <option value="public">Public - Visible to everyone</option>
                   <option value="verified_only">Verified Users Only</option>
@@ -420,13 +463,27 @@ export default function VendorAccountSettings() {
                 </p>
               </div>
 
-              <Button onClick={saveSecuritySettings} disabled={loading}>
-                Save Privacy Settings
+              <Button onClick={handleSavePrivacy} disabled={saving}>
+                {saving ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    Saving...
+                  </>
+                ) : (
+                  'Save Privacy Settings'
+                )}
               </Button>
             </CardContent>
           </Card>
         </TabsContent>
       </Tabs>
+
+      {/* 2FA Setup Dialog */}
+      <TwoFactorSetup
+        open={showTwoFactorSetup}
+        onOpenChange={setShowTwoFactorSetup}
+        onSuccess={handleTwoFactorSuccess}
+      />
     </div>
   );
 }
