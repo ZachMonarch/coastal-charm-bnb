@@ -2782,34 +2782,64 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "vendor_bids_application_projects_fk"
-            columns: ["application_id"]
-            isOneToOne: false
-            referencedRelation: "projects"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "vendor_bids_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
             referencedRelation: "projects"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "vendor_bids_vendor_id_fkey"
-            columns: ["vendor_id"]
-            isOneToOne: false
-            referencedRelation: "safe_vendor_profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "vendor_bids_vendor_id_fkey"
-            columns: ["vendor_id"]
-            isOneToOne: false
-            referencedRelation: "vendor_profiles"
-            referencedColumns: ["id"]
-          },
         ]
+      }
+      vendor_contacts: {
+        Row: {
+          company: string | null
+          contact_type: string
+          created_at: string | null
+          email: string | null
+          id: string
+          last_contact_date: string | null
+          name: string
+          next_followup_date: string | null
+          notes: string | null
+          phone: string | null
+          source: string | null
+          status: string | null
+          updated_at: string | null
+          vendor_id: string
+        }
+        Insert: {
+          company?: string | null
+          contact_type?: string
+          created_at?: string | null
+          email?: string | null
+          id?: string
+          last_contact_date?: string | null
+          name: string
+          next_followup_date?: string | null
+          notes?: string | null
+          phone?: string | null
+          source?: string | null
+          status?: string | null
+          updated_at?: string | null
+          vendor_id: string
+        }
+        Update: {
+          company?: string | null
+          contact_type?: string
+          created_at?: string | null
+          email?: string | null
+          id?: string
+          last_contact_date?: string | null
+          name?: string
+          next_followup_date?: string | null
+          notes?: string | null
+          phone?: string | null
+          source?: string | null
+          status?: string | null
+          updated_at?: string | null
+          vendor_id?: string
+        }
+        Relationships: []
       }
       vendor_document_comments: {
         Row: {

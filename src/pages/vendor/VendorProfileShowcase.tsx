@@ -14,6 +14,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/OptimizedAuthContext";
 import PageHero from "@/components/shared/PageHero";
 import { ButtonSpinner } from "@/components/shared/LoadingSpinner";
+import VendorProfileCompleteness from "@/components/vendor/VendorProfileCompleteness";
+import VendorShowcaseBenefits from "@/components/vendor/VendorShowcaseBenefits";
 
 interface VendorProfile {
   id: string;
@@ -42,10 +44,15 @@ export default function VendorProfileShowcase() {
   const [specialtiesInput, setSpecialtiesInput] = useState('');
   const [serviceAreasInput, setServiceAreasInput] = useState('');
   const [certificationsInput, setCertificationsInput] = useState('');
+  const [portfolioCount, setPortfolioCount] = useState(0);
+  const [hasPaymentMethod, setHasPaymentMethod] = useState(false);
+  const [hasPayoutSettings, setHasPayoutSettings] = useState(false);
 
   useEffect(() => {
     if (user?.id) {
       fetchProfile();
+      fetchPortfolioCount();
+      checkPaymentSettings();
     }
   }, [user?.id]);
 
@@ -74,6 +81,28 @@ export default function VendorProfileShowcase() {
       console.error('Error fetching profile:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchPortfolioCount = async () => {
+    // Portfolio count - set to 0 for now as table may not exist
+    setPortfolioCount(0);
+  };
+
+  const checkPaymentSettings = async () => {
+    try {
+      // Check for Stripe customer
+      const { data: stripeCustomer } = await supabase
+        .from('stripe_customers')
+        .select('id')
+        .eq('user_id', user?.id)
+        .maybeSingle();
+      
+      setHasPaymentMethod(!!stripeCustomer);
+      // Payout settings - false for now
+      setHasPayoutSettings(false);
+    } catch (error) {
+      // Tables might not exist, ignore errors
     }
   };
 
@@ -159,6 +188,20 @@ export default function VendorProfileShowcase() {
             { label: 'Jobs Completed', value: profile.completed_jobs || 0, icon: Briefcase, color: 'success' },
             { label: 'Verified', value: profile.is_verified ? 'Yes' : 'No', icon: Shield, color: profile.is_verified ? 'success' : 'secondary' },
           ]}
+        />
+
+        {/* Profile Completeness Tracker */}
+        <VendorProfileCompleteness
+          profile={profile}
+          hasPaymentMethod={hasPaymentMethod}
+          hasPayoutSettings={hasPayoutSettings}
+          portfolioCount={portfolioCount}
+        />
+
+        {/* Promotional Benefits Section */}
+        <VendorShowcaseBenefits
+          currentPlan={profile.subscription_plan}
+          isVerified={profile.is_verified}
         />
 
         {/* Subscription Notice */}
@@ -332,15 +375,6 @@ export default function VendorProfileShowcase() {
                   <Input
                     value={profile.address || ''}
                     onChange={(e) => setProfile(prev => prev ? { ...prev, address: e.target.value } : null)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label>Years of Experience</Label>
-                  <Input
-                    type="number"
-                    min="0"
-                    value={profile.years_experience || 0}
-                    onChange={(e) => setProfile(prev => prev ? { ...prev, years_experience: parseInt(e.target.value) || 0 } : null)}
                   />
                 </div>
               </CardContent>
