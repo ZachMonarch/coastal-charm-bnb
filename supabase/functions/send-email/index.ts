@@ -3,6 +3,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { Resend } from "https://esm.sh/resend@2.0.0";
 import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 import { getCorsHeaders, handleCorsPreflightRequest } from "../_shared/cors.ts";
+import { BRAND_COLORS, LOGO_URL, SITE_URL, emailStyles, generateEmailFooter } from "../_shared/emailHeader.ts";
 
 // Phase 4.4: Validate RESEND_API_KEY exists at startup
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
@@ -311,52 +312,56 @@ const handler = async (req: Request): Promise<Response> => {
 function generateVendorInviteEmail(data: any): string {
   return `
     <!DOCTYPE html>
-    <html>
+    <html lang="en">
     <head>
-        <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { background: linear-gradient(135deg, #f97316, #ea580c); color: white; padding: 30px; text-align: center; border-radius: 8px 8px 0 0; }
-            .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 8px 8px; }
-            .button { display: inline-block; background: #f97316; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; margin: 20px 0; }
-            .footer { text-align: center; margin-top: 30px; font-size: 12px; color: #666; }
-        </style>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Vendor Invitation</title>
+        <style>${emailStyles}</style>
     </head>
     <body>
-        <div class="container">
+        <div class="email-wrapper">
             <div class="header">
-                <h1>🏢 Vendor Invitation</h1>
-                <p>Join Monarch Property Management Network</p>
+                <img src="${LOGO_URL}" alt="Monarch Property Management" class="header-logo" />
+                <h1 class="header-title">Vendor Invitation</h1>
+                <p class="header-subtitle">Join Our Exclusive Vendor Network</p>
             </div>
             <div class="content">
-                <h2>Hello ${data?.companyName || 'Vendor'},</h2>
-                <p>You've been invited to join our exclusive vendor network at Monarch Property Management.</p>
+                <p class="greeting">Hello ${data?.companyName || 'Valued Partner'},</p>
                 
-                <p><strong>Invitation Details:</strong></p>
+                <p>We're excited to invite you to join our exclusive vendor network at Monarch Property Management. As a trusted partner, you'll have access to premium project opportunities and a streamlined collaboration platform.</p>
+                
+                <div class="details-box">
+                    <h3>Invitation Details</h3>
+                    <p><strong>Company:</strong> ${data?.companyName || 'Your Company'}</p>
+                    <p><strong>Specialties:</strong> ${data?.specialties?.join(', ') || 'Various Services'}</p>
+                    <p><strong>Invited by:</strong> ${data?.adminEmail || 'Admin Team'}</p>
+                </div>
+                
+                <p><strong>As a member of our network, you'll enjoy:</strong></p>
                 <ul>
-                    <li>Company: ${data?.companyName || 'Your Company'}</li>
-                    <li>Specialties: ${data?.specialties?.join(', ') || 'Various Services'}</li>
-                    <li>Invited by: ${data?.adminEmail || 'Admin Team'}</li>
+                    <li>Priority access to exclusive project opportunities</li>
+                    <li>Competitive bidding on property management contracts</li>
+                    <li>Real-time project management and communication tools</li>
+                    <li>Streamlined payment processing and invoicing</li>
+                    <li>Direct relationships with property managers</li>
                 </ul>
                 
-                <p>As a member of our network, you'll have access to:</p>
-                <ul>
-                    <li>🔧 Exclusive project opportunities</li>
-                    <li>💰 Competitive bidding platform</li>
-                    <li>📊 Real-time project management tools</li>
-                    <li>💳 Streamlined payment processing</li>
-                </ul>
+                <center>
+                    <a href="${data?.signupUrl || SITE_URL + '/vendor/register'}" class="button">Complete Your Registration</a>
+                </center>
                 
-                <a href="${data?.signupUrl || '#'}" class="button">Complete Registration</a>
+                <div class="divider"></div>
                 
-                <p>If you have any questions, please don't hesitate to contact our team.</p>
+                <p style="font-size: 14px; color: ${BRAND_COLORS.gray};">
+                    If you have any questions about joining our network, our team is ready to assist you. Simply reply to this email or contact us at support@monarchpropertymmgt.com.
+                </p>
                 
-                <p>Best regards,<br>
-                Monarch Property Management Team</p>
+                <p>We look forward to partnering with you!</p>
+                
+                <p>Best regards,<br><strong>Monarch Property Management Team</strong></p>
             </div>
-            <div class="footer">
-                <p>© 2024 Monarch Property Management. All rights reserved.</p>
-            </div>
+            ${generateEmailFooter()}
         </div>
     </body>
     </html>
@@ -364,42 +369,88 @@ function generateVendorInviteEmail(data: any): string {
 }
 
 function generateMaintenanceNotificationEmail(data: any): string {
+  const priorityColors: Record<string, string> = {
+    high: BRAND_COLORS.error,
+    medium: BRAND_COLORS.warning,
+    low: BRAND_COLORS.success,
+  };
+  const priority = data?.priority?.toLowerCase() || 'medium';
+  const priorityColor = priorityColors[priority] || BRAND_COLORS.warning;
+  
   return `
     <!DOCTYPE html>
-    <html>
+    <html lang="en">
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Maintenance Request</title>
         <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { background: #dc2626; color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0; }
-            .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 8px 8px; }
-            .priority-high { border-left: 4px solid #dc2626; padding-left: 15px; background: #fef2f2; }
-            .priority-medium { border-left: 4px solid #f59e0b; padding-left: 15px; background: #fffbeb; }
-            .priority-low { border-left: 4px solid #10b981; padding-left: 15px; background: #f0fdf4; }
+            ${emailStyles}
+            .priority-badge {
+                display: inline-block;
+                background: ${priorityColor};
+                color: white;
+                padding: 4px 12px;
+                border-radius: 12px;
+                font-size: 12px;
+                font-weight: 600;
+                text-transform: uppercase;
+            }
+            .request-card {
+                background: ${BRAND_COLORS.grayLight};
+                border-left: 4px solid ${priorityColor};
+                padding: 20px;
+                margin: 24px 0;
+                border-radius: 0 8px 8px 0;
+            }
         </style>
     </head>
     <body>
-        <div class="container">
-            <div class="header">
-                <h1>🔧 Maintenance Request</h1>
-                <p>New maintenance request requires attention</p>
+        <div class="email-wrapper">
+            <div class="header" style="background: linear-gradient(135deg, ${priorityColor} 0%, ${priorityColor}dd 100%);">
+                <img src="${LOGO_URL}" alt="Monarch Property Management" class="header-logo" />
+                <h1 class="header-title">Maintenance Request</h1>
+                <p class="header-subtitle">New request requires your attention</p>
             </div>
             <div class="content">
-                <div class="priority-${data?.priority || 'medium'}">
-                    <h3>Request Details</h3>
+                <p class="greeting">Hello,</p>
+                
+                <p>A new maintenance request has been submitted and requires your attention. Please review the details below and take appropriate action.</p>
+                
+                <div class="request-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                        <h3 style="margin: 0; color: ${BRAND_COLORS.charcoal};">Request Details</h3>
+                        <span class="priority-badge">${priority} Priority</span>
+                    </div>
                     <p><strong>Property:</strong> ${data?.propertyName || 'N/A'}</p>
-                    <p><strong>Category:</strong> ${data?.category || 'General'}</p>
-                    <p><strong>Priority:</strong> ${data?.priority?.toUpperCase() || 'MEDIUM'}</p>
+                    <p><strong>Category:</strong> ${data?.category || 'General Maintenance'}</p>
                     <p><strong>Description:</strong> ${data?.description || 'No description provided'}</p>
-                    <p><strong>Tenant:</strong> ${data?.tenantName || 'N/A'}</p>
-                    <p><strong>Contact:</strong> ${data?.tenantEmail || 'N/A'}</p>
+                    <div class="divider"></div>
+                    <p><strong>Submitted by:</strong> ${data?.tenantName || 'N/A'}</p>
+                    <p><strong>Contact Email:</strong> ${data?.tenantEmail || 'N/A'}</p>
                 </div>
                 
-                <p>Please log into your dashboard to view full details and take action.</p>
+                <p><strong>Recommended Next Steps:</strong></p>
+                <ol>
+                    <li>Review the maintenance request details in your dashboard</li>
+                    <li>Assess the urgency and assign to appropriate vendor if needed</li>
+                    <li>Communicate timeline expectations with the tenant</li>
+                    <li>Schedule and track the maintenance work</li>
+                </ol>
                 
-                <p>Best regards,<br>
-                Monarch Property Management System</p>
+                <center>
+                    <a href="${SITE_URL}/admin/maintenance" class="button">View in Dashboard</a>
+                </center>
+                
+                <div class="divider"></div>
+                
+                <p style="font-size: 14px; color: ${BRAND_COLORS.gray};">
+                    This is an automated notification. Please do not reply directly to this email. For questions or issues, contact the support team.
+                </p>
+                
+                <p>Best regards,<br><strong>Monarch Property Management System</strong></p>
             </div>
+            ${generateEmailFooter()}
         </div>
     </body>
     </html>
@@ -409,36 +460,50 @@ function generateMaintenanceNotificationEmail(data: any): string {
 function generatePaymentReminderEmail(data: any): string {
   return `
     <!DOCTYPE html>
-    <html>
+    <html lang="en">
     <head>
-        <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { background: #059669; color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0; }
-            .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 8px 8px; }
-            .amount { font-size: 24px; font-weight: bold; color: #059669; }
-            .button { display: inline-block; background: #059669; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; margin: 20px 0; }
-        </style>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Payment Reminder</title>
+        <style>${emailStyles}</style>
     </head>
     <body>
-        <div class="container">
+        <div class="email-wrapper">
             <div class="header">
-                <h1>💰 Payment Due</h1>
-                <p>Payment reminder from Monarch Property Management</p>
+                <img src="${LOGO_URL}" alt="Monarch Property Management" class="header-logo" />
+                <h1 class="header-title">Payment Reminder</h1>
+                <p class="header-subtitle">Action required</p>
             </div>
             <div class="content">
-                <h2>Payment Due Notice</h2>
-                <p><strong>Amount Due:</strong> <span class="amount">$${data?.amount || '0.00'}</span></p>
-                <p><strong>Due Date:</strong> ${data?.dueDate || 'N/A'}</p>
-                <p><strong>Description:</strong> ${data?.description || 'Payment due'}</p>
+                <p class="greeting">Hello,</p>
                 
-                <a href="${data?.paymentUrl || '#'}" class="button">Make Payment</a>
+                <p>This is a friendly reminder that you have an upcoming payment due. Please review the details below and complete your payment at your earliest convenience.</p>
                 
-                <p>Please ensure payment is made by the due date to avoid any late fees.</p>
+                <div class="amount-highlight">
+                    Amount Due: $${data?.amount || '0.00'}
+                </div>
                 
-                <p>Best regards,<br>
-                Monarch Property Management Team</p>
+                <div class="details-box">
+                    <h3>Payment Details</h3>
+                    <p><strong>Description:</strong> ${data?.description || 'Payment due'}</p>
+                    <p><strong>Due Date:</strong> ${data?.dueDate || 'N/A'}</p>
+                </div>
+                
+                <center>
+                    <a href="${data?.paymentUrl || SITE_URL + '/payments'}" class="button">Make Payment Now</a>
+                </center>
+                
+                <div class="divider"></div>
+                
+                <p style="font-size: 14px; color: ${BRAND_COLORS.gray};">
+                    Please ensure payment is made by the due date to avoid any late fees. If you've already made this payment, please disregard this reminder.
+                </p>
+                
+                <p>If you have any questions about this payment, please don't hesitate to contact our support team.</p>
+                
+                <p>Best regards,<br><strong>Monarch Property Management Team</strong></p>
             </div>
+            ${generateEmailFooter()}
         </div>
     </body>
     </html>
@@ -491,31 +556,41 @@ function generateBookingConfirmationEmail(data: any): string {
 function generateTestEmail(data: any): string {
   return `
     <!DOCTYPE html>
-    <html>
+    <html lang="en">
     <head>
-        <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { background: linear-gradient(135deg, #f97316, #ea580c); color: white; padding: 30px; text-align: center; border-radius: 8px 8px 0 0; }
-            .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 8px 8px; }
-            .success { background: #10b981; color: white; padding: 15px; border-radius: 6px; text-align: center; margin: 20px 0; }
-        </style>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Test Email</title>
+        <style>${emailStyles}</style>
     </head>
     <body>
-        <div class="container">
+        <div class="email-wrapper">
             <div class="header">
-                <h1>✅ Email Test Successful</h1>
-                <p>Monarch Property Management</p>
+                <img src="${LOGO_URL}" alt="Monarch Property Management" class="header-logo" />
+                <h1 class="header-title">Email Test Successful</h1>
+                <p class="header-subtitle">Your email system is configured correctly</p>
             </div>
             <div class="content">
-                <div class="success">
-                    <h2>Your email system is working!</h2>
+                <div style="text-align: center; padding: 20px; background: ${BRAND_COLORS.success}15; border-radius: 8px; margin-bottom: 24px;">
+                    <span style="font-size: 48px;">✓</span>
+                    <h2 style="color: ${BRAND_COLORS.success}; margin: 10px 0 0 0;">Email System Working!</h2>
                 </div>
-                <p>Hello ${data?.name || 'User'},</p>
+                
+                <p class="greeting">Hello ${data?.name || 'User'},</p>
+                
                 <p>${data?.message || 'This is a test email to verify the email system is working correctly.'}</p>
-                <p>If you received this email, your Resend configuration is properly set up.</p>
-                <p>Best regards,<br>Monarch Property Management Team</p>
+                
+                <p>If you received this email, your Resend configuration is properly set up and emails are being delivered successfully.</p>
+                
+                <div class="divider"></div>
+                
+                <p style="font-size: 14px; color: ${BRAND_COLORS.gray};">
+                    This is an automated test message. No action is required.
+                </p>
+                
+                <p>Best regards,<br><strong>Monarch Property Management Team</strong></p>
             </div>
+            ${generateEmailFooter()}
         </div>
     </body>
     </html>
@@ -525,30 +600,48 @@ function generateTestEmail(data: any): string {
 function generateWelcomeEmail(data: any): string {
   return `
     <!DOCTYPE html>
-    <html>
+    <html lang="en">
     <head>
-        <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { background: linear-gradient(135deg, #f97316, #ea580c); color: white; padding: 30px; text-align: center; border-radius: 8px 8px 0 0; }
-            .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 8px 8px; }
-            .button { display: inline-block; background: #f97316; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; margin: 20px 0; }
-        </style>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Welcome</title>
+        <style>${emailStyles}</style>
     </head>
     <body>
-        <div class="container">
+        <div class="email-wrapper">
             <div class="header">
-                <h1>🎉 Welcome!</h1>
-                <p>Monarch Property Management</p>
+                <img src="${LOGO_URL}" alt="Monarch Property Management" class="header-logo" />
+                <h1 class="header-title">Welcome Aboard!</h1>
+                <p class="header-subtitle">Your account has been created successfully</p>
             </div>
             <div class="content">
-                <h2>Hello ${data?.name || 'there'},</h2>
-                <p>Welcome to Monarch Property Management! We're excited to have you on board.</p>
-                <p>Your account has been created successfully. You can now access your dashboard and start managing your properties.</p>
-                <a href="${data?.dashboardUrl || '#'}" class="button">Go to Dashboard</a>
-                <p>If you have any questions, our support team is here to help.</p>
-                <p>Best regards,<br>Monarch Property Management Team</p>
+                <p class="greeting">Hello ${data?.name || 'there'},</p>
+                
+                <p>Welcome to <strong>Monarch Property Management</strong>! We're thrilled to have you join our community of property management professionals.</p>
+                
+                <p>Your account has been created successfully and you're now ready to explore all the powerful features our platform has to offer.</p>
+                
+                <div class="details-box">
+                    <h3>Getting Started</h3>
+                    <p>Here's what you can do next:</p>
+                    <ul style="margin: 8px 0 0 0; padding-left: 20px;">
+                        <li>Complete your profile with your details</li>
+                        <li>Explore your personalized dashboard</li>
+                        <li>Connect with vendors and manage properties</li>
+                    </ul>
+                </div>
+                
+                <center>
+                    <a href="${data?.dashboardUrl || SITE_URL + '/dashboard'}" class="button">Go to Dashboard</a>
+                </center>
+                
+                <div class="divider"></div>
+                
+                <p>If you have any questions or need assistance getting started, our support team is available 24/7 to help you.</p>
+                
+                <p>Best regards,<br><strong>Monarch Property Management Team</strong></p>
             </div>
+            ${generateEmailFooter()}
         </div>
     </body>
     </html>
@@ -558,37 +651,53 @@ function generateWelcomeEmail(data: any): string {
 function generateProjectAssignmentEmail(data: any): string {
   return `
     <!DOCTYPE html>
-    <html>
+    <html lang="en">
     <head>
-        <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { background: #7c3aed; color: white; padding: 30px; text-align: center; border-radius: 8px 8px 0 0; }
-            .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 8px 8px; }
-            .project-details { background: white; padding: 20px; border-radius: 6px; margin: 20px 0; border-left: 4px solid #7c3aed; }
-            .button { display: inline-block; background: #7c3aed; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; margin: 20px 0; }
-        </style>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Project Assignment</title>
+        <style>${emailStyles}</style>
     </head>
     <body>
-        <div class="container">
+        <div class="email-wrapper">
             <div class="header">
-                <h1>📋 New Project Assignment</h1>
-                <p>You've been assigned to a new project</p>
+                <img src="${LOGO_URL}" alt="Monarch Property Management" class="header-logo" />
+                <h1 class="header-title">New Project Assignment</h1>
+                <p class="header-subtitle">You've been selected for a new project</p>
             </div>
             <div class="content">
-                <h2>Hello ${data?.vendorName || 'Vendor'},</h2>
-                <p>You have been assigned to a new project. Please review the details below:</p>
-                <div class="project-details">
-                    <h3>${data?.projectTitle || 'Project'}</h3>
+                <p class="greeting">Hello ${data?.vendorName || 'Vendor'},</p>
+                
+                <p>Great news! You have been assigned to a new project. We've selected you based on your expertise and track record of excellent work.</p>
+                
+                <div class="details-box">
+                    <h3>${data?.projectTitle || 'Project Details'}</h3>
                     <p><strong>Description:</strong> ${data?.projectDescription || 'N/A'}</p>
                     <p><strong>Priority:</strong> ${data?.priority || 'Medium'}</p>
-                    <p><strong>Deadline:</strong> ${data?.deadline || 'TBD'}</p>
+                    <p><strong>Deadline:</strong> ${data?.deadline || 'To be determined'}</p>
                     <p><strong>Budget Range:</strong> $${data?.budgetMin || '0'} - $${data?.budgetMax || '0'}</p>
                 </div>
-                <a href="${data?.projectUrl || '#'}" class="button">View Project Details</a>
-                <p>Please accept or decline this assignment at your earliest convenience.</p>
-                <p>Best regards,<br>Monarch Property Management Team</p>
+                
+                <p><strong>Next Steps:</strong></p>
+                <ol>
+                    <li>Review the full project details in your dashboard</li>
+                    <li>Accept or decline the assignment within 48 hours</li>
+                    <li>If accepted, confirm your availability and timeline</li>
+                </ol>
+                
+                <center>
+                    <a href="${data?.projectUrl || SITE_URL + '/vendor/projects'}" class="button">View Project Details</a>
+                </center>
+                
+                <div class="divider"></div>
+                
+                <p style="font-size: 14px; color: ${BRAND_COLORS.gray};">
+                    Please respond to this assignment at your earliest convenience. If you have any questions, our project management team is here to help.
+                </p>
+                
+                <p>Best regards,<br><strong>Monarch Property Management Team</strong></p>
             </div>
+            ${generateEmailFooter()}
         </div>
     </body>
     </html>
