@@ -62,7 +62,9 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Briefcase,
   Activity,
   Palette,
-  Layers
+  Layers,
+  MessageSquare,
+  Mail
 };
 
 // Vendor navigation configuration - organized into logical groups

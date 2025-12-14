@@ -105,6 +105,7 @@ const VendorPayouts = lazy(() => import("./pages/vendor/VendorPayouts"));
 const VendorPayoutSettings = lazy(() => import("./pages/vendor/VendorPayoutSettings"));
 const VendorInquiries = lazy(() => import("./pages/vendor/VendorInquiries"));
 const VendorProfileShowcase = lazy(() => import("./pages/vendor/VendorProfileShowcase"));
+const VendorMessages = lazy(() => import("./pages/vendor/VendorMessages"));
 
 // Team Management & Vendor Showcase
 const TeamManagement = lazy(() => import("./pages/admin/TeamManagement"));
@@ -320,6 +321,11 @@ const App = () => (
                 <Route path="/vendor/profile-showcase" element={
                   <OptimizedProtectedRoute requiredRole="vendor">
                     <VendorProfileShowcase />
+                  </OptimizedProtectedRoute>
+                } />
+                <Route path="/vendor/messages" element={
+                  <OptimizedProtectedRoute requiredRole="vendor">
+                    <VendorMessages />
                   </OptimizedProtectedRoute>
                 } />
                 
