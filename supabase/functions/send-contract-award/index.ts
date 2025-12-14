@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "https://esm.sh/resend@2.0.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { EMAIL_CONFIG, getAntiSpamHeaders } from "../_shared/emailConfig.ts";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -46,10 +47,19 @@ const handler = async (req: Request): Promise<Response> => {
 
     if (!contract || !vendor) throw new Error("Contract or vendor not found");
 
+    // Generate anti-spam headers
+    const emailId = `contract-award-${contract_id}-${Date.now()}`;
+    const headers = getAntiSpamHeaders({
+      emailId,
+      category: 'contract-award',
+    });
+
     const emailResponse = await resend.emails.send({
-      from: "Monarch Property Management <noreply@monarchpropertymmgt.com>",
+      from: EMAIL_CONFIG.senders.noreply,
       to: [vendor.email],
+      reply_to: EMAIL_CONFIG.replyTo,
       subject: `🎉 Contract Awarded: ${contract.title}`,
+      headers,
       html: `
         <!DOCTYPE html>
         <html>
@@ -99,16 +109,19 @@ const handler = async (req: Request): Promise<Response> => {
                 </ol>
                 
                 <center>
-                  <a href="https://monarchpropertymmgt.com/vendor/contracts/${contract_id}" class="button">View Contract Details</a>
+                  <a href="${EMAIL_CONFIG.siteUrl}/vendor/contracts/${contract_id}" class="button">View Contract Details</a>
                 </center>
                 
                 <p style="margin-top: 30px;">We look forward to a successful partnership with you on this project. If you have any questions, please don't hesitate to reach out to our team.</p>
                 
-                <p style="color: #6B7280; font-size: 14px; margin-top: 30px;">Thank you for choosing to work with Monarch Property Management.</p>
+                <p style="color: #6B7280; font-size: 14px; margin-top: 30px;">Thank you for choosing to work with ${EMAIL_CONFIG.company.name}.</p>
               </div>
               <div class="footer">
-                <p>© ${new Date().getFullYear()} Monarch Property Management. All rights reserved.</p>
+                <p>© ${new Date().getFullYear()} ${EMAIL_CONFIG.company.name}. All rights reserved.</p>
                 <p>This is an official contract award notification.</p>
+                <p style="font-size: 12px; color: #9CA3AF;">
+                  ${EMAIL_CONFIG.company.phone1} | ${EMAIL_CONFIG.company.email}
+                </p>
               </div>
             </div>
           </body>

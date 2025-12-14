@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.2";
 import { Resend } from "https://esm.sh/resend@2.0.0";
+import { EMAIL_CONFIG, getAntiSpamHeaders } from "../_shared/emailConfig.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -86,8 +87,6 @@ serve(async (req) => {
       recipientIds = [individualUserId];
     } else {
       // Fetch users based on recipient type
-      let query = supabaseAdmin.from("profiles").select("id, email");
-      
       if (recipientType === "all_vendors") {
         const { data: vendorProfiles } = await supabaseAdmin
           .from("vendor_profiles")
@@ -159,27 +158,34 @@ serve(async (req) => {
           .select("id, email, full_name")
           .in("id", recipientIds);
 
-        const siteUrl = Deno.env.get("SITE_URL") || "https://monarchpropertymmgt.com";
-
         for (const profile of profiles || []) {
           if (!profile.email) continue;
 
           try {
+            // Generate anti-spam headers for each email
+            const emailId = `custom-${notificationType}-${profile.id}-${Date.now()}`;
+            const antiSpamHeaders = getAntiSpamHeaders({
+              emailId,
+              category: `custom-${notificationType}`,
+            });
+
             await resend.emails.send({
-              from: "Monarch Property Management <notifications@monarchpropertymmgt.com>",
+              from: EMAIL_CONFIG.senders.notifications,
               to: [profile.email],
+              reply_to: EMAIL_CONFIG.replyTo,
               subject: title,
+              headers: antiSpamHeaders,
               html: `
                 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
                   <div style="background: linear-gradient(135deg, #d4af37, #b8860b); padding: 20px; text-align: center;">
-                    <h1 style="color: #1a1a1a; margin: 0;">Monarch Property Management</h1>
+                    <h1 style="color: #1a1a1a; margin: 0;">${EMAIL_CONFIG.company.name}</h1>
                   </div>
                   <div style="padding: 30px; background: #ffffff;">
                     <h2 style="color: #1a1a1a; margin-top: 0;">${title}</h2>
                     <p style="color: #333333; line-height: 1.6;">Hello ${profile.full_name || "there"},</p>
                     <p style="color: #333333; line-height: 1.6;">${message}</p>
                     ${actionUrl ? `
-                      <a href="${siteUrl}${actionUrl}" 
+                      <a href="${EMAIL_CONFIG.siteUrl}${actionUrl}" 
                          style="display: inline-block; background: #d4af37; color: #1a1a1a; 
                                 padding: 12px 24px; text-decoration: none; border-radius: 6px; 
                                 margin-top: 20px; font-weight: bold;">
@@ -188,7 +194,10 @@ serve(async (req) => {
                     ` : ""}
                   </div>
                   <div style="background: #f5f5f5; padding: 20px; text-align: center; font-size: 12px; color: #666;">
-                    <p>© ${new Date().getFullYear()} Monarch Property Management. All rights reserved.</p>
+                    <p>© ${new Date().getFullYear()} ${EMAIL_CONFIG.company.name}. All rights reserved.</p>
+                    <p style="margin-top: 10px;">
+                      <a href="${EMAIL_CONFIG.unsubscribeUrl}" style="color: #666; text-decoration: underline;">Manage notification preferences</a>
+                    </p>
                   </div>
                 </div>
               `,

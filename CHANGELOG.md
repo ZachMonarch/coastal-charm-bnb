@@ -2,6 +2,68 @@
 
 All notable changes to Monarch Property Management platform will be documented in this file.
 
+## [2.6.0] - 2025-12-14 📧 Complete Email System Standardization
+
+### Added - Centralized Email Configuration
+- **`emailConfig.ts`**: Centralized email configuration for all edge functions
+  - Unified sender addresses by purpose (noreply, welcome, newsletter, invoices, payouts, notifications, support)
+  - Centralized company info, URLs, and reply-to address
+  - `getAntiSpamHeaders()` utility for Gmail/Yahoo compliance
+
+### Updated - All Email Edge Functions with Anti-Spam Headers
+All 11 email edge functions now use centralized configuration and include anti-spam headers:
+
+1. **`send-password-reset`** - Added anti-spam headers, centralized config
+2. **`send-payout-notification`** - Added anti-spam headers, centralized config
+3. **`send-rfq-invitation`** - Added anti-spam headers, centralized config
+4. **`send-payment-notification`** - Added anti-spam headers, centralized config
+5. **`send-invoice`** - Added anti-spam headers, centralized config
+6. **`send-contract-award`** - Added anti-spam headers, centralized config
+7. **`send-bid-confirmation`** - Added anti-spam headers, centralized config
+8. **`send-custom-notification`** - Added anti-spam headers, centralized config
+9. **`send-welcome-email`** - Already updated in previous phase
+10. **`send-newsletter`** - Already updated in previous phase
+11. **`send-email`** - Already updated in previous phase
+
+### Anti-Spam Headers Included
+- `X-Entity-Ref-ID`: Unique tracking identifier
+- `List-Unsubscribe`: One-click unsubscribe URL (Gmail/Yahoo requirement)
+- `List-Unsubscribe-Post`: One-click unsubscribe method
+- `Feedback-ID`: Reputation tracking for email providers
+
+### Documentation
+- **`docs/EMAIL-SYSTEM-GUIDE.md`**: Comprehensive email system documentation
+  - Email architecture overview
+  - Edge function reference table
+  - Supabase Dashboard configuration instructions
+  - DNS setup guide (SPF, DKIM, DMARC)
+  - Troubleshooting guide
+  - Maintenance checklist
+
+### Impact
+- ✅ **Improved Deliverability**: Anti-spam headers reduce spam folder placement
+- ✅ **Gmail/Yahoo Compliance**: List-Unsubscribe headers meet bulk sender requirements
+- ✅ **Consistent Branding**: All emails use verified `@monarchpropertymmgt.com` domain
+- ✅ **Maintainability**: Single source of truth for email configuration
+- ✅ **Audit Trail**: All emails include unique tracking IDs
+
+### Files Modified
+**Edge Functions (8 updated):**
+1. `supabase/functions/send-password-reset/index.ts`
+2. `supabase/functions/send-payout-notification/index.ts`
+3. `supabase/functions/send-rfq-invitation/index.ts`
+4. `supabase/functions/send-payment-notification/index.ts`
+5. `supabase/functions/send-invoice/index.ts`
+6. `supabase/functions/send-contract-award/index.ts`
+7. `supabase/functions/send-bid-confirmation/index.ts`
+8. `supabase/functions/send-custom-notification/index.ts`
+
+**Documentation (2 files):**
+9. `docs/EMAIL-SYSTEM-GUIDE.md` - NEW
+10. `CHANGELOG.md` - This entry
+
+---
+
 ## [2.5.1] - 2025-12-01 🐛🎨 Critical Z-Index Fix & Colorful Dashboard
 
 ### Fixed - Payment Dropdown Visibility (Critical)
