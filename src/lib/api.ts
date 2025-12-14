@@ -84,7 +84,7 @@ export class PropertyAPI {
       };
     }
 
-    // Field selection - only fetch what we need
+    // Field selection - only fetch public fields (security: owner_id excluded)
     const selectedFields = [
       'id',
       'title', 
@@ -101,9 +101,7 @@ export class PropertyAPI {
       'status',
       'available_date',
       'image_urls',
-      'latitude',
-      'longitude',
-      'owner_id'
+      'amenities'
     ].join(',');
 
     try {
@@ -197,9 +195,10 @@ export class PropertyAPI {
       return cachedData;
     }
 
+    // Exclude owner_id from public single property view for security
     const { data, error } = await supabase
       .from('properties')
-      .select('id, title, address, city, state, zip_code, price, bedrooms, bathrooms, square_feet, property_type, status, description, amenities, image_urls, latitude, longitude, owner_id, available_date')
+      .select('id, title, address, city, state, zip_code, price, bedrooms, bathrooms, square_feet, property_type, status, description, amenities, image_urls, available_date')
       .eq('id', id)
       .single();
 
