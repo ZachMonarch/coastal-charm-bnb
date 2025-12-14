@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { 
   Users, UserPlus, CheckCircle, XCircle, Mail, Phone, Star, 
-  Settings, Edit, Shield, Crown, DollarSign, Calendar, Building, Search
+  Settings, Edit, Shield, Crown, DollarSign, Calendar, Building, Search, CreditCard
 } from 'lucide-react';
 import { useVendorProfiles } from '@/hooks/useVendors';
 import { useProjects } from '@/hooks/useProjects';
@@ -20,6 +20,7 @@ import AdminVendorInvite from './AdminVendorInvite';
 import VendorVerificationSystem from './VendorVerificationSystem';
 import VerifiedBadge from './VerifiedBadge';
 import { logger } from '@/utils/logger';
+import AdminSubscriptionManagement from './admin/AdminSubscriptionManagement';
 
 export default function AdminVendorManagement() {
   const { vendors, loading, refetch } = useVendorProfiles();
@@ -166,6 +167,10 @@ export default function AdminVendorManagement() {
         <TabsList variant="default">
           <TabsTrigger variant="default" value="vendors">All Vendors</TabsTrigger>
           <TabsTrigger variant="default" value="verification">Verification</TabsTrigger>
+          <TabsTrigger variant="default" value="subscriptions" className="gap-2">
+            <CreditCard className="h-4 w-4" />
+            Subscriptions
+          </TabsTrigger>
           <TabsTrigger variant="default" value="invitations">Invite Vendors</TabsTrigger>
         </TabsList>
 
@@ -239,7 +244,7 @@ export default function AdminVendorManagement() {
                           </div>
                           <div className="flex items-center space-x-2">
                             <Crown className="h-4 w-4 text-primary" />
-                            <span>Free Plan</span>
+                            <span className="capitalize">{(vendor as any).subscription_plan || 'Free'} Plan</span>
                           </div>
                         </div>
 
@@ -291,6 +296,10 @@ export default function AdminVendorManagement() {
 
         <TabsContent value="verification">
           <VendorVerificationSystem />
+        </TabsContent>
+
+        <TabsContent value="subscriptions">
+          <AdminSubscriptionManagement />
         </TabsContent>
 
         <TabsContent value="invitations">
