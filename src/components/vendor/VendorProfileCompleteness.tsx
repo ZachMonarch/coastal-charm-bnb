@@ -135,7 +135,7 @@ export default function VendorProfileCompleteness({
       weight: 10,
       icon: Image,
       actionLabel: 'Add Portfolio',
-      actionPath: '/vendor/portfolio',
+      actionPath: '/vendor/documents', // Redirect to documents for now
     },
     {
       id: 'payment_method',
@@ -165,7 +165,7 @@ export default function VendorProfileCompleteness({
       weight: 5,
       icon: Shield,
       actionLabel: 'Get Verified',
-      actionPath: '/vendor/verification',
+      actionPath: '/vendor/documents', // Upload verification docs here
     },
     {
       id: 'insurance',
@@ -175,7 +175,7 @@ export default function VendorProfileCompleteness({
       weight: 5,
       icon: Shield,
       actionLabel: 'Verify Insurance',
-      actionPath: '/vendor/verification',
+      actionPath: '/vendor/documents', // Upload insurance docs here
     },
   ];
 

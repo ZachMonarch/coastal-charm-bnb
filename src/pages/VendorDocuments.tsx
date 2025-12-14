@@ -1,25 +1,75 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import VendorDocumentsList from "@/components/VendorDocumentsList";
 import EnhancedFileUpload from "@/components/EnhancedFileUpload";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { FileText, Upload, FolderOpen, CheckCircle } from "lucide-react";
+import { FileText, Upload, FolderOpen, CheckCircle, Clock, HardDrive } from "lucide-react";
 import PrivatePageWrapper from "@/components/PrivatePageWrapper";
 import PageHero from "@/components/shared/PageHero";
 import StatsCard from "@/components/shared/StatsCard";
 import EnhancedPageBackground from "@/components/shared/EnhancedPageBackground";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/OptimizedAuthContext";
+
+interface DocumentStats {
+  total: number;
+  certificates: number;
+  pending: number;
+  storageUsed: number;
+}
 
 export default function VendorDocuments() {
+  const { user } = useAuth();
   const [refreshKey, setRefreshKey] = useState(0);
-  const [uploadCount, setUploadCount] = useState(0);
+  const [stats, setStats] = useState<DocumentStats>({ total: 0, certificates: 0, pending: 0, storageUsed: 0 });
   const { toast } = useToast();
+
+  const fetchDocumentStats = useCallback(async () => {
+    if (!user?.id) return;
+
+    try {
+      const { data, error } = await supabase
+        .from('vendor_documents')
+        .select('id, document_type, is_verified, file_size')
+        .eq('vendor_id', user.id);
+
+      if (error) throw error;
+
+      const docs = data || [];
+      const totalStorage = docs.reduce((sum, doc) => sum + (doc.file_size || 0), 0);
+      
+      setStats({
+        total: docs.length,
+        certificates: docs.filter(d => 
+          d.document_type?.toLowerCase().includes('certificate') ||
+          d.document_type?.toLowerCase().includes('license') ||
+          d.document_type?.toLowerCase().includes('certification')
+        ).length,
+        pending: docs.filter(d => d.is_verified === false || d.is_verified === null).length,
+        storageUsed: totalStorage
+      });
+    } catch (err) {
+      console.error('Error fetching document stats:', err);
+    }
+  }, [user?.id]);
+
+  useEffect(() => {
+    fetchDocumentStats();
+  }, [fetchDocumentStats, refreshKey]);
+
+  const formatStorageSize = (bytes: number) => {
+    if (bytes === 0) return '0 B';
+    const k = 1024;
+    const sizes = ['B', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+  };
 
   const handleUploadComplete = (files: any[]) => {
     toast({
       title: "Upload complete",
       description: `${files.length} file(s) uploaded successfully.`,
     });
-    setUploadCount(prev => prev + files.length);
     setRefreshKey(prev => prev + 1);
   };
 
@@ -39,29 +89,29 @@ export default function VendorDocuments() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <StatsCard
               title="Total Documents"
-              value={uploadCount || 0}
+              value={stats.total}
               icon={FileText}
               color="info"
               subtitle="Uploaded files"
             />
             <StatsCard
               title="Certificates"
-              value={0}
+              value={stats.certificates}
               icon={CheckCircle}
               color="success"
-              subtitle="Verified docs"
+              subtitle="Licenses & certifications"
             />
             <StatsCard
               title="Pending Review"
-              value={0}
-              icon={Upload}
+              value={stats.pending}
+              icon={Clock}
               color="warning"
-              subtitle="Awaiting approval"
+              subtitle="Awaiting verification"
             />
             <StatsCard
               title="Storage Used"
-              value="0 MB"
-              icon={FolderOpen}
+              value={formatStorageSize(stats.storageUsed)}
+              icon={HardDrive}
               color="secondary"
               subtitle="of 100 MB"
             />
