@@ -1,8 +1,6 @@
 import { ReactNode } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "./AppSidebar";
-import ThemeToggle from "./ThemeToggle";
-import LanguageSelector from "./LanguageSelector";
 import logo48 from "@/assets/cdn/ui/monarch-logo-48.webp";
 import logo32 from "@/assets/cdn/ui/monarch-logo-32.webp";
 
@@ -43,10 +41,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                 </div>
               </div>
             </div>
-            <div className="flex items-center space-x-2 md:space-x-3">
-              <ThemeToggle />
-              <LanguageSelector />
-            </div>
+            {/* ThemeToggle and LanguageSelector moved to AppSidebar footer to avoid duplication */}
           </header>
 
           {/* Page Content */}
