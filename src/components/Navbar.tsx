@@ -125,7 +125,7 @@ export default function Navbar() {
             to="/"
             className="flex items-center space-x-3 group hover:opacity-90 transition-opacity focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none rounded-lg"
           >
-            <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-primary/5 dark:from-primary/30 dark:to-primary/10 border-2 border-primary/40 dark:border-primary/50 rounded-xl p-2 flex items-center justify-center shadow-md shadow-primary/10 dark:shadow-primary/30 transition-all duration-300">
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-primary/20 to-primary/5 dark:from-primary/30 dark:to-primary/10 border-2 border-primary/40 dark:border-primary/50 rounded-xl p-1.5 md:p-2 flex items-center justify-center shadow-md shadow-primary/10 dark:shadow-primary/30 transition-all duration-300">
               {!logoError ? (
                 <img
                   src="/lovable-uploads/318cdd13-7256-4cfe-99e0-948e43902b7b.png"
@@ -136,7 +136,7 @@ export default function Navbar() {
                   decoding="async"
                 />
               ) : (
-                <Crown className="h-6 w-6 text-primary" />
+                <Crown className="h-5 w-5 md:h-6 md:w-6 text-primary" />
               )}
             </div>
             <div className="hidden md:flex flex-col">
@@ -210,15 +210,15 @@ export default function Navbar() {
           </div>
 
           {/* Mobile Navigation */}
-          <div className="flex items-center space-x-2 lg:hidden">
-            <div className="rounded-lg border-2 border-primary/40 bg-card/80 p-1 shadow-sm">
+          <div className="flex items-center space-x-1.5 md:space-x-2 lg:hidden">
+            <div className="rounded-lg border-2 border-primary/40 bg-card/80 p-0.5 md:p-1 shadow-sm">
               <LanguageSelector />
             </div>
-            <div className="rounded-lg border-2 border-primary/40 bg-card/80 p-1 shadow-sm">
+            <div className="rounded-lg border-2 border-primary/40 bg-card/80 p-0.5 md:p-1 shadow-sm">
               <ThemeToggle />
             </div>
             {isAuthenticated && (
-              <div className="rounded-lg border-2 border-primary/40 bg-card/80 p-1 shadow-sm">
+              <div className="rounded-lg border-2 border-primary/40 bg-card/80 p-0.5 md:p-1 shadow-sm">
                 <RealtimeNotifications />
               </div>
             )}
@@ -241,7 +241,7 @@ export default function Navbar() {
               variant="outline"
               size="icon"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="relative z-[160] border-2 border-primary bg-background/95 rounded-lg w-11 h-11 min-h-[44px] min-w-[44px] hover:bg-primary/10 hover:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 shadow-md"
+              className="relative z-[160] border-2 border-primary bg-background/95 rounded-lg w-10 h-10 min-h-[40px] min-w-[40px] hover:bg-primary/10 hover:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 shadow-md"
               aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-menu"
