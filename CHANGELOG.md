@@ -2,6 +2,32 @@
 
 All notable changes to Monarch Property Management platform will be documented in this file.
 
+## [2.7.2] - 2025-12-15 📱 Viewport & Display Optimization
+
+### Added - Modern Device Support
+- **viewport-fit=cover**: Added to viewport meta tag for proper display on notched devices (iPhone X+)
+- **Safe Area CSS Utilities**: New utility classes for notched device support:
+  - `.safe-area-top` / `.safe-area-bottom` - Individual edge padding
+  - `.safe-area-left` / `.safe-area-right` - Horizontal safe area padding
+  - `.safe-area-x` / `.safe-area-y` - Axis-based safe area padding
+  - `.safe-area-all` - Full safe area padding for all edges
+
+### Updated - EnhancedSEO Component
+- Added `viewport-fit=cover` to SEO component viewport meta tag for consistency
+
+### Files Modified
+- `index.html` - viewport meta tag updated
+- `src/components/SEO/EnhancedSEO.tsx` - viewport meta tag updated
+- `src/index.css` - safe area utility classes added
+
+### Impact
+- ✅ Perfect display on iPhone X, 11, 12, 13, 14, 15 Pro (notched devices)
+- ✅ Proper safe area handling for Android devices with notches/cutouts
+- ✅ WCAG 2.2 compliant zoom support (up to 500%)
+- ✅ Industry-standard viewport configuration
+
+---
+
 ## [2.7.1] - 2025-12-15 📧 Email Deliverability & Auth Token Handling
 
 ### Added - AuthVerify Component
