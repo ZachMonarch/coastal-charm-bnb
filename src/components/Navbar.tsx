@@ -191,8 +191,8 @@ export default function Navbar() {
             ))}
           </ul>
 
-          {/* Desktop Tools */}
-          <div className="hidden md:flex items-center space-x-2">
+          {/* Desktop Tools - lg:flex matches mobile lg:hidden breakpoint */}
+          <div className="hidden lg:flex items-center space-x-2">
             <div className="rounded-lg border-2 border-primary/40 bg-card/80 p-1.5 shadow-sm hover:shadow-md hover:border-primary/60 transition-all [&_svg]:text-foreground [&_svg]:dark:text-foreground">
               <LanguageSelector />
             </div>
@@ -424,19 +424,6 @@ export default function Navbar() {
             ))}
           </ul>
         </nav>
-
-        {/* Appearance Toggle - Mobile */}
-        <section className="px-6 pb-4 bg-card border-t border-border">
-          <div className="flex items-center justify-between pt-4">
-            <div className="flex flex-col">
-              <span className="text-sm font-medium text-foreground">Appearance</span>
-              <span className="text-xs text-muted-foreground">Switch between light and dark mode</span>
-            </div>
-            <div className="rounded-full border border-border bg-background p-1 shadow-sm">
-              <ThemeToggle />
-            </div>
-          </div>
-        </section>
 
         {/* User Menu - only for authenticated users */}
         {isAuthenticated && (
