@@ -17,6 +17,7 @@ import { lazy, Suspense } from "react";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import LoginBridge from "./pages/auth/LoginBridge";
+import AuthVerify from "./pages/auth/AuthVerify";
 import NotFound from "./pages/NotFound";
 import AdminManagementSystem from "./components/AdminManagementSystem";
 
@@ -150,7 +151,7 @@ const App = () => (
                 <Route path="/news" element={<News />} />
                 <Route path="/bookmarks" element={<Bookmarks />} />
                 <Route path="/auth" element={<Auth />} />
-                <Route path="/auth/verify" element={<LoginBridge />} />
+                <Route path="/auth/verify" element={<AuthVerify />} />
                 <Route path="/auth/callback" element={<LoginBridge />} />
                 <Route path="/login-bridge" element={<LoginBridge />} />
                 <Route path="/auth-debug" element={<AuthDebug />} />

@@ -41,6 +41,7 @@ function useAuthParams() {
     const access_token = all.get("access_token") || "";
     const refresh_token = all.get("refresh_token") || "";
     const token = all.get("token") || ""; // Some flows use 'token' instead
+    const token_hash = all.get("token_hash") || ""; // Custom SMTP flow uses token_hash
     const typeRaw = (all.get("type") || "").toLowerCase();
     
     // Normalize token types
@@ -57,6 +58,7 @@ function useAuthParams() {
       access_token: access_token ? '***' : '', 
       refresh_token: refresh_token ? '***' : '',
       token: token ? '***' : '',
+      token_hash: token_hash ? '***' : '',
       type, 
       resetFlag,
       error,
@@ -70,6 +72,7 @@ function useAuthParams() {
       access_token, 
       refresh_token, 
       token,
+      token_hash,
       type, 
       resetFlag,
       error,
@@ -86,6 +89,7 @@ export default function LoginBridge() {
     access_token, 
     refresh_token, 
     token,
+    token_hash,
     type, 
     resetFlag,
     error,
@@ -114,12 +118,21 @@ export default function LoginBridge() {
         hasAccessToken: !!access_token,
         hasRefreshToken: !!refresh_token,
         hasToken: !!token,
+        hasTokenHash: !!token_hash,
         type,
         resetFlag,
         error,
         pathname,
         hash: location.hash ? location.hash.substring(0, 50) : ''
       });
+
+      // If we have token_hash, redirect to AuthVerify which handles verifyOtp
+      if (token_hash && !access_token) {
+        debugLog('Token hash detected, redirecting to AuthVerify');
+        const params = new URLSearchParams({ token_hash, type });
+        navigate(`/auth/verify?${params.toString()}`, { replace: true });
+        return;
+      }
 
       // Handle error responses from Supabase (e.g., expired links)
       if (error) {
@@ -203,7 +216,7 @@ export default function LoginBridge() {
     };
 
     run().finally(() => setProcessing(false));
-  }, [access_token, refresh_token, token, type, resetFlag, error, errorCode, errorDescription, navigate]);
+  }, [access_token, refresh_token, token, token_hash, type, resetFlag, error, errorCode, errorDescription, navigate]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">
