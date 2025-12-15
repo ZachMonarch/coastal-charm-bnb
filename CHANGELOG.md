@@ -2,6 +2,39 @@
 
 All notable changes to Monarch Property Management platform will be documented in this file.
 
+## [2.7.1] - 2025-12-15 📧 Email Deliverability & Auth Token Handling
+
+### Added - AuthVerify Component
+- New `AuthVerify.tsx` component for token_hash verification (Custom SMTP flow)
+- Handles `verifyOtp()` for password reset, signup confirmation, and magic links
+- "Request new link" functionality for expired tokens
+- Proper error handling with user-friendly messages
+
+### Fixed - Password Reset Flow
+- `LoginBridge.tsx` now detects and routes `token_hash` params to AuthVerify
+- Proper handling of Custom SMTP email template URLs
+- Fixed "One-time token not found" errors
+
+### Updated - Email Documentation
+- Comprehensive `docs/EMAIL-SYSTEM-GUIDE.md` rewrite
+- Added DMARC DNS record instructions
+- Custom SMTP setup guide for Resend
+- Email template URL format specifications
+- Troubleshooting section for common issues
+
+### Files Modified
+- `src/pages/auth/AuthVerify.tsx` (new)
+- `src/pages/auth/LoginBridge.tsx`
+- `src/App.tsx` (added AuthVerify route)
+- `docs/EMAIL-SYSTEM-GUIDE.md`
+
+### Required Manual Configuration
+- DMARC DNS record: `_dmarc` TXT → `v=DMARC1; p=none; rua=mailto:dmarc@monarchpropertymmgt.com`
+- Enable Custom SMTP in Supabase Dashboard with Resend credentials
+- Update email templates to use `{{ .SiteURL }}/auth/verify?token_hash={{ .TokenHash }}&type=...`
+
+---
+
 ## [2.7.0] - 2025-12-14 🔒 Subscription Security & SMS Notifications
 
 ### Added - Subscription Request System (Admin-Only Control)
