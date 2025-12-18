@@ -63,11 +63,11 @@ export default function ProductionApartmentFilter() {
   const fetchProperties = async () => {
     try {
       setLoading(true);
+      // Use safe_property_listings view for public queries (excludes owner_id, coordinates)
       const { data: propertiesData, error } = await supabase
-        .from('properties')
+        .from('safe_property_listings')
         .select('id, title, description, address, city, state, zip_code, price, bedrooms, bathrooms, square_feet, property_type, status, amenities, image_urls, available_date')
-        .eq('status', 'available')
-        .order('created_at', { ascending: false })
+        .order('id', { ascending: false })
         .limit(100);
 
       if (error) throw error;
