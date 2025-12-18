@@ -24,9 +24,9 @@ export default function PropertiesFilter({ filters, onFiltersChange, className }
   useEffect(() => {
     const fetchFilterOptions = async () => {
       try {
-        // Get unique cities
+        // Get unique cities from safe view
         const { data: citiesData } = await supabase
-          .from('properties')
+          .from('safe_property_listings')
           .select('city')
           .not('city', 'is', null)
           .order('city');
@@ -34,9 +34,9 @@ export default function PropertiesFilter({ filters, onFiltersChange, className }
         const uniqueCities = [...new Set(citiesData?.map(item => item.city).filter(Boolean))];
         setCities(uniqueCities);
 
-        // Get unique property types
+        // Get unique property types from safe view
         const { data: typesData } = await supabase
-          .from('properties')
+          .from('safe_property_listings')
           .select('property_type')
           .not('property_type', 'is', null)
           .order('property_type');
@@ -44,9 +44,9 @@ export default function PropertiesFilter({ filters, onFiltersChange, className }
         const uniqueTypes = [...new Set(typesData?.map(item => item.property_type).filter(Boolean))];
         setPropertyTypes(uniqueTypes);
 
-        // Get price range
+        // Get price range from safe view
         const { data: priceData } = await supabase
-          .from('properties')
+          .from('safe_property_listings')
           .select('price')
           .not('price', 'is', null)
           .order('price');

@@ -105,8 +105,9 @@ export class PropertyAPI {
     ].join(',');
 
     try {
+      // Use safe_property_listings view for public queries (excludes owner_id, coordinates)
       let query = supabase
-        .from('properties')
+        .from('safe_property_listings')
         .select(selectedFields, { count: 'exact' });
 
       // Apply filters with proper indexing consideration
@@ -195,9 +196,9 @@ export class PropertyAPI {
       return cachedData;
     }
 
-    // Exclude owner_id from public single property view for security
+    // Use safe_property_listings view for public single property view (excludes owner_id, coordinates)
     const { data, error } = await supabase
-      .from('properties')
+      .from('safe_property_listings')
       .select('id, title, address, city, state, zip_code, price, bedrooms, bathrooms, square_feet, property_type, status, description, amenities, image_urls, available_date')
       .eq('id', id)
       .single();

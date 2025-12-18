@@ -3938,6 +3938,7 @@ export type Database = {
     Views: {
       safe_property_listings: {
         Row: {
+          address: string | null
           amenities: string | null
           available_date: string | null
           bathrooms: number | null
@@ -3955,6 +3956,7 @@ export type Database = {
           zip_code: number | null
         }
         Insert: {
+          address?: string | null
           amenities?: string | null
           available_date?: string | null
           bathrooms?: number | null
@@ -3972,6 +3974,7 @@ export type Database = {
           zip_code?: number | null
         }
         Update: {
+          address?: string | null
           amenities?: string | null
           available_date?: string | null
           bathrooms?: number | null
