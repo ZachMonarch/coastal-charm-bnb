@@ -128,8 +128,9 @@ export const SearchSystem: React.FC<SearchSystemProps> = ({
     try {
       // Search properties
       if (searchFilters.category === 'all' || searchFilters.category === 'properties') {
+        // Use safe_property_listings view to avoid exposing sensitive data (owner_id, coordinates)
         const propertyQuery = supabase
-          .from('properties')
+          .from('safe_property_listings')
           .select('id, title, description, address, city, state, price, bedrooms, bathrooms, property_type, status, image_urls, amenities')
           .eq('status', 'available')
           .limit(20);

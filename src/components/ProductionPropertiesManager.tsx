@@ -29,10 +29,7 @@ interface Property {
   status: string | null;
   amenities: string | null;
   image_urls: string | null;
-  owner_id: string | null;
   available_date: string | null;
-  latitude: number | null;
-  longitude: number | null;
 }
 
 interface PropertyStats {
@@ -65,9 +62,10 @@ export default function ProductionPropertiesManager() {
     try {
       setLoading(true);
       
+      // Use safe_property_listings view to avoid exposing sensitive data (owner_id, coordinates)
       const { data: propertiesData, error } = await supabase
-        .from('properties')
-        .select('id, title, description, address, city, state, zip_code, price, bedrooms, bathrooms, square_feet, property_type, status, amenities, image_urls, available_date, owner_id, latitude, longitude')
+        .from('safe_property_listings')
+        .select('id, title, description, address, city, state, zip_code, price, bedrooms, bathrooms, square_feet, property_type, status, amenities, image_urls, available_date')
         .order('id', { ascending: false })
         .limit(100);
 
