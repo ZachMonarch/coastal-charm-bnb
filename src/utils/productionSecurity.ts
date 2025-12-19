@@ -241,9 +241,10 @@ export async function fetchSecurePropertyData(
   userRole?: string
 ): Promise<any[]> {
   try {
+    // Use safe_property_listings view to avoid exposing sensitive data (owner_id, coordinates)
     const { data, error } = await supabase
-      .from('properties')
-      .select('id, title, description, address, city, state, zip_code, price, bedrooms, bathrooms, square_feet, property_type, status, image_urls, amenities, latitude, longitude')
+      .from('safe_property_listings')
+      .select('id, title, description, address, city, state, zip_code, price, bedrooms, bathrooms, square_feet, property_type, status, image_urls, amenities')
       .order('id', { ascending: false })
       .limit(100);
     
