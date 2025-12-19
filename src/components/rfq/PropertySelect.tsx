@@ -28,8 +28,9 @@ export const PropertySelect = ({ value, onChange, error }: PropertySelectProps) 
   useEffect(() => {
     const fetchProperties = async () => {
       try {
+        // Use safe_property_listings for non-sensitive property data
         const { data, error } = await supabase
-          .from('properties')
+          .from('safe_property_listings')
           .select('id, title, address')
           .order('title')
           .limit(100)

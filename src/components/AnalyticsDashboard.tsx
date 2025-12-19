@@ -103,7 +103,7 @@ export const AnalyticsDashboard: React.FC = () => {
         { data: revenueData }
       ] = await Promise.all([
         supabase.from('profiles').select('*', { count: 'exact', head: true }),
-        supabase.from('properties').select('*', { count: 'exact', head: true }),
+        supabase.from('safe_property_listings').select('*', { count: 'exact', head: true }),
         supabase.from('bookings').select('*', { count: 'exact', head: true }),
         supabase.from('transactions').select('amount').eq('status', 'completed')
       ]);
@@ -156,7 +156,7 @@ export const AnalyticsDashboard: React.FC = () => {
 
       // Fetch property metrics
       const { data: propertiesData } = await supabase
-        .from('properties')
+        .from('safe_property_listings')
         .select('property_type, id, title')
         .not('property_type', 'is', null);
 
