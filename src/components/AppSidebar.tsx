@@ -89,7 +89,7 @@ const vendorNavigationConfig: NavigationGroup[] = [
       { title: "Leads", url: "/vendor/leads", icon: "Target", description: "View and respond to leads" },
       { title: "Projects", url: "/vendor/projects", icon: "Briefcase", description: "Browse available projects" },
       { title: "Applications", url: "/vendor/applications", icon: "FileText", description: "Manage your project applications" },
-      { title: "RFQs", url: "/vendor/rfq", icon: "ClipboardList", description: "Request for quotations" },
+      { title: "RFQ Projects", url: "/vendor/rfq", icon: "ClipboardList", description: "View and bid on RFQ projects" },
       { title: "Contracts", url: "/vendor/contracts", icon: "Files", description: "Active project contracts" }
     ]
   },
@@ -156,6 +156,7 @@ const adminNavigationConfig: NavigationGroup[] = [
     title: "RFQ & Bidding",
     items: [
       { title: "RFQ Management", url: "/admin/rfq", icon: "ClipboardList", description: "Manage RFQ system" },
+      { title: "Create RFQ", url: "/admin/rfq/create-detailed", icon: "Plus", description: "Create detailed RFQ project" },
       { title: "Bids", url: "/admin?tab=bids", icon: "Gavel", description: "Review and manage bids" }
     ]
   },

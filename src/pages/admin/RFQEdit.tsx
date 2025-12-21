@@ -206,7 +206,7 @@ export default function RFQEdit() {
       const { data, error } = await supabase
         .from('vendor_profiles')
         .select('user_id, company_name, service_categories, rating')
-        .eq('verification_status', 'verified')
+        .eq('is_verified', true)
         .order('rating', { ascending: false });
       if (error) throw error;
       return data || [];
