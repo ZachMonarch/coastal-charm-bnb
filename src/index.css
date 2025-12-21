@@ -28,7 +28,7 @@
     --popover-foreground: 0 0% 12%;
     
     --muted: 40 15% 94%;                /* Warm muted background */
-    --muted-foreground: 0 0% 28%;       /* WCAG AA compliant - improved contrast (5.5:1 ratio) */
+    --muted-foreground: 0 0% 22%;       /* WCAG AA compliant - enhanced contrast (7:1 ratio) for better light mode visibility */
     
     /* Accent: Sky Blue from logo mountain background */
     --accent: 200 45% 95%;              /* Light sky blue tint */
@@ -496,7 +496,79 @@
   }
 }
 
-/* === BUTTON TEXT VISIBILITY FIX === */
+/* === LIGHT MODE VISIBILITY ENHANCEMENTS === */
+/* Ensure text is clearly visible in light mode across all components */
+
+/* Improve muted text contrast in light mode */
+.text-muted-foreground {
+  color: hsl(0 0% 22%);
+}
+
+/* Card description text enhancement */
+[class*="CardDescription"],
+.text-sm.text-muted-foreground {
+  color: hsl(0 0% 24%);
+}
+
+/* Ensure icon visibility in light mode */
+.text-muted-foreground svg {
+  opacity: 0.85;
+}
+
+/* Badge text visibility - ensure readable in light mode */
+.badge-outline,
+[data-slot="badge"][variant="outline"] {
+  color: hsl(var(--foreground));
+}
+
+/* Table row text visibility */
+table td,
+table th {
+  color: hsl(var(--foreground));
+}
+
+table td.text-muted-foreground {
+  color: hsl(0 0% 28%);
+}
+
+/* Form label visibility enhancement */
+label {
+  color: hsl(var(--foreground));
+}
+
+/* Placeholder text enhancement for better visibility */
+::placeholder {
+  color: hsl(0 0% 45%);
+  opacity: 1;
+}
+
+/* Select trigger text visibility */
+[data-radix-select-trigger] {
+  color: hsl(var(--foreground));
+}
+
+/* Dialog content text visibility */
+[role="dialog"] p,
+[role="dialog"] span {
+  color: hsl(var(--foreground));
+}
+
+[role="dialog"] .text-muted-foreground {
+  color: hsl(0 0% 28%);
+}
+
+/* Stats and metric text enhancement */
+.stat-value,
+.metric-value {
+  color: hsl(var(--foreground));
+}
+
+.stat-label,
+.metric-label {
+  color: hsl(0 0% 28%);
+}
+
+
 /* Ensure button text is always visible when using asChild with Link */
 /* Covers: bg-primary, gradients with primary, and default buttons */
 .bg-primary a,
