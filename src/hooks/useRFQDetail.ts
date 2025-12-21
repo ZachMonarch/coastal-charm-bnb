@@ -143,10 +143,10 @@ export function useRFQDetail(rfqId: string | undefined) {
         property = propData;
       }
 
-      // Fetch documents
+      // Fetch documents - explicit columns per egress policy
       const { data: documents } = await supabase
         .from('rfq_documents')
-        .select('*')
+        .select('id, rfq_id, file_name, file_path, file_url, file_size, mime_type, document_type, category_badge, is_required_for_bidding, created_at')
         .eq('rfq_id', rfqId)
         .order('created_at', { ascending: true });
 
