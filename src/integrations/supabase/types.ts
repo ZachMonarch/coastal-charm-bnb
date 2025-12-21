@@ -1862,6 +1862,59 @@ export type Database = {
         }
         Relationships: []
       }
+      rfq_documents: {
+        Row: {
+          category_badge: string | null
+          created_at: string | null
+          document_type: string | null
+          file_name: string
+          file_path: string
+          file_size: number | null
+          file_url: string | null
+          id: string
+          is_required_for_bidding: boolean | null
+          mime_type: string | null
+          rfq_id: string
+          uploaded_by: string | null
+        }
+        Insert: {
+          category_badge?: string | null
+          created_at?: string | null
+          document_type?: string | null
+          file_name: string
+          file_path: string
+          file_size?: number | null
+          file_url?: string | null
+          id?: string
+          is_required_for_bidding?: boolean | null
+          mime_type?: string | null
+          rfq_id: string
+          uploaded_by?: string | null
+        }
+        Update: {
+          category_badge?: string | null
+          created_at?: string | null
+          document_type?: string | null
+          file_name?: string
+          file_path?: string
+          file_size?: number | null
+          file_url?: string | null
+          id?: string
+          is_required_for_bidding?: boolean | null
+          mime_type?: string | null
+          rfq_id?: string
+          uploaded_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rfq_documents_rfq_id_fkey"
+            columns: ["rfq_id"]
+            isOneToOne: false
+            referencedRelation: "rfqs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       rfq_invites: {
         Row: {
           id: string
@@ -1988,39 +2041,75 @@ export type Database = {
       }
       rfqs: {
         Row: {
+          budget_guidance: Json | null
+          building_details: Json | null
+          category: string | null
+          codes_compliance: Json | null
+          commercial_framework: Json | null
           created_at: string
           created_by: string
           deadline: string
           description: string | null
+          document_control: Json | null
+          executive_summary: Json | null
+          expected_duration: string | null
           id: string
           property_id: number | null
+          staffing_requirements: Json | null
           status: string
+          system_strategy: Json | null
+          technical_specs: Json | null
           tenant_id: string
           title: string
+          unit_configuration: Json | null
           updated_at: string
         }
         Insert: {
+          budget_guidance?: Json | null
+          building_details?: Json | null
+          category?: string | null
+          codes_compliance?: Json | null
+          commercial_framework?: Json | null
           created_at?: string
           created_by: string
           deadline: string
           description?: string | null
+          document_control?: Json | null
+          executive_summary?: Json | null
+          expected_duration?: string | null
           id?: string
           property_id?: number | null
+          staffing_requirements?: Json | null
           status?: string
+          system_strategy?: Json | null
+          technical_specs?: Json | null
           tenant_id: string
           title: string
+          unit_configuration?: Json | null
           updated_at?: string
         }
         Update: {
+          budget_guidance?: Json | null
+          building_details?: Json | null
+          category?: string | null
+          codes_compliance?: Json | null
+          commercial_framework?: Json | null
           created_at?: string
           created_by?: string
           deadline?: string
           description?: string | null
+          document_control?: Json | null
+          executive_summary?: Json | null
+          expected_duration?: string | null
           id?: string
           property_id?: number | null
+          staffing_requirements?: Json | null
           status?: string
+          system_strategy?: Json | null
+          technical_specs?: Json | null
           tenant_id?: string
           title?: string
+          unit_configuration?: Json | null
           updated_at?: string
         }
         Relationships: [
@@ -2793,14 +2882,22 @@ export type Database = {
           admin_notes: Json | null
           application_id: string | null
           bid_amount: number
+          certifications: Json | null
+          company_info: Json | null
+          document_uploads: Json | null
           estimated_duration: string | null
+          experience: Json | null
           feedback_at: string | null
           feedback_by: string | null
           id: string
+          pricing: Json | null
           project_id: string | null
           proposal_details: string
+          rfq_id: string | null
           status: string | null
           submitted_at: string | null
+          terms_accepted: boolean | null
+          terms_accepted_at: string | null
           vendor_id: string
         }
         Insert: {
@@ -2808,14 +2905,22 @@ export type Database = {
           admin_notes?: Json | null
           application_id?: string | null
           bid_amount: number
+          certifications?: Json | null
+          company_info?: Json | null
+          document_uploads?: Json | null
           estimated_duration?: string | null
+          experience?: Json | null
           feedback_at?: string | null
           feedback_by?: string | null
           id?: string
+          pricing?: Json | null
           project_id?: string | null
           proposal_details: string
+          rfq_id?: string | null
           status?: string | null
           submitted_at?: string | null
+          terms_accepted?: boolean | null
+          terms_accepted_at?: string | null
           vendor_id: string
         }
         Update: {
@@ -2823,14 +2928,22 @@ export type Database = {
           admin_notes?: Json | null
           application_id?: string | null
           bid_amount?: number
+          certifications?: Json | null
+          company_info?: Json | null
+          document_uploads?: Json | null
           estimated_duration?: string | null
+          experience?: Json | null
           feedback_at?: string | null
           feedback_by?: string | null
           id?: string
+          pricing?: Json | null
           project_id?: string | null
           proposal_details?: string
+          rfq_id?: string | null
           status?: string | null
           submitted_at?: string | null
+          terms_accepted?: boolean | null
+          terms_accepted_at?: string | null
           vendor_id?: string
         }
         Relationships: [
@@ -2846,6 +2959,13 @@ export type Database = {
             columns: ["project_id"]
             isOneToOne: false
             referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vendor_bids_rfq_id_fkey"
+            columns: ["rfq_id"]
+            isOneToOne: false
+            referencedRelation: "rfqs"
             referencedColumns: ["id"]
           },
         ]
