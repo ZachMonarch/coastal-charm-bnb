@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { RichTextEditor } from '@/components/ui/rich-text-editor';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -213,12 +214,12 @@ export default function RFQEdit() {
     },
   });
 
-  // Fetch properties for selection
+  // Fetch properties for selection (using safe view for RLS compliance)
   const { data: properties } = useQuery({
     queryKey: ['properties-for-rfq'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('properties')
+        .from('safe_property_listings')
         .select('id, title, address, city, state')
         .order('title');
       if (error) throw error;
@@ -611,12 +612,11 @@ export default function RFQEdit() {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="description">Description</Label>
-                    <Textarea
-                      id="description"
+                    <RichTextEditor
                       value={formData.description}
-                      onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                      onChange={(value) => setFormData(prev => ({ ...prev, description: value }))}
                       placeholder="Detailed RFQ description..."
-                      rows={4}
+                      minHeight="150px"
                     />
                   </div>
                 </CardContent>
@@ -693,29 +693,29 @@ export default function RFQEdit() {
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label>Building Overview</Label>
-                    <Textarea
+                    <RichTextEditor
                       value={formData.executive_summary.building_overview}
-                      onChange={(e) => updateField('executive_summary', 'building_overview', e.target.value)}
+                      onChange={(value) => updateField('executive_summary', 'building_overview', value)}
                       placeholder="8-story residential condominium with 42 units..."
-                      rows={4}
+                      minHeight="120px"
                     />
                   </div>
                   <div className="space-y-2">
                     <Label>Project Scope</Label>
-                    <Textarea
+                    <RichTextEditor
                       value={formData.executive_summary.project_scope}
-                      onChange={(e) => updateField('executive_summary', 'project_scope', e.target.value)}
+                      onChange={(value) => updateField('executive_summary', 'project_scope', value)}
                       placeholder="Turnkey HVAC system installation, commissioning, maintenance..."
-                      rows={4}
+                      minHeight="120px"
                     />
                   </div>
                   <div className="space-y-2">
                     <Label>Design Intent</Label>
-                    <Textarea
+                    <RichTextEditor
                       value={formData.executive_summary.design_intent}
-                      onChange={(e) => updateField('executive_summary', 'design_intent', e.target.value)}
+                      onChange={(value) => updateField('executive_summary', 'design_intent', value)}
                       placeholder="Low ambiguity, minimal redesign risk, rapid execution..."
-                      rows={3}
+                      minHeight="100px"
                     />
                   </div>
                 </CardContent>
@@ -816,20 +816,20 @@ export default function RFQEdit() {
                   </div>
                   <div className="space-y-2">
                     <Label>Rationale</Label>
-                    <Textarea
+                    <RichTextEditor
                       value={formData.system_strategy.rationale}
-                      onChange={(e) => updateField('system_strategy', 'rationale', e.target.value)}
+                      onChange={(value) => updateField('system_strategy', 'rationale', value)}
                       placeholder="Each unit served independently for tenant independence, simplified maintenance..."
-                      rows={3}
+                      minHeight="100px"
                     />
                   </div>
                   <div className="space-y-2">
                     <Label>Design Finality Statement</Label>
-                    <Textarea
+                    <RichTextEditor
                       value={formData.system_strategy.design_finality}
-                      onChange={(e) => updateField('system_strategy', 'design_finality', e.target.value)}
+                      onChange={(value) => updateField('system_strategy', 'design_finality', value)}
                       placeholder="HVAC design basis, system configuration, and quantities are final and authoritative..."
-                      rows={3}
+                      minHeight="100px"
                     />
                   </div>
                 </CardContent>

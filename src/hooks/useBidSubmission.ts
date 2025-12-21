@@ -147,7 +147,11 @@ export function useBidSubmission(rfqId: string | undefined, projectId?: string) 
         // Send confirmation email if submitted
         if (status === 'submitted') {
           await supabase.functions.invoke('send-bid-confirmation', {
-            body: { bid_id: data.id, rfq_id: rfqId }
+            body: { 
+              rfq_id: rfqId, 
+              vendor_id: user.id, 
+              total_amount: formData.pricing.total_installation 
+            }
           });
         }
 
