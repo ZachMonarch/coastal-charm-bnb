@@ -164,9 +164,9 @@ const App = () => (
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/design-system" element={<DesignSystemShowcase />} />
                 
-                {/* Public Vendor Pages */}
+                {/* Public Vendor Pages - Marketplace Hidden */}
                 <Route path="/join-as-vendor" element={<JoinAsVendor />} />
-                <Route path="/vendors" element={<VendorMarketplace />} />
+                {/* Vendor Marketplace route removed - access restricted */}
                 <Route path="/request-quote" element={<RequestQuote />} />
                 
                 {/* Public Sitemap - SEO friendly, accessible to all */}
