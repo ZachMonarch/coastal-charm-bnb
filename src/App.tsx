@@ -96,13 +96,13 @@ const AdminControlSuite = lazy(() => import("./pages/AdminControlSuite"));
 const DesignSystemShowcase = lazy(() => import("./pages/DesignSystemShowcase"));
 
 // Phase 10 - RFQ Management Pages
-const RFQManagement = lazy(() => import("./pages/admin/RFQManagement"));
+const RFQManagement = lazy(() => import("./pages/admin/UnifiedRFQManagement"));
 const RFQCreate = lazy(() => import("./pages/admin/RFQCreate"));
-const RFQDetail = lazy(() => import("./pages/admin/RFQDetail"));
+const RFQDetail = lazy(() => import("./pages/admin/ComprehensiveRFQDetail"));
 const WorkOrders = lazy(() => import("./pages/admin/WorkOrders"));
 const RFQEdit = lazy(() => import("./pages/admin/RFQEdit"));
 const VendorRFQDashboard = lazy(() => import("./pages/vendor/VendorRFQDashboard"));
-const VendorRFQDetail = lazy(() => import("./pages/vendor/VendorRFQDetail"));
+const VendorRFQDetail = lazy(() => import("./pages/vendor/ComprehensiveRFQDetail"));
 const VendorPayouts = lazy(() => import("./pages/vendor/VendorPayouts"));
 const VendorPayoutSettings = lazy(() => import("./pages/vendor/VendorPayoutSettings"));
 const VendorInquiries = lazy(() => import("./pages/vendor/VendorInquiries"));
