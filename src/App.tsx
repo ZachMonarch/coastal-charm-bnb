@@ -137,7 +137,7 @@ const App = () => (
             <BrowserRouter>
               <CommandPalette />
               <OptimizedLayout>
-                <Suspense fallback={<LoadingSpinner />}>
+                <Suspense fallback={<LoadingSpinner minimal />}>
                         <Routes>
                           {/* Public Routes */}
                           <Route path="/" element={<Index />} />
