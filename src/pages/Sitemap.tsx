@@ -24,10 +24,9 @@ const siteStructure = [
     ]
   },
   {
-    category: "Vendor Marketplace",
+    category: "Vendor Services",
     icon: Store,
     pages: [
-      { name: "Vendor Marketplace", path: "/vendors", description: "Browse verified service providers" },
       { name: "Join as Vendor", path: "/join-as-vendor", description: "Become a Monarch vendor" },
       { name: "Request Quote", path: "/request-quote", description: "Request quotes from vendors" }
     ]

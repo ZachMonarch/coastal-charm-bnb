@@ -121,9 +121,9 @@ export default function JoinAsVendor() {
                   size="lg" 
                   variant="outline" 
                   className="text-lg px-8 py-6 border-primary/40 hover:border-primary hover:bg-primary/10"
-                  onClick={() => navigate('/vendors')}
+                  onClick={() => navigate('/request-quote')}
                 >
-                  Browse Marketplace
+                  Request a Quote
                 </Button>
               </div>
             </div>

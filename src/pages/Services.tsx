@@ -216,24 +216,24 @@ export default function Services() {
             </div>
           </div>
 
-          {/* Find a Contractor CTA - Phase 10 Cross-Navigation */}
+          {/* Become a Vendor CTA */}
           <div className="neumorphic-card p-12 rounded-3xl mb-16 animate-fade-in border-info/20 bg-gradient-to-br from-info/5 to-transparent">
             <div className="text-center">
               <Users className="h-12 w-12 text-info mx-auto mb-4" />
-              <h2 className="text-3xl font-bold mb-4 text-foreground">Need a Contractor?</h2>
+              <h2 className="text-3xl font-bold mb-4 text-foreground">Become a Vendor</h2>
               <p className="text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-                Browse our network of verified vendors and contractors. Find trusted professionals for plumbing, electrical, HVAC, landscaping, and more.
+                Join our network of verified vendors and contractors. Connect with property managers and grow your business with Monarch Property Management.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link to="/vendors">
+                <Link to="/join-as-vendor">
                   <Button size="lg" className="text-lg px-8 py-3 group shadow-lg shadow-info/20 hover:shadow-info/40 bg-info hover:bg-info/90 text-info-foreground">
-                    Browse Vendor Marketplace
+                    Join as a Vendor
                     <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </Link>
-                <Link to="/join-as-vendor">
+                <Link to="/request-quote">
                   <Button variant="outline" size="lg" className="text-lg px-8 py-3 border-info/40 hover:border-info hover:bg-info/10">
-                    Join as a Vendor
+                    Request a Quote
                   </Button>
                 </Link>
               </div>
