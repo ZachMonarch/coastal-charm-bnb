@@ -100,6 +100,7 @@ const RFQManagement = lazy(() => import("./pages/admin/RFQManagement"));
 const RFQCreate = lazy(() => import("./pages/admin/RFQCreate"));
 const RFQDetail = lazy(() => import("./pages/admin/RFQDetail"));
 const WorkOrders = lazy(() => import("./pages/admin/WorkOrders"));
+const RFQEdit = lazy(() => import("./pages/admin/RFQEdit"));
 const VendorRFQDashboard = lazy(() => import("./pages/vendor/VendorRFQDashboard"));
 const VendorRFQDetail = lazy(() => import("./pages/vendor/VendorRFQDetail"));
 const VendorPayouts = lazy(() => import("./pages/vendor/VendorPayouts"));
@@ -107,6 +108,10 @@ const VendorPayoutSettings = lazy(() => import("./pages/vendor/VendorPayoutSetti
 const VendorInquiries = lazy(() => import("./pages/vendor/VendorInquiries"));
 const VendorProfileShowcase = lazy(() => import("./pages/vendor/VendorProfileShowcase"));
 const VendorMessages = lazy(() => import("./pages/vendor/VendorMessages"));
+
+// Enhanced RFQ Pages
+const RFQProjectDetail = lazy(() => import("./pages/RFQProjectDetail"));
+const RFQBidSubmission = lazy(() => import("./pages/RFQBidSubmission"));
 
 // Team Management & Vendor Showcase
 const TeamManagement = lazy(() => import("./pages/admin/TeamManagement"));
@@ -386,6 +391,17 @@ const App = () => (
                     <VendorRFQDetail />
                   </OptimizedProtectedRoute>
                 } />
+                {/* Enhanced RFQ Detail and Bid Submission Routes */}
+                <Route path="/vendor/rfq/:id/details" element={
+                  <OptimizedProtectedRoute requiredRole="vendor">
+                    <RFQProjectDetail />
+                  </OptimizedProtectedRoute>
+                } />
+                <Route path="/vendor/rfq/:id/bid" element={
+                  <OptimizedProtectedRoute requiredRole="vendor">
+                    <RFQBidSubmission />
+                  </OptimizedProtectedRoute>
+                } />
                 
                 {/* Booking Routes */}
                 <Route path="/book/:propertyId" element={<BookingPage />} />
@@ -464,6 +480,16 @@ const App = () => (
               <Route path="/admin/rfq/:id" element={
                 <OptimizedProtectedRoute requiredRole="admin">
                   <RFQDetail />
+                </OptimizedProtectedRoute>
+              } />
+              <Route path="/admin/rfq/:id/edit" element={
+                <OptimizedProtectedRoute requiredRole="admin">
+                  <RFQEdit />
+                </OptimizedProtectedRoute>
+              } />
+              <Route path="/admin/rfq/create-detailed" element={
+                <OptimizedProtectedRoute requiredRole="admin">
+                  <RFQEdit />
                 </OptimizedProtectedRoute>
               } />
               

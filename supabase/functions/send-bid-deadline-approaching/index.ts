@@ -1,8 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { Resend } from "npm:resend@2.0.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.75.0";
-
-const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -22,6 +19,7 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const resendApiKey = Deno.env.get("RESEND_API_KEY");
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     const { rfq_id, reminder_type } = await req.json() as ReminderRequest;
@@ -95,84 +93,96 @@ const handler = async (req: Request): Promise<Response> => {
 
     const urgencyLevel = reminder_type === '4h' ? 'URGENT' : reminder_type === '24h' ? 'Important' : 'Reminder';
 
-    // Send emails to each vendor
+    // Send emails to each vendor using fetch to Resend API
     const emailPromises = (profiles || []).map(async (profile) => {
       const rfqUrl = `https://monarchpropertymmgt.com/vendor/rfq/${rfq_id}`;
 
       try {
-        await resend.emails.send({
-          from: "Monarch Property Management <projects@monarchpropertymmgt.com>",
-          to: [profile.email],
-          subject: `[${urgencyLevel}] ${reminderText} Left - ${rfq.title}`,
-          html: `
-            <!DOCTYPE html>
-            <html>
-            <head>
-              <style>
-                body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; }
-                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-                .header { background: ${reminder_type === '4h' ? '#dc2626' : '#1a1a2e'}; color: white; padding: 30px; text-align: center; }
-                .content { padding: 30px; background: #fff; }
-                .urgency { 
-                  background: ${reminder_type === '4h' ? '#fef2f2' : '#fff7ed'}; 
-                  border-left: 4px solid ${reminder_type === '4h' ? '#dc2626' : '#f59e0b'}; 
-                  padding: 15px; 
-                  margin: 20px 0; 
-                }
-                .btn { 
-                  display: inline-block; 
-                  padding: 15px 30px; 
-                  background: #C9A962; 
-                  color: #1a1a2e; 
-                  text-decoration: none; 
-                  font-weight: bold; 
-                  border-radius: 5px;
-                  margin: 20px 0;
-                }
-                .countdown { font-size: 24px; font-weight: bold; color: ${reminder_type === '4h' ? '#dc2626' : '#f59e0b'}; }
-                .footer { padding: 20px; text-align: center; color: #666; font-size: 12px; }
-              </style>
-            </head>
-            <body>
-              <div class="container">
-                <div class="header">
-                  <h1>⏰ Bid Deadline Approaching</h1>
-                </div>
-                <div class="content">
-                  <p>Dear ${profile.full_name || 'Vendor'},</p>
-                  
-                  <div class="urgency">
-                    <p class="countdown">Only ${reminderText} remaining!</p>
-                    <p>The deadline for submitting your bid is approaching fast.</p>
+        const response = await fetch("https://api.resend.com/emails", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${resendApiKey}`,
+          },
+          body: JSON.stringify({
+            from: "Monarch Property Management <projects@monarchpropertymmgt.com>",
+            to: [profile.email],
+            subject: `[${urgencyLevel}] ${reminderText} Left - ${rfq.title}`,
+            html: `
+              <!DOCTYPE html>
+              <html>
+              <head>
+                <style>
+                  body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; }
+                  .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                  .header { background: ${reminder_type === '4h' ? '#dc2626' : '#1a1a2e'}; color: white; padding: 30px; text-align: center; }
+                  .content { padding: 30px; background: #fff; }
+                  .urgency { 
+                    background: ${reminder_type === '4h' ? '#fef2f2' : '#fff7ed'}; 
+                    border-left: 4px solid ${reminder_type === '4h' ? '#dc2626' : '#f59e0b'}; 
+                    padding: 15px; 
+                    margin: 20px 0; 
+                  }
+                  .btn { 
+                    display: inline-block; 
+                    padding: 15px 30px; 
+                    background: #C9A962; 
+                    color: #1a1a2e; 
+                    text-decoration: none; 
+                    font-weight: bold; 
+                    border-radius: 5px;
+                    margin: 20px 0;
+                  }
+                  .countdown { font-size: 24px; font-weight: bold; color: ${reminder_type === '4h' ? '#dc2626' : '#f59e0b'}; }
+                  .footer { padding: 20px; text-align: center; color: #666; font-size: 12px; }
+                </style>
+              </head>
+              <body>
+                <div class="container">
+                  <div class="header">
+                    <h1>⏰ Bid Deadline Approaching</h1>
                   </div>
-                  
-                  <h2>${rfq.title}</h2>
-                  <p><strong>Project:</strong> ${rfq.document_control?.project_name || 'N/A'}</p>
-                  <p><strong>Deadline:</strong> ${formattedDeadline}</p>
-                  
-                  <p>Don't miss this opportunity! Submit your bid now to be considered for this project.</p>
-                  
-                  <center>
-                    <a href="${rfqUrl}" class="btn">Submit Your Bid Now →</a>
-                  </center>
-                  
-                  ${reminder_type === '4h' ? `
-                  <div class="urgency" style="background: #fef2f2; border-color: #dc2626;">
-                    <p><strong>⚠️ This is your final reminder.</strong> Bids submitted after the deadline will not be accepted.</p>
+                  <div class="content">
+                    <p>Dear ${profile.full_name || 'Vendor'},</p>
+                    
+                    <div class="urgency">
+                      <p class="countdown">Only ${reminderText} remaining!</p>
+                      <p>The deadline for submitting your bid is approaching fast.</p>
+                    </div>
+                    
+                    <h2>${rfq.title}</h2>
+                    <p><strong>Project:</strong> ${(rfq.document_control as Record<string, unknown>)?.project_name || 'N/A'}</p>
+                    <p><strong>Deadline:</strong> ${formattedDeadline}</p>
+                    
+                    <p>Don't miss this opportunity! Submit your bid now to be considered for this project.</p>
+                    
+                    <center>
+                      <a href="${rfqUrl}" class="btn">Submit Your Bid Now →</a>
+                    </center>
+                    
+                    ${reminder_type === '4h' ? `
+                    <div class="urgency" style="background: #fef2f2; border-color: #dc2626;">
+                      <p><strong>⚠️ This is your final reminder.</strong> Bids submitted after the deadline will not be accepted.</p>
+                    </div>
+                    ` : ''}
+                    
+                    <p>If you have any questions, please contact us at projects@monarchpropertymmgt.com</p>
                   </div>
-                  ` : ''}
-                  
-                  <p>If you have any questions, please contact us at projects@monarchpropertymmgt.com</p>
+                  <div class="footer">
+                    <p>© ${new Date().getFullYear()} Monarch Property Management</p>
+                    <p>www.monarchpropertymmgt.com</p>
+                  </div>
                 </div>
-                <div class="footer">
-                  <p>© ${new Date().getFullYear()} Monarch Property Management</p>
-                  <p>www.monarchpropertymmgt.com</p>
-                </div>
-              </div>
-            </body>
-            </html>
-          `,
+              </body>
+              </html>
+            `,
+          }),
         });
+
+        if (!response.ok) {
+          throw new Error(`Resend API error: ${response.status}`);
+        }
+
         console.log(`Sent ${reminder_type} reminder to ${profile.email}`);
         return { success: true, email: profile.email };
       } catch (emailError) {
@@ -199,7 +209,7 @@ const handler = async (req: Request): Promise<Response> => {
   } catch (error) {
     console.error("Error sending deadline reminders:", error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: (error as Error).message }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }
