@@ -73,7 +73,7 @@ export function useBidSubmission(rfqId: string | undefined, projectId?: string) 
 
       const { data, error } = await supabase
         .from('vendor_bids')
-        .select('*')
+        .select('id, rfq_id, project_id, vendor_id, bid_amount, proposal_details, estimated_duration, status, company_info, pricing, certifications, experience, document_uploads, terms_accepted, terms_accepted_at, submitted_at')
         .eq('rfq_id', rfqId)
         .eq('vendor_id', user.id)
         .maybeSingle();

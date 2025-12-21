@@ -191,7 +191,13 @@ export default function RFQEdit() {
       if (isNew) return null;
       const { data, error } = await supabase
         .from('rfqs')
-        .select('*, rfq_documents(*), properties(title, address)')
+        .select(`
+          id, title, description, category, deadline, expected_duration, status, property_id, created_at, updated_at,
+          document_control, executive_summary, building_details, system_strategy, unit_configuration,
+          technical_specs, commercial_framework, codes_compliance, staffing_requirements, budget_guidance,
+          rfq_documents(id, file_name, file_path, file_url, file_size, mime_type, document_type, category_badge, is_required_for_bidding, created_at),
+          properties(title, address)
+        `)
         .eq('id', id)
         .single();
       if (error) throw error;

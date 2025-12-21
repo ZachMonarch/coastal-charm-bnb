@@ -169,7 +169,7 @@ export const testQueryPerformance = async () => {
       name: 'Projects with Relations',
       query: () => supabase
         .from('projects')
-        .select('*, project_milestones(*)')
+        .select('id, title, status, category, priority, deadline, created_at, project_milestones(id, name, status, amount, due_date)')
         .limit(20),
       threshold: 1500,
     },

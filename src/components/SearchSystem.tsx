@@ -189,11 +189,11 @@ export const SearchSystem: React.FC<SearchSystemProps> = ({
         }
       }
 
-      // Search vendors
+      // Search vendors - explicit columns per egress policy
       if (searchFilters.category === 'all' || searchFilters.category === 'vendors') {
         const { data: vendors } = await supabase
           .from('vendor_profiles')
-          .select('*, user_id')
+          .select('id, user_id, company_name, specialties, rating, is_verified, availability_status, service_areas')
           .eq('is_verified', true)
           .limit(10);
 
