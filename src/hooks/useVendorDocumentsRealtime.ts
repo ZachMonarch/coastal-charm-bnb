@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/OptimizedAuthContext';
 import { secureErrorHandler } from '@/utils/secureErrorHandler';
+import logger from '@/utils/logger';
 
 interface VendorDocument {
   id: string;
@@ -69,9 +70,8 @@ export function useVendorDocumentsRealtime(vendorId?: string) {
           table: 'vendor_documents',
           filter: `vendor_id=eq.${targetVendorId}`
         },
-        (payload) => {
-          console.log('Real-time document change:', payload);
-          
+        () => {
+          logger.debug(`Vendor ${targetVendorId} documents changed, refreshing`);
           // Refresh documents on any change
           fetchDocuments();
         }

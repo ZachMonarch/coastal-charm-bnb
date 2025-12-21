@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/OptimizedAuthContext';
 import { toast } from 'sonner';
+import logger from '@/utils/logger';
 
 export type ContactType = 'lead' | 'contact' | 'partner' | 'customer';
 export type ContactStatus = 'active' | 'inactive' | 'converted' | 'lost';
@@ -44,12 +45,12 @@ export function useVendorContacts() {
 
   const fetchContacts = useCallback(async () => {
     if (!user?.id) {
-      console.log('[VendorContacts] No user ID, skipping fetch');
+      logger.debug('[VendorContacts] No user ID, skipping fetch');
       setLoading(false);
       return;
     }
 
-    console.log('[VendorContacts] Fetching contacts for user:', user.id);
+    logger.debug('[VendorContacts] Fetching contacts for user:', user.id);
     setLoading(true);
     setError(null);
     
@@ -60,10 +61,10 @@ export function useVendorContacts() {
         .eq('vendor_id', user.id)
         .order('created_at', { ascending: false });
 
-      console.log('[VendorContacts] Query result:', { dataCount: data?.length, status, error: fetchError });
+      logger.debug('[VendorContacts] Query result:', { dataCount: data?.length, status });
 
       if (fetchError) {
-        console.error('[VendorContacts] Fetch error:', fetchError);
+        logger.error('[VendorContacts] Fetch error:', fetchError);
         // Check if it's a table not found or RLS issue
         if (fetchError.code === '42P01') {
           setError('Contacts table not available. Please contact support.');
@@ -76,9 +77,9 @@ export function useVendorContacts() {
       }
       
       setContacts((data as VendorContact[]) || []);
-      console.log('[VendorContacts] Loaded contacts:', data?.length || 0);
+      logger.debug('[VendorContacts] Loaded contacts:', data?.length || 0);
     } catch (err: any) {
-      console.error('[VendorContacts] Error fetching contacts:', err);
+      logger.error('[VendorContacts] Error fetching contacts:', err);
       setError(err.message || 'Failed to load contacts');
       toast.error('Failed to load contacts. Please refresh the page.');
     } finally {
@@ -122,7 +123,7 @@ export function useVendorContacts() {
       toast.success('Contact added successfully');
       return newContact;
     } catch (err: any) {
-      console.error('Error creating contact:', err);
+      logger.error('Error creating contact:', err);
       toast.error(err.message || 'Failed to add contact');
       return null;
     }
@@ -147,7 +148,7 @@ export function useVendorContacts() {
       toast.success('Contact updated');
       return true;
     } catch (err: any) {
-      console.error('Error updating contact:', err);
+      logger.error('Error updating contact:', err);
       toast.error(err.message || 'Failed to update contact');
       return false;
     }
@@ -167,7 +168,7 @@ export function useVendorContacts() {
       toast.success('Contact deleted');
       return true;
     } catch (err: any) {
-      console.error('Error deleting contact:', err);
+      logger.error('Error deleting contact:', err);
       toast.error(err.message || 'Failed to delete contact');
       return false;
     }

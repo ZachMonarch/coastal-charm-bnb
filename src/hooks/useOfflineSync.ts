@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { toast } from 'sonner';
+import logger from '@/utils/logger';
 
 interface QueuedMutation {
   id: string;
@@ -24,7 +25,7 @@ export function useOfflineSync() {
       try {
         setQueue(JSON.parse(savedQueue));
       } catch (error) {
-        console.error('Error loading offline queue:', error);
+        logger.error('Error loading offline queue:', error);
       }
     }
   }, []);
@@ -84,14 +85,14 @@ export function useOfflineSync() {
       try {
         // Execute the mutation
         // This would need to be customized based on your actual API calls
-        console.log(`Syncing: ${mutation.operation}`, mutation.data);
+        logger.debug(`Syncing: ${mutation.operation}`, mutation.data);
         
         // Simulate API call
         await new Promise(resolve => setTimeout(resolve, 100));
         
         successfulMutations.push(mutation.id);
       } catch (error) {
-        console.error(`Failed to sync mutation ${mutation.id}:`, error);
+        logger.error(`Failed to sync mutation ${mutation.id}:`, error);
         
         if (mutation.retryCount < MAX_RETRIES) {
           failedMutations.push({

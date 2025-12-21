@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 
 export interface RFQDocument {
   id: string;
@@ -171,16 +172,48 @@ export function useRFQDetail(rfqId: string | undefined) {
 }
 
 export function useRFQDocumentDownload() {
-  const downloadDocument = async (filePath: string, fileName: string) => {
+  const downloadDocument = async (filePath: string, fileName: string): Promise<{ success: boolean; error?: unknown }> => {
     try {
-      const { data, error } = await supabase.storage
+      // First try signed URL approach for private buckets
+      const { data: signedData, error: signedError } = await supabase.storage
         .from('rfq-documents')
-        .download(filePath);
+        .createSignedUrl(filePath, 3600);
 
-      if (error) throw error;
+      if (signedError) {
+        // Fall back to direct download for public files
+        const { data, error } = await supabase.storage
+          .from('rfq-documents')
+          .download(filePath);
 
-      // Create download link
-      const url = URL.createObjectURL(data);
+        if (error) {
+          // Check if it's a permission error
+          if (error.message?.includes('not authorized') || error.message?.includes('permission')) {
+            toast.error('You do not have permission to download this document. Please ensure your account is verified.');
+            return { success: false, error };
+          }
+          throw error;
+        }
+
+        // Create download link from blob
+        const url = URL.createObjectURL(data);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        return { success: true };
+      }
+
+      // Use signed URL for download
+      const response = await fetch(signedData.signedUrl);
+      if (!response.ok) {
+        throw new Error(`Download failed: ${response.statusText}`);
+      }
+      
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
       a.download = fileName;
@@ -190,20 +223,35 @@ export function useRFQDocumentDownload() {
       URL.revokeObjectURL(url);
 
       return { success: true };
-    } catch (error) {
-      console.error('Error downloading document:', error);
+    } catch (error: any) {
+      const errorMessage = error?.message || 'Unknown error occurred';
+      if (errorMessage.includes('not authorized') || errorMessage.includes('permission')) {
+        toast.error('Access denied. Please verify your account to download documents.');
+      }
       return { success: false, error };
     }
   };
 
-  const getSignedUrl = async (filePath: string) => {
+  const getSignedUrl = async (filePath: string): Promise<string> => {
     const { data, error } = await supabase.storage
       .from('rfq-documents')
       .createSignedUrl(filePath, 3600); // 1 hour expiry
 
-    if (error) throw error;
+    if (error) {
+      if (error.message?.includes('not authorized') || error.message?.includes('permission')) {
+        toast.error('You do not have permission to preview this document.');
+      }
+      throw error;
+    }
     return data.signedUrl;
   };
 
-  return { downloadDocument, getSignedUrl };
+  const getPublicUrl = (filePath: string): string => {
+    const { data } = supabase.storage
+      .from('rfq-documents')
+      .getPublicUrl(filePath);
+    return data.publicUrl;
+  };
+
+  return { downloadDocument, getSignedUrl, getPublicUrl };
 }
