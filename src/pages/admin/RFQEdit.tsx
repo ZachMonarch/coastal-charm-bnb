@@ -13,7 +13,7 @@ import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from '@/components/ui/dialog';
 import { toast } from 'sonner';
 import { ArrowLeft, Save, Upload, FileText, Users, Plus, Trash2, Send, Calendar, Building2, Loader2 } from 'lucide-react';
 import OptimizedProtectedRoute from '@/components/OptimizedProtectedRoute';
@@ -453,6 +453,9 @@ export default function RFQEdit() {
                   <DialogContent className="max-w-2xl">
                     <DialogHeader>
                       <DialogTitle>Invite Vendors to RFQ</DialogTitle>
+                      <DialogDescription>
+                        Select verified vendors to invite to submit bids for this RFQ.
+                      </DialogDescription>
                     </DialogHeader>
                     <div className="space-y-4">
                       <div className="max-h-96 overflow-y-auto">
@@ -593,14 +596,14 @@ export default function RFQEdit() {
                     <div className="space-y-2">
                       <Label htmlFor="property">Property</Label>
                       <Select
-                        value={formData.property_id?.toString() || ''}
-                        onValueChange={(value) => setFormData(prev => ({ ...prev, property_id: value ? parseInt(value) : null }))}
+                        value={formData.property_id?.toString() || 'none'}
+                        onValueChange={(value) => setFormData(prev => ({ ...prev, property_id: value && value !== 'none' ? parseInt(value) : null }))}
                       >
                         <SelectTrigger>
                           <SelectValue placeholder="Select property" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="">No property linked</SelectItem>
+                          <SelectItem value="none">No property linked</SelectItem>
                           {properties?.map((prop) => (
                             <SelectItem key={prop.id} value={prop.id.toString()}>
                               {prop.title} - {prop.city}, {prop.state}

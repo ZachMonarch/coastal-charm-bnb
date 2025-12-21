@@ -6,7 +6,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Search, Users, Send, Check, X, Filter } from 'lucide-react';
 import { useAuth } from '@/contexts/OptimizedAuthContext';
@@ -287,12 +287,12 @@ export default function MultiVendorRFQAssignment({
             
             <div>
               <Label htmlFor="specialty">Filter by Specialty</Label>
-              <Select value={specialtyFilter} onValueChange={setSpecialtyFilter}>
+            <Select value={specialtyFilter || 'all'} onValueChange={(value) => setSpecialtyFilter(value === 'all' ? '' : value)}>
                 <SelectTrigger>
                   <SelectValue placeholder="All specialties" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All specialties</SelectItem>
+                  <SelectItem value="all">All specialties</SelectItem>
                   {allSpecialties.map(specialty => (
                     <SelectItem key={specialty} value={specialty}>
                       {specialty}
@@ -333,11 +333,11 @@ export default function MultiVendorRFQAssignment({
                 <DialogContent>
                   <DialogHeader>
                     <DialogTitle>Send Project Invitations</DialogTitle>
+                    <DialogDescription>
+                      You are about to send project invitations to {selectedVendors.length} vendor(s).
+                    </DialogDescription>
                   </DialogHeader>
                   <div className="space-y-4">
-                    <p className="text-sm text-muted-foreground">
-                      You are about to send project invitations to {selectedVendors.length} vendor(s).
-                    </p>
                     
                     <div>
                       <Label htmlFor="message">Custom Message (Optional)</Label>

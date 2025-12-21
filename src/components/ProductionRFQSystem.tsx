@@ -6,7 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Calendar, Clock, DollarSign, MapPin, Plus, Filter, Search } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
@@ -239,6 +239,9 @@ export default function ProductionRFQSystem() {
           <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>Create New RFQ Project</DialogTitle>
+              <DialogDescription>
+                Fill in the details below to create a new Request for Quotation project.
+              </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleCreateProject} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -392,12 +395,12 @@ export default function ProductionRFQSystem() {
 
             <div className="space-y-2">
               <Label>Category</Label>
-              <Select value={filters.category} onValueChange={(value) => setFilters({...filters, category: value})}>
+              <Select value={filters.category || 'all'} onValueChange={(value) => setFilters({...filters, category: value === 'all' ? '' : value})}>
                 <SelectTrigger>
                   <SelectValue placeholder="All Categories" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Categories</SelectItem>
+                  <SelectItem value="all">All Categories</SelectItem>
                   {categories.map(cat => (
                     <SelectItem key={cat} value={cat}>{cat}</SelectItem>
                   ))}
@@ -407,12 +410,12 @@ export default function ProductionRFQSystem() {
 
             <div className="space-y-2">
               <Label>Status</Label>
-              <Select value={filters.status} onValueChange={(value) => setFilters({...filters, status: value})}>
+              <Select value={filters.status || 'all'} onValueChange={(value) => setFilters({...filters, status: value === 'all' ? '' : value})}>
                 <SelectTrigger>
                   <SelectValue placeholder="All Statuses" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Statuses</SelectItem>
+                  <SelectItem value="all">All Statuses</SelectItem>
                   {statuses.map(status => (
                     <SelectItem key={status} value={status}>
                       {status.charAt(0).toUpperCase() + status.slice(1).replace('_', ' ')}
@@ -424,12 +427,12 @@ export default function ProductionRFQSystem() {
 
             <div className="space-y-2">
               <Label>Priority</Label>
-              <Select value={filters.priority} onValueChange={(value) => setFilters({...filters, priority: value})}>
+              <Select value={filters.priority || 'all'} onValueChange={(value) => setFilters({...filters, priority: value === 'all' ? '' : value})}>
                 <SelectTrigger>
                   <SelectValue placeholder="All Priorities" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Priorities</SelectItem>
+                  <SelectItem value="all">All Priorities</SelectItem>
                   {priorities.map(priority => (
                     <SelectItem key={priority} value={priority}>
                       {priority.charAt(0).toUpperCase() + priority.slice(1)}

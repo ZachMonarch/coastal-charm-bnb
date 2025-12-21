@@ -480,24 +480,24 @@ export const SearchSystem: React.FC<SearchSystemProps> = ({
                       value={filters.priceMax}
                       onChange={(e) => handleFilterChange('priceMax', e.target.value)}
                     />
-                    <Select value={filters.bedrooms} onValueChange={(value) => handleFilterChange('bedrooms', value)}>
+                    <Select value={filters.bedrooms || 'any'} onValueChange={(value) => handleFilterChange('bedrooms', value === 'any' ? '' : value)}>
                       <SelectTrigger>
                         <SelectValue placeholder="Bedrooms" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="">Any</SelectItem>
+                        <SelectItem value="any">Any</SelectItem>
                         <SelectItem value="1">1+</SelectItem>
                         <SelectItem value="2">2+</SelectItem>
                         <SelectItem value="3">3+</SelectItem>
                         <SelectItem value="4">4+</SelectItem>
                       </SelectContent>
                     </Select>
-                    <Select value={filters.bathrooms} onValueChange={(value) => handleFilterChange('bathrooms', value)}>
+                    <Select value={filters.bathrooms || 'any'} onValueChange={(value) => handleFilterChange('bathrooms', value === 'any' ? '' : value)}>
                       <SelectTrigger>
                         <SelectValue placeholder="Bathrooms" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="">Any</SelectItem>
+                        <SelectItem value="any">Any</SelectItem>
                         <SelectItem value="1">1+</SelectItem>
                         <SelectItem value="2">2+</SelectItem>
                         <SelectItem value="3">3+</SelectItem>

@@ -197,12 +197,12 @@ export default function ProductionVendorSystem() {
 
             <div className="space-y-2">
               <label className="text-sm font-medium">Specialty</label>
-              <Select value={filters.specialty} onValueChange={(value) => setFilters({...filters, specialty: value})}>
+              <Select value={filters.specialty || 'all'} onValueChange={(value) => setFilters({...filters, specialty: value === 'all' ? '' : value})}>
                 <SelectTrigger>
                   <SelectValue placeholder="All Specialties" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Specialties</SelectItem>
+                  <SelectItem value="all">All Specialties</SelectItem>
                   {specialties.map(specialty => (
                     <SelectItem key={specialty} value={specialty}>{specialty}</SelectItem>
                   ))}
@@ -212,12 +212,12 @@ export default function ProductionVendorSystem() {
 
             <div className="space-y-2">
               <label className="text-sm font-medium">Availability</label>
-              <Select value={filters.availability} onValueChange={(value) => setFilters({...filters, availability: value})}>
+              <Select value={filters.availability || 'any'} onValueChange={(value) => setFilters({...filters, availability: value === 'any' ? '' : value})}>
                 <SelectTrigger>
                   <SelectValue placeholder="Any Availability" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Any Availability</SelectItem>
+                  <SelectItem value="any">Any Availability</SelectItem>
                   {availabilityOptions.map(option => (
                     <SelectItem key={option} value={option}>
                       {option.charAt(0).toUpperCase() + option.slice(1)}
@@ -229,12 +229,12 @@ export default function ProductionVendorSystem() {
 
             <div className="space-y-2">
               <label className="text-sm font-medium">Verified Status</label>
-              <Select value={filters.verified} onValueChange={(value) => setFilters({...filters, verified: value})}>
+              <Select value={filters.verified || 'any'} onValueChange={(value) => setFilters({...filters, verified: value === 'any' ? '' : value})}>
                 <SelectTrigger>
                   <SelectValue placeholder="Any Status" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Any Status</SelectItem>
+                  <SelectItem value="any">Any Status</SelectItem>
                   <SelectItem value="true">Verified Only</SelectItem>
                   <SelectItem value="false">Unverified Only</SelectItem>
                 </SelectContent>
@@ -243,12 +243,12 @@ export default function ProductionVendorSystem() {
 
             <div className="space-y-2">
               <label className="text-sm font-medium">Min Rating</label>
-              <Select value={filters.rating} onValueChange={(value) => setFilters({...filters, rating: value})}>
+              <Select value={filters.rating || 'any'} onValueChange={(value) => setFilters({...filters, rating: value === 'any' ? '' : value})}>
                 <SelectTrigger>
                   <SelectValue placeholder="Any Rating" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Any Rating</SelectItem>
+                  <SelectItem value="any">Any Rating</SelectItem>
                   <SelectItem value="4">4+ Stars</SelectItem>
                   <SelectItem value="4.5">4.5+ Stars</SelectItem>
                   <SelectItem value="5">5 Stars</SelectItem>
