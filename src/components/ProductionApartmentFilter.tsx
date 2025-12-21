@@ -206,12 +206,12 @@ export default function ProductionApartmentFilter() {
 
             <div className="space-y-2">
               <label className="text-sm font-medium">Location</label>
-              <Select value={filters.location} onValueChange={(value) => updateFilter('location', value)}>
+              <Select value={filters.location || 'any'} onValueChange={(value) => updateFilter('location', value === 'any' ? '' : value)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Any Location" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Any Location</SelectItem>
+                  <SelectItem value="any">Any Location</SelectItem>
                   {getCities().map(city => (
                     <SelectItem key={city} value={city}>{city}</SelectItem>
                   ))}
@@ -221,12 +221,12 @@ export default function ProductionApartmentFilter() {
 
             <div className="space-y-2">
               <label className="text-sm font-medium">Bedrooms</label>
-              <Select value={filters.capacity} onValueChange={(value) => updateFilter('capacity', value)}>
+              <Select value={filters.capacity || 'any'} onValueChange={(value) => updateFilter('capacity', value === 'any' ? '' : value)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Any Bedrooms" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Any Bedrooms</SelectItem>
+                  <SelectItem value="any">Any Bedrooms</SelectItem>
                   <SelectItem value="1">1+ Bedroom</SelectItem>
                   <SelectItem value="2">2+ Bedrooms</SelectItem>
                   <SelectItem value="3">3+ Bedrooms</SelectItem>
@@ -237,12 +237,12 @@ export default function ProductionApartmentFilter() {
 
             <div className="space-y-2">
               <label className="text-sm font-medium">Property Type</label>
-              <Select value={filters.propertyType} onValueChange={(value) => updateFilter('propertyType', value)}>
+              <Select value={filters.propertyType || 'any'} onValueChange={(value) => updateFilter('propertyType', value === 'any' ? '' : value)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Any Type" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Any Type</SelectItem>
+                  <SelectItem value="any">Any Type</SelectItem>
                   {getPropertyTypes().map(type => (
                     <SelectItem key={type} value={type}>{type}</SelectItem>
                   ))}
