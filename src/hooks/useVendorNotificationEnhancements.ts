@@ -3,6 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/OptimizedAuthContext';
 import { useRealtimeUpdates } from './useRealtimeUpdates';
 import { notifyQualifiedVendors, notifyMilestoneStatusChange } from '@/utils/notificationService';
+import logger from '@/utils/logger';
 
 export function useVendorNotificationEnhancements() {
   const { user } = useAuth();
@@ -28,9 +29,9 @@ export function useVendorNotificationEnhancements() {
             }
           );
           
-          console.log(`Notified ${vendorCount} qualified vendors about new RFQ: ${project.title}`);
+          logger.info(`Notified ${vendorCount} qualified vendors about new RFQ: ${project.title}`);
         } catch (error) {
-          console.error('Error notifying vendors about new RFQ:', error);
+          logger.error('Error notifying vendors about new RFQ:', error);
         }
       }
     }
@@ -58,9 +59,9 @@ export function useVendorNotificationEnhancements() {
             }
           );
           
-          console.log(`Notified ${vendorCount} qualified vendors about opened RFQ: ${newProject.title}`);
+          logger.info(`Notified ${vendorCount} qualified vendors about opened RFQ: ${newProject.title}`);
         } catch (error) {
-          console.error('Error notifying vendors about opened RFQ:', error);
+          logger.error('Error notifying vendors about opened RFQ:', error);
         }
       }
     }
@@ -106,9 +107,9 @@ export function useVendorNotificationEnhancements() {
             amount
           );
           
-          console.log(`Notified vendor about milestone ${status}: ${newMilestone.name}`);
+          logger.info(`Notified vendor about milestone ${status}: ${newMilestone.name}`);
         } catch (error) {
-          console.error('Error notifying vendor about milestone status change:', error);
+          logger.error('Error notifying vendor about milestone status change:', error);
         }
       }
     }
@@ -147,9 +148,9 @@ export function useVendorNotificationEnhancements() {
             actionUrl: `/vendor/projects/${newBid.project_id}`
           });
           
-          console.log(`Notified vendor about bid status change: ${newBid.status}`);
+          logger.info(`Notified vendor about bid status change: ${newBid.status}`);
         } catch (error) {
-          console.error('Error notifying vendor about bid status change:', error);
+          logger.error('Error notifying vendor about bid status change:', error);
         }
       }
     }

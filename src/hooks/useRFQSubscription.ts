@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import logger from '@/utils/logger';
 
 export function useRFQSubscription(rfqId?: string) {
   const queryClient = useQueryClient();
@@ -8,15 +9,15 @@ export function useRFQSubscription(rfqId?: string) {
   useEffect(() => {
     if (!rfqId) return;
 
-    console.log(`Setting up real-time subscription for RFQ ${rfqId}`);
+    logger.debug(`Setting up real-time subscription for RFQ ${rfqId}`);
 
     const channel = supabase
       .channel(`rfq-${rfqId}`)
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'rfqs', filter: `id=eq.${rfqId}` },
-        (payload) => {
-          console.log('RFQ changed:', payload);
+        () => {
+          logger.debug(`RFQ ${rfqId} changed, invalidating queries`);
           queryClient.invalidateQueries({ queryKey: ['rfq', rfqId] });
           queryClient.invalidateQueries({ queryKey: ['rfqs'] });
         }
@@ -24,8 +25,8 @@ export function useRFQSubscription(rfqId?: string) {
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'bid_lines' },
-        (payload) => {
-          console.log('Bid line changed:', payload);
+        () => {
+          logger.debug(`Bid lines changed for RFQ ${rfqId}`);
           queryClient.invalidateQueries({ queryKey: ['bids', rfqId] });
           queryClient.invalidateQueries({ queryKey: ['rfq', rfqId] });
         }
@@ -33,8 +34,8 @@ export function useRFQSubscription(rfqId?: string) {
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'rfq_invites' },
-        (payload) => {
-          console.log('RFQ invite changed:', payload);
+        () => {
+          logger.debug(`RFQ invites changed for RFQ ${rfqId}`);
           queryClient.invalidateQueries({ queryKey: ['rfq-invites', rfqId] });
           queryClient.invalidateQueries({ queryKey: ['rfq', rfqId] });
         }
@@ -42,7 +43,7 @@ export function useRFQSubscription(rfqId?: string) {
       .subscribe();
 
     return () => {
-      console.log(`Cleaning up real-time subscription for RFQ ${rfqId}`);
+      logger.debug(`Cleaning up subscription for RFQ ${rfqId}`);
       supabase.removeChannel(channel);
     };
   }, [rfqId, queryClient]);
@@ -52,22 +53,23 @@ export function useRFQListSubscription() {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    console.log('Setting up real-time subscription for RFQ list');
+    logger.debug('Setting up real-time subscription for RFQ list');
 
     const channel = supabase
       .channel('rfq-list')
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'rfqs' },
-        (payload) => {
-          console.log('RFQ list changed:', payload);
+        () => {
+          logger.debug('RFQ list changed, invalidating queries');
           queryClient.invalidateQueries({ queryKey: ['rfqs'] });
+          queryClient.invalidateQueries({ queryKey: ['admin-rfqs'] });
         }
       )
       .subscribe();
 
     return () => {
-      console.log('Cleaning up real-time subscription for RFQ list');
+      logger.debug('Cleaning up RFQ list subscription');
       supabase.removeChannel(channel);
     };
   }, [queryClient]);
@@ -79,30 +81,30 @@ export function useVendorBidsSubscription(vendorId?: string) {
   useEffect(() => {
     if (!vendorId) return;
 
-    console.log(`Setting up real-time subscription for vendor ${vendorId} bids`);
+    logger.debug(`Setting up subscription for vendor ${vendorId} bids`);
 
     const channel = supabase
       .channel(`vendor-bids-${vendorId}`)
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'bid_lines', filter: `vendor_id=eq.${vendorId}` },
-        (payload) => {
-          console.log('Vendor bid changed:', payload);
+        () => {
+          logger.debug(`Vendor ${vendorId} bids changed`);
           queryClient.invalidateQueries({ queryKey: ['vendor-bids', vendorId] });
         }
       )
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'rfq_invites', filter: `vendor_id=eq.${vendorId}` },
-        (payload) => {
-          console.log('Vendor invite changed:', payload);
+        () => {
+          logger.debug(`Vendor ${vendorId} invites changed`);
           queryClient.invalidateQueries({ queryKey: ['vendor-invites', vendorId] });
         }
       )
       .subscribe();
 
     return () => {
-      console.log(`Cleaning up real-time subscription for vendor ${vendorId}`);
+      logger.debug(`Cleaning up subscription for vendor ${vendorId}`);
       supabase.removeChannel(channel);
     };
   }, [vendorId, queryClient]);

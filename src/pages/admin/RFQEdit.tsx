@@ -18,6 +18,7 @@ import { toast } from 'sonner';
 import { ArrowLeft, Save, Upload, FileText, Users, Plus, Trash2, Send, Calendar, Building2, Loader2 } from 'lucide-react';
 import OptimizedProtectedRoute from '@/components/OptimizedProtectedRoute';
 import EnhancedPageBackground from '@/components/shared/EnhancedPageBackground';
+import logger from '@/utils/logger';
 
 interface UnitConfig {
   unit_type: string;
@@ -321,45 +322,82 @@ export default function RFQEdit() {
         navigate(`/admin/rfq/${data.id}/edit`);
       }
     },
-    onError: (error) => {
-      console.error('Error saving RFQ:', error);
-      toast.error('Failed to save RFQ');
+    onError: (error: any) => {
+      logger.error('Error saving RFQ:', error);
+      toast.error(error?.message || 'Failed to save RFQ');
     },
   });
 
-  // Document upload handler
+  // Document upload handler with improved error handling
   const handleDocumentUpload = async (files: FileList | null) => {
-    if (!files || !id || isNew) return;
+    if (!files || !id || isNew) {
+      toast.error('Please save the RFQ first before uploading documents');
+      return;
+    }
+
+    let successCount = 0;
+    let failCount = 0;
 
     for (const file of Array.from(files)) {
-      const filePath = `${id}/${Date.now()}_${file.name}`;
-      const { error: uploadError } = await supabase.storage
-        .from('rfq-documents')
-        .upload(filePath, file);
+      try {
+        const filePath = `${id}/${Date.now()}_${file.name}`;
+        const { error: uploadError } = await supabase.storage
+          .from('rfq-documents')
+          .upload(filePath, file, {
+            cacheControl: '3600',
+            upsert: false
+          });
 
-      if (uploadError) {
-        toast.error(`Failed to upload ${file.name}`);
-        continue;
+        if (uploadError) {
+          logger.error(`Upload error for ${file.name}:`, uploadError);
+          if (uploadError.message?.includes('not authorized') || uploadError.message?.includes('permission')) {
+            toast.error(`Permission denied. Please verify your account is properly authenticated.`);
+          } else {
+            toast.error(`Failed to upload ${file.name}: ${uploadError.message}`);
+          }
+          failCount++;
+          continue;
+        }
+
+        // Use signed URL for private buckets instead of public URL
+        const { data: signedData } = await supabase.storage
+          .from('rfq-documents')
+          .createSignedUrl(filePath, 86400); // 24 hour expiry for display
+
+        const { error: insertError } = await supabase.from('rfq_documents').insert({
+          rfq_id: id,
+          file_name: file.name,
+          file_path: filePath,
+          file_url: signedData?.signedUrl || null,
+          file_size: file.size,
+          mime_type: file.type,
+          document_type: 'specification',
+          category_badge: 'Document',
+        });
+
+        if (insertError) {
+          logger.error(`Database insert error for ${file.name}:`, insertError);
+          toast.error(`Failed to save ${file.name} metadata`);
+          failCount++;
+          continue;
+        }
+
+        successCount++;
+      } catch (error: any) {
+        logger.error(`Unexpected error uploading ${file.name}:`, error);
+        toast.error(`Error uploading ${file.name}`);
+        failCount++;
       }
-
-      const { data: urlData } = supabase.storage
-        .from('rfq-documents')
-        .getPublicUrl(filePath);
-
-      await supabase.from('rfq_documents').insert({
-        rfq_id: id,
-        file_name: file.name,
-        file_path: filePath,
-        file_url: urlData.publicUrl,
-        file_size: file.size,
-        mime_type: file.type,
-        document_type: 'specification',
-        category_badge: 'Document',
-      });
     }
 
     queryClient.invalidateQueries({ queryKey: ['rfq-edit', id] });
-    toast.success('Documents uploaded successfully');
+    
+    if (successCount > 0) {
+      toast.success(`${successCount} document(s) uploaded successfully`);
+    }
+    if (failCount > 0) {
+      toast.warning(`${failCount} document(s) failed to upload`);
+    }
   };
 
   // Invite vendors mutation
@@ -392,9 +430,9 @@ export default function RFQEdit() {
       setInviteDialogOpen(false);
       setSelectedVendors([]);
     },
-    onError: (error) => {
-      console.error('Error inviting vendors:', error);
-      toast.error('Failed to invite vendors');
+    onError: (error: any) => {
+      logger.error('Error inviting vendors:', error);
+      toast.error(error?.message || 'Failed to invite vendors');
     },
   });
 
