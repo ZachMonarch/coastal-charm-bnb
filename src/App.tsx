@@ -49,7 +49,7 @@ const VendorManagement = lazy(() => import("./pages/VendorManagement"));
 const VendorSubscription = lazy(() => import("./pages/VendorSubscription"));
 const VendorPayments = lazy(() => import("./pages/VendorPayments"));
 const JoinAsVendor = lazy(() => import("./pages/JoinAsVendor"));
-const VendorMarketplace = lazy(() => import("./pages/VendorMarketplace"));
+// VendorMarketplace removed - access restricted
 const RequestQuote = lazy(() => import("./pages/RequestQuote"));
 const VendorLeads = lazy(() => import("./pages/vendor/VendorLeads"));
 const VendorNotifications = lazy(() => import("./pages/vendor/VendorNotifications"));
