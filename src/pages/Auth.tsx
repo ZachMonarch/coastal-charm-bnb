@@ -65,7 +65,7 @@ export default function Auth() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
-  const [role, setRole] = useState("property_manager");
+  const [role, setRole] = useState("tenant"); // Default to tenant, used only for URL params
   const [companyName, setCompanyName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isResettingPassword, setIsResettingPassword] = useState(false);
@@ -257,11 +257,6 @@ export default function Auth() {
       setIsLoading(false);
       return;
     }
-    if (role === "vendor" && !companyName?.trim()) {
-      toast.error("Company name is required for vendor accounts");
-      setIsLoading(false);
-      return;
-    }
 
     try {
       // Use centralized redirect URL helper for consistent https:// protocol
@@ -271,8 +266,8 @@ export default function Auth() {
       // Log auth config in dev mode for debugging
       logAuthConfig();
 
-      console.log('[Auth] Signup redirect URL:', redirectUrl);
-
+      // Note: Users always start as 'tenant' regardless of what they select
+      // The database trigger will auto-create an access request if they want vendor/property_manager
       const { data, error } = await supabase.auth.signUp({
         email: email.trim().toLowerCase(), // Normalize email to lowercase
         password,
@@ -283,8 +278,8 @@ export default function Auth() {
             first_name: firstName.trim(),
             last_name: lastName.trim(),
             phone: phone?.trim() || null,
-            role,
-            company_name: role === "vendor" ? companyName?.trim() : undefined,
+            // Role is stored for access request purposes only - NOT for direct assignment
+            role: 'tenant', // Always send tenant - privileged roles require admin approval
           },
         },
       });
@@ -300,9 +295,9 @@ export default function Auth() {
 
       if (data.user) {
         if (data.user.email_confirmed_at) {
-          toast.success(`${role.replace("_", " ")} account created! You can now sign in.`);
+          toast.success("Account created! You can now sign in. Request additional access from your dashboard.");
         } else {
-          toast.success(`${role.replace("_", " ")} account created! Please check your email to confirm your account.`);
+          toast.success("Account created! Please check your email to confirm, then request access from your dashboard.");
         }
 
         setEmail("");
@@ -650,50 +645,14 @@ export default function Auth() {
                       </div>
                     </div>
 
-                    <div className="space-y-2">
-                      <Label>Account Type</Label>
-                      <div className="grid grid-cols-3 gap-2">
-                        {["property_manager", "vendor", "tenant"].map((r) => (
-                          <button
-                            key={r}
-                            type="button"
-                            onClick={() => setRole(r)}
-                            className={`p-3 rounded-xl border-2 transition-all text-center ${
-                              role === r
-                                ? "border-primary bg-primary/5 ring-2 ring-primary/20"
-                                : "border-border hover:border-primary/50"
-                            }`}
-                          >
-                            <div className={`mx-auto mb-1 ${role === r ? "text-primary" : "text-muted-foreground"}`}>
-                              {getRoleIcon(r)}
-                            </div>
-                            <div className={`text-xs font-medium capitalize ${role === r ? "text-primary" : ""}`}>
-                              {r.replace("_", " ")}
-                            </div>
-                          </button>
-                        ))}
-                      </div>
-                      <p className="text-xs text-muted-foreground text-center mt-1">
-                        {getRoleDescription(role)}
+                    {/* Access Request Info Banner */}
+                    <div className="rounded-lg border border-primary/20 bg-primary/5 p-3">
+                      <p className="text-sm text-muted-foreground">
+                        <span className="font-medium text-foreground">Note:</span> All new accounts start with basic access. 
+                        After signing up, you can request vendor or property manager access from your dashboard, 
+                        which will be reviewed by an administrator.
                       </p>
                     </div>
-
-                    {role === "vendor" && (
-                      <div className="space-y-2">
-                        <Label htmlFor="company">Company Name</Label>
-                        <div className="relative">
-                          <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                          <Input
-                            id="company"
-                            placeholder="Your company name"
-                            value={companyName}
-                            onChange={(e) => setCompanyName(e.target.value)}
-                            required
-                            className="pl-10 h-11"
-                          />
-                        </div>
-                      </div>
-                    )}
 
                     <Button
                       type="submit"

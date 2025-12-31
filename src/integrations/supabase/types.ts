@@ -4510,6 +4510,10 @@ export type Database = {
         }
         Returns: Json
       }
+      has_pending_access_request: {
+        Args: { p_user_id: string }
+        Returns: boolean
+      }
       has_role: { Args: { _role: string; _user_id: string }; Returns: boolean }
       invite_vendors_to_rfq: {
         Args: { p_rfq_id: string; p_vendor_ids: string[] }
@@ -4584,6 +4588,15 @@ export type Database = {
       set_user_role: {
         Args: { p_role: string; p_user: string }
         Returns: undefined
+      }
+      submit_access_request: {
+        Args: {
+          p_company_name?: string
+          p_full_name?: string
+          p_phone?: string
+          p_role_requested: string
+        }
+        Returns: Json
       }
       submit_bid: {
         Args: {
