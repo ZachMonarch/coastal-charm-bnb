@@ -1,20 +1,20 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { 
   ArrowRight, ArrowLeft, CheckCircle2, Loader2, 
-  Mail, Phone, User, Building2, MapPin
+  Mail, Phone, User, Building2, MapPin, Info, Clock
 } from "lucide-react";
 
 const SERVICE_CATEGORIES = [
@@ -53,9 +53,9 @@ interface VendorQuickSignupProps {
 }
 
 export default function VendorQuickSignup({ open, onOpenChange }: VendorQuickSignupProps) {
-  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const [formData, setFormData] = useState<Partial<Step1Data & Step2Data & Step3Data>>({
     serviceCategories: [],
     serviceAreas: [],
@@ -122,15 +122,21 @@ export default function VendorQuickSignup({ open, onOpenChange }: VendorQuickSig
     try {
       const finalData = { ...formData, ...data };
       
-      // 1. Create auth user
+      // SECURITY: Create user with 'vendor' in metadata for access request
+      // The database trigger will:
+      // 1. Create user as 'tenant' only (not vendor)
+      // 2. Auto-create an access request for vendor role
+      // 3. Admin must approve before user gets vendor access
       const { data: authData, error: authError } = await supabase.auth.signUp({
-        email: finalData.email!,
+        email: finalData.email!.toLowerCase().trim(),
         password: finalData.password!,
         options: {
-          emailRedirectTo: `${window.location.origin}/vendor/onboarding`,
+          emailRedirectTo: `${window.location.origin}/auth`,
           data: {
             full_name: finalData.fullName,
-            role: 'vendor',
+            phone: finalData.phone,
+            role: 'vendor', // This triggers access request creation, NOT direct role assignment
+            company_name: finalData.companyName,
           },
         },
       });
@@ -138,7 +144,8 @@ export default function VendorQuickSignup({ open, onOpenChange }: VendorQuickSig
       if (authError) throw authError;
       
       if (authData.user) {
-        // 2. Create vendor profile
+        // Store vendor application details for when they get approved
+        // This creates a preliminary vendor profile that admin can review
         const { error: profileError } = await supabase
           .from('vendor_profiles')
           .insert({
@@ -147,36 +154,20 @@ export default function VendorQuickSignup({ open, onOpenChange }: VendorQuickSig
             specialties: finalData.serviceCategories!,
             service_areas: finalData.serviceAreas!,
             phone: finalData.phone,
-            email: finalData.email,
-            subscription_status: 'trial',
+            email: finalData.email?.toLowerCase(),
+            subscription_status: 'inactive', // Not active until approved
             subscription_plan: 'basic',
-            is_verified: false,
+            is_verified: false, // Must be approved by admin
           });
 
         if (profileError) {
-          console.error('Profile creation error:', profileError);
-          // Don't throw - user is created, they can complete profile later
+          // Log but don't fail - they can complete profile after approval
+          console.warn('Vendor profile creation deferred:', profileError.message);
         }
 
-        // 3. Assign vendor role
-        const { error: roleError } = await supabase
-          .from('user_roles')
-          .insert({
-            user_id: authData.user.id,
-            role: 'vendor',
-          });
-
-        if (roleError) {
-          console.error('Role assignment error:', roleError);
-        }
+        // Show success state
+        setShowSuccess(true);
       }
-
-      toast.success("Account created! Please check your email to verify.");
-      onOpenChange(false);
-      
-      // Reset form
-      setStep(1);
-      setFormData({ serviceCategories: [], serviceAreas: [] });
       
     } catch (error: any) {
       console.error('Signup error:', error);
@@ -199,21 +190,88 @@ export default function VendorQuickSignup({ open, onOpenChange }: VendorQuickSig
     }
   };
 
+  const handleClose = () => {
+    onOpenChange(false);
+    // Reset form after a delay
+    setTimeout(() => {
+      setStep(1);
+      setShowSuccess(false);
+      setFormData({ serviceCategories: [], serviceAreas: [] });
+      step1Form.reset();
+      step2Form.reset();
+      step3Form.reset();
+    }, 300);
+  };
+
+  // Success State - Shown after submission
+  if (showSuccess) {
+    return (
+      <Dialog open={open} onOpenChange={handleClose}>
+        <DialogContent className="sm:max-w-md" aria-describedby="vendor-signup-success">
+          <div className="text-center py-6 space-y-4">
+            <div className="mx-auto w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
+              <Clock className="h-8 w-8 text-primary" />
+            </div>
+            <DialogHeader className="space-y-2">
+              <DialogTitle className="text-2xl font-serif">Application Submitted!</DialogTitle>
+              <DialogDescription id="vendor-signup-success" className="text-base">
+                Your vendor account application is pending admin approval.
+              </DialogDescription>
+            </DialogHeader>
+            
+            <Alert className="text-left">
+              <Info className="h-4 w-4" />
+              <AlertDescription>
+                <strong>What happens next:</strong>
+                <ol className="list-decimal list-inside mt-2 space-y-1 text-sm">
+                  <li>Check your email to confirm your account</li>
+                  <li>An admin will review your application</li>
+                  <li>You'll receive a notification when approved</li>
+                  <li>Once approved, you can access vendor features</li>
+                </ol>
+              </AlertDescription>
+            </Alert>
+
+            <div className="pt-4 space-y-2">
+              <Button onClick={handleClose} className="w-full">
+                Got It
+              </Button>
+              <p className="text-sm text-muted-foreground">
+                Already confirmed?{" "}
+                <Link to="/auth" className="text-primary hover:underline" onClick={handleClose}>
+                  Sign in here
+                </Link>
+              </p>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-lg" aria-describedby="vendor-signup-description">
         <DialogHeader>
           <DialogTitle className="text-2xl font-serif">
-            {step === 1 && "Create Your Account"}
+            {step === 1 && "Apply as a Vendor"}
             {step === 2 && "Your Services"}
             {step === 3 && "Service Areas"}
           </DialogTitle>
           <DialogDescription id="vendor-signup-description">
-            {step === 1 && "Join Monarch's network of trusted service providers"}
+            {step === 1 && "Submit your application to join Monarch's vendor network"}
             {step === 2 && "Select the services you offer"}
             {step === 3 && "Where do you provide services?"}
           </DialogDescription>
         </DialogHeader>
+
+        {/* Admin Approval Notice */}
+        <Alert className="bg-primary/5 border-primary/20">
+          <Info className="h-4 w-4 text-primary" />
+          <AlertDescription className="text-sm">
+            Vendor accounts require admin approval. You'll be notified once your application is reviewed.
+          </AlertDescription>
+        </Alert>
 
         {/* Progress Indicator */}
         <div className="flex items-center justify-center gap-2 py-4">
@@ -454,11 +512,11 @@ export default function VendorQuickSignup({ open, onOpenChange }: VendorQuickSig
                   {loading ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Creating...
+                      Submitting...
                     </>
                   ) : (
                     <>
-                      Create Account
+                      Submit Application
                       <CheckCircle2 className="ml-2 h-4 w-4" />
                     </>
                   )}
@@ -469,18 +527,11 @@ export default function VendorQuickSignup({ open, onOpenChange }: VendorQuickSig
         )}
 
         {/* Sign In Link */}
-        <div className="text-center text-sm text-muted-foreground pt-4 border-t">
+        <div className="text-center text-sm text-muted-foreground pt-2 border-t">
           Already have an account?{" "}
-          <Button 
-            variant="link" 
-            className="p-0 h-auto text-primary"
-            onClick={() => {
-              onOpenChange(false);
-              navigate('/auth');
-            }}
-          >
+          <Link to="/auth" className="text-primary hover:underline" onClick={handleClose}>
             Sign in
-          </Button>
+          </Link>
         </div>
       </DialogContent>
     </Dialog>
