@@ -10,18 +10,18 @@ export default function CompleteStep() {
     <div className="max-w-2xl mx-auto">
       <Card className="border-success">
         <CardHeader className="text-center pb-6">
-          <div className="mx-auto mb-4 h-16 w-16 rounded-full bg-success/10 flex items-center justify-center">
-            <CheckCircle className="h-8 w-8 text-success" />
+          <div className="mx-auto mb-4 h-16 w-16 rounded-full bg-emerald-100 dark:bg-success/10 flex items-center justify-center">
+            <CheckCircle className="h-8 w-8 text-emerald-600 dark:text-success" />
           </div>
-          <CardTitle className="text-2xl">Application Submitted!</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-2xl text-slate-900 dark:text-foreground">Application Submitted!</CardTitle>
+          <CardDescription className="text-slate-600 dark:text-muted-foreground">
             Thank you for completing your vendor onboarding
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="space-y-4 p-4 rounded-lg bg-muted">
-            <h3 className="font-semibold">What happens next?</h3>
-            <ol className="space-y-3 text-sm">
+          <div className="space-y-4 p-4 rounded-lg bg-slate-100 dark:bg-muted">
+            <h3 className="font-semibold text-slate-900 dark:text-foreground">What happens next?</h3>
+            <ol className="space-y-3 text-sm text-slate-700 dark:text-foreground">
               <li className="flex gap-3">
                 <span className="flex-shrink-0 flex items-center justify-center h-6 w-6 rounded-full bg-primary/10 text-primary font-semibold text-xs">
                   1
@@ -50,8 +50,8 @@ export default function CompleteStep() {
           </div>
 
           <div className="space-y-3">
-            <h3 className="font-semibold">While you wait...</h3>
-            <ul className="space-y-2 text-sm text-muted-foreground">
+            <h3 className="font-semibold text-slate-900 dark:text-foreground">While you wait...</h3>
+            <ul className="space-y-2 text-sm text-slate-600 dark:text-muted-foreground">
               <li className="flex items-start gap-2">
                 <FileText className="h-4 w-4 mt-0.5 flex-shrink-0" />
                 <span>Upload additional certifications or licenses to strengthen your profile</span>
@@ -81,7 +81,7 @@ export default function CompleteStep() {
             </Button>
           </div>
 
-          <p className="text-xs text-center text-muted-foreground pt-4">
+          <p className="text-xs text-center text-slate-500 dark:text-muted-foreground pt-4">
             Need help? Contact our support team at support@monarchproperty.com
           </p>
         </CardContent>

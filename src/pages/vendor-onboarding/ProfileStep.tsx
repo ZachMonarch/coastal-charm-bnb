@@ -52,19 +52,19 @@ export default function ProfileStep() {
       <Card>
         <CardHeader>
           <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 rounded-lg bg-primary/10">
-              <User className="h-5 w-5 text-primary" />
+            <div className="p-2 rounded-lg bg-amber-100 dark:bg-primary/10">
+              <User className="h-5 w-5 text-amber-700 dark:text-primary" />
             </div>
             <div>
-              <CardTitle>Personal Information</CardTitle>
-              <CardDescription>Tell us about yourself</CardDescription>
+              <CardTitle className="text-slate-900 dark:text-foreground">Personal Information</CardTitle>
+              <CardDescription className="text-slate-600 dark:text-muted-foreground">Tell us about yourself</CardDescription>
             </div>
           </div>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="full_name">Full Name *</Label>
+              <Label htmlFor="full_name" className="text-slate-800 dark:text-foreground">Full Name *</Label>
               <Input
                 id="full_name"
                 value={formData.full_name}
@@ -75,7 +75,7 @@ export default function ProfileStep() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="email">Email Address *</Label>
+              <Label htmlFor="email" className="text-slate-800 dark:text-foreground">Email Address *</Label>
               <Input
                 id="email"
                 type="email"
@@ -87,7 +87,7 @@ export default function ProfileStep() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="phone">Phone Number *</Label>
+              <Label htmlFor="phone" className="text-slate-800 dark:text-foreground">Phone Number *</Label>
               <Input
                 id="phone"
                 type="tel"
