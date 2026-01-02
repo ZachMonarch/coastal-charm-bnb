@@ -102,9 +102,9 @@ export const AnalyticsDashboard: React.FC = () => {
         { count: totalBookings },
         { data: revenueData }
       ] = await Promise.all([
-        supabase.from('profiles').select('*', { count: 'exact', head: true }),
-        supabase.from('safe_property_listings').select('*', { count: 'exact', head: true }),
-        supabase.from('bookings').select('*', { count: 'exact', head: true }),
+        supabase.from('profiles').select('id', { count: 'exact', head: true }),
+        supabase.from('safe_property_listings').select('id', { count: 'exact', head: true }),
+        supabase.from('bookings').select('id', { count: 'exact', head: true }),
         supabase.from('transactions').select('amount').eq('status', 'completed')
       ]);
 
@@ -179,7 +179,7 @@ export const AnalyticsDashboard: React.FC = () => {
       // Fetch vendor count
       const { count: totalVendors } = await supabase
         .from('vendor_profiles')
-        .select('*', { count: 'exact', head: true });
+        .select('id', { count: 'exact', head: true });
 
       // Calculate growth rate (simplified)
       const previousPeriodUsers = Math.max(1, totalUsers - newUsersByDate.length);
