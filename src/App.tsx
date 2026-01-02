@@ -337,6 +337,8 @@ const App = () => (
                 } />
                 
                 {/* Vendor Onboarding Multi-Step Wizard */}
+                {/* Redirect base path to first step */}
+                <Route path="/vendor-onboarding" element={<Navigate to="/vendor-onboarding/profile" replace />} />
                 <Route path="/vendor-onboarding/profile" element={
                   <OptimizedProtectedRoute requiredRole="vendor">
                     <OnboardingLayout>
