@@ -142,7 +142,7 @@ export default function CapabilitiesStep() {
               >
                 Back
               </Button>
-              <Button type="submit" disabled={loading || selectedServices.length === 0}>
+              <Button type="submit" disabled={loading || selectedServices.length === 0} style={{ color: 'white' }}>
                 {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Continue
               </Button>

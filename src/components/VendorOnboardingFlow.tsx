@@ -153,10 +153,14 @@ export default function VendorOnboardingFlow() {
                         Complete
                       </Badge>
                     ) : step.link ? (
-                      <Button asChild variant={step.id === nextIncompleteStep?.id ? 'default' : 'outline'}>
+                      <Button 
+                        asChild 
+                        variant={step.id === nextIncompleteStep?.id ? 'default' : 'outline'}
+                        style={step.id === nextIncompleteStep?.id ? { color: 'white' } : undefined}
+                      >
                         <Link 
                           to={step.link}
-                          className={step.id === nextIncompleteStep?.id ? 'text-white' : 'text-foreground'}
+                          style={step.id === nextIncompleteStep?.id ? { color: 'white' } : undefined}
                         >
                           {step.id === nextIncompleteStep?.id ? 'Continue' : 'Start'}
                           <ArrowRight className="h-4 w-4 ml-2" />
@@ -214,8 +218,8 @@ export default function VendorOnboardingFlow() {
         {/* Continue Button */}
         {nextIncompleteStep && (
           <div className="text-center">
-            <Button asChild size="lg" className="text-lg px-8 py-3">
-              <Link to={nextIncompleteStep.link || '#'}>
+            <Button asChild size="lg" className="text-lg px-8 py-3" style={{ color: 'white' }}>
+              <Link to={nextIncompleteStep.link || '#'} style={{ color: 'white' }}>
                 Continue Setup
                 <ArrowRight className="h-5 w-5 ml-2" />
               </Link>

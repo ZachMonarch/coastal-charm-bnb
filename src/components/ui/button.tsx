@@ -10,7 +10,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-white shadow-sm hover:bg-primary-dark hover:shadow-md [&>a]:!text-white [&_a]:!text-white [&>span]:text-white [&_span]:text-white [&_svg]:text-white",
+        default: "bg-primary text-primary-foreground shadow-sm hover:bg-primary-dark hover:shadow-md [&_span]:text-white [&_a]:text-white [&>span]:text-white [&>a]:text-white",
         destructive:
           "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90 hover:shadow-md [&>a]:text-destructive-foreground [&_a]:text-destructive-foreground",
         outline:
@@ -50,11 +50,16 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  ({ className, variant, size, asChild = false, style, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"
+    // Force white text for default variant buttons
+    const forceWhiteStyle = (variant === 'default' || variant === undefined) 
+      ? { color: 'white', ...style } 
+      : style;
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
+        style={forceWhiteStyle}
         ref={ref}
         {...props}
       />
