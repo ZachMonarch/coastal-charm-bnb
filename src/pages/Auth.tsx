@@ -492,12 +492,11 @@ export default function Auth() {
 
                     <Button
                       type="submit"
-                      className="w-full h-12 text-base font-semibold bg-primary shadow-md hover:bg-primary/90"
-                      style={{ color: 'white' }}
+                      className="w-full h-12 text-base font-semibold bg-primary shadow-md hover:bg-primary/90 !text-white"
                       disabled={isLoading}
                     >
                       {isLoading ? (
-                        <span className="flex items-center gap-2" style={{ color: 'white' }}>
+                        <span className="flex items-center gap-2">
                           <span className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
                           Signing in...
                         </span>
