@@ -211,7 +211,7 @@ export default function EnhancedRoleBasedDashboard() {
                       {user.subscription?.expiresAt && (
                         <span className="text-xs">
                           {" "}
-                           b7 Expires: {new Date(user.subscription.expiresAt).toLocaleDateString()}
+                           Expires: {new Date(user.subscription.expiresAt).toLocaleDateString()}
                         </span>
                       )}
                     </p>
