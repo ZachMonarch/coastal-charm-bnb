@@ -6,8 +6,10 @@ import PrivatePageWrapper from "@/components/PrivatePageWrapper";
 export default function VendorDashboard() {
   const { user, isSubscribed } = useAuth();
 
-  const canApplyToProjects = user?.role === 'vendor' && isSubscribed('basic');
-  const canViewAllProjects = user?.role === 'vendor' && isSubscribed('premium');
+  // Simplified access check - allow all vendors to access dashboard
+  // Subscription status controls feature availability, not dashboard access
+  const canApplyToProjects = isSubscribed('basic');
+  const canViewAllProjects = isSubscribed('premium');
 
   return (
     <OptimizedProtectedRoute requiredRole="vendor">

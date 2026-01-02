@@ -86,12 +86,12 @@ export default function CompanyStep() {
       <Card>
         <CardHeader>
           <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 rounded-lg bg-primary/10">
-              <Building2 className="h-5 w-5 text-primary" />
+            <div className="p-2 rounded-lg bg-amber-100 dark:bg-primary/10">
+              <Building2 className="h-5 w-5 text-amber-700 dark:text-primary" />
             </div>
             <div>
-              <CardTitle>Company Information</CardTitle>
-              <CardDescription>Tell us about your business</CardDescription>
+              <CardTitle className="text-slate-900 dark:text-foreground">Company Information</CardTitle>
+              <CardDescription className="text-slate-600 dark:text-muted-foreground">Tell us about your business</CardDescription>
             </div>
           </div>
         </CardHeader>

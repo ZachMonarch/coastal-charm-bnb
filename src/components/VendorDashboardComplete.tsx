@@ -53,14 +53,33 @@ export default function VendorDashboardComplete({ canApply, canViewAll }: Vendor
   const [showApplicationForm, setShowApplicationForm] = useState(false);
   const [showPhotoUpload, setShowPhotoUpload] = useState(false);
 
-  // Show onboarding flow for new vendors who aren't subscribed
-  if (!canApply && !isSubscribed('basic')) {
-    return <VendorOnboardingFlow />;
-  }
-
   // Show loading skeleton while fetching data
   if (loading) {
     return <VendorDashboardSkeleton />;
+  }
+
+  // Show error state if loading failed
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px] p-8">
+        <div className="w-16 h-16 rounded-full bg-destructive/10 flex items-center justify-center mb-4">
+          <AlertCircle className="h-8 w-8 text-destructive" />
+        </div>
+        <h3 className="text-lg font-semibold text-foreground mb-2">Failed to load dashboard</h3>
+        <p className="text-muted-foreground mb-4 text-center">
+          There was a problem loading your dashboard data. Please try again.
+        </p>
+        <Button onClick={() => window.location.reload()}>
+          Retry
+        </Button>
+      </div>
+    );
+  }
+
+  // Show onboarding flow only for brand new vendors with very low profile completion
+  const isNewVendor = stats.profileCompletion < 20;
+  if (isNewVendor && !canApply) {
+    return <VendorOnboardingFlow />;
   }
 
   // Use real stats from the hook
