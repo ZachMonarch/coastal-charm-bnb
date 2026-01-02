@@ -2708,12 +2708,12 @@ button[class*="shadow-primary"] a {
     color: white !important;
   }
 
-  /* Force inherited color for all children inside primary buttons */
+  /* Force white text for all children inside primary buttons */
   button.bg-primary *,
   button[class*="bg-primary"] *,
   [class*="bg-gradient"] button *,
   button[class*="from-primary"] * {
-    color: inherit !important;
+    color: white !important;
   }
 
   /* Ensure text-primary-foreground always resolves to white */
@@ -2730,8 +2730,10 @@ button[class*="shadow-primary"] a {
   /* Nested spans and elements inside primary buttons */
   .bg-primary span,
   .bg-primary div,
+  .bg-primary a,
   [class*="bg-primary"]:not([class*="bg-primary/"]) span,
-  [class*="bg-primary"]:not([class*="bg-primary/"]) div {
+  [class*="bg-primary"]:not([class*="bg-primary/"]) div,
+  [class*="bg-primary"]:not([class*="bg-primary/"]) a {
     color: white !important;
   }
 
@@ -2745,8 +2747,32 @@ button[class*="shadow-primary"] a {
 
   .dark .bg-primary span,
   .dark .bg-primary div,
+  .dark .bg-primary a,
   .dark [class*="bg-primary"]:not([class*="bg-primary/"]) span,
-  .dark [class*="bg-primary"]:not([class*="bg-primary/"]) div {
+  .dark [class*="bg-primary"]:not([class*="bg-primary/"]) div,
+  .dark [class*="bg-primary"]:not([class*="bg-primary/"]) a {
     color: white !important;
   }
+}
+
+/* Ultra-high specificity fix for primary button text color */
+button.bg-primary,
+.btn.bg-primary,
+button[class*="bg-primary"],
+.bg-primary:is(button, a, [role="button"]) {
+  color: white !important;
+}
+
+/* Fix for button text inside Link components with asChild */
+button:has(.bg-primary),
+[data-radix-collection-item].bg-primary,
+[class*="bg-primary"] > a,
+a[class*="bg-primary"] {
+  color: white !important;
+}
+
+/* Radix Slot component fix - when Button uses asChild */
+[data-slot="button"].bg-primary,
+[data-slot].bg-primary {
+  color: white !important;
 }

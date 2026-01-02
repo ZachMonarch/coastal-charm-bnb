@@ -76,9 +76,10 @@ export default function VendorDashboardComplete({ canApply, canViewAll }: Vendor
     );
   }
 
-  // Show onboarding flow only for brand new vendors with very low profile completion
-  const isNewVendor = stats.profileCompletion < 20;
-  if (isNewVendor && !canApply) {
+  // Show onboarding flow ONLY for brand new vendors who haven't started their profile
+  // This prevents blocking vendors who have started but don't have subscription
+  const isNewVendor = stats.profileCompletion < 10 && stats.totalApplications === 0;
+  if (isNewVendor) {
     return <VendorOnboardingFlow />;
   }
 

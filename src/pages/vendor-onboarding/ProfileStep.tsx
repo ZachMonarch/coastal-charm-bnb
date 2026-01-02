@@ -106,7 +106,7 @@ export default function ProfileStep() {
               >
                 Save for Later
               </Button>
-              <Button type="submit" disabled={loading}>
+              <Button type="submit" disabled={loading} style={{ color: 'white' }}>
                 {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Continue
               </Button>

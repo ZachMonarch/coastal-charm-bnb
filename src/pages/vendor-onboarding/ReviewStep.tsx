@@ -187,7 +187,7 @@ export default function ReviewStep() {
         >
           Back
         </Button>
-        <Button onClick={handleSubmit} disabled={loading}>
+        <Button onClick={handleSubmit} disabled={loading} style={{ color: 'white' }}>
           {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           Submit for Review
         </Button>
