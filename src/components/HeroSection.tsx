@@ -125,7 +125,7 @@ export default function HeroSection() {
           </h1>
           
           {/* Description */}
-          <p className="text-xl text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)] mb-12 max-w-3xl mx-auto leading-relaxed font-medium [text-shadow:_0_2px_8px_rgb(0_0_0_/_80%)]">
+          <p className="text-xl text-white mb-12 max-w-3xl mx-auto leading-relaxed font-semibold drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)] [text-shadow:_0_2px_10px_rgb(0_0_0_/_90%),_0_4px_20px_rgb(0_0_0_/_60%)]">
             {t.hero.description}
           </p>
           
@@ -141,7 +141,7 @@ export default function HeroSection() {
               asChild 
               size="lg" 
               variant="outline" 
-              className="min-w-[240px] group bg-white/10 backdrop-blur-md border-white/30 hover:bg-white/20 hover:border-white/50 text-white hover:text-white"
+              className="min-w-[240px] group bg-black/40 backdrop-blur-md border-2 border-white/50 hover:bg-black/50 hover:border-white/70 text-white hover:text-white font-semibold shadow-lg"
             >
               <Link to="/properties">
                 <Building className="mr-2 h-5 w-5 group-hover:animate-pulse" />
@@ -162,8 +162,8 @@ export default function HeroSection() {
                 className="bg-black/40 backdrop-blur-md border border-white/20 p-6 rounded-2xl animate-fade-in hover:bg-black/50 transition-all duration-300 border-l-4 border-l-primary" 
                 style={{ animationDelay: `${index * 200}ms` }}
               >
-                <div className="text-2xl font-bold text-white mb-1">{stat.number}</div>
-                <div className="text-white/90 text-sm font-medium">{stat.label}</div>
+                <div className="text-2xl font-bold text-white mb-1 drop-shadow-md">{stat.number}</div>
+                <div className="text-white text-sm font-semibold drop-shadow-md">{stat.label}</div>
               </div>
             ))}
           </div>

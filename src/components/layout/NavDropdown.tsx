@@ -29,9 +29,7 @@ export default function NavDropdown({ label, items, icon, className }: NavDropdo
       <DropdownMenuTrigger
         className={cn(
           "flex items-center gap-1 px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200",
-          "text-foreground hover:text-primary hover:bg-primary/10",
-          // Text shadow for enhanced visibility
-          "text-shadow-nav-light dark:text-shadow-nav",
+          "text-[hsl(0_0%_12%)] dark:text-foreground hover:text-primary hover:bg-primary/10",
           "data-[state=open]:bg-primary/10 data-[state=open]:text-primary",
           "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none",
           "relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2",
