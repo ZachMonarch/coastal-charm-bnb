@@ -174,34 +174,42 @@ export default function Properties() {
       {/* Hero Section with Background Image */}
       <section className="relative overflow-hidden min-h-[40vh] flex items-center justify-center mb-8">
         <div className="absolute inset-0 z-0">
+          {/* Using a darker architectural image for better text contrast */}
           <img
-            src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1600&h=600&fit=crop"
+            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&h=600&fit=crop"
             alt=""
             className="w-full h-full object-cover"
             loading="eager"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/70 to-black/90" />
+          {/* Strong dark overlay for text visibility */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/70 to-black/85" />
         </div>
         <div className="container relative z-10 px-4 py-16 text-center">
           <div className="inline-flex items-center justify-center w-16 h-16 mb-6 rounded-full bg-gradient-to-br from-primary to-primary/80 shadow-2xl">
             <Building2 className="h-8 w-8 text-primary-foreground" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]">
+          <h1 
+            className="text-4xl md:text-5xl font-bold mb-4 drop-shadow-2xl"
+            style={{ color: '#FFFFFF', textShadow: '0 2px 4px rgba(0,0,0,0.9), 0 4px 12px rgba(0,0,0,0.7)' }}
+          >
             Properties & Accommodations
           </h1>
-          <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-6 drop-shadow-lg font-medium">
+          <p 
+            className="text-lg md:text-xl max-w-2xl mx-auto mb-6 font-medium drop-shadow-lg"
+            style={{ color: 'rgba(255, 255, 255, 0.95)', textShadow: '0 2px 4px rgba(0,0,0,0.8), 0 4px 8px rgba(0,0,0,0.6)' }}
+          >
             Discover long-term rentals and vacation accommodations from our curated selection
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <div className="bg-black/40 backdrop-blur-md border border-white/20 px-4 py-2 rounded-full flex items-center gap-2">
-              <Home className="h-4 w-4 text-white" />
-              <span className="font-semibold text-white">{pagination.totalCount}</span>
-              <span className="text-white/80">Total Listings</span>
+            <div className="bg-white/10 backdrop-blur-md border border-white/30 px-4 py-2 rounded-full flex items-center gap-2" style={{ color: '#FFFFFF' }}>
+              <Home className="h-4 w-4" style={{ color: '#FFFFFF' }} />
+              <span className="font-semibold" style={{ color: '#FFFFFF' }}>{pagination.totalCount}</span>
+              <span style={{ color: 'rgba(255,255,255,0.9)' }}>Total Listings</span>
             </div>
-            <div className="bg-black/40 backdrop-blur-md border border-white/20 px-4 py-2 rounded-full flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-white" />
-              <span className="font-semibold text-white">{mockApartments.length}</span>
-              <span className="text-white/80">Vacation Rentals</span>
+            <div className="bg-white/10 backdrop-blur-md border border-white/30 px-4 py-2 rounded-full flex items-center gap-2" style={{ color: '#FFFFFF' }}>
+              <MapPin className="h-4 w-4" style={{ color: '#FFFFFF' }} />
+              <span className="font-semibold" style={{ color: '#FFFFFF' }}>{mockApartments.length}</span>
+              <span style={{ color: 'rgba(255,255,255,0.9)' }}>Vacation Rentals</span>
             </div>
           </div>
         </div>
