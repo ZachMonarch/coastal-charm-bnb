@@ -136,17 +136,23 @@ export default function Gallery() {
             className="w-full h-full object-cover"
             loading="eager"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/70 to-black/90" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/75 to-black/90" />
         </div>
         <div className="container relative z-10 px-4 py-16 text-center">
           <div className="inline-flex items-center justify-center w-16 h-16 mb-6 rounded-full bg-gradient-to-br from-primary to-primary/80 shadow-2xl">
             <Maximize className="h-8 w-8 text-primary-foreground" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]">
-            {t.gallery?.title || 'Gallery'}
+          <h1 
+            className="text-4xl md:text-5xl font-bold mb-4 text-white"
+            style={{ textShadow: '0 2px 4px rgba(0,0,0,1), 0 4px 8px rgba(0,0,0,0.9), 0 8px 16px rgba(0,0,0,0.7)' }}
+          >
+            {t.gallery?.title || 'Property Gallery'}
           </h1>
-          <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto drop-shadow-lg font-medium">
-            {t.gallery?.subtitle || 'Explore our beautiful spaces'}
+          <p 
+            className="text-lg md:text-xl text-white/95 max-w-2xl mx-auto font-medium"
+            style={{ textShadow: '0 2px 4px rgba(0,0,0,1), 0 4px 8px rgba(0,0,0,0.85)' }}
+          >
+            {t.gallery?.subtitle || 'Explore our professionally managed properties through stunning imagery.'}
           </p>
         </div>
       </section>

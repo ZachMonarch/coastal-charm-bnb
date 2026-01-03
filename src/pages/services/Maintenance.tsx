@@ -193,8 +193,8 @@ export default function Maintenance() {
                   {item.icon}
                 </div>
                 <div>
-                  <p className="font-semibold text-sm">{item.title}</p>
-                  <p className="text-xs text-muted-foreground">{item.description}</p>
+                  <p className="font-semibold text-sm text-foreground">{item.title}</p>
+                  <p className="text-xs text-foreground/70">{item.description}</p>
                 </div>
               </div>
             ))}

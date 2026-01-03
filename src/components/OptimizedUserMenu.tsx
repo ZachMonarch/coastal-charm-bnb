@@ -77,8 +77,8 @@ export default function OptimizedUserMenu() {
               variant={hasRole('vendor') ? 'vendor' : 'user'}
             />
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium truncate">{displayName}</p>
-              <p className="text-xs text-muted-foreground truncate flex items-center gap-1">
+              <p className="text-sm font-medium truncate text-foreground">{displayName}</p>
+              <p className="text-xs text-foreground/60 truncate flex items-center gap-1">
                 <Mail className="h-3 w-3" />
                 {user.email}
               </p>

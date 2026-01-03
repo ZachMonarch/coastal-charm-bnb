@@ -131,7 +131,7 @@ export default function PropertyManagement() {
                   {stat.icon}
                 </div>
                 <div className="text-3xl md:text-4xl font-bold text-primary mb-1">{stat.value}</div>
-                <div className="text-sm text-muted-foreground">{stat.label}</div>
+                <div className="text-sm text-foreground/70">{stat.label}</div>
               </div>
             ))}
           </div>

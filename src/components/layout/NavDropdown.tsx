@@ -50,13 +50,13 @@ export default function NavDropdown({ label, items, icon, className }: NavDropdo
           <DropdownMenuItem key={index} asChild>
             <Link
               to={item.href}
-              className="flex items-center gap-3 px-3 py-2.5 cursor-pointer rounded-md text-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground transition-colors"
+              className="flex items-center gap-3 px-3 py-2.5 cursor-pointer rounded-md text-[hsl(0_0%_12%)] dark:text-foreground hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary transition-colors"
             >
               {item.icon && <span className="text-primary">{item.icon}</span>}
               <div className="flex flex-col">
-                <span className="font-medium">{item.label}</span>
+                <span className="font-medium text-[hsl(0_0%_12%)] dark:text-foreground">{item.label}</span>
                 {item.description && (
-                  <span className="text-xs text-muted-foreground">{item.description}</span>
+                  <span className="text-xs text-[hsl(0_0%_35%)] dark:text-muted-foreground">{item.description}</span>
                 )}
               </div>
             </Link>

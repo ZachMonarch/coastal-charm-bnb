@@ -417,6 +417,138 @@
   }
 }
 
+/* === COMPREHENSIVE LIGHT MODE VISIBILITY FIXES === */
+/* Force high-contrast text in light mode across all components */
+
+:root:not(.dark) {
+  /* Strengthen base text colors */
+  --foreground: 0 0% 10%;
+  --muted-foreground: 0 0% 25%;
+  --popover-foreground: 0 0% 10%;
+  --card-foreground: 0 0% 10%;
+}
+
+/* === DROPDOWN MENU LIGHT MODE VISIBILITY === */
+:root:not(.dark) [data-radix-dropdown-menu-content],
+:root:not(.dark) [data-radix-popper-content-wrapper] [role="menu"] {
+  background: hsl(0 0% 100%) !important;
+  border-color: hsl(0 0% 85%) !important;
+}
+
+:root:not(.dark) [data-radix-dropdown-menu-content] span,
+:root:not(.dark) [data-radix-dropdown-menu-content] p,
+:root:not(.dark) [data-radix-dropdown-menu-content] div:not([class*="bg-"]),
+:root:not(.dark) [data-radix-dropdown-menu-content] a {
+  color: hsl(0 0% 12%) !important;
+}
+
+:root:not(.dark) [data-radix-dropdown-menu-content] .text-muted-foreground {
+  color: hsl(0 0% 35%) !important;
+}
+
+:root:not(.dark) [data-radix-dropdown-menu-content] [role="menuitem"]:hover {
+  background: hsl(var(--primary) / 0.08) !important;
+  color: hsl(var(--primary)) !important;
+}
+
+/* === NAVBAR DROPDOWN LINK VISIBILITY === */
+:root:not(.dark) header [data-radix-dropdown-menu-content] a,
+:root:not(.dark) header [data-radix-dropdown-menu-content] button {
+  color: hsl(0 0% 12%) !important;
+}
+
+:root:not(.dark) header [data-radix-dropdown-menu-content] a:hover,
+:root:not(.dark) header [data-radix-dropdown-menu-content] button:hover {
+  color: hsl(var(--primary)) !important;
+}
+
+/* === CARD CONTENT VISIBILITY (LIGHT MODE) === */
+:root:not(.dark) [class*="Card"] p,
+:root:not(.dark) [class*="CardDescription"],
+:root:not(.dark) .neumorphic-card p {
+  color: hsl(0 0% 22%) !important;
+}
+
+:root:not(.dark) [class*="Card"] span:not([class*="text-white"]):not([class*="text-primary"]):not([class*="bg-"]):not([class*="Badge"]) {
+  color: hsl(0 0% 20%) !important;
+}
+
+/* === GENERAL TEXT VISIBILITY (LIGHT MODE) === */
+:root:not(.dark) .text-muted-foreground {
+  color: hsl(0 0% 28%) !important;
+}
+/* General section text - but EXCLUDE hero sections with image overlays */
+:root:not(.dark) section:not(.hero-section) p:not([class*="text-white"]):not([style*="color"]),
+:root:not(.dark) section:not(.hero-section) span:not([class*="text-white"]):not([class*="text-primary"]):not([class*="bg-"]):not([style*="color"]) {
+  color: hsl(0 0% 22%);
+}
+
+/* Preserve white text in hero sections and elements with explicit white text */
+section .text-white,
+section [class*="text-white"],
+.container .text-white {
+  color: rgb(255, 255, 255) !important;
+}
+
+/* === FOOTER VISIBILITY (LIGHT MODE) === */
+:root:not(.dark) footer p,
+:root:not(.dark) footer span:not([class*="bg-"]),
+:root:not(.dark) footer li,
+:root:not(.dark) footer address {
+  color: hsl(0 0% 22%) !important;
+}
+
+:root:not(.dark) footer a:not([class*="text-white"]):not([class*="btn"]) {
+  color: hsl(0 0% 20%) !important;
+}
+
+:root:not(.dark) footer a:hover {
+  color: hsl(var(--primary)) !important;
+}
+
+:root:not(.dark) footer h3,
+:root:not(.dark) footer h4 {
+  color: hsl(0 0% 10%) !important;
+}
+
+/* === OVERLAY TEXT CLASSES (for hero sections on images) === */
+.text-overlay-foreground {
+  color: hsl(0 0% 100%) !important;
+  text-shadow: 
+    0 2px 4px hsl(0 0% 0% / 1),
+    0 4px 8px hsl(0 0% 0% / 0.95),
+    0 8px 16px hsl(0 0% 0% / 0.8),
+    0 0 40px hsl(0 0% 0% / 0.6) !important;
+  -webkit-text-stroke: 0.5px hsl(0 0% 0% / 0.3);
+}
+
+.text-overlay-muted {
+  color: hsl(0 0% 100% / 0.95) !important;
+  text-shadow: 
+    0 2px 4px hsl(0 0% 0% / 1),
+    0 4px 8px hsl(0 0% 0% / 0.9),
+    0 8px 16px hsl(0 0% 0% / 0.7),
+    0 0 30px hsl(0 0% 0% / 0.5) !important;
+}
+
+/* === DARK MODE VISIBILITY POLISH === */
+.dark .text-muted-foreground {
+  color: hsl(0 0% 75%) !important;
+}
+
+.dark [class*="Card"] p,
+.dark [class*="CardDescription"] {
+  color: hsl(0 0% 78%) !important;
+}
+
+.dark footer a {
+  color: hsl(0 0% 75%) !important;
+}
+
+.dark footer a:hover {
+  color: hsl(var(--primary)) !important;
+}
+
 @layer base {
   body {
     background: hsl(var(--background));
