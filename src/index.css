@@ -3098,6 +3098,42 @@ footer p:not(.text-primary) {
   color: hsl(0 0% 45%);
 }
 
+/* === NAVBAR LINK VISIBILITY FIX (LIGHT MODE) === */
+:root:not(.dark) header nav a,
+:root:not(.dark) header nav button:not([class*="bg-"]) {
+  color: hsl(0 0% 12%) !important;
+}
+
+:root:not(.dark) header nav a:hover,
+:root:not(.dark) header nav button:hover {
+  color: hsl(var(--primary)) !important;
+}
+
+/* Remove text-shadow interference in light mode navbar */
+:root:not(.dark) .text-shadow-nav-light {
+  text-shadow: none !important;
+}
+
+/* === COMPREHENSIVE LIGHT MODE TEXT VISIBILITY === */
+:root:not(.dark) {
+  --foreground: 0 0% 10%;
+  --muted-foreground: 0 0% 25%;
+}
+
+/* All general text elements in light mode */
+:root:not(.dark) p:not([class*="text-white"]):not([class*="text-primary"]) {
+  color: hsl(0 0% 18%);
+}
+
+:root:not(.dark) span:not([class*="text-white"]):not([class*="text-primary"]):not([class*="bg-"]) {
+  color: hsl(0 0% 18%);
+}
+
+/* Ensure muted text is readable */
+:root:not(.dark) .text-muted-foreground {
+  color: hsl(0 0% 28%) !important;
+}
+
 /* === ACCESSIBILITY FOCUS STATES (WCAG 2.1 AA) === */
 /* High-visibility focus for all interactive elements */
 :focus-visible {

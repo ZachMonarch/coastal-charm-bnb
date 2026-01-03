@@ -154,8 +154,7 @@ export default function Navbar() {
                 to="/"
                 className={cn(
                   "px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200",
-                  "text-foreground hover:text-primary hover:bg-primary/5",
-                  "text-shadow-nav-light dark:text-shadow-nav",
+                  "text-[hsl(0_0%_12%)] dark:text-foreground hover:text-primary hover:bg-primary/5",
                   "relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2",
                   "after:w-0 hover:after:w-3/4 after:h-0.5 after:bg-primary/60 after:transition-all",
                   "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none",
@@ -177,7 +176,7 @@ export default function Navbar() {
                   to={link.path}
                   className={cn(
                     "px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200",
-                    "text-foreground hover:text-primary hover:bg-primary/5",
+                    "text-[hsl(0_0%_12%)] dark:text-foreground hover:text-primary hover:bg-primary/5",
                     "text-shadow-nav-light dark:text-shadow-nav",
                     "relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2",
                     "after:w-0 hover:after:w-3/4 after:h-0.5 after:bg-primary/60 after:transition-all",

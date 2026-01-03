@@ -183,12 +183,18 @@ export default function UnifiedSettings() {
                     </div>
                     <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50 border border-border/50">
                       <span className="text-sm font-medium text-muted-foreground">Role:</span>
-                      <span className="text-sm font-semibold capitalize text-primary">{actualRole}</span>
-                      {hasPendingRequest && existingRequest && (
-                        <span className="flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-warning/15 text-warning border border-warning/30">
-                          <Clock className="h-3 w-3" />
-                          {existingRequest.role_requested} access pending
-                        </span>
+                      {hasPendingRequest && existingRequest ? (
+                        <>
+                          <span className="text-sm font-semibold capitalize text-primary">
+                            {existingRequest.role_requested}
+                          </span>
+                          <span className="flex items-center gap-1.5 text-xs px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 border border-amber-300 dark:border-amber-700 font-medium">
+                            <Clock className="h-3 w-3" />
+                            Pending Approval
+                          </span>
+                        </>
+                      ) : (
+                        <span className="text-sm font-semibold capitalize text-primary">{actualRole}</span>
                       )}
                     </div>
                   </div>
