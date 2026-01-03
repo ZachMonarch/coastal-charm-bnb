@@ -29,11 +29,13 @@ export default function NavDropdown({ label, items, icon, className }: NavDropdo
       <DropdownMenuTrigger
         className={cn(
           "flex items-center gap-1 px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200",
-          "text-[hsl(0_0%_12%)] dark:text-foreground hover:text-primary hover:bg-primary/10",
+          "text-[hsl(0_0%_12%)] dark:text-foreground",
+          "hover:text-primary hover:bg-primary/10",
           "data-[state=open]:bg-primary/10 data-[state=open]:text-primary",
           "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none",
           "relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2",
           "after:w-0 data-[state=open]:after:w-3/4 after:h-0.5 after:bg-primary after:transition-all",
+          "[&>span]:text-inherit [&>svg]:text-inherit",
           className
         )}
         aria-label={`${label} menu`}
@@ -56,7 +58,7 @@ export default function NavDropdown({ label, items, icon, className }: NavDropdo
               <div className="flex flex-col">
                 <span className="font-medium text-[hsl(0_0%_12%)] dark:text-foreground">{item.label}</span>
                 {item.description && (
-                  <span className="text-xs text-[hsl(0_0%_35%)] dark:text-muted-foreground">{item.description}</span>
+                  <span className="text-xs text-[hsl(0_0%_40%)] dark:text-muted-foreground">{item.description}</span>
                 )}
               </div>
             </Link>

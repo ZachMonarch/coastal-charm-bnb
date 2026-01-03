@@ -1,16 +1,18 @@
 import React from 'react';
 import { useAuth } from '@/contexts/OptimizedAuthContext';
 import { Button } from '@/components/ui/button';
-import { LogOut, Settings, Bell, User, Mail } from 'lucide-react';
+import { LogOut, Settings, Bell, User, Mail, Clock } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import ReusableAvatar from './Avatar';
 import { Badge } from '@/components/ui/badge';
 import { Link, useNavigate } from 'react-router-dom';
 import { getRoleBadgeColor } from '@/utils/themeColors';
 import { logger } from '@/utils/logger';
+import { useAccessRequest } from '@/hooks/useAccessRequest';
 
 export default function OptimizedUserMenu() {
   const { user, signOut, isAuthenticated, getUserRole, hasRole } = useAuth();
+  const { existingRequest, hasPendingRequest } = useAccessRequest();
   const navigate = useNavigate();
 
   if (!isAuthenticated || !user) {
@@ -56,7 +58,7 @@ export default function OptimizedUserMenu() {
       <DropdownMenuTrigger asChild>
         <Button 
           variant="ghost" 
-          className="relative h-8 w-8 rounded-full border border-primary/20 min-h-[44px] min-w-[44px] hover:border-primary/50 hover:bg-primary/5 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 transition-all"
+          className="relative h-10 w-10 rounded-full border-2 border-primary/50 min-h-[44px] min-w-[44px] hover:border-primary hover:bg-primary/10 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 transition-all shadow-md bg-card"
           aria-label="Open user menu"
         >
           <ReusableAvatar 
@@ -77,50 +79,74 @@ export default function OptimizedUserMenu() {
               variant={hasRole('vendor') ? 'vendor' : 'user'}
             />
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium truncate text-foreground">{displayName}</p>
-              <p className="text-xs text-foreground/60 truncate flex items-center gap-1">
+              <p className="text-sm font-medium truncate text-[hsl(0_0%_12%)] dark:text-foreground">{displayName}</p>
+              <p className="text-xs truncate flex items-center gap-1 text-[hsl(0_0%_40%)] dark:text-muted-foreground">
                 <Mail className="h-3 w-3" />
                 {user.email}
               </p>
             </div>
           </div>
           <div className="flex items-center justify-between pt-2">
-            <Badge className={`${getRoleBadgeColor(userRole)} text-xs capitalize`}>
-              {userRole.replace('_', ' ')}
-            </Badge>
+            {hasPendingRequest && existingRequest ? (
+              <div className="flex items-center gap-2 flex-wrap">
+                <Badge className={`${getRoleBadgeColor(existingRequest.role_requested)} text-xs capitalize`}>
+                  {existingRequest.role_requested.replace('_', ' ')}
+                </Badge>
+                <span className="flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 border border-amber-300 dark:border-amber-700 font-medium">
+                  <Clock className="h-3 w-3" />
+                  Pending
+                </span>
+              </div>
+            ) : (
+              <Badge className={`${getRoleBadgeColor(userRole)} text-xs capitalize`}>
+                {userRole.replace('_', ' ')}
+              </Badge>
+            )}
           </div>
         </div>
         
         <DropdownMenuSeparator />
         
         <DropdownMenuItem asChild>
-          <Link to={hasRole('vendor') ? "/vendor/dashboard" : "/dashboard"} className="flex items-center px-3 py-2 hover:bg-primary/5 hover:text-primary focus:bg-primary/5 focus:text-primary transition-colors">
-            <User className="mr-3 h-4 w-4" />
-            Dashboard
+          <Link 
+            to={hasRole('vendor') ? "/vendor/dashboard" : "/dashboard"} 
+            className="flex items-center px-3 py-2 text-[hsl(0_0%_12%)] dark:text-foreground hover:bg-primary/5 hover:text-primary focus:bg-primary/5 focus:text-primary transition-colors"
+          >
+            <User className="mr-3 h-4 w-4 text-primary" />
+            <span className="text-[hsl(0_0%_12%)] dark:text-foreground">Dashboard</span>
           </Link>
         </DropdownMenuItem>
         
         {hasRole('vendor') && (
           <DropdownMenuItem asChild>
-            <Link to="/vendor/profile" className="flex items-center px-3 py-2 hover:bg-primary/5 hover:text-primary focus:bg-primary/5 focus:text-primary transition-colors">
-              <User className="mr-3 h-4 w-4" />
-              Profile
+            <Link 
+              to="/vendor/profile" 
+              className="flex items-center px-3 py-2 text-[hsl(0_0%_12%)] dark:text-foreground hover:bg-primary/5 hover:text-primary focus:bg-primary/5 focus:text-primary transition-colors"
+            >
+              <User className="mr-3 h-4 w-4 text-primary" />
+              <span className="text-[hsl(0_0%_12%)] dark:text-foreground">Profile</span>
             </Link>
           </DropdownMenuItem>
         )}
         
         <DropdownMenuItem asChild>
-          <Link to="/settings" className="flex items-center px-3 py-2 hover:bg-primary/5 hover:text-primary focus:bg-primary/5 focus:text-primary transition-colors">
-            <Settings className="mr-3 h-4 w-4" />
-            Settings
+          <Link 
+            to="/settings" 
+            className="flex items-center px-3 py-2 text-[hsl(0_0%_12%)] dark:text-foreground hover:bg-primary/5 hover:text-primary focus:bg-primary/5 focus:text-primary transition-colors"
+          >
+            <Settings className="mr-3 h-4 w-4 text-primary" />
+            <span className="text-[hsl(0_0%_12%)] dark:text-foreground">Settings</span>
           </Link>
         </DropdownMenuItem>
         
         {hasRole('admin') && (
           <DropdownMenuItem asChild>
-            <Link to="/admin" className="flex items-center px-3 py-2 hover:bg-primary/5 hover:text-primary focus:bg-primary/5 focus:text-primary transition-colors">
-              <Settings className="mr-3 h-4 w-4" />
-              Admin Panel
+            <Link 
+              to="/admin" 
+              className="flex items-center px-3 py-2 text-[hsl(0_0%_12%)] dark:text-foreground hover:bg-primary/5 hover:text-primary focus:bg-primary/5 focus:text-primary transition-colors"
+            >
+              <Settings className="mr-3 h-4 w-4 text-primary" />
+              <span className="text-[hsl(0_0%_12%)] dark:text-foreground">Admin Panel</span>
             </Link>
           </DropdownMenuItem>
         )}
