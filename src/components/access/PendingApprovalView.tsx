@@ -69,8 +69,8 @@ export function PendingApprovalView() {
 
           <Card className="shadow-xl border-success/20 bg-white dark:bg-card backdrop-blur">
             <CardContent className="pt-8 pb-6 text-center">
-              <p className="text-muted-foreground mb-6">
-                Your <span className="font-semibold text-foreground">
+              <p className="text-slate-600 dark:text-slate-300 mb-6">
+                Your <span className="font-semibold text-slate-900 dark:text-slate-100">
                   {existingRequest?.role_requested === 'vendor' ? 'Vendor' : 'Property Manager'}
                 </span> access has been approved. Click below to access your dashboard.
               </p>
@@ -110,13 +110,13 @@ export function PendingApprovalView() {
           <Card className="shadow-xl border-destructive/20 bg-white dark:bg-card backdrop-blur">
             <CardContent className="pt-8 pb-6">
               <div className="text-center mb-6">
-                <p className="text-muted-foreground mb-4">
+                <p className="text-slate-600 dark:text-slate-300 mb-4">
                   Unfortunately, your access request was not approved at this time.
                 </p>
                 {existingRequest?.admin_notes && (
-                  <div className="bg-muted/50 rounded-lg p-4 text-left">
-                    <p className="text-sm font-medium text-foreground mb-1">Admin Notes:</p>
-                    <p className="text-sm text-muted-foreground">{existingRequest.admin_notes}</p>
+                  <div className="bg-slate-100 dark:bg-slate-800/80 rounded-lg p-4 text-left border border-border/50">
+                    <p className="text-sm font-medium text-slate-900 dark:text-slate-100 mb-1">Admin Notes:</p>
+                    <p className="text-sm text-slate-600 dark:text-slate-300">{existingRequest.admin_notes}</p>
                   </div>
                 )}
               </div>
@@ -172,24 +172,24 @@ export function PendingApprovalView() {
               <div className="mx-auto w-16 h-16 rounded-full bg-amber-100 dark:bg-warning/10 flex items-center justify-center mb-4 animate-pulse">
                 <Clock className="w-8 h-8 text-amber-600 dark:text-warning" />
               </div>
-              <h2 className="text-xl font-serif font-bold text-foreground mb-2">
+              <h2 className="text-xl font-serif font-bold text-slate-900 dark:text-slate-50 mb-2">
                 Access Request Pending
               </h2>
-              <p className="text-muted-foreground text-sm max-w-sm mx-auto">
-                Your <span className="font-semibold text-foreground">
+              <p className="text-slate-600 dark:text-slate-300 text-sm max-w-sm mx-auto">
+                Your <span className="font-semibold text-slate-900 dark:text-slate-100">
                   {existingRequest?.role_requested === 'vendor' ? 'Vendor' : 'Property Manager'}
                 </span> application is being reviewed. You'll receive full access once approved by our team.
               </p>
-              <p className="text-xs text-muted-foreground mt-2 italic">
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 italic">
                 Note: Your account temporarily shows "Tenant" status until your {existingRequest?.role_requested === 'vendor' ? 'vendor' : 'property manager'} access is approved.
               </p>
             </div>
 
             {/* Request Details */}
-            <div className="bg-muted/50 rounded-xl p-4 mb-6 space-y-3">
+            <div className="bg-slate-100 dark:bg-slate-800/80 rounded-xl p-4 mb-6 space-y-3 border border-border/50">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Request Type:</span>
-                <Badge variant="outline" className="flex items-center gap-1.5 text-foreground">
+                <span className="text-sm text-slate-600 dark:text-slate-300">Request Type:</span>
+                <Badge variant="outline" className="flex items-center gap-1.5 text-slate-900 dark:text-slate-100">
                   {existingRequest?.role_requested === 'vendor' ? (
                     <>
                       <Briefcase className="h-3 w-3" />
@@ -204,8 +204,8 @@ export function PendingApprovalView() {
                 </Badge>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Submitted:</span>
-                <span className="text-sm font-medium text-foreground">
+                <span className="text-sm text-slate-600 dark:text-slate-300">Submitted:</span>
+                <span className="text-sm font-medium text-slate-900 dark:text-slate-100">
                   {existingRequest?.created_at 
                     ? formatDistanceToNow(new Date(existingRequest.created_at), { addSuffix: true })
                     : 'Just now'}
@@ -213,13 +213,13 @@ export function PendingApprovalView() {
               </div>
               {existingRequest?.company_name && (
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Company:</span>
-                  <span className="text-sm font-medium text-foreground">{existingRequest.company_name}</span>
+                  <span className="text-sm text-slate-600 dark:text-slate-300">Company:</span>
+                  <span className="text-sm font-medium text-slate-900 dark:text-slate-100">{existingRequest.company_name}</span>
                 </div>
               )}
               <div className="pt-2 border-t border-border/50">
-                <p className="text-xs text-muted-foreground text-center">
-                  Estimated review time: <span className="font-medium">1-2 business days</span>
+                <p className="text-xs text-slate-500 dark:text-slate-400 text-center">
+                  Estimated review time: <span className="font-medium text-slate-700 dark:text-slate-200">1-2 business days</span>
                 </p>
               </div>
             </div>
@@ -264,8 +264,8 @@ export function PendingApprovalView() {
         </Card>
 
         {/* Signed in as */}
-        <p className="text-center text-xs text-muted-foreground mt-4">
-          Signed in as <span className="font-medium">{user?.email}</span>
+        <p className="text-center text-xs text-slate-500 dark:text-slate-400 mt-4">
+          Signed in as <span className="font-medium text-slate-700 dark:text-slate-200">{user?.email}</span>
         </p>
       </div>
     </div>

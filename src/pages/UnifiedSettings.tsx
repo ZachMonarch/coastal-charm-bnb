@@ -131,29 +131,29 @@ export default function UnifiedSettings() {
 
         <Tabs defaultValue="profile" className="space-y-6">
           <TabsList variant="colorful" className="w-full lg:w-auto">
-            <TabsTrigger value="profile" variant="colorful">
+            <TabsTrigger value="profile" variant="colorful" className="text-slate-800 dark:text-slate-200">
               <User className="h-4 w-4" />
               <span className="hidden sm:inline">Profile</span>
             </TabsTrigger>
-            <TabsTrigger value="security" variant="colorful">
+            <TabsTrigger value="security" variant="colorful" className="text-slate-800 dark:text-slate-200">
               <Shield className="h-4 w-4" />
               <span className="hidden sm:inline">Security</span>
             </TabsTrigger>
-            <TabsTrigger value="notifications" variant="colorful">
+            <TabsTrigger value="notifications" variant="colorful" className="text-slate-800 dark:text-slate-200">
               <Bell className="h-4 w-4" />
               <span className="hidden sm:inline">Notifications</span>
             </TabsTrigger>
             {isVendor && (
-              <TabsTrigger value="billing" variant="colorful">
+              <TabsTrigger value="billing" variant="colorful" className="text-slate-800 dark:text-slate-200">
                 <CreditCard className="h-4 w-4" />
                 <span className="hidden sm:inline">Billing</span>
               </TabsTrigger>
             )}
-            <TabsTrigger value="preferences" variant="colorful">
+            <TabsTrigger value="preferences" variant="colorful" className="text-slate-800 dark:text-slate-200">
               <Globe className="h-4 w-4" />
               <span className="hidden sm:inline">Preferences</span>
             </TabsTrigger>
-            <TabsTrigger value="appearance" variant="colorful">
+            <TabsTrigger value="appearance" variant="colorful" className="text-slate-800 dark:text-slate-200">
               <Monitor className="h-4 w-4" />
               <span className="hidden sm:inline">Appearance</span>
             </TabsTrigger>
