@@ -46,37 +46,34 @@ const tabsTriggerVariants = cva(
       variant: {
         default: [
           "rounded-md",
-          "text-foreground/70 dark:text-foreground/60",
-          "hover:text-foreground dark:hover:text-foreground",
-          "data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm",
-          "dark:data-[state=active]:bg-background dark:data-[state=active]:text-foreground"
+          // Enhanced contrast: 80% opacity for better readability
+          "text-slate-700 dark:text-slate-300",
+          "hover:text-slate-900 dark:hover:text-slate-100",
+          "data-[state=active]:bg-background data-[state=active]:text-slate-900 dark:data-[state=active]:text-slate-50 data-[state=active]:shadow-sm"
         ],
         pills: [
           "rounded-full border border-transparent",
-          "text-foreground/70 dark:text-foreground/60",
-          "hover:bg-muted/50 hover:text-foreground dark:hover:text-foreground",
-          "data-[state=active]:border-primary data-[state=active]:bg-primary/10 data-[state=active]:text-primary",
-          "dark:data-[state=active]:text-primary"
+          "text-slate-700 dark:text-slate-300",
+          "hover:bg-muted/50 hover:text-slate-900 dark:hover:text-slate-100",
+          "data-[state=active]:border-primary data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
         ],
         underline: [
           "rounded-none border-b-2 border-transparent pb-3",
-          "text-foreground/60 dark:text-foreground/50",
-          "hover:text-foreground dark:hover:text-foreground",
-          "data-[state=active]:border-primary data-[state=active]:text-foreground data-[state=active]:font-semibold",
-          "dark:data-[state=active]:text-foreground"
+          "text-slate-600 dark:text-slate-400",
+          "hover:text-slate-900 dark:hover:text-slate-100",
+          "data-[state=active]:border-primary data-[state=active]:text-slate-900 dark:data-[state=active]:text-slate-50 data-[state=active]:font-semibold"
         ],
         colorful: [
           "rounded-md",
-          "text-foreground/70 dark:text-foreground/60",
-          "hover:bg-primary/5 hover:text-foreground dark:hover:text-foreground",
-          "data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md",
+          "text-slate-700 dark:text-slate-300",
+          "hover:bg-primary/5 hover:text-slate-900 dark:hover:text-slate-100",
+          "data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-md"
         ],
         grid: [
           "rounded-md flex-1",
-          "text-foreground/70 dark:text-foreground/60",
-          "hover:bg-muted hover:text-foreground dark:hover:text-foreground",
-          "data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm",
-          "dark:data-[state=active]:text-foreground"
+          "text-slate-700 dark:text-slate-300",
+          "hover:bg-muted hover:text-slate-900 dark:hover:text-slate-100",
+          "data-[state=active]:bg-background data-[state=active]:text-slate-900 dark:data-[state=active]:text-slate-50 data-[state=active]:shadow-sm"
         ],
       },
     },

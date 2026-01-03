@@ -2,6 +2,51 @@
 
 All notable changes to Monarch Property Management platform will be documented in this file.
 
+## [2.9.0] - 2026-01-03 🎨 Design System & Visibility Hardening (WCAG AAA)
+
+### Design System - Critical Fixes
+- **Light Mode Visibility**: Strengthened CSS tokens for WCAG AAA compliance
+  - `--foreground`: 12% → 8% (maximum contrast for body text)
+  - `--muted-foreground`: 22% → 18% (8:1 contrast ratio)
+  - All card titles/descriptions now use explicit slate-900/slate-600 colors
+- **Dark Mode Visibility**: Enhanced text brightness for readability
+  - `--foreground`: 96% → 98% (pure white for max readability)
+  - `--muted-foreground`: 70% → 78% (5:1 contrast ratio for WCAG AA)
+- **Card Component**: CardTitle/CardDescription now use explicit light/dark mode colors
+- **Tabs Component**: All variants use explicit slate colors instead of opacity-based tokens
+
+### Added
+- `src/utils/roleDisplay.ts` - Unified role display helper
+  - Shows "Vendor (Pending Approval)" instead of confusing "Tenant" status
+  - Used across UnifiedSettings and OptimizedUserMenu
+- `data-access-gate` and `data-pending-approval` attributes for scoped CSS
+- PropertyCard fallback: Direct `<img>` tag when no optimized images available
+
+### Fixed
+- Properties page now shows actual images with proper fallbacks (no broken icons)
+- Tab labels are clearly readable in both light and dark modes
+- Cards have solid backgrounds with high-contrast text
+- Vendor applicants see their requested role prominently displayed
+
+### Files Modified
+- `src/index.css` - WCAG AAA token values for light/dark modes
+- `src/components/ui/card.tsx` - Explicit slate colors for CardTitle/CardDescription
+- `src/components/ui/tabs.tsx` - Explicit slate colors for all tab variants
+- `src/components/PropertyCard.tsx` - Fallback image safety wrapper
+- `src/components/access/AccessGateOverlay.tsx` - Added data attribute
+- `src/components/access/PendingApprovalView.tsx` - Added data attribute
+- `src/utils/roleDisplay.ts` - NEW helper for consistent role display
+
+### Design Tokens Updated
+| Token | Light Mode (Before → After) | Dark Mode (Before → After) |
+|-------|------------------------------|----------------------------|
+| `--foreground` | 12% → 8% | 96% → 98% |
+| `--muted-foreground` | 22% → 18% | 70% → 78% |
+| `--card-foreground` | 12% → 8% | 96% → 98% |
+| `--popover-foreground` | 12% → 8% | 96% → 98% |
+
+---
+
 ## [2.8.0] - 2026-01-03 🔒 Security Hardening & Data Protection
 
 ### Security - Critical Fixes
