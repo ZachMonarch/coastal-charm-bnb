@@ -62,15 +62,15 @@ export function PendingApprovalView() {
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-emerald-100 dark:bg-success/10 mb-4">
               <CheckCircle className="w-8 h-8 text-emerald-600 dark:text-success" />
             </div>
-            <h1 className="text-3xl font-serif font-bold text-slate-900 dark:text-foreground">
+            <h1 className="text-3xl font-serif font-bold text-foreground">
               Access Approved!
             </h1>
           </div>
 
           <Card className="shadow-xl border-success/20 bg-white dark:bg-card backdrop-blur">
             <CardContent className="pt-8 pb-6 text-center">
-              <p className="text-slate-600 dark:text-muted-foreground mb-6">
-                Your <span className="font-semibold text-slate-900 dark:text-foreground">
+              <p className="text-muted-foreground mb-6">
+                Your <span className="font-semibold text-foreground">
                   {existingRequest?.role_requested === 'vendor' ? 'Vendor' : 'Property Manager'}
                 </span> access has been approved. Click below to access your dashboard.
               </p>
@@ -102,7 +102,7 @@ export function PendingApprovalView() {
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-red-100 dark:bg-destructive/10 mb-4">
               <XCircle className="w-8 h-8 text-red-600 dark:text-destructive" />
             </div>
-            <h1 className="text-3xl font-serif font-bold text-slate-900 dark:text-foreground">
+            <h1 className="text-3xl font-serif font-bold text-foreground">
               Request Not Approved
             </h1>
           </div>
@@ -110,13 +110,13 @@ export function PendingApprovalView() {
           <Card className="shadow-xl border-destructive/20 bg-white dark:bg-card backdrop-blur">
             <CardContent className="pt-8 pb-6">
               <div className="text-center mb-6">
-                <p className="text-slate-600 dark:text-muted-foreground mb-4">
+                <p className="text-muted-foreground mb-4">
                   Unfortunately, your access request was not approved at this time.
                 </p>
                 {existingRequest?.admin_notes && (
-                  <div className="bg-slate-100 dark:bg-muted/50 rounded-lg p-4 text-left">
-                    <p className="text-sm font-medium text-slate-900 dark:text-foreground mb-1">Admin Notes:</p>
-                    <p className="text-sm text-slate-600 dark:text-muted-foreground">{existingRequest.admin_notes}</p>
+                  <div className="bg-muted/50 rounded-lg p-4 text-left">
+                    <p className="text-sm font-medium text-foreground mb-1">Admin Notes:</p>
+                    <p className="text-sm text-muted-foreground">{existingRequest.admin_notes}</p>
                   </div>
                 )}
               </div>
@@ -129,7 +129,7 @@ export function PendingApprovalView() {
                   </Button>
                 </Link>
                 <button onClick={handleSignOut} className="w-full">
-                  <Button variant="ghost" className="w-full text-slate-600 dark:text-muted-foreground">
+                  <Button variant="ghost" className="w-full text-muted-foreground hover:text-foreground">
                     <LogOut className="mr-2 h-4 w-4" />
                     Sign Out
                   </Button>
@@ -157,10 +157,10 @@ export function PendingApprovalView() {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-amber-100 dark:bg-primary/10 mb-4">
             <Crown className="w-8 h-8 text-amber-700 dark:text-primary" />
           </div>
-          <h1 className="text-3xl font-serif font-bold text-slate-900 dark:text-foreground">
+          <h1 className="text-3xl font-serif font-bold text-foreground">
             Monarch Property
           </h1>
-          <p className="text-slate-600 dark:text-muted-foreground mt-1">
+          <p className="text-muted-foreground mt-1">
             Management Platform
           </p>
         </div>
@@ -172,19 +172,19 @@ export function PendingApprovalView() {
               <div className="mx-auto w-16 h-16 rounded-full bg-amber-100 dark:bg-warning/10 flex items-center justify-center mb-4 animate-pulse">
                 <Clock className="w-8 h-8 text-amber-600 dark:text-warning" />
               </div>
-              <h2 className="text-xl font-serif font-bold text-slate-900 dark:text-foreground mb-2">
+              <h2 className="text-xl font-serif font-bold text-foreground mb-2">
                 Access Request Pending
               </h2>
-              <p className="text-slate-600 dark:text-muted-foreground text-sm max-w-sm mx-auto">
+              <p className="text-muted-foreground text-sm max-w-sm mx-auto">
                 Your request is being reviewed by our team. You'll receive a notification once it's processed.
               </p>
             </div>
 
             {/* Request Details */}
-            <div className="bg-slate-100 dark:bg-muted/30 rounded-xl p-4 mb-6 space-y-3">
+            <div className="bg-muted/50 rounded-xl p-4 mb-6 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-slate-600 dark:text-muted-foreground">Request Type:</span>
-                <Badge variant="outline" className="flex items-center gap-1.5 text-slate-700 dark:text-foreground">
+                <span className="text-sm text-muted-foreground">Request Type:</span>
+                <Badge variant="outline" className="flex items-center gap-1.5 text-foreground">
                   {existingRequest?.role_requested === 'vendor' ? (
                     <>
                       <Briefcase className="h-3 w-3" />
@@ -199,8 +199,8 @@ export function PendingApprovalView() {
                 </Badge>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-slate-600 dark:text-muted-foreground">Submitted:</span>
-                <span className="text-sm font-medium text-slate-900 dark:text-foreground">
+                <span className="text-sm text-muted-foreground">Submitted:</span>
+                <span className="text-sm font-medium text-foreground">
                   {existingRequest?.created_at 
                     ? formatDistanceToNow(new Date(existingRequest.created_at), { addSuffix: true })
                     : 'Just now'}
@@ -208,12 +208,12 @@ export function PendingApprovalView() {
               </div>
               {existingRequest?.company_name && (
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-slate-600 dark:text-muted-foreground">Company:</span>
-                  <span className="text-sm font-medium text-slate-900 dark:text-foreground">{existingRequest.company_name}</span>
+                  <span className="text-sm text-muted-foreground">Company:</span>
+                  <span className="text-sm font-medium text-foreground">{existingRequest.company_name}</span>
                 </div>
               )}
               <div className="pt-2 border-t border-border/50">
-                <p className="text-xs text-slate-500 dark:text-muted-foreground text-center">
+                <p className="text-xs text-muted-foreground text-center">
                   Estimated review time: <span className="font-medium">1-2 business days</span>
                 </p>
               </div>
@@ -223,7 +223,7 @@ export function PendingApprovalView() {
             <Button 
               variant="outline" 
               onClick={handleRefresh}
-              className="w-full mb-4"
+              className="w-full mb-4 text-foreground"
             >
               <RefreshCw className="mr-2 h-4 w-4" />
               Check Request Status
@@ -234,14 +234,14 @@ export function PendingApprovalView() {
               <div className="flex gap-4">
                 <Link 
                   to="/profile" 
-                  className="flex items-center gap-1.5 text-slate-600 dark:text-muted-foreground hover:text-slate-900 dark:hover:text-foreground transition-colors"
+                  className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
                 >
                   <User className="h-4 w-4" />
                   Profile
                 </Link>
                 <Link 
                   to="/settings" 
-                  className="flex items-center gap-1.5 text-slate-600 dark:text-muted-foreground hover:text-slate-900 dark:hover:text-foreground transition-colors"
+                  className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
                 >
                   <Settings className="h-4 w-4" />
                   Settings
@@ -249,7 +249,7 @@ export function PendingApprovalView() {
               </div>
               <button
                 onClick={handleSignOut}
-                className="flex items-center gap-1.5 text-slate-600 dark:text-muted-foreground hover:text-destructive transition-colors"
+                className="flex items-center gap-1.5 text-muted-foreground hover:text-destructive transition-colors"
               >
                 <LogOut className="h-4 w-4" />
                 Sign Out
@@ -259,7 +259,7 @@ export function PendingApprovalView() {
         </Card>
 
         {/* Signed in as */}
-        <p className="text-center text-xs text-slate-500 dark:text-muted-foreground mt-4">
+        <p className="text-center text-xs text-muted-foreground mt-4">
           Signed in as <span className="font-medium">{user?.email}</span>
         </p>
       </div>

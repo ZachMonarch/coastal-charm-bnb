@@ -412,7 +412,7 @@ export function AppSidebar() {
                                 getNavCls({ isActive: itemIsActive, groupTitle: group.title }),
                                 itemIsActive 
                                   ? "text-primary" 
-                                  : "text-[hsl(0_0%_15%)] dark:text-foreground"
+                                  : "text-foreground"
                               )}
                               aria-current={itemIsActive ? "page" : undefined}
                               title={item.description || item.title}
