@@ -427,9 +427,7 @@
 
 /* === MUTED TEXT VISIBILITY (Single consolidated rule) === */
 /* NOTE: Dark mode rule is in @layer base above - do not duplicate */
-:root:not(.dark) .text-muted-foreground {
-  color: hsl(0 0% 22%) !important;
-}
+/* Light mode handled in LIGHT MODE VISIBILITY ENHANCEMENTS section */
 
 /* === NAVBAR TEXT & BUTTON VISIBILITY (FORCED) === */
 /* Light mode: dark text for maximum contrast - using !important to override all conflicts */
@@ -942,12 +940,21 @@ table td {
 
 /* === LIGHT MODE VISIBILITY ENHANCEMENTS === */
 /* Ensure text is clearly visible in light mode across all components */
-/* NOTE: .text-muted-foreground consolidated above - removed duplicate */
+
+/* GLOBAL Light mode text visibility - SINGLE SOURCE OF TRUTH */
+:root:not(.dark) .text-muted-foreground {
+  color: #3a3a3a !important;
+}
 
 /* Card description text enhancement */
-[class*="CardDescription"],
-.text-sm.text-muted-foreground {
-  color: hsl(0 0% 24%);
+:root:not(.dark) [class*="CardDescription"],
+:root:not(.dark) .text-sm.text-muted-foreground {
+  color: #333333 !important;
+}
+
+/* Auth page text visibility */
+:root:not(.dark) p.text-muted-foreground {
+  color: #444444 !important;
 }
 
 /* Ensure icon visibility in light mode - INCREASED CONTRAST */
@@ -996,14 +1003,22 @@ table td {
   stroke-width: 2.5;
 }
 
-/* General tab trigger icon visibility in light mode */
+/* General tab trigger text and icon visibility in light mode */
+:root:not(.dark) [data-radix-collection-item] {
+  color: #3a3a3a !important;
+}
+
 :root:not(.dark) [data-radix-collection-item] svg {
   color: #3a3a3a !important;
   stroke: #3a3a3a !important;
   stroke-width: 2.5;
 }
 
-/* Active tab icons in light mode */
+/* Active tab text and icons in light mode */
+:root:not(.dark) [data-radix-collection-item][data-state="active"] {
+  color: inherit;
+}
+
 :root:not(.dark) [data-radix-collection-item][data-state="active"] svg {
   color: white !important;
   stroke: white !important;
@@ -1060,6 +1075,21 @@ label {
 .stat-label,
 .metric-label {
   color: hsl(0 0% 28%);
+}
+
+/* === LIGHT MODE LINK VISIBILITY === */
+/* Ensure links with text-primary are visible in light mode */
+:root:not(.dark) a.text-primary,
+:root:not(.dark) a[class*="text-primary"],
+:root:not(.dark) .text-primary a {
+  color: #8B5A2B !important;
+}
+
+/* Auth page link visibility */
+:root:not(.dark) p a[href="/terms"],
+:root:not(.dark) p a[href="/privacy"] {
+  color: #8B5A2B !important;
+  font-weight: 600;
 }
 
 

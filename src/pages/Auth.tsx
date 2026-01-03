@@ -680,11 +680,11 @@ export default function Auth() {
             </Tabs>
           </Card>
 
-          <p className="text-center mt-6 text-sm text-muted-foreground">
+          <p className="text-center mt-6 text-sm text-slate-600 dark:text-slate-400">
             By continuing, you agree to our{" "}
-            <Link to="/terms" className="text-primary hover:underline">Terms</Link>
+            <Link to="/terms" className="text-[#8B5A2B] dark:text-primary font-semibold hover:underline">Terms</Link>
             {" "}and{" "}
-            <Link to="/privacy" className="text-primary hover:underline">Privacy Policy</Link>
+            <Link to="/privacy" className="text-[#8B5A2B] dark:text-primary font-semibold hover:underline">Privacy Policy</Link>
           </p>
         </div>
       </div>
