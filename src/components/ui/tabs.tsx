@@ -46,22 +46,22 @@ const tabsTriggerVariants = cva(
       variant: {
         default: [
           "rounded-md",
-          // Enhanced contrast: 80% opacity for better readability
-          "text-slate-700 dark:text-slate-300",
-          "hover:text-slate-900 dark:hover:text-slate-100",
-          "data-[state=active]:bg-background data-[state=active]:text-slate-900 dark:data-[state=active]:text-slate-50 data-[state=active]:shadow-sm"
+          // Enhanced contrast: explicit hex colors for better readability
+          "text-[#3a3a3a] dark:text-slate-300",
+          "hover:text-[#1a1a1a] dark:hover:text-slate-100",
+          "data-[state=active]:bg-background data-[state=active]:text-[#1a1a1a] dark:data-[state=active]:text-slate-50 data-[state=active]:shadow-sm"
         ],
         pills: [
           "rounded-full border border-transparent",
-          "text-slate-700 dark:text-slate-300",
-          "hover:bg-muted/50 hover:text-slate-900 dark:hover:text-slate-100",
+          "text-[#3a3a3a] dark:text-slate-300",
+          "hover:bg-muted/50 hover:text-[#1a1a1a] dark:hover:text-slate-100",
           "data-[state=active]:border-primary data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
         ],
         underline: [
           "rounded-none border-b-2 border-transparent pb-3",
-          "text-slate-600 dark:text-slate-400",
-          "hover:text-slate-900 dark:hover:text-slate-100",
-          "data-[state=active]:border-primary data-[state=active]:text-slate-900 dark:data-[state=active]:text-slate-50 data-[state=active]:font-semibold"
+          "text-[#4a4a4a] dark:text-slate-400",
+          "hover:text-[#1a1a1a] dark:hover:text-slate-100",
+          "data-[state=active]:border-primary data-[state=active]:text-[#1a1a1a] dark:data-[state=active]:text-slate-50 data-[state=active]:font-semibold"
         ],
         colorful: [
           "rounded-md",
@@ -71,9 +71,9 @@ const tabsTriggerVariants = cva(
         ],
         grid: [
           "rounded-md flex-1",
-          "text-slate-700 dark:text-slate-300",
-          "hover:bg-muted hover:text-slate-900 dark:hover:text-slate-100",
-          "data-[state=active]:bg-background data-[state=active]:text-slate-900 dark:data-[state=active]:text-slate-50 data-[state=active]:shadow-sm"
+          "text-[#3a3a3a] dark:text-slate-300",
+          "hover:bg-muted hover:text-[#1a1a1a] dark:hover:text-slate-100",
+          "data-[state=active]:bg-background data-[state=active]:text-[#1a1a1a] dark:data-[state=active]:text-slate-50 data-[state=active]:shadow-sm"
         ],
       },
     },

@@ -950,9 +950,63 @@ table td {
   color: hsl(0 0% 24%);
 }
 
-/* Ensure icon visibility in light mode */
+/* Ensure icon visibility in light mode - INCREASED CONTRAST */
 .text-muted-foreground svg {
-  opacity: 0.85;
+  opacity: 1;
+}
+
+/* === LIGHT MODE ICON VISIBILITY ON COLORED BACKGROUNDS === */
+/* Icons on bg-primary/* backgrounds need darker colors for contrast */
+:root:not(.dark) [class*="bg-primary"] svg.text-primary,
+:root:not(.dark) [class*="bg-primary"] .text-primary svg {
+  color: #5a4015 !important;
+  stroke: #5a4015 !important;
+  stroke-width: 2.5;
+}
+
+/* Icons on bg-info/* backgrounds need darker colors */
+:root:not(.dark) [class*="bg-info"] svg.text-info,
+:root:not(.dark) [class*="bg-info"] .text-info svg {
+  color: #1a6aa8 !important;
+  stroke: #1a6aa8 !important;
+  stroke-width: 2.5;
+}
+
+/* Icons on bg-warning/* backgrounds need darker colors */
+:root:not(.dark) [class*="bg-warning"] svg.text-warning,
+:root:not(.dark) [class*="bg-warning"] .text-warning svg {
+  color: #9a6a0a !important;
+  stroke: #9a6a0a !important;
+  stroke-width: 2.5;
+}
+
+/* Icons on bg-success/* backgrounds need darker colors */
+:root:not(.dark) [class*="bg-success"] svg.text-success,
+:root:not(.dark) [class*="bg-success"] .text-success svg {
+  color: #1a6a4a !important;
+  stroke: #1a6a4a !important;
+  stroke-width: 2.5;
+}
+
+/* Icons on bg-secondary/* backgrounds need darker colors */
+:root:not(.dark) [class*="bg-secondary"] svg.text-secondary,
+:root:not(.dark) [class*="bg-secondary"] .text-secondary svg {
+  color: #2a5a5e !important;
+  stroke: #2a5a5e !important;
+  stroke-width: 2.5;
+}
+
+/* General tab trigger icon visibility in light mode */
+:root:not(.dark) [data-radix-collection-item] svg {
+  color: #3a3a3a !important;
+  stroke: #3a3a3a !important;
+  stroke-width: 2.5;
+}
+
+/* Active tab icons in light mode */
+:root:not(.dark) [data-radix-collection-item][data-state="active"] svg {
+  color: white !important;
+  stroke: white !important;
 }
 
 /* Badge text visibility - ensure readable in light mode */
