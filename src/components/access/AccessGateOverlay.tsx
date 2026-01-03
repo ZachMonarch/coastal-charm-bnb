@@ -68,7 +68,7 @@ export function AccessGateOverlay() {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 backdrop-blur-sm overflow-auto">
+    <div data-access-gate className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 backdrop-blur-sm overflow-auto">
       {/* Decorative background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-primary/5 blur-3xl" />

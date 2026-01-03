@@ -77,7 +77,7 @@ export default function PropertyCard({ property, className }: PropertyCardProps)
       if (property.image_urls.includes('studio-loft')) return studioLoft;
     }
     
-    // Final fallback based on property type
+    // Final fallback based on property type - always returns a valid local image
     switch (property.property_type?.toLowerCase()) {
       case 'apartment':
       case 'penthouse':
@@ -90,11 +90,19 @@ export default function PropertyCard({ property, className }: PropertyCardProps)
       case 'condominium':
         return studioLoft;
       default:
+        // GUARANTEED fallback - never returns undefined/null
         return luxuryDowntown;
     }
   };
 
-  const primaryImage = getPropertyImage();
+  // Safety wrapper - ensures we ALWAYS have an image
+  const getSafePropertyImage = (): string => {
+    const image = getPropertyImage();
+    // Double-check: if somehow null/undefined, return guaranteed fallback
+    return image || luxuryDowntown;
+  };
+
+  const primaryImage = getSafePropertyImage();
   const formattedPrice = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -113,17 +121,30 @@ export default function PropertyCard({ property, className }: PropertyCardProps)
     >
       {/* Image Section */}
       <div className="relative aspect-[4/3] overflow-hidden">
-        <OptimizedImageDisplay
-          images={qualityImages || []}
-          alt={property.title}
-          aspectRatio="landscape"
-          className={cn(
-            "w-full h-full transition-all duration-700",
-            isHovered ? "scale-110" : "scale-100"
-          )}
-          showNavigation={qualityImages && qualityImages.length > 1}
-          maxImages={5}
-        />
+        {/* Use qualityImages if available, otherwise show single fallback image */}
+        {qualityImages && qualityImages.length > 0 ? (
+          <OptimizedImageDisplay
+            images={qualityImages}
+            alt={property.title}
+            aspectRatio="landscape"
+            className={cn(
+              "w-full h-full transition-all duration-700",
+              isHovered ? "scale-110" : "scale-100"
+            )}
+            showNavigation={qualityImages.length > 1}
+            maxImages={5}
+          />
+        ) : (
+          <img
+            src={primaryImage}
+            alt={property.title}
+            className={cn(
+              "w-full h-full object-cover transition-all duration-700",
+              isHovered ? "scale-110" : "scale-100"
+            )}
+            loading="lazy"
+          />
+        )}
         
         {/* Overlay Elements */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
@@ -174,7 +195,7 @@ export default function PropertyCard({ property, className }: PropertyCardProps)
           </div>
         </div>
 
-        {/* Image Count Indicator */}
+        {/* Image Count Indicator - only show when we have multiple quality images */}
         {qualityImages && qualityImages.length > 1 && (
           <div className="absolute bottom-4 right-4">
             <div className="glass-card px-2 py-1 rounded-lg text-white text-xs">
