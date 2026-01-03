@@ -548,30 +548,32 @@
   color: hsl(var(--primary)) !important;
 }
 
-/* === HEADER ICON VISIBILITY (CRITICAL FIX - BOTH MODES) === */
-/* Force all header icons to be visible with explicit fill/stroke */
+/* === HEADER ICON VISIBILITY (DEFINITIVE FIX) === */
+/* Light mode - force dark icons */
 header button svg,
 header [data-radix-select-trigger] svg,
-header [role="button"] svg,
 header div svg {
-  color: hsl(var(--foreground)) !important;
+  color: #171717 !important;
+  stroke: #171717 !important;
+  fill: none !important;
   opacity: 1 !important;
   visibility: visible !important;
-  stroke: currentColor !important;
 }
 
-/* Light mode specific header icons */
-:root:not(.dark) header button svg,
-:root:not(.dark) header [data-radix-select-trigger] svg,
-:root:not(.dark) header div svg {
-  color: hsl(0 0% 15%) !important;
-}
-
-/* Dark mode specific header icons */
+/* Dark mode - force light icons */
 .dark header button svg,
 .dark header [data-radix-select-trigger] svg,
 .dark header div svg {
-  color: hsl(0 0% 95%) !important;
+  color: #f5f5f5 !important;
+  stroke: #f5f5f5 !important;
+}
+
+/* Language selector text */
+header [data-radix-select-trigger] {
+  color: #171717;
+}
+.dark header [data-radix-select-trigger] {
+  color: #f5f5f5;
 }
 
 /* === DARK MODE CARD & BUTTON TEXT VISIBILITY === */

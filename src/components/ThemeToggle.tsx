@@ -41,17 +41,15 @@ export default function ThemeToggle() {
       <span className="sr-only">Toggle theme</span>
       {isDark ? (
         <Sun 
-          className="h-5 w-5 transition-transform duration-500 rotate-0" 
+          className="h-5 w-5 transition-transform duration-500" 
           strokeWidth={2}
-          color="currentColor"
-          style={{ color: 'hsl(0 0% 95%)' }}
+          stroke="#f5f5f5"
         />
       ) : (
         <Moon 
-          className="h-5 w-5 transition-transform duration-500 rotate-0" 
+          className="h-5 w-5 transition-transform duration-500" 
           strokeWidth={2}
-          color="currentColor"
-          style={{ color: 'hsl(0 0% 15%)' }}
+          stroke="#171717"
         />
       )}
     </Button>
