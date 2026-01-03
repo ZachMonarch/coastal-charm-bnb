@@ -428,6 +428,25 @@
   --card-foreground: 0 0% 10%;
 }
 
+/* === ULTRA CRITICAL: FORCE NAVDROPDOWN BUTTON VISIBILITY === */
+/* These buttons are in header > nav > ul > li > button */
+:root:not(.dark) header nav ul li > button,
+:root:not(.dark) header nav ul li > button > span,
+:root:not(.dark) header nav ul li > button > svg,
+:root:not(.dark) header nav ul > li > button,
+:root:not(.dark) header nav ul > li > button > span,
+:root:not(.dark) header nav ul > li > button > svg {
+  color: hsl(0 0% 12%) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+:root:not(.dark) header nav ul li > button:hover,
+:root:not(.dark) header nav ul li > button:hover > span,
+:root:not(.dark) header nav ul li > button:hover > svg {
+  color: hsl(var(--primary)) !important;
+}
+
 /* === DROPDOWN MENU LIGHT MODE VISIBILITY === */
 :root:not(.dark) [data-radix-dropdown-menu-content],
 :root:not(.dark) [data-radix-popper-content-wrapper] [role="menu"] {
@@ -452,6 +471,10 @@
 }
 
 /* === NAVBAR DROPDOWN TRIGGER VISIBILITY (CRITICAL FIX) === */
+/* Force absolute visibility for Properties/Services dropdown triggers */
+:root:not(.dark) header nav li button[data-radix-dropdown-menu-trigger],
+:root:not(.dark) header nav li button[data-radix-dropdown-menu-trigger] span,
+:root:not(.dark) header nav li button[data-radix-dropdown-menu-trigger] svg,
 :root:not(.dark) header nav [data-radix-dropdown-menu-trigger],
 :root:not(.dark) header nav [data-radix-dropdown-menu-trigger] span,
 :root:not(.dark) header nav [data-radix-dropdown-menu-trigger] svg,
@@ -459,6 +482,8 @@
 :root:not(.dark) nav [data-radix-dropdown-menu-trigger] span,
 :root:not(.dark) nav [data-radix-dropdown-menu-trigger] svg {
   color: hsl(0 0% 12%) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 :root:not(.dark) header nav [data-radix-dropdown-menu-trigger]:hover,
@@ -602,6 +627,31 @@ section [class*="text-white"],
 }
 
 .dark footer a:hover {
+  color: hsl(var(--primary)) !important;
+}
+
+/* === DARK MODE NAVBAR VISIBILITY === */
+.dark header nav ul li > button,
+.dark header nav ul li > button > span,
+.dark header nav ul li > button > svg {
+  color: hsl(0 0% 96%) !important;
+}
+
+.dark header nav ul li > button:hover,
+.dark header nav ul li > button:hover > span,
+.dark header nav ul li > button:hover > svg {
+  color: hsl(var(--primary)) !important;
+}
+
+.dark header nav [data-radix-dropdown-menu-trigger],
+.dark header nav [data-radix-dropdown-menu-trigger] span,
+.dark header nav [data-radix-dropdown-menu-trigger] svg {
+  color: hsl(0 0% 96%) !important;
+}
+
+.dark header nav [data-radix-dropdown-menu-trigger]:hover,
+.dark header nav [data-radix-dropdown-menu-trigger]:hover span,
+.dark header nav [data-radix-dropdown-menu-trigger]:hover svg {
   color: hsl(var(--primary)) !important;
 }
 

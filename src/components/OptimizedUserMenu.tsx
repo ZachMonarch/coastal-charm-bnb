@@ -58,7 +58,7 @@ export default function OptimizedUserMenu() {
       <DropdownMenuTrigger asChild>
         <Button 
           variant="ghost" 
-          className="relative h-10 w-10 rounded-full border-2 border-primary/50 min-h-[44px] min-w-[44px] hover:border-primary hover:bg-primary/10 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 transition-all shadow-md bg-card"
+          className="relative h-10 w-10 rounded-full border-2 border-primary min-h-[44px] min-w-[44px] hover:border-primary hover:bg-primary/10 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 transition-all shadow-md bg-card dark:bg-card"
           aria-label="Open user menu"
         >
           <ReusableAvatar 
@@ -110,10 +110,11 @@ export default function OptimizedUserMenu() {
         <DropdownMenuItem asChild>
           <Link 
             to={hasRole('vendor') ? "/vendor/dashboard" : "/dashboard"} 
-            className="flex items-center px-3 py-2 text-[hsl(0_0%_12%)] dark:text-foreground hover:bg-primary/5 hover:text-primary focus:bg-primary/5 focus:text-primary transition-colors"
+            className="flex items-center px-3 py-2 hover:bg-primary/5 hover:text-primary focus:bg-primary/5 focus:text-primary transition-colors"
+            style={{ color: 'hsl(0, 0%, 12%)' }}
           >
             <User className="mr-3 h-4 w-4 text-primary" />
-            <span className="text-[hsl(0_0%_12%)] dark:text-foreground">Dashboard</span>
+            <span style={{ color: 'inherit' }}>Dashboard</span>
           </Link>
         </DropdownMenuItem>
         
@@ -121,10 +122,11 @@ export default function OptimizedUserMenu() {
           <DropdownMenuItem asChild>
             <Link 
               to="/vendor/profile" 
-              className="flex items-center px-3 py-2 text-[hsl(0_0%_12%)] dark:text-foreground hover:bg-primary/5 hover:text-primary focus:bg-primary/5 focus:text-primary transition-colors"
+              className="flex items-center px-3 py-2 hover:bg-primary/5 hover:text-primary focus:bg-primary/5 focus:text-primary transition-colors"
+              style={{ color: 'hsl(0, 0%, 12%)' }}
             >
               <User className="mr-3 h-4 w-4 text-primary" />
-              <span className="text-[hsl(0_0%_12%)] dark:text-foreground">Profile</span>
+              <span style={{ color: 'inherit' }}>Profile</span>
             </Link>
           </DropdownMenuItem>
         )}
@@ -132,10 +134,11 @@ export default function OptimizedUserMenu() {
         <DropdownMenuItem asChild>
           <Link 
             to="/settings" 
-            className="flex items-center px-3 py-2 text-[hsl(0_0%_12%)] dark:text-foreground hover:bg-primary/5 hover:text-primary focus:bg-primary/5 focus:text-primary transition-colors"
+            className="flex items-center px-3 py-2 hover:bg-primary/5 hover:text-primary focus:bg-primary/5 focus:text-primary transition-colors"
+            style={{ color: 'hsl(0, 0%, 12%)' }}
           >
             <Settings className="mr-3 h-4 w-4 text-primary" />
-            <span className="text-[hsl(0_0%_12%)] dark:text-foreground">Settings</span>
+            <span style={{ color: 'inherit' }}>Settings</span>
           </Link>
         </DropdownMenuItem>
         
@@ -143,10 +146,11 @@ export default function OptimizedUserMenu() {
           <DropdownMenuItem asChild>
             <Link 
               to="/admin" 
-              className="flex items-center px-3 py-2 text-[hsl(0_0%_12%)] dark:text-foreground hover:bg-primary/5 hover:text-primary focus:bg-primary/5 focus:text-primary transition-colors"
+              className="flex items-center px-3 py-2 hover:bg-primary/5 hover:text-primary focus:bg-primary/5 focus:text-primary transition-colors"
+              style={{ color: 'hsl(0, 0%, 12%)' }}
             >
               <Settings className="mr-3 h-4 w-4 text-primary" />
-              <span className="text-[hsl(0_0%_12%)] dark:text-foreground">Admin Panel</span>
+              <span style={{ color: 'inherit' }}>Admin Panel</span>
             </Link>
           </DropdownMenuItem>
         )}

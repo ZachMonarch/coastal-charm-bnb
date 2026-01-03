@@ -203,7 +203,7 @@ export default function Navbar() {
                 <RealtimeNotifications />
               </div>
             )}
-            <div className="rounded-lg border-2 border-primary/40 bg-card/80 p-1.5 shadow-sm hover:shadow-md hover:border-primary/60 transition-all [&_svg]:text-foreground [&_svg]:dark:text-foreground">
+            <div className="rounded-lg border-2 border-primary bg-card p-1.5 shadow-md hover:shadow-lg hover:border-primary transition-all">
               <OptimizedUserMenu />
             </div>
           </div>
