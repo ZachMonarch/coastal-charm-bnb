@@ -13,7 +13,7 @@ const tabsListVariants = cva(
         default: "bg-muted text-muted-foreground",
         pills: "bg-transparent gap-2",
         underline: "bg-transparent border-b border-border rounded-none p-0 gap-4",
-        colorful: "bg-white dark:bg-slate-800 border border-primary/20 shadow-sm",
+        colorful: "bg-white dark:bg-[#1e1e1e] border border-primary/20 shadow-sm",
         grid: "bg-muted/50 gap-1",
       },
     },
@@ -65,9 +65,9 @@ const tabsTriggerVariants = cva(
         ],
         colorful: [
           "rounded-md",
-          "text-slate-800 dark:text-slate-200",
-          "hover:bg-primary/10 hover:text-slate-900 dark:hover:text-white",
-          "data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md data-[state=active]:font-semibold"
+          "text-[#2d2d2d] dark:text-[#e8e8e8]",
+          "hover:bg-primary/10 hover:text-[#1a1a1a] dark:hover:text-white",
+          "data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-md data-[state=active]:font-semibold"
         ],
         grid: [
           "rounded-md flex-1",

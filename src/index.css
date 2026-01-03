@@ -376,7 +376,7 @@
 
   /* Improved text contrast for muted text in dark mode - WCAG AA compliant */
   .dark .text-muted-foreground {
-    color: hsl(0 0% 78%); /* Enhanced for 5:1 contrast ratio */
+    color: hsl(0 0% 85%) !important; /* BRIGHTENED: Enhanced for 5:1 contrast ratio */
   }
 
   /* Enhanced border visibility in dark mode */
@@ -426,12 +426,9 @@
 }
 
 /* === MUTED TEXT VISIBILITY (Single consolidated rule) === */
+/* NOTE: Dark mode rule is in @layer base above - do not duplicate */
 :root:not(.dark) .text-muted-foreground {
-  color: hsl(0 0% 22%);
-}
-
-.dark .text-muted-foreground {
-  color: hsl(0 0% 75%);
+  color: hsl(0 0% 22%) !important;
 }
 
 /* === NAVBAR TEXT & BUTTON VISIBILITY (FORCED) === */
@@ -839,6 +836,31 @@ table td {
   color: hsl(var(--muted-foreground));
 }
 
+/* === DARK MODE PENDING APPROVAL VISIBILITY ENHANCEMENT === */
+.dark [data-pending-approval] span.text-sm,
+.dark [data-pending-approval] span.text-xs {
+  color: hsl(0 0% 80%) !important;
+}
+
+.dark [data-pending-approval] p {
+  color: hsl(0 0% 85%) !important;
+}
+
+/* === DARK MODE CARD TEXT VISIBILITY ENHANCEMENT === */
+.dark [class*="Card"] p:not([class*="text-white"]),
+.dark .card p:not([class*="text-white"]) {
+  color: hsl(0 0% 85%);
+}
+
+.dark [class*="Card"] span.text-sm:not([class*="text-white"]):not([class*="bg-"]),
+.dark .card span.text-sm:not([class*="text-white"]):not([class*="bg-"]) {
+  color: hsl(0 0% 80%);
+}
+
+.dark [class*="Card"] .text-muted-foreground {
+  color: hsl(0 0% 80%) !important;
+}
+
 @layer base {
   body {
     background: hsl(var(--background));
@@ -920,11 +942,7 @@ table td {
 
 /* === LIGHT MODE VISIBILITY ENHANCEMENTS === */
 /* Ensure text is clearly visible in light mode across all components */
-
-/* Improve muted text contrast in light mode */
-.text-muted-foreground {
-  color: hsl(0 0% 22%);
-}
+/* NOTE: .text-muted-foreground consolidated above - removed duplicate */
 
 /* Card description text enhancement */
 [class*="CardDescription"],
@@ -3546,15 +3564,8 @@ header nav button:hover {
 }
 
 /* === COMPREHENSIVE LIGHT MODE TEXT VISIBILITY === */
-:root:not(.dark) {
-  --foreground: 0 0% 10%;
-  --muted-foreground: 0 0% 25%;
-}
-
-/* Ensure muted text is readable */
-:root:not(.dark) .text-muted-foreground {
-  color: hsl(0 0% 28%);
-}
+/* NOTE: Root tokens defined in @layer base - removed conflicting override */
+/* NOTE: .text-muted-foreground rule consolidated above - removed duplicate */
 
 /* === ACCESSIBILITY FOCUS STATES (WCAG 2.1 AA) === */
 /* High-visibility focus for all interactive elements */
