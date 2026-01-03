@@ -600,6 +600,41 @@ section [class*="text-white"],
     0 0 30px hsl(0 0% 0% / 0.5) !important;
 }
 
+/* === HERO TEXT VISIBILITY - Universal enforcement (high specificity) === */
+.breakout-full-width h1,
+.breakout-full-width h1.text-white,
+.breakout-full-width .text-white,
+[data-hero] h1,
+.hero-section h1,
+section[role="banner"] h1 {
+  color: #ffffff !important;
+  opacity: 1 !important;
+  text-shadow: 
+    0 2px 4px rgba(0, 0, 0, 1),
+    0 4px 8px rgba(0, 0, 0, 0.95),
+    0 8px 16px rgba(0, 0, 0, 0.85) !important;
+  -webkit-text-stroke: 0.3px rgba(0, 0, 0, 0.3);
+}
+
+.breakout-full-width p,
+.breakout-full-width p.text-white,
+[data-hero] p,
+.hero-section p,
+section[role="banner"] p {
+  color: #ffffff !important;
+  opacity: 1 !important;
+  text-shadow: 
+    0 2px 4px rgba(0, 0, 0, 1),
+    0 4px 8px rgba(0, 0, 0, 0.9) !important;
+}
+
+.breakout-full-width span,
+.breakout-full-width span.text-white {
+  color: #ffffff !important;
+  opacity: 1 !important;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9) !important;
+}
+
 /* === DARK MODE VISIBILITY POLISH === */
 .dark .text-muted-foreground {
   color: hsl(0 0% 75%) !important;
