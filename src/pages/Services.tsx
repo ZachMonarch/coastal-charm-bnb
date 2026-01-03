@@ -110,7 +110,7 @@ export default function Services() {
                   <stat.icon className="h-6 w-6 text-primary" />
                 </div>
                 <div className="text-2xl font-bold text-foreground mb-1">{stat.value}</div>
-                <div className="text-sm text-foreground/70">{stat.label}</div>
+                <div className="text-sm text-muted-foreground">{stat.label}</div>
               </Card>
             ))}
           </div>

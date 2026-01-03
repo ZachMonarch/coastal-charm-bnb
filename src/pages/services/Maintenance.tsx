@@ -194,7 +194,7 @@ export default function Maintenance() {
                 </div>
                 <div>
                   <p className="font-semibold text-sm text-foreground">{item.title}</p>
-                  <p className="text-xs text-foreground/70">{item.description}</p>
+                  <p className="text-xs text-muted-foreground">{item.description}</p>
                 </div>
               </div>
             ))}

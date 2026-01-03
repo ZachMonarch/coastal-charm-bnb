@@ -79,7 +79,7 @@ export default function VendorActionCard({
                     </Badge>
                   )}
                 </div>
-                <p className="text-foreground/70 text-sm leading-relaxed">
+                <p className="text-muted-foreground text-sm leading-relaxed">
                   {description}
                 </p>
               </div>
@@ -135,7 +135,7 @@ export default function VendorActionCard({
                     </Badge>
                   )}
                 </div>
-                <p className="text-foreground/70 text-sm leading-relaxed">
+                <p className="text-muted-foreground text-sm leading-relaxed">
                   {description}
                 </p>
               </div>
