@@ -132,29 +132,29 @@ export default function UnifiedSettings() {
         <Tabs defaultValue="profile" className="space-y-6">
           <TabsList variant="colorful" className="w-full lg:w-auto">
             <TabsTrigger value="profile" variant="colorful" className="text-slate-800 dark:text-slate-200">
-              <User className="h-4 w-4" />
+              <User className="h-4 w-4 text-[#5a4015] dark:text-[#e8e8e8]" strokeWidth={2.5} />
               <span className="hidden sm:inline">Profile</span>
             </TabsTrigger>
             <TabsTrigger value="security" variant="colorful" className="text-slate-800 dark:text-slate-200">
-              <Shield className="h-4 w-4" />
+              <Shield className="h-4 w-4 text-[#1a6aa8] dark:text-[#e8e8e8]" strokeWidth={2.5} />
               <span className="hidden sm:inline">Security</span>
             </TabsTrigger>
             <TabsTrigger value="notifications" variant="colorful" className="text-slate-800 dark:text-slate-200">
-              <Bell className="h-4 w-4" />
+              <Bell className="h-4 w-4 text-[#b57a10] dark:text-[#e8e8e8]" strokeWidth={2.5} />
               <span className="hidden sm:inline">Notifications</span>
             </TabsTrigger>
             {isVendor && (
               <TabsTrigger value="billing" variant="colorful" className="text-slate-800 dark:text-slate-200">
-                <CreditCard className="h-4 w-4" />
+                <CreditCard className="h-4 w-4 text-[#1a7a5a] dark:text-[#e8e8e8]" strokeWidth={2.5} />
                 <span className="hidden sm:inline">Billing</span>
               </TabsTrigger>
             )}
             <TabsTrigger value="preferences" variant="colorful" className="text-slate-800 dark:text-slate-200">
-              <Globe className="h-4 w-4" />
+              <Globe className="h-4 w-4 text-[#2a6b6e] dark:text-[#e8e8e8]" strokeWidth={2.5} />
               <span className="hidden sm:inline">Preferences</span>
             </TabsTrigger>
             <TabsTrigger value="appearance" variant="colorful" className="text-slate-800 dark:text-slate-200">
-              <Monitor className="h-4 w-4" />
+              <Monitor className="h-4 w-4 text-[#5a4015] dark:text-[#e8e8e8]" strokeWidth={2.5} />
               <span className="hidden sm:inline">Appearance</span>
             </TabsTrigger>
           </TabsList>
@@ -166,12 +166,12 @@ export default function UnifiedSettings() {
               <Card variant="colorful">
                 <CardHeader className="border-b border-primary/10">
                   <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-primary/15">
-                      <User className="h-5 w-5 text-primary" />
+                    <div className="p-2 rounded-lg bg-primary/20 border border-primary/30">
+                      <User className="h-5 w-5 text-[#7c5a20] dark:text-primary" strokeWidth={2.5} />
                     </div>
                     <div>
-                      <CardTitle className="text-lg">Profile Information</CardTitle>
-                      <CardDescription>Your account profile details</CardDescription>
+                      <CardTitle className="text-lg text-slate-900 dark:text-slate-50">Profile Information</CardTitle>
+                      <CardDescription className="text-slate-600 dark:text-slate-400">Your account profile details</CardDescription>
                     </div>
                   </div>
                 </CardHeader>
@@ -207,12 +207,12 @@ export default function UnifiedSettings() {
             <Card variant="info">
               <CardHeader className="border-b border-info/10">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-info/15">
-                    <Shield className="h-5 w-5 text-info" />
+                  <div className="p-2 rounded-lg bg-info/20 border border-info/30">
+                    <Shield className="h-5 w-5 text-[#1a6aa8] dark:text-info" strokeWidth={2.5} />
                   </div>
                   <div>
-                    <CardTitle className="text-lg">Security Settings</CardTitle>
-                    <CardDescription>Manage your account security</CardDescription>
+                    <CardTitle className="text-lg text-slate-900 dark:text-slate-50">Security Settings</CardTitle>
+                    <CardDescription className="text-slate-600 dark:text-slate-400">Manage your account security</CardDescription>
                   </div>
                 </div>
               </CardHeader>
@@ -259,12 +259,12 @@ export default function UnifiedSettings() {
             <Card variant="warning">
               <CardHeader className="border-b border-warning/10">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-warning/15">
-                    <Bell className="h-5 w-5 text-warning" />
+                  <div className="p-2 rounded-lg bg-warning/20 border border-warning/30">
+                    <Bell className="h-5 w-5 text-[#b57a10] dark:text-warning" strokeWidth={2.5} />
                   </div>
                   <div>
-                    <CardTitle className="text-lg">Notification Preferences</CardTitle>
-                    <CardDescription>Choose how you want to be notified</CardDescription>
+                    <CardTitle className="text-lg text-slate-900 dark:text-slate-50">Notification Preferences</CardTitle>
+                    <CardDescription className="text-slate-600 dark:text-slate-400">Choose how you want to be notified</CardDescription>
                   </div>
                 </div>
               </CardHeader>
@@ -350,12 +350,12 @@ export default function UnifiedSettings() {
             <Card variant="accent-left">
               <CardHeader className="border-b border-border/30">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-secondary/15">
-                    <Globe className="h-5 w-5 text-secondary" />
+                  <div className="p-2 rounded-lg bg-secondary/20 border border-secondary/30">
+                    <Globe className="h-5 w-5 text-[#2a6b6e] dark:text-secondary" strokeWidth={2.5} />
                   </div>
                   <div>
-                    <CardTitle className="text-lg">Account Preferences</CardTitle>
-                    <CardDescription>Customize your account preferences</CardDescription>
+                    <CardTitle className="text-lg text-slate-900 dark:text-slate-50">Account Preferences</CardTitle>
+                    <CardDescription className="text-slate-600 dark:text-slate-400">Customize your account preferences</CardDescription>
                   </div>
                 </div>
               </CardHeader>
@@ -383,12 +383,12 @@ export default function UnifiedSettings() {
             <Card variant="colorful">
               <CardHeader className="border-b border-primary/10">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-primary/15">
-                    <Monitor className="h-5 w-5 text-primary" />
+                  <div className="p-2 rounded-lg bg-primary/20 border border-primary/30">
+                    <Monitor className="h-5 w-5 text-[#7c5a20] dark:text-primary" strokeWidth={2.5} />
                   </div>
                   <div>
-                    <CardTitle className="text-lg">Appearance Settings</CardTitle>
-                    <CardDescription>Customize the look and feel of your interface</CardDescription>
+                    <CardTitle className="text-lg text-slate-900 dark:text-slate-50">Appearance Settings</CardTitle>
+                    <CardDescription className="text-slate-600 dark:text-slate-400">Customize the look and feel of your interface</CardDescription>
                   </div>
                 </div>
               </CardHeader>
