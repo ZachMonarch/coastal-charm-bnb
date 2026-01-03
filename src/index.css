@@ -685,294 +685,88 @@ section[role="banner"] p {
 }
 
 /* ============================================================
-   DASHBOARD SYSTEM VISIBILITY - COMPREHENSIVE RULES
-   Ensures all dashboard areas are visible for new and existing users
+   DESIGN SYSTEM VISIBILITY - Lean, Token-Based Rules
+   Uses semantic tokens instead of hardcoded colors
    ============================================================ */
 
-/* === DASHBOARD CARD TEXT VISIBILITY (Light Mode) === */
-:root:not(.dark) [class*="Card"] h1,
-:root:not(.dark) [class*="Card"] h2,
-:root:not(.dark) [class*="Card"] h3,
-:root:not(.dark) [class*="Card"] h4,
-:root:not(.dark) [class*="CardTitle"] {
-  color: hsl(0 0% 10%) !important;
+/* === CORE TOKEN ENFORCEMENT === */
+/* These rules ensure design tokens are properly applied without !important spam */
+
+/* Card text uses semantic tokens */
+.card-title, [data-slot="card-title"] {
+  color: hsl(var(--card-foreground));
 }
 
-:root:not(.dark) [class*="Card"] p,
-:root:not(.dark) [class*="CardDescription"],
-:root:not(.dark) [class*="Card"] .text-muted-foreground {
-  color: hsl(0 0% 30%) !important;
+.card-description, [data-slot="card-description"] {
+  color: hsl(var(--muted-foreground));
 }
 
-:root:not(.dark) [class*="Card"] span:not([class*="text-white"]):not([class*="text-primary"]):not([class*="bg-"]):not([class*="Badge"]) {
-  color: hsl(0 0% 15%) !important;
+/* Sidebar uses semantic tokens - scoped to [data-sidebar] */
+[data-sidebar] {
+  color: hsl(var(--sidebar-foreground));
 }
 
-/* === DASHBOARD CARD TEXT VISIBILITY (Dark Mode) === */
-.dark [class*="Card"] h1,
-.dark [class*="Card"] h2,
-.dark [class*="Card"] h3,
-.dark [class*="Card"] h4,
-.dark [class*="CardTitle"] {
-  color: hsl(0 0% 95%) !important;
+[data-sidebar] a:hover,
+[data-sidebar] button:hover {
+  color: hsl(var(--sidebar-primary));
 }
 
-.dark [class*="Card"] span:not([class*="text-white"]):not([class*="text-primary"]):not([class*="bg-"]):not([class*="Badge"]) {
-  color: hsl(0 0% 88%) !important;
-}
-
-/* === TABS VISIBILITY (Light Mode) === */
-:root:not(.dark) [role="tablist"] [role="tab"],
-:root:not(.dark) [data-radix-tabs-list] [data-radix-tabs-trigger] {
-  color: hsl(0 0% 25%) !important;
-}
-
-:root:not(.dark) [role="tablist"] [role="tab"][data-state="active"],
-:root:not(.dark) [data-radix-tabs-list] [data-radix-tabs-trigger][data-state="active"] {
-  color: hsl(var(--foreground)) !important;
-  font-weight: 600;
-}
-
-:root:not(.dark) [role="tablist"] [role="tab"]:hover,
-:root:not(.dark) [data-radix-tabs-list] [data-radix-tabs-trigger]:hover {
-  color: hsl(var(--foreground)) !important;
-}
-
-/* === TABS VISIBILITY (Dark Mode) === */
-.dark [role="tablist"] [role="tab"],
-.dark [data-radix-tabs-list] [data-radix-tabs-trigger] {
-  color: hsl(0 0% 70%) !important;
-}
-
-.dark [role="tablist"] [role="tab"][data-state="active"],
-.dark [data-radix-tabs-list] [data-radix-tabs-trigger][data-state="active"] {
-  color: hsl(0 0% 98%) !important;
-  font-weight: 600;
-}
-
-.dark [role="tablist"] [role="tab"]:hover,
-.dark [data-radix-tabs-list] [data-radix-tabs-trigger]:hover {
-  color: hsl(0 0% 95%) !important;
-}
-
-/* === SIDEBAR VISIBILITY (Light Mode) === */
-:root:not(.dark) [data-sidebar] [role="menubar"] a,
-:root:not(.dark) [data-sidebar] [role="menu"] a,
-:root:not(.dark) [data-sidebar] button span,
-:root:not(.dark) [data-sidebar] a span {
-  color: hsl(0 0% 18%) !important;
-}
-
-:root:not(.dark) [data-sidebar] [role="menubar"] a:hover,
-:root:not(.dark) [data-sidebar] [role="menu"] a:hover {
-  color: hsl(var(--primary)) !important;
-}
-
-:root:not(.dark) [data-sidebar] [aria-current="page"],
-:root:not(.dark) [data-sidebar] [aria-current="page"] span {
-  color: hsl(var(--primary)) !important;
+[data-sidebar] [aria-current="page"] {
+  color: hsl(var(--sidebar-primary));
   font-weight: 500;
 }
 
-:root:not(.dark) [data-sidebar] h2,
-:root:not(.dark) [data-sidebar] .text-lg {
-  color: hsl(0 0% 10%) !important;
+/* Form elements use design tokens */
+label {
+  color: hsl(var(--foreground));
 }
 
-:root:not(.dark) [data-sidebar] p,
-:root:not(.dark) [data-sidebar] .text-xs {
-  color: hsl(0 0% 35%) !important;
+input, textarea, select {
+  color: hsl(var(--foreground));
+  background-color: hsl(var(--input));
+  border-color: hsl(var(--border));
 }
 
-/* === SIDEBAR VISIBILITY (Dark Mode) === */
-.dark [data-sidebar] [role="menubar"] a,
-.dark [data-sidebar] [role="menu"] a,
-.dark [data-sidebar] button span,
-.dark [data-sidebar] a span {
-  color: hsl(0 0% 88%) !important;
+input::placeholder,
+textarea::placeholder {
+  color: hsl(var(--muted-foreground));
+  opacity: 0.7;
 }
 
-.dark [data-sidebar] [role="menubar"] a:hover,
-.dark [data-sidebar] [role="menu"] a:hover {
-  color: hsl(var(--primary)) !important;
-}
-
-.dark [data-sidebar] [aria-current="page"],
-.dark [data-sidebar] [aria-current="page"] span {
-  color: hsl(var(--primary)) !important;
-  font-weight: 500;
-}
-
-.dark [data-sidebar] h2,
-.dark [data-sidebar] .text-lg {
-  color: hsl(0 0% 95%) !important;
-}
-
-.dark [data-sidebar] p,
-.dark [data-sidebar] .text-xs {
-  color: hsl(0 0% 70%) !important;
-}
-
-/* === FORM LABELS & INPUT VISIBILITY (Light Mode) === */
-:root:not(.dark) label,
-:root:not(.dark) [class*="FormLabel"] {
-  color: hsl(0 0% 12%) !important;
-}
-
-:root:not(.dark) input::placeholder,
-:root:not(.dark) textarea::placeholder {
-  color: hsl(0 0% 50%) !important;
-}
-
-:root:not(.dark) input,
-:root:not(.dark) textarea,
-:root:not(.dark) select {
-  color: hsl(0 0% 10%) !important;
-  background-color: hsl(var(--input)) !important;
-  border-color: hsl(var(--border)) !important;
-}
-
-/* === FORM LABELS & INPUT VISIBILITY (Dark Mode) === */
-.dark label,
-.dark [class*="FormLabel"] {
-  color: hsl(0 0% 92%) !important;
-}
-
-.dark input::placeholder,
-.dark textarea::placeholder {
-  color: hsl(0 0% 55%) !important;
-}
-
-.dark input,
-.dark textarea,
-.dark select {
-  color: hsl(0 0% 95%) !important;
-  background-color: hsl(var(--input)) !important;
-  border-color: hsl(var(--border)) !important;
-}
-
-/* === KPI CARDS & STATS VISIBILITY (Light Mode) === */
-:root:not(.dark) [class*="KPI"] h3,
-:root:not(.dark) [class*="stat"] h3,
-:root:not(.dark) [class*="metric"] h3 {
-  color: hsl(0 0% 10%) !important;
-}
-
-:root:not(.dark) [class*="KPI"] p,
-:root:not(.dark) [class*="stat"] p,
-:root:not(.dark) [class*="metric"] p {
-  color: hsl(0 0% 30%) !important;
-}
-
-:root:not(.dark) [class*="KPI"] .text-2xl,
-:root:not(.dark) [class*="KPI"] .text-3xl,
-:root:not(.dark) [class*="KPI"] .text-4xl,
-:root:not(.dark) [class*="stat"] .text-2xl,
-:root:not(.dark) [class*="stat"] .text-3xl {
-  color: hsl(0 0% 8%) !important;
-}
-
-/* === BADGE TEXT VISIBILITY === */
-:root:not(.dark) [class*="Badge"] {
-  color: hsl(0 0% 15%);
-}
-
-:root:not(.dark) [class*="Badge"][class*="success"],
-:root:not(.dark) [class*="Badge"][class*="Success"] {
-  color: hsl(155 60% 25%) !important;
-  background-color: hsl(155 60% 35% / 0.15) !important;
-}
-
-:root:not(.dark) [class*="Badge"][class*="warning"],
-:root:not(.dark) [class*="Badge"][class*="Warning"] {
-  color: hsl(38 70% 30%) !important;
-  background-color: hsl(38 92% 50% / 0.15) !important;
-}
-
-:root:not(.dark) [class*="Badge"][class*="error"],
-:root:not(.dark) [class*="Badge"][class*="Error"],
-:root:not(.dark) [class*="Badge"][class*="destructive"] {
-  color: hsl(0 65% 40%) !important;
-  background-color: hsl(0 75% 55% / 0.15) !important;
-}
-
-:root:not(.dark) [class*="Badge"][class*="info"],
-:root:not(.dark) [class*="Badge"][class*="Info"] {
-  color: hsl(200 60% 35%) !important;
-  background-color: hsl(200 70% 50% / 0.15) !important;
-}
-
-/* === BUTTON TEXT VISIBILITY (Primary Buttons) === */
-button[class*="bg-primary"],
-.btn-primary,
-[class*="Button"][class*="primary"]:not([class*="outline"]):not([class*="ghost"]) {
-  color: #ffffff !important;
-}
-
-/* === TABLE VISIBILITY (Light Mode) === */
-:root:not(.dark) table th {
-  color: hsl(0 0% 12%) !important;
+/* Table text visibility */
+table th {
+  color: hsl(var(--foreground));
   font-weight: 600;
 }
 
-:root:not(.dark) table td {
-  color: hsl(0 0% 18%) !important;
+table td {
+  color: hsl(var(--foreground));
 }
 
-:root:not(.dark) table tbody tr:hover td {
-  color: hsl(0 0% 10%) !important;
+/* === DASHBOARD HERO (scoped with data attribute) === */
+[data-dashboard-hero] h1,
+[data-dashboard-hero] h2 {
+  color: white !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-/* === TABLE VISIBILITY (Dark Mode) === */
-.dark table th {
-  color: hsl(0 0% 92%) !important;
-  font-weight: 600;
+[data-dashboard-hero] p {
+  color: rgba(255, 255, 255, 0.9) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-.dark table td {
-  color: hsl(0 0% 82%) !important;
+/* === ACCESS GATE & PENDING APPROVAL VIEWS === */
+/* Scoped with component data attributes for clarity */
+[data-access-gate] h1,
+[data-access-gate] h2,
+[data-pending-approval] h1,
+[data-pending-approval] h2 {
+  color: hsl(var(--foreground));
 }
 
-.dark table tbody tr:hover td {
-  color: hsl(0 0% 95%) !important;
-}
-
-/* === ACCESS OVERLAY & PENDING VIEWS (Light Mode) === */
-:root:not(.dark) [class*="AccessGate"] h1,
-:root:not(.dark) [class*="AccessGate"] h2,
-:root:not(.dark) [class*="PendingApproval"] h1,
-:root:not(.dark) [class*="PendingApproval"] h2 {
-  color: hsl(0 0% 10%) !important;
-}
-
-:root:not(.dark) [class*="AccessGate"] p,
-:root:not(.dark) [class*="PendingApproval"] p {
-  color: hsl(0 0% 30%) !important;
-}
-
-/* === RADIO & CHECKBOX LABELS (Light Mode) === */
-:root:not(.dark) [role="radiogroup"] label,
-:root:not(.dark) [role="radiogroup"] p,
-:root:not(.dark) [role="group"] label {
-  color: hsl(0 0% 12%) !important;
-}
-
-:root:not(.dark) [role="radiogroup"] .text-xs,
-:root:not(.dark) [role="group"] .text-xs {
-  color: hsl(0 0% 40%) !important;
-}
-
-/* === DASHBOARD HERO TEXT VISIBILITY === */
-[class*="DashboardHero"] h1,
-[class*="DashboardHero"] h2,
-[class*="DashboardHero"] .text-2xl,
-[class*="DashboardHero"] .text-3xl {
-  color: hsl(var(--foreground)) !important;
-}
-
-[class*="DashboardHero"] p,
-[class*="DashboardHero"] .text-muted-foreground {
-  color: hsl(var(--muted-foreground)) !important;
+[data-access-gate] p,
+[data-pending-approval] p {
+  color: hsl(var(--muted-foreground));
 }
 
 @layer base {
