@@ -79,8 +79,8 @@ export default function OptimizedUserMenu() {
               variant={hasRole('vendor') ? 'vendor' : 'user'}
             />
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium truncate text-[hsl(0_0%_12%)] dark:text-foreground">{displayName}</p>
-              <p className="text-xs truncate flex items-center gap-1 text-[hsl(0_0%_40%)] dark:text-muted-foreground">
+              <p className="text-sm font-medium truncate text-foreground">{displayName}</p>
+              <p className="text-xs truncate flex items-center gap-1 text-muted-foreground">
                 <Mail className="h-3 w-3" />
                 {user.email}
               </p>
@@ -110,11 +110,10 @@ export default function OptimizedUserMenu() {
         <DropdownMenuItem asChild>
           <Link 
             to={hasRole('vendor') ? "/vendor/dashboard" : "/dashboard"} 
-            className="flex items-center px-3 py-2 hover:bg-primary/5 hover:text-primary focus:bg-primary/5 focus:text-primary transition-colors"
-            style={{ color: 'hsl(0, 0%, 12%)' }}
+            className="flex items-center px-3 py-2 text-foreground hover:bg-primary/5 hover:text-primary focus:bg-primary/5 focus:text-primary transition-colors"
           >
             <User className="mr-3 h-4 w-4 text-primary" />
-            <span style={{ color: 'inherit' }}>Dashboard</span>
+            <span>Dashboard</span>
           </Link>
         </DropdownMenuItem>
         
@@ -122,11 +121,10 @@ export default function OptimizedUserMenu() {
           <DropdownMenuItem asChild>
             <Link 
               to="/vendor/profile" 
-              className="flex items-center px-3 py-2 hover:bg-primary/5 hover:text-primary focus:bg-primary/5 focus:text-primary transition-colors"
-              style={{ color: 'hsl(0, 0%, 12%)' }}
+              className="flex items-center px-3 py-2 text-foreground hover:bg-primary/5 hover:text-primary focus:bg-primary/5 focus:text-primary transition-colors"
             >
               <User className="mr-3 h-4 w-4 text-primary" />
-              <span style={{ color: 'inherit' }}>Profile</span>
+              <span>Profile</span>
             </Link>
           </DropdownMenuItem>
         )}
@@ -134,11 +132,10 @@ export default function OptimizedUserMenu() {
         <DropdownMenuItem asChild>
           <Link 
             to="/settings" 
-            className="flex items-center px-3 py-2 hover:bg-primary/5 hover:text-primary focus:bg-primary/5 focus:text-primary transition-colors"
-            style={{ color: 'hsl(0, 0%, 12%)' }}
+            className="flex items-center px-3 py-2 text-foreground hover:bg-primary/5 hover:text-primary focus:bg-primary/5 focus:text-primary transition-colors"
           >
             <Settings className="mr-3 h-4 w-4 text-primary" />
-            <span style={{ color: 'inherit' }}>Settings</span>
+            <span>Settings</span>
           </Link>
         </DropdownMenuItem>
         
@@ -146,11 +143,10 @@ export default function OptimizedUserMenu() {
           <DropdownMenuItem asChild>
             <Link 
               to="/admin" 
-              className="flex items-center px-3 py-2 hover:bg-primary/5 hover:text-primary focus:bg-primary/5 focus:text-primary transition-colors"
-              style={{ color: 'hsl(0, 0%, 12%)' }}
+              className="flex items-center px-3 py-2 text-foreground hover:bg-primary/5 hover:text-primary focus:bg-primary/5 focus:text-primary transition-colors"
             >
               <Settings className="mr-3 h-4 w-4 text-primary" />
-              <span style={{ color: 'inherit' }}>Admin Panel</span>
+              <span>Admin Panel</span>
             </Link>
           </DropdownMenuItem>
         )}
