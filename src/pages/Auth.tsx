@@ -490,19 +490,26 @@ export default function Auth() {
                       </div>
                     </div>
 
-                    <Button
+                    <button
                       type="submit"
-                      className="w-full h-12 text-base font-semibold bg-primary shadow-md hover:bg-primary/90"
-                      style={{ color: 'white' }}
+                      className="w-full h-12 text-base font-semibold rounded-md inline-flex items-center justify-center gap-2 disabled:pointer-events-none disabled:opacity-60 shadow-md transition-colors"
                       disabled={isLoading}
+                      style={{ 
+                        backgroundColor: 'hsl(32, 80%, 40%)', 
+                        color: '#ffffff',
+                        WebkitTextFillColor: '#ffffff'
+                      }}
                     >
                       {isLoading ? (
-                        <span className="flex items-center gap-2" style={{ color: 'white' }}>
-                          <span className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
-                          <span style={{ color: 'white' }}>Signing in...</span>
-                        </span>
-                      ) : <span style={{ color: 'white' }}>Sign In</span>}
-                    </Button>
+                        <>
+                          <span 
+                            className="animate-spin rounded-full h-4 w-4 border-2" 
+                            style={{ borderColor: '#ffffff', borderTopColor: 'transparent' }} 
+                          />
+                          <span style={{ color: '#ffffff', WebkitTextFillColor: '#ffffff' }}>Signing in...</span>
+                        </>
+                      ) : <span style={{ color: '#ffffff', WebkitTextFillColor: '#ffffff' }}>Sign In</span>}
+                    </button>
 
                     <div className="text-center">
                       <button

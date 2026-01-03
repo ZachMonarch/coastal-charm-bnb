@@ -123,8 +123,8 @@ export default function RequestQuote() {
                 Expect responses within 2-4 hours.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Button onClick={() => navigate("/vendors")}>
-                  Browse Vendors
+                <Button onClick={() => navigate("/services")}>
+                  View Our Services
                 </Button>
                 <Button variant="outline" onClick={() => setSubmitted(false)}>
                   Submit Another Request
