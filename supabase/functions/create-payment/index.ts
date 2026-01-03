@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@18.5.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.75.0";
 import { getCorsHeaders, handleCorsPreflightRequest } from "../_shared/cors.ts";
+import { CreatePaymentSchema, createValidationErrorResponse } from "../_shared/validation.ts";
 
 serve(async (req) => {
   // Handle CORS preflight
@@ -18,19 +19,37 @@ serve(async (req) => {
   );
 
   try {
-    const authHeader = req.headers.get("Authorization")!;
+    // Authentication
+    const authHeader = req.headers.get("Authorization");
+    if (!authHeader) {
+      return new Response(
+        JSON.stringify({ error: "Authorization required" }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 401 }
+      );
+    }
+
     const token = authHeader.replace("Bearer ", "");
     const { data } = await supabaseClient.auth.getUser(token);
     const user = data.user;
     
-    if (!user?.email) throw new Error("User not authenticated");
-
-    const { payment_id, paymentId: legacyPaymentId } = await req.json();
-    const resolvedPaymentId = payment_id || legacyPaymentId;
-
-    if (!resolvedPaymentId) {
-      throw new Error("Payment ID is required");
+    if (!user?.email) {
+      return new Response(
+        JSON.stringify({ error: "Authentication required" }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 401 }
+      );
     }
+
+    // Validate input with Zod schema
+    const requestBody = await req.json();
+    const validationResult = CreatePaymentSchema.safeParse(requestBody);
+
+    if (!validationResult.success) {
+      console.warn(`Validation failed for payment request:`, validationResult.error.errors);
+      return createValidationErrorResponse(validationResult.error, corsHeaders);
+    }
+
+    const { payment_id, paymentId: legacyPaymentId } = validationResult.data;
+    const resolvedPaymentId = payment_id || legacyPaymentId;
 
     console.log("Processing payment for ID:", resolvedPaymentId, "User:", user.id);
 
