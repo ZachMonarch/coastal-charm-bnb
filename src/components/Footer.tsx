@@ -59,7 +59,7 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div className="animate-fade-in [animation-delay:200ms]">
-            <h3 className="font-bold text-lg mb-6 flex items-center gap-2">
+            <h3 className="font-bold text-lg mb-6 flex items-center gap-2 text-foreground">
               <Home className="h-5 w-5 text-primary" />
               Quick Links
             </h3>
@@ -104,7 +104,7 @@ export default function Footer() {
 
           {/* Account Section - Always Visible */}
           <div className="animate-fade-in [animation-delay:300ms]">
-            <h3 className="font-bold text-lg mb-6 flex items-center gap-2">
+            <h3 className="font-bold text-lg mb-6 flex items-center gap-2 text-foreground">
               <Users className="h-5 w-5 text-primary" />
               Account
             </h3>
@@ -157,7 +157,7 @@ export default function Footer() {
 
           {/* Admin Links - Only show for authenticated admin users */}
           {isAuthenticated && hasRole('admin') && <div className="animate-fade-in [animation-delay:400ms]">
-              <h3 className="font-bold text-lg mb-6 flex items-center gap-2">
+              <h3 className="font-bold text-lg mb-6 flex items-center gap-2 text-foreground">
                 <Shield className="h-5 w-5 text-primary" />
                 Admin Dashboard
               </h3>
@@ -182,7 +182,7 @@ export default function Footer() {
 
           {/* Contact Info - Show when admin links are not displayed */}
           {!(isAuthenticated && hasRole('admin')) && <div className="animate-fade-in [animation-delay:400ms]">
-              <h3 className="font-bold text-lg mb-6 flex items-center gap-2">
+              <h3 className="font-bold text-lg mb-6 flex items-center gap-2 text-foreground">
                 <Phone className="h-5 w-5 text-primary" />
                 Contact Info
               </h3>

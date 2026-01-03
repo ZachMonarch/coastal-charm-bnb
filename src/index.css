@@ -2969,3 +2969,191 @@ button[type="submit"] span {
   color: white !important;
   -webkit-text-fill-color: white !important;
 }
+
+/* ======================================================================
+   COMPREHENSIVE LIGHT MODE VISIBILITY & ACCESSIBILITY ENHANCEMENTS
+   WCAG AA Compliant - Contrast Ratio 4.5:1 for normal text, 3:1 for large
+   ====================================================================== */
+
+/* === FOOTER LINK STYLES (was missing - caused invisible links) === */
+.footer-link {
+  color: hsl(0 0% 28%);
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color 0.2s ease, text-decoration 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.footer-link:hover {
+  color: hsl(var(--primary));
+  text-decoration: underline;
+}
+
+.footer-link:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.dark .footer-link {
+  color: hsl(0 0% 72%);
+}
+
+.dark .footer-link:hover {
+  color: hsl(var(--primary));
+}
+
+/* === GLOBAL LIGHT MODE HEADING VISIBILITY === */
+:root:not(.dark) h1,
+:root:not(.dark) h2,
+:root:not(.dark) h3,
+:root:not(.dark) h4,
+:root:not(.dark) h5,
+:root:not(.dark) h6 {
+  color: hsl(0 0% 10%);
+}
+
+/* === FOOTER-SPECIFIC LIGHT MODE ENHANCEMENTS === */
+footer h2,
+footer h3,
+footer h4 {
+  color: hsl(0 0% 12%) !important;
+}
+
+.dark footer h2,
+.dark footer h3,
+.dark footer h4 {
+  color: hsl(0 0% 95%) !important;
+}
+
+/* Footer descriptive text - enhanced contrast */
+footer .text-muted-foreground {
+  color: hsl(0 0% 30%);
+}
+
+.dark footer .text-muted-foreground {
+  color: hsl(0 0% 70%);
+}
+
+/* Footer list items and general text */
+footer ul li {
+  color: hsl(0 0% 28%);
+}
+
+.dark footer ul li {
+  color: hsl(0 0% 72%);
+}
+
+/* Footer contact info text */
+footer address,
+footer p:not(.text-primary) {
+  color: hsl(0 0% 28%);
+}
+
+.dark footer address,
+.dark footer p:not(.text-primary) {
+  color: hsl(0 0% 72%);
+}
+
+/* === ENHANCED CARD TEXT VISIBILITY IN LIGHT MODE === */
+/* All card content paragraphs */
+:root:not(.dark) [class*="Card"] p,
+:root:not(.dark) .card p {
+  color: hsl(0 0% 20%);
+}
+
+/* Card spans and small text */
+:root:not(.dark) [class*="Card"] span.text-sm,
+:root:not(.dark) .card span.text-sm {
+  color: hsl(0 0% 22%);
+}
+
+/* Card list items */
+:root:not(.dark) [class*="Card"] li,
+:root:not(.dark) .card li {
+  color: hsl(0 0% 22%);
+}
+
+/* Ensure muted-foreground is darker in cards for light mode */
+:root:not(.dark) [class*="Card"] .text-muted-foreground,
+:root:not(.dark) .card .text-muted-foreground {
+  color: hsl(0 0% 25%) !important;
+}
+
+/* === FORM LABEL AND INPUT VISIBILITY === */
+:root:not(.dark) label,
+:root:not(.dark) .font-medium {
+  color: hsl(0 0% 15%);
+}
+
+:root:not(.dark) input,
+:root:not(.dark) textarea,
+:root:not(.dark) select {
+  color: hsl(0 0% 12%);
+}
+
+:root:not(.dark) input::placeholder,
+:root:not(.dark) textarea::placeholder {
+  color: hsl(0 0% 45%);
+}
+
+/* === ACCESSIBILITY FOCUS STATES (WCAG 2.1 AA) === */
+/* High-visibility focus for all interactive elements */
+:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+}
+
+/* Button and link focus states */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Input focus states with enhanced visibility */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 1px;
+  border-color: hsl(var(--primary));
+}
+
+/* === SKIP LINK FOR KEYBOARD NAVIGATION === */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: hsl(var(--primary));
+  color: white;
+  padding: 8px 16px;
+  z-index: 1000;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* === ENHANCED CONTRAST FOR DISABLED STATES === */
+:root:not(.dark) button:disabled,
+:root:not(.dark) input:disabled,
+:root:not(.dark) select:disabled,
+:root:not(.dark) textarea:disabled {
+  opacity: 0.6;
+  color: hsl(0 0% 35%);
+}
+
+/* === ENSURE TEXT SELECTION IS VISIBLE === */
+::selection {
+  background: hsl(var(--primary) / 0.3);
+  color: hsl(0 0% 10%);
+}
+
+.dark ::selection {
+  background: hsl(var(--primary) / 0.4);
+  color: hsl(0 0% 95%);
+}
