@@ -1003,25 +1003,26 @@ table td {
   stroke-width: 2.5;
 }
 
-/* General tab trigger text and icon visibility in light mode */
+/* General tab trigger text and icon visibility in light mode - HIGH CONTRAST */
 :root:not(.dark) [data-radix-collection-item] {
-  color: #3a3a3a !important;
+  color: #1a1a1a !important;
 }
 
 :root:not(.dark) [data-radix-collection-item] svg {
-  color: #3a3a3a !important;
-  stroke: #3a3a3a !important;
-  stroke-width: 2.5;
+  color: #1a1a1a !important;
+  stroke: #1a1a1a !important;
+  stroke-width: 2.5 !important;
 }
 
-/* Active tab text and icons in light mode */
+/* Active tab text and icons - white on colored background */
 :root:not(.dark) [data-radix-collection-item][data-state="active"] {
-  color: inherit;
+  color: white !important;
 }
 
 :root:not(.dark) [data-radix-collection-item][data-state="active"] svg {
   color: white !important;
   stroke: white !important;
+  stroke-width: 2.5 !important;
 }
 
 /* Badge text visibility - ensure readable in light mode */
