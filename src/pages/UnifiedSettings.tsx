@@ -123,7 +123,7 @@ export default function UnifiedSettings() {
             <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-2">
               Account Settings
             </h1>
-            <p className="text-muted-foreground">
+            <p className="text-slate-600 dark:text-slate-400">
               Manage your {isVendor ? 'vendor' : ''} account preferences and settings
             </p>
           </div>
@@ -178,11 +178,11 @@ export default function UnifiedSettings() {
                 <CardContent className="pt-6">
                   <div className="space-y-4">
                     <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50 border border-border/50">
-                      <span className="text-sm font-medium text-muted-foreground">Email:</span>
+                      <span className="text-sm font-medium text-slate-600 dark:text-slate-400">Email:</span>
                       <span className="text-sm font-semibold text-foreground">{user?.email}</span>
                     </div>
                     <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50 border border-border/50">
-                      <span className="text-sm font-medium text-muted-foreground">Role:</span>
+                      <span className="text-sm font-medium text-slate-600 dark:text-slate-400">Role:</span>
                       {hasPendingRequest && existingRequest ? (
                         <>
                           <span className="text-sm font-semibold capitalize text-primary">
@@ -221,7 +221,7 @@ export default function UnifiedSettings() {
                   <div className="flex items-center justify-between p-4 rounded-lg bg-gradient-to-r from-info/5 to-transparent border border-info/20 hover:border-info/40 transition-colors">
                     <div>
                       <h4 className="font-medium text-foreground">Two-Factor Authentication</h4>
-                      <p className="text-sm text-muted-foreground">Add an extra layer of security</p>
+                      <p className="text-sm text-slate-600 dark:text-slate-400">Add an extra layer of security</p>
                     </div>
                     <Button variant="outline" size="sm" className="border-info/30 hover:bg-info/10 hover:text-info" onClick={() => {
                       toast({
@@ -236,7 +236,7 @@ export default function UnifiedSettings() {
                   <div className="flex items-center justify-between p-4 rounded-lg bg-gradient-to-r from-warning/5 to-transparent border border-warning/20 hover:border-warning/40 transition-colors">
                     <div>
                       <h4 className="font-medium text-foreground">Change Password</h4>
-                      <p className="text-sm text-muted-foreground">Update your account password</p>
+                      <p className="text-sm text-slate-600 dark:text-slate-400">Update your account password</p>
                     </div>
                     <Button variant="outline" size="sm" className="border-warning/30 hover:bg-warning/10 hover:text-warning" onClick={async () => {
                       const { error } = await supabase.auth.resetPasswordForEmail(user?.email || '');
@@ -280,7 +280,7 @@ export default function UnifiedSettings() {
                   <div key={setting.id} className={`flex items-center justify-between space-x-4 p-4 rounded-lg border transition-all hover:shadow-sm bg-gradient-to-r from-${setting.color}/5 to-transparent border-${setting.color}/20 hover:border-${setting.color}/40`}>
                     <div className="flex-1 space-y-1">
                       <Label htmlFor={setting.id} className="font-medium text-foreground">{setting.label}</Label>
-                      <p className="text-sm text-muted-foreground">{setting.description}</p>
+                      <p className="text-sm text-slate-600 dark:text-slate-400">{setting.description}</p>
                     </div>
                     <Switch 
                       id={setting.id} 
@@ -307,13 +307,13 @@ export default function UnifiedSettings() {
                     <CreditCard className="h-5 w-5 text-primary" />
                     Subscription Management
                   </CardTitle>
-                  <CardDescription>Manage your subscription plan and billing</CardDescription>
+                  <CardDescription className="text-slate-600 dark:text-slate-400">Manage your subscription plan and billing</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex items-center justify-between p-4 border border-primary/20 rounded-lg bg-background/50">
                     <div>
                       <h4 className="font-medium text-foreground">Current Plan</h4>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm text-slate-600 dark:text-slate-400">
                         {user?.subscription?.plan || 'Free'} • {user?.subscription?.status || 'Active'}
                       </p>
                     </div>
@@ -331,7 +331,7 @@ export default function UnifiedSettings() {
                     <DollarSign className="h-5 w-5 text-success" />
                     Payout Settings
                   </CardTitle>
-                  <CardDescription>Configure how you receive payments from completed projects</CardDescription>
+                  <CardDescription className="text-slate-600 dark:text-slate-400">Configure how you receive payments from completed projects</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <Button asChild variant="outline" className="border-success/30 hover:bg-success/10">
