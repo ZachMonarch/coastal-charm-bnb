@@ -27,6 +27,7 @@ export default function NavDropdown({ label, items, icon, className }: NavDropdo
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
+        style={{ color: 'hsl(0, 0%, 12%)' }}
         className={cn(
           "flex items-center gap-1 px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200",
           "!text-[hsl(0,0%,12%)] dark:!text-foreground",
@@ -40,9 +41,9 @@ export default function NavDropdown({ label, items, icon, className }: NavDropdo
         )}
         aria-label={`${label} menu`}
       >
-        {icon && <span className="mr-1">{icon}</span>}
-        <span className="!text-inherit">{label}</span>
-        <ChevronDown className="w-4 h-4 transition-transform duration-200 data-[state=open]:rotate-180 !text-inherit" />
+        {icon && <span className="mr-1" style={{ color: 'inherit' }}>{icon}</span>}
+        <span style={{ color: 'inherit' }}>{label}</span>
+        <ChevronDown className="w-4 h-4 transition-transform duration-200 data-[state=open]:rotate-180" style={{ color: 'inherit' }} />
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="start"
