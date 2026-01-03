@@ -417,187 +417,123 @@
   }
 }
 
-/* === COMPREHENSIVE LIGHT MODE VISIBILITY FIXES === */
-/* Force high-contrast text in light mode across all components */
-
+/* === LIGHT MODE BASE TOKENS (enhanced contrast) === */
 :root:not(.dark) {
-  /* Strengthen base text colors */
   --foreground: 0 0% 10%;
   --muted-foreground: 0 0% 25%;
   --popover-foreground: 0 0% 10%;
   --card-foreground: 0 0% 10%;
 }
 
-/* === ULTRA CRITICAL: FORCE NAVDROPDOWN BUTTON VISIBILITY === */
-/* These buttons are in header > nav > ul > li > button */
-:root:not(.dark) header nav ul li > button,
-:root:not(.dark) header nav ul li > button > span,
-:root:not(.dark) header nav ul li > button > svg,
-:root:not(.dark) header nav ul > li > button,
-:root:not(.dark) header nav ul > li > button > span,
-:root:not(.dark) header nav ul > li > button > svg {
-  color: hsl(0 0% 12%) !important;
-  opacity: 1 !important;
-  visibility: visible !important;
+/* === NAVBAR TEXT & BUTTON VISIBILITY === */
+/* Ensure all navbar elements are visible with proper contrast */
+header nav ul li > button,
+header nav ul li > button > span,
+header nav ul li a,
+header nav [data-radix-dropdown-menu-trigger],
+header nav [data-radix-dropdown-menu-trigger] > span,
+header nav [data-radix-dropdown-menu-trigger] > svg {
+  color: hsl(var(--foreground));
+  opacity: 1;
+  visibility: visible;
 }
 
-:root:not(.dark) header nav ul li > button:hover,
-:root:not(.dark) header nav ul li > button:hover > span,
-:root:not(.dark) header nav ul li > button:hover > svg {
-  color: hsl(var(--primary)) !important;
+header nav ul li > button:hover,
+header nav ul li > button:hover > span,
+header nav ul li a:hover,
+header nav [data-radix-dropdown-menu-trigger]:hover,
+header nav [data-radix-dropdown-menu-trigger]:hover > span,
+header nav [data-radix-dropdown-menu-trigger]:hover > svg {
+  color: hsl(var(--primary));
 }
 
-/* === DROPDOWN MENU LIGHT MODE VISIBILITY === */
-:root:not(.dark) [data-radix-dropdown-menu-content],
-:root:not(.dark) [data-radix-popper-content-wrapper] [role="menu"] {
-  background: hsl(0 0% 100%) !important;
-  border-color: hsl(0 0% 85%) !important;
+/* === DROPDOWN MENU VISIBILITY === */
+[data-radix-dropdown-menu-content],
+[data-radix-popper-content-wrapper] [role="menu"] {
+  background: hsl(var(--popover));
+  border-color: hsl(var(--border));
+  color: hsl(var(--popover-foreground));
 }
 
-:root:not(.dark) [data-radix-dropdown-menu-content] span,
-:root:not(.dark) [data-radix-dropdown-menu-content] p,
-:root:not(.dark) [data-radix-dropdown-menu-content] div:not([class*="bg-"]),
-:root:not(.dark) [data-radix-dropdown-menu-content] a {
-  color: hsl(0 0% 12%) !important;
+[data-radix-dropdown-menu-content] span,
+[data-radix-dropdown-menu-content] p,
+[data-radix-dropdown-menu-content] a {
+  color: hsl(var(--popover-foreground));
 }
 
-:root:not(.dark) [data-radix-dropdown-menu-content] .text-muted-foreground {
-  color: hsl(0 0% 35%) !important;
+[data-radix-dropdown-menu-content] .text-muted-foreground {
+  color: hsl(var(--muted-foreground));
 }
 
-:root:not(.dark) [data-radix-dropdown-menu-content] [role="menuitem"]:hover {
-  background: hsl(var(--primary) / 0.08) !important;
-  color: hsl(var(--primary)) !important;
+[data-radix-dropdown-menu-content] [role="menuitem"]:hover {
+  background: hsl(var(--primary) / 0.08);
+  color: hsl(var(--primary));
 }
 
-/* === NAVBAR DROPDOWN TRIGGER VISIBILITY (CRITICAL FIX) === */
-/* Force absolute visibility for Properties/Services dropdown triggers */
-:root:not(.dark) header nav li button[data-radix-dropdown-menu-trigger],
-:root:not(.dark) header nav li button[data-radix-dropdown-menu-trigger] span,
-:root:not(.dark) header nav li button[data-radix-dropdown-menu-trigger] svg,
-:root:not(.dark) header nav [data-radix-dropdown-menu-trigger],
-:root:not(.dark) header nav [data-radix-dropdown-menu-trigger] span,
-:root:not(.dark) header nav [data-radix-dropdown-menu-trigger] svg,
-:root:not(.dark) nav [data-radix-dropdown-menu-trigger],
-:root:not(.dark) nav [data-radix-dropdown-menu-trigger] span,
-:root:not(.dark) nav [data-radix-dropdown-menu-trigger] svg {
-  color: hsl(0 0% 12%) !important;
-  opacity: 1 !important;
-  visibility: visible !important;
+/* === SIDEBAR VISIBILITY (token-based) === */
+[data-sidebar] a,
+[data-sidebar] button,
+[data-sidebar] span:not([class*="bg-"]) {
+  color: hsl(var(--sidebar-foreground));
 }
 
-:root:not(.dark) header nav [data-radix-dropdown-menu-trigger]:hover,
-:root:not(.dark) header nav [data-radix-dropdown-menu-trigger]:hover span,
-:root:not(.dark) header nav [data-radix-dropdown-menu-trigger]:hover svg,
-:root:not(.dark) nav [data-radix-dropdown-menu-trigger]:hover,
-:root:not(.dark) nav [data-radix-dropdown-menu-trigger]:hover span,
-:root:not(.dark) nav [data-radix-dropdown-menu-trigger]:hover svg {
-  color: hsl(var(--primary)) !important;
+[data-sidebar] a:hover,
+[data-sidebar] button:hover {
+  color: hsl(var(--primary));
 }
 
-/* === NAVBAR DROPDOWN LINK VISIBILITY === */
-:root:not(.dark) header [data-radix-dropdown-menu-content] a,
-:root:not(.dark) header [data-radix-dropdown-menu-content] button {
-  color: hsl(0 0% 12%) !important;
+[data-sidebar] a[aria-current="page"],
+[data-sidebar] a[aria-current="page"] span {
+  color: hsl(var(--primary));
 }
 
-:root:not(.dark) header [data-radix-dropdown-menu-content] a:hover,
-:root:not(.dark) header [data-radix-dropdown-menu-content] button:hover {
-  color: hsl(var(--primary)) !important;
+[data-sidebar] .text-muted-foreground {
+  color: hsl(var(--muted-foreground));
 }
 
-/* === SIDEBAR TEXT VISIBILITY (LIGHT MODE) === */
-:root:not(.dark) [data-sidebar] a,
-:root:not(.dark) [data-sidebar] button,
-:root:not(.dark) [data-sidebar] span:not([class*="bg-"]) {
-  color: hsl(0 0% 15%) !important;
-}
-
-:root:not(.dark) [data-sidebar] a:hover,
-:root:not(.dark) [data-sidebar] button:hover {
-  color: hsl(var(--primary)) !important;
-}
-
-:root:not(.dark) [data-sidebar] a[aria-current="page"],
-:root:not(.dark) [data-sidebar] a[aria-current="page"] span {
-  color: hsl(var(--primary)) !important;
-}
-
-:root:not(.dark) [data-sidebar] .text-muted-foreground {
-  color: hsl(0 0% 35%) !important;
-}
-
-/* === DARK MODE SIDEBAR VISIBILITY === */
-.dark [data-sidebar] a,
-.dark [data-sidebar] button,
-.dark [data-sidebar] span:not([class*="bg-"]) {
-  color: hsl(0 0% 92%) !important;
-}
-
-.dark [data-sidebar] a:hover,
-.dark [data-sidebar] button:hover {
-  color: hsl(var(--primary)) !important;
-}
-
-.dark [data-sidebar] .text-muted-foreground {
-  color: hsl(0 0% 72%) !important;
-}
-
-.dark [data-sidebar] a[aria-current="page"],
-.dark [data-sidebar] a[aria-current="page"] span {
-  color: hsl(var(--primary)) !important;
-}
-
-/* === HEADER ICON VISIBILITY (DEFINITIVE FIX) === */
-/* Light mode - force dark icons */
+/* === HEADER ICON & TEXT VISIBILITY (robust, token-based) === */
+/* Ensure all header controls are visible on both light/dark backgrounds */
 header button svg,
 header [data-radix-select-trigger] svg,
-header div svg {
-  color: #171717 !important;
-  stroke: #171717 !important;
-  fill: none !important;
-  opacity: 1 !important;
-  visibility: visible !important;
+header .flex svg {
+  color: hsl(var(--foreground));
+  stroke: hsl(var(--foreground));
+  fill: none;
+  opacity: 1;
+  visibility: visible;
 }
 
-/* Dark mode - force light icons */
-.dark header button svg,
-.dark header [data-radix-select-trigger] svg,
-.dark header div svg {
-  color: #f5f5f5 !important;
-  stroke: #f5f5f5 !important;
+/* Language selector text and icon container */
+header [data-radix-select-trigger],
+header [data-radix-select-trigger] span,
+header [data-radix-select-trigger] div {
+  color: hsl(var(--foreground));
 }
 
-/* Language selector text */
-header [data-radix-select-trigger] {
-  color: #171717;
-}
-.dark header [data-radix-select-trigger] {
-  color: #f5f5f5;
-}
-
-/* === DARK MODE CARD & BUTTON TEXT VISIBILITY === */
-.dark [class*="Card"] h1,
-.dark [class*="Card"] h2,
-.dark [class*="Card"] h3,
-.dark [class*="Card"] p {
+/* Force icon visibility with explicit class */
+.text-foreground {
   color: hsl(var(--foreground)) !important;
 }
 
-.dark button[class*="variant-outline"],
-.dark [class*="outline"] button {
-  color: hsl(var(--foreground)) !important;
+/* Lucide icons inherit stroke from currentColor */
+.text-foreground svg {
+  stroke: currentColor;
 }
 
-/* === CARD CONTENT VISIBILITY (LIGHT MODE) === */
-:root:not(.dark) [class*="Card"] p,
-:root:not(.dark) [class*="CardDescription"],
-:root:not(.dark) .neumorphic-card p {
-  color: hsl(0 0% 22%) !important;
+/* === CARD & BUTTON TEXT VISIBILITY (token-based) === */
+[class*="Card"] h1,
+[class*="Card"] h2,
+[class*="Card"] h3,
+[class*="Card"] p {
+  color: hsl(var(--card-foreground));
 }
 
-:root:not(.dark) [class*="Card"] span:not([class*="text-white"]):not([class*="text-primary"]):not([class*="bg-"]):not([class*="Badge"]) {
-  color: hsl(0 0% 20%) !important;
+[class*="CardDescription"] {
+  color: hsl(var(--muted-foreground));
+}
+
+[class*="Card"] span:not([class*="text-white"]):not([class*="text-primary"]):not([class*="bg-"]):not([class*="Badge"]) {
+  color: hsl(var(--card-foreground));
 }
 
 /* === GENERAL TEXT VISIBILITY (LIGHT MODE) === */
@@ -3382,14 +3318,27 @@ footer p:not(.text-primary) {
   color: hsl(0 0% 45%);
 }
 
-/* === NAVBAR LINK VISIBILITY FIX (LIGHT MODE) === */
+/* === NAVBAR LINK VISIBILITY FIX (ALL MODES) === */
+/* Ultra-specific targeting for navbar dropdown triggers */
+header nav .nav-dropdown-trigger,
+header nav .nav-dropdown-trigger > span,
+header nav .nav-dropdown-trigger > svg,
 :root:not(.dark) header nav a,
 :root:not(.dark) header nav button:not([class*="bg-"]) {
   color: hsl(0 0% 12%) !important;
 }
 
+.dark header nav .nav-dropdown-trigger,
+.dark header nav .nav-dropdown-trigger > span,
+.dark header nav .nav-dropdown-trigger > svg {
+  color: hsl(0 0% 96%) !important;
+}
+
 :root:not(.dark) header nav a:hover,
-:root:not(.dark) header nav button:hover {
+:root:not(.dark) header nav button:hover,
+header nav .nav-dropdown-trigger:hover,
+header nav .nav-dropdown-trigger:hover > span,
+header nav .nav-dropdown-trigger:hover > svg {
   color: hsl(var(--primary)) !important;
 }
 

@@ -1,34 +1,42 @@
-import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
+/**
+ * Theme Toggle - Uses next-themes for unified theme management
+ * No manual DOM manipulation - relies on ThemeProvider
+ */
 export default function ThemeToggle() {
-  const [isDark, setIsDark] = useState(false);
+  const { setTheme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
+  // Prevent hydration mismatch
   useEffect(() => {
-    const isDarkMode = localStorage.getItem("theme") === "dark" || 
-      (!localStorage.getItem("theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
-    
-    setIsDark(isDarkMode);
-    
-    if (isDarkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
+    setMounted(true);
   }, []);
 
   const toggleTheme = () => {
-    setIsDark(!isDark);
-    
-    if (isDark) {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    } else {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    }
+    setTheme(resolvedTheme === "dark" ? "light" : "dark");
   };
+
+  // Don't render until mounted to prevent hydration mismatch
+  if (!mounted) {
+    return (
+      <Button
+        variant="ghost"
+        size="icon"
+        className="rounded-full min-w-[40px] min-h-[40px] w-10 h-10 bg-transparent"
+        aria-label="Toggle theme"
+        disabled
+      >
+        <span className="sr-only">Toggle theme</span>
+        <div className="h-5 w-5" />
+      </Button>
+    );
+  }
+
+  const isDark = resolvedTheme === "dark";
 
   return (
     <Button
@@ -36,20 +44,22 @@ export default function ThemeToggle() {
       size="icon"
       onClick={toggleTheme}
       className="rounded-full min-w-[40px] min-h-[40px] w-10 h-10 transition-all duration-300 bg-transparent hover:bg-primary/10 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-      aria-label="Toggle theme"
+      aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
     >
       <span className="sr-only">Toggle theme</span>
       {isDark ? (
         <Sun 
           className="h-5 w-5 transition-transform duration-500" 
           strokeWidth={2}
-          stroke="#f5f5f5"
+          color="currentColor"
+          style={{ color: 'hsl(var(--foreground))' }}
         />
       ) : (
         <Moon 
           className="h-5 w-5 transition-transform duration-500" 
           strokeWidth={2}
-          stroke="#171717"
+          color="currentColor"
+          style={{ color: 'hsl(var(--foreground))' }}
         />
       )}
     </Button>
