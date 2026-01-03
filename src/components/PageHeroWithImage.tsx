@@ -30,7 +30,7 @@ export function PageHeroWithImage({
       />
       
       {/* Gradient Overlay for text readability */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/55 to-black/70" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/75 to-black/85" />
       
       {/* Content */}
       <div className="relative z-10 flex items-center justify-center h-full">

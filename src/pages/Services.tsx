@@ -83,7 +83,7 @@ export default function Services() {
             backgroundImage: `url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1920&h=1080&fit=crop')`
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/60 to-black/75" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/75 to-black/85" />
         <div className="relative z-10 flex items-center justify-center h-full">
           <div className="text-center max-w-4xl px-6">
             <span className="text-sm font-medium uppercase tracking-wider mb-4 block text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] [text-shadow:_0_2px_8px_rgb(0_0_0_/_80%)]">

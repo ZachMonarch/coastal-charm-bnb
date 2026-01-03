@@ -180,6 +180,9 @@ export function PendingApprovalView() {
                   {existingRequest?.role_requested === 'vendor' ? 'Vendor' : 'Property Manager'}
                 </span> application is being reviewed. You'll receive full access once approved by our team.
               </p>
+              <p className="text-xs text-muted-foreground mt-2 italic">
+                Note: Your account temporarily shows "Tenant" status until your {existingRequest?.role_requested === 'vendor' ? 'vendor' : 'property manager'} access is approved.
+              </p>
             </div>
 
             {/* Request Details */}
