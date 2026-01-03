@@ -961,6 +961,50 @@ button[class*="shadow-primary"] a {
   .dark .text-success { color: hsl(155 60% 50%) !important; }
   .dark .text-info { color: hsl(200 70% 60%) !important; }
 
+  /* === LIGHT MODE CARD & TAB VISIBILITY FIXES === */
+  /* Ensure all cards have readable text in light mode */
+  :root:not(.dark) [class*="from-primary"][class*="Card"] h1,
+  :root:not(.dark) [class*="from-primary"][class*="Card"] h2,
+  :root:not(.dark) [class*="from-primary"][class*="Card"] h3,
+  :root:not(.dark) [class*="from-primary"][class*="Card"] h4,
+  :root:not(.dark) [class*="from-success"][class*="Card"] h1,
+  :root:not(.dark) [class*="from-success"][class*="Card"] h2,
+  :root:not(.dark) [class*="from-warning"][class*="Card"] h1,
+  :root:not(.dark) [class*="from-warning"][class*="Card"] h2,
+  :root:not(.dark) [class*="from-info"][class*="Card"] h1,
+  :root:not(.dark) [class*="from-info"][class*="Card"] h2 {
+    color: hsl(0 0% 10%) !important;
+  }
+
+  :root:not(.dark) [class*="from-primary"][class*="Card"] .text-muted-foreground,
+  :root:not(.dark) [class*="from-success"][class*="Card"] .text-muted-foreground,
+  :root:not(.dark) [class*="from-warning"][class*="Card"] .text-muted-foreground,
+  :root:not(.dark) [class*="from-info"][class*="Card"] .text-muted-foreground,
+  :root:not(.dark) [class*="from-primary"][class*="Card"] [class*="CardDescription"],
+  :root:not(.dark) [class*="from-success"][class*="Card"] [class*="CardDescription"],
+  :root:not(.dark) [class*="from-warning"][class*="Card"] [class*="CardDescription"],
+  :root:not(.dark) [class*="from-info"][class*="Card"] [class*="CardDescription"] {
+    color: hsl(0 0% 25%) !important;
+  }
+
+  /* Tabs colorful variant - ensure visible in light mode */
+  :root:not(.dark) [data-state="inactive"][class*="TabsTrigger"] {
+    color: hsl(0 0% 30%);
+  }
+  
+  :root:not(.dark) [class*="TabsList"][class*="bg-primary"] [data-state="inactive"] {
+    color: hsl(0 0% 25%);
+  }
+
+  /* General card text visibility in light mode */
+  :root:not(.dark) [class*="Card"] [class*="CardTitle"] {
+    color: hsl(0 0% 12%);
+  }
+
+  :root:not(.dark) [class*="Card"] [class*="CardDescription"] {
+    color: hsl(0 0% 28%);
+  }
+
   /* === BRAND COLOR UTILITY CLASSES === */
   .brand-gold-accent {
     border-left: 4px solid hsl(var(--primary));

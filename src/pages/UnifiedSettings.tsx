@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { User, Bell, Shield, CreditCard, Globe, Monitor, DollarSign } from 'lucide-react';
+import { User, Bell, Shield, CreditCard, Globe, Monitor, DollarSign, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -15,9 +15,11 @@ import { useToast } from '@/hooks/use-toast';
 import { useTheme } from 'next-themes';
 import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
+import { useAccessRequest } from '@/hooks/useAccessRequest';
 
 export default function UnifiedSettings() {
   const { user, hasRole, userRoles, getUserRole } = useAuth();
+  const { existingRequest, hasPendingRequest } = useAccessRequest();
   const { toast } = useToast();
   const { theme, setTheme } = useTheme();
   const [isLoading, setIsLoading] = useState(false);
@@ -182,6 +184,12 @@ export default function UnifiedSettings() {
                     <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50 border border-border/50">
                       <span className="text-sm font-medium text-muted-foreground">Role:</span>
                       <span className="text-sm font-semibold capitalize text-primary">{actualRole}</span>
+                      {hasPendingRequest && existingRequest && (
+                        <span className="flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-warning/15 text-warning border border-warning/30">
+                          <Clock className="h-3 w-3" />
+                          {existingRequest.role_requested} access pending
+                        </span>
+                      )}
                     </div>
                   </div>
                 </CardContent>

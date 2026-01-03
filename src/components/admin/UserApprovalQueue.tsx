@@ -70,6 +70,10 @@ export default function UserApprovalQueue() {
 
   const approveMutation = useMutation({
     mutationFn: async ({ requestId, userId }: { requestId: string; userId: string }) => {
+      // Get the request to find the requested role
+      const requestData = requests.find(r => r.id === requestId);
+      const roleToAssign = requestData?.role_requested || 'property_manager';
+      
       // Update approval request
       const { error: updateError } = await supabase
         .from('user_approval_requests')
@@ -83,22 +87,22 @@ export default function UserApprovalQueue() {
 
       if (updateError) throw updateError;
 
-      // Add user role
+      // Add user role - use the requested role, not hardcoded
       const { error: roleError } = await supabase
         .from('user_roles')
         .insert({
           user_id: userId,
-          role: 'property_manager'
+          role: roleToAssign
         });
 
       if (roleError && !roleError.message.includes('duplicate')) {
         throw roleError;
       }
 
-      // Update profile role
+      // Update profile role - use the requested role
       const { error: profileError } = await supabase
         .from('profiles')
-        .update({ role: 'property_manager' })
+        .update({ role: roleToAssign })
         .eq('id', userId);
 
       if (profileError) throw profileError;
