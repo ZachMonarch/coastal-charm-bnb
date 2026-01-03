@@ -451,6 +451,25 @@
   color: hsl(var(--primary)) !important;
 }
 
+/* === NAVBAR DROPDOWN TRIGGER VISIBILITY (CRITICAL FIX) === */
+:root:not(.dark) header nav [data-radix-dropdown-menu-trigger],
+:root:not(.dark) header nav [data-radix-dropdown-menu-trigger] span,
+:root:not(.dark) header nav [data-radix-dropdown-menu-trigger] svg,
+:root:not(.dark) nav [data-radix-dropdown-menu-trigger],
+:root:not(.dark) nav [data-radix-dropdown-menu-trigger] span,
+:root:not(.dark) nav [data-radix-dropdown-menu-trigger] svg {
+  color: hsl(0 0% 12%) !important;
+}
+
+:root:not(.dark) header nav [data-radix-dropdown-menu-trigger]:hover,
+:root:not(.dark) header nav [data-radix-dropdown-menu-trigger]:hover span,
+:root:not(.dark) header nav [data-radix-dropdown-menu-trigger]:hover svg,
+:root:not(.dark) nav [data-radix-dropdown-menu-trigger]:hover,
+:root:not(.dark) nav [data-radix-dropdown-menu-trigger]:hover span,
+:root:not(.dark) nav [data-radix-dropdown-menu-trigger]:hover svg {
+  color: hsl(var(--primary)) !important;
+}
+
 /* === NAVBAR DROPDOWN LINK VISIBILITY === */
 :root:not(.dark) header [data-radix-dropdown-menu-content] a,
 :root:not(.dark) header [data-radix-dropdown-menu-content] button {
@@ -460,6 +479,43 @@
 :root:not(.dark) header [data-radix-dropdown-menu-content] a:hover,
 :root:not(.dark) header [data-radix-dropdown-menu-content] button:hover {
   color: hsl(var(--primary)) !important;
+}
+
+/* === SIDEBAR TEXT VISIBILITY (LIGHT MODE) === */
+:root:not(.dark) [data-sidebar] a,
+:root:not(.dark) [data-sidebar] button,
+:root:not(.dark) [data-sidebar] span:not([class*="bg-"]) {
+  color: hsl(0 0% 15%) !important;
+}
+
+:root:not(.dark) [data-sidebar] a:hover,
+:root:not(.dark) [data-sidebar] button:hover {
+  color: hsl(var(--primary)) !important;
+}
+
+:root:not(.dark) [data-sidebar] a[aria-current="page"],
+:root:not(.dark) [data-sidebar] a[aria-current="page"] span {
+  color: hsl(var(--primary)) !important;
+}
+
+:root:not(.dark) [data-sidebar] .text-muted-foreground {
+  color: hsl(0 0% 35%) !important;
+}
+
+/* === DARK MODE SIDEBAR VISIBILITY === */
+.dark [data-sidebar] a,
+.dark [data-sidebar] button,
+.dark [data-sidebar] span:not([class*="bg-"]) {
+  color: hsl(0 0% 90%);
+}
+
+.dark [data-sidebar] a:hover,
+.dark [data-sidebar] button:hover {
+  color: hsl(var(--primary));
+}
+
+.dark [data-sidebar] .text-muted-foreground {
+  color: hsl(0 0% 65%);
 }
 
 /* === CARD CONTENT VISIBILITY (LIGHT MODE) === */

@@ -10,6 +10,7 @@ import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGrou
 import ThemeToggle from "./ThemeToggle";
 import LanguageSelector from "./LanguageSelector";
 import { useAuth } from "@/contexts/OptimizedAuthContext";
+import { cn } from "@/lib/utils";
 import logo32 from "@/assets/cdn/ui/monarch-logo-32.webp";
 
 // Types for navigation structure
@@ -403,11 +404,16 @@ export function AppSidebar() {
                       const itemIsActive = isActive(item.url);
                       const iconColor = getGroupIconColor(group.title);
                       return (
-                         <SidebarMenuItem key={`${item.title}-${itemIndex}`}>
+                       <SidebarMenuItem key={`${item.title}-${itemIndex}`}>
                           <SidebarMenuButton asChild isActive={itemIsActive}>
                             <NavLink 
                               to={item.url} 
-                              className={getNavCls({ isActive: itemIsActive, groupTitle: group.title })}
+                              className={cn(
+                                getNavCls({ isActive: itemIsActive, groupTitle: group.title }),
+                                itemIsActive 
+                                  ? "text-primary" 
+                                  : "text-[hsl(0_0%_15%)] dark:text-foreground"
+                              )}
                               aria-current={itemIsActive ? "page" : undefined}
                               title={item.description || item.title}
                             >
