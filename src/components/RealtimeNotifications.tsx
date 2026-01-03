@@ -88,8 +88,6 @@ export default function RealtimeNotifications() {
   };
 
   const showToastNotification = (notification: Notification) => {
-    const icon = getNotificationIcon(notification.type);
-    
     toast(notification.title, {
       description: notification.message,
       action: notification.action_url ? {
@@ -185,7 +183,11 @@ export default function RealtimeNotifications() {
           className="relative min-h-[36px] min-w-[36px] w-9 h-9 md:min-h-[40px] md:min-w-[40px] md:w-10 md:h-10 rounded-full border border-border/40 dark:border-border/60 bg-transparent hover:border-primary/50 hover:bg-muted/50"
           aria-label={`Notifications${unreadCount > 0 ? `, ${unreadCount} unread` : ''}`}
         >
-          <Bell className="h-4 w-4 text-neutral-900 dark:text-neutral-100" />
+          <Bell 
+            className="h-4 w-4" 
+            color="currentColor"
+            style={{ color: 'hsl(var(--foreground))' }}
+          />
           {unreadCount > 0 && (
             <Badge 
               variant="destructive" 
@@ -200,13 +202,14 @@ export default function RealtimeNotifications() {
         <Card className="border-0 shadow-none bg-transparent">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-base">Notifications</CardTitle>
+              <CardTitle className="text-base text-foreground">Notifications</CardTitle>
               {unreadCount > 0 && (
                 <Button 
                   variant="ghost" 
                   size="sm" 
                   onClick={markAllAsRead}
                   disabled={loading}
+                  className="text-foreground"
                 >
                   Mark all read
                 </Button>
@@ -245,7 +248,7 @@ export default function RealtimeNotifications() {
                       {getNotificationIcon(notification.type)}
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center space-x-2">
-                          <p className="text-sm font-medium truncate">
+                          <p className="text-sm font-medium truncate text-foreground">
                             {notification.title}
                           </p>
                           {!notification.read && (

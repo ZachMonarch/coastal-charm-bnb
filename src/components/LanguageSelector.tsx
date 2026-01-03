@@ -42,12 +42,23 @@ export default function LanguageSelector() {
     <div className="flex items-center">
       <Select value={language} onValueChange={handleLanguageChange}>
         <SelectTrigger 
-          className="w-[65px] h-10 min-h-[40px] border-0 bg-transparent hover:bg-primary/10 focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors text-neutral-900 dark:text-neutral-100"
+          className="w-[65px] h-10 min-h-[40px] border-0 bg-transparent hover:bg-primary/10 focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors"
           aria-label="Select Language"
+          style={{ color: 'hsl(var(--foreground))' }}
         >
           <div className="flex items-center space-x-1.5">
-            <Globe className="h-5 w-5" stroke="currentColor" aria-hidden="true" />
-            <span className="text-sm font-bold">{currentLanguage?.abbr || 'EN'}</span>
+            <Globe 
+              className="h-5 w-5" 
+              aria-hidden="true" 
+              color="currentColor"
+              style={{ color: 'hsl(var(--foreground))' }}
+            />
+            <span 
+              className="text-sm font-bold"
+              style={{ color: 'hsl(var(--foreground))' }}
+            >
+              {currentLanguage?.abbr || 'EN'}
+            </span>
           </div>
         </SelectTrigger>
         <SelectContent align="start" className="w-[160px] z-[500] bg-popover border-border">
