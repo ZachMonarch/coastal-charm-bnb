@@ -136,7 +136,7 @@ export default function VendorRFQTabs() {
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
-                        <CardTitle className="text-lg">{rfq.title}</CardTitle>
+                        <CardTitle className="text-lg text-foreground">{rfq.title}</CardTitle>
                         <Badge className={cn("text-xs border", getPriorityColor(rfq.priority))}>
                           {rfq.priority}
                         </Badge>
@@ -151,7 +151,7 @@ export default function VendorRFQTabs() {
                 <CardContent>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4 text-sm">
                     <div className="flex items-center gap-2">
-                      <DollarSign className="h-4 w-4 text-muted-foreground" />
+                      <DollarSign className="h-4 w-4 text-foreground/70" />
                       <span>
                         ${rfq.budget_min || 0} - ${rfq.budget_max || 'Open'}
                       </span>
@@ -168,13 +168,13 @@ export default function VendorRFQTabs() {
                     </div>
                   </div>
                   
-                  <div className="flex justify-end gap-2">
-                    <Button variant="outline" size="sm">
+                  <div className="flex flex-col sm:flex-row justify-end gap-2">
+                    <Button variant="outline" size="sm" className="w-full sm:w-auto">
                       View Details
                     </Button>
                     
                     {!canApplyToProjects ? (
-                      <Button disabled size="sm">
+                      <Button disabled size="sm" className="w-full sm:w-auto">
                         <AlertCircle className="h-4 w-4 mr-2" />
                         Subscription Required
                       </Button>
@@ -187,6 +187,8 @@ export default function VendorRFQTabs() {
                           <Button 
                             size="sm"
                             onClick={() => setSelectedProject(rfq)}
+                            className="w-full sm:w-auto text-white"
+                            style={{ color: 'white' }}
                           >
                             Submit Bid
                           </Button>
