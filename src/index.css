@@ -531,16 +531,60 @@
 .dark [data-sidebar] a,
 .dark [data-sidebar] button,
 .dark [data-sidebar] span:not([class*="bg-"]) {
-  color: hsl(0 0% 90%);
+  color: hsl(0 0% 92%) !important;
 }
 
 .dark [data-sidebar] a:hover,
 .dark [data-sidebar] button:hover {
-  color: hsl(var(--primary));
+  color: hsl(var(--primary)) !important;
 }
 
 .dark [data-sidebar] .text-muted-foreground {
-  color: hsl(0 0% 65%);
+  color: hsl(0 0% 72%) !important;
+}
+
+.dark [data-sidebar] a[aria-current="page"],
+.dark [data-sidebar] a[aria-current="page"] span {
+  color: hsl(var(--primary)) !important;
+}
+
+/* === HEADER ICON VISIBILITY (CRITICAL FIX - BOTH MODES) === */
+/* Force all header icons to be visible with explicit fill/stroke */
+header button svg,
+header [data-radix-select-trigger] svg,
+header [role="button"] svg,
+header div svg {
+  color: hsl(var(--foreground)) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  stroke: currentColor !important;
+}
+
+/* Light mode specific header icons */
+:root:not(.dark) header button svg,
+:root:not(.dark) header [data-radix-select-trigger] svg,
+:root:not(.dark) header div svg {
+  color: hsl(0 0% 15%) !important;
+}
+
+/* Dark mode specific header icons */
+.dark header button svg,
+.dark header [data-radix-select-trigger] svg,
+.dark header div svg {
+  color: hsl(0 0% 95%) !important;
+}
+
+/* === DARK MODE CARD & BUTTON TEXT VISIBILITY === */
+.dark [class*="Card"] h1,
+.dark [class*="Card"] h2,
+.dark [class*="Card"] h3,
+.dark [class*="Card"] p {
+  color: hsl(var(--foreground)) !important;
+}
+
+.dark button[class*="variant-outline"],
+.dark [class*="outline"] button {
+  color: hsl(var(--foreground)) !important;
 }
 
 /* === CARD CONTENT VISIBILITY (LIGHT MODE) === */

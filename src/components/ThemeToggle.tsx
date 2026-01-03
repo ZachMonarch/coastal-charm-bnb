@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -39,12 +38,22 @@ export default function ThemeToggle() {
       className="rounded-full min-w-[40px] min-h-[40px] w-10 h-10 transition-all duration-300 bg-transparent hover:bg-primary/10 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
       aria-label="Toggle theme"
     >
-      {isDark ? (
-        <Sun className="h-5 w-5 transition-transform duration-500 rotate-0 text-primary" />
-      ) : (
-        <Moon className="h-5 w-5 transition-transform duration-500 rotate-0 text-foreground" />
-      )}
       <span className="sr-only">Toggle theme</span>
+      {isDark ? (
+        <Sun 
+          className="h-5 w-5 transition-transform duration-500 rotate-0" 
+          strokeWidth={2}
+          color="currentColor"
+          style={{ color: 'hsl(0 0% 95%)' }}
+        />
+      ) : (
+        <Moon 
+          className="h-5 w-5 transition-transform duration-500 rotate-0" 
+          strokeWidth={2}
+          color="currentColor"
+          style={{ color: 'hsl(0 0% 15%)' }}
+        />
+      )}
     </Button>
   );
 }
