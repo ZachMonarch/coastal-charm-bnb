@@ -14,6 +14,7 @@ import { UserCheck, RefreshCw, Search, CheckCircle, XCircle, Clock, Eye, User, B
 import { formatDistanceToNow } from 'date-fns';
 import StatsCard from '@/components/shared/StatsCard';
 import { useAuth } from '@/contexts/OptimizedAuthContext';
+import { logger } from '@/utils/logger';
 
 interface ApprovalRequest {
   id: string;
@@ -87,15 +88,19 @@ export default function UserApprovalQueue() {
 
       if (updateError) throw updateError;
 
-      // Add user role - use the requested role, not hardcoded
+      // Add/update user role using UPSERT to handle existing tenant role
       const { error: roleError } = await supabase
         .from('user_roles')
-        .insert({
+        .upsert({
           user_id: userId,
           role: roleToAssign
+        }, { 
+          onConflict: 'user_id',
+          ignoreDuplicates: false 
         });
 
-      if (roleError && !roleError.message.includes('duplicate')) {
+      if (roleError) {
+        logger.error('Role assignment error:', roleError);
         throw roleError;
       }
 
