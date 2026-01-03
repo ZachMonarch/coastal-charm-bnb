@@ -359,10 +359,10 @@ export function AppSidebar() {
             </div>
             {!isCollapsed && (
               <div>
-                <h2 className="text-lg font-extrabold text-foreground tracking-tight">
+                <h2 className="text-lg font-extrabold text-[#1a1a1a] dark:text-[#f5f5f5] tracking-tight">
                   Monarch
                 </h2>
-                <p className="text-xs font-medium text-muted-foreground -mt-1">Property Management</p>
+                <p className="text-xs font-medium text-[#555555] dark:text-[#aaaaaa] -mt-1">Property Management</p>
               </div>
             )}
           </div>
@@ -405,11 +405,11 @@ export function AppSidebar() {
                       const iconColor = getGroupIconColor(group.title);
                       return (
                        <SidebarMenuItem key={`${item.title}-${itemIndex}`}>
-                          <SidebarMenuButton asChild isActive={itemIsActive} className="text-foreground hover:text-primary">
+                          <SidebarMenuButton asChild isActive={itemIsActive} className="text-[#1a1a1a] dark:text-[#f5f5f5] hover:text-primary">
                             <NavLink 
                               to={item.url} 
                               className={cn(
-                                "text-foreground hover:text-primary",
+                                "text-[#1a1a1a] dark:text-[#f5f5f5] hover:text-primary",
                                 getNavCls({ isActive: itemIsActive, groupTitle: group.title }),
                                 itemIsActive && "text-primary"
                               )}
@@ -417,7 +417,7 @@ export function AppSidebar() {
                               title={item.description || item.title}
                             >
                               <IconComponent className={`h-4 w-4 ${itemIsActive ? 'text-primary' : iconColor}`} />
-                              {!isCollapsed && <span className="ml-3 text-inherit">{item.title}</span>}
+                              {!isCollapsed && <span className="ml-3 text-[#1a1a1a] dark:text-[#f5f5f5]">{item.title}</span>}
                             </NavLink>
                           </SidebarMenuButton>
                         </SidebarMenuItem>
