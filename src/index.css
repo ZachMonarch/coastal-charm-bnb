@@ -425,6 +425,33 @@
   --card-foreground: 0 0% 8%;      /* Match foreground */
 }
 
+/* === ENHANCED TAB VISIBILITY (WCAG AA Compliant) === */
+/* Force high-contrast text on all tab triggers */
+[role="tablist"] [role="tab"] {
+  color: hsl(0 0% 15%);
+}
+
+.dark [role="tablist"] [role="tab"] {
+  color: hsl(0 0% 92%);
+}
+
+[role="tablist"] [role="tab"][data-state="inactive"] {
+  color: hsl(0 0% 20%);
+}
+
+.dark [role="tablist"] [role="tab"][data-state="inactive"] {
+  color: hsl(0 0% 88%);
+}
+
+[role="tablist"] [role="tab"][data-state="active"] {
+  color: hsl(0 0% 100%);
+}
+
+/* === LIGHT MODE MUTED TEXT ENHANCEMENT === */
+:root:not(.dark) .text-muted-foreground {
+  color: hsl(0 0% 25%) !important;
+}
+
 /* === NAVBAR TEXT & BUTTON VISIBILITY === */
 /* Ensure all navbar elements are visible with proper contrast */
 header nav ul li > button,

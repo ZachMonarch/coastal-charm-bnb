@@ -29,7 +29,7 @@ export default function NavDropdown({ label, items, icon, className }: NavDropdo
       <DropdownMenuTrigger
         className={cn(
           "nav-dropdown-trigger flex items-center gap-1 px-4 py-2 text-base font-bold rounded-lg transition-all duration-200",
-          "text-foreground",
+          "text-slate-900 dark:text-slate-100",
           "hover:text-primary hover:bg-primary/10",
           "data-[state=open]:bg-primary/10 data-[state=open]:text-primary",
           "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none",
@@ -39,9 +39,9 @@ export default function NavDropdown({ label, items, icon, className }: NavDropdo
         )}
         aria-label={`${label} menu`}
       >
-        {icon && <span className="mr-1 text-foreground">{icon}</span>}
-        <span className="text-foreground">{label}</span>
-        <ChevronDown className="w-4 h-4 text-foreground transition-transform duration-200 data-[state=open]:rotate-180" />
+        {icon && <span className="mr-1 text-slate-900 dark:text-slate-100">{icon}</span>}
+        <span className="text-slate-900 dark:text-slate-100">{label}</span>
+        <ChevronDown className="w-4 h-4 text-slate-800 dark:text-slate-200 transition-transform duration-200 data-[state=open]:rotate-180" />
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="start"
