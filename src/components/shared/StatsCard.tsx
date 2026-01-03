@@ -142,7 +142,7 @@ export default function StatsCard({
             </div>
             
             <div className="space-y-0.5">
-              <p className={cn('font-medium text-muted-foreground', sizeStyles.titleSize)}>
+              <p className={cn('font-medium text-foreground/75', sizeStyles.titleSize)}>
                 {title}
               </p>
               <p className={cn(
@@ -152,7 +152,7 @@ export default function StatsCard({
                 {value}
               </p>
               {subtitle && (
-                <p className="text-xs text-muted-foreground/80 mt-1">{subtitle}</p>
+                <p className="text-xs text-foreground/60 mt-1">{subtitle}</p>
               )}
             </div>
           </div>

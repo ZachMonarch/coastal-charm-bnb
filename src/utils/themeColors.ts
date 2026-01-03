@@ -35,10 +35,10 @@ export const statusColors = {
 
 export const priorityColors = {
   low: 'bg-muted text-muted-foreground border-border',
-  medium: 'bg-warning/10 text-warning border-warning/30 dark:bg-warning/20 dark:border-warning/40',
-  high: 'bg-destructive/10 text-destructive border-destructive/30 dark:bg-destructive/20 dark:border-destructive/40',
-  urgent: 'bg-destructive/10 text-destructive border-destructive/30 dark:bg-destructive/20 dark:border-destructive/40',
-  critical: 'bg-destructive/10 text-destructive border-destructive/30 dark:bg-destructive/20 dark:border-destructive/40',
+  medium: 'bg-warning/15 text-warning border-warning/40 dark:bg-warning/20 dark:border-warning/40',
+  high: 'bg-destructive/15 text-destructive border-destructive/40 dark:bg-destructive/20 dark:border-destructive/40',
+  urgent: 'bg-destructive/15 text-destructive border-destructive/40 dark:bg-destructive/20 dark:border-destructive/40',
+  critical: 'bg-destructive/20 text-destructive border-destructive/50 dark:bg-destructive/30 dark:border-destructive/50',
 } as const;
 
 export const paymentStatusColors = {

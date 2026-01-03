@@ -757,21 +757,56 @@ button[class*="shadow-primary"] a {
 
   /* Neumorphic / Glassmorphic Design System */
   .neumorphic-card {
-    background: hsl(var(--background) / 0.95);
+    background: hsl(var(--card));
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid hsl(var(--border) / 0.3);
+    border: 1px solid hsl(var(--border) / 0.5);
     box-shadow: 
-      0 8px 32px 0 rgba(0, 0, 0, 0.1),
-      0 2px 8px 0 rgba(0, 0, 0, 0.05),
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+      0 8px 32px 0 rgba(0, 0, 0, 0.08),
+      0 2px 8px 0 rgba(0, 0, 0, 0.04),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
     transition: all 0.3s ease;
   }
   
   @supports (backdrop-filter: blur(12px)) {
     .neumorphic-card {
-      background: hsl(var(--background) / 0.6);
+      background: hsl(var(--card) / 0.92);
     }
+  }
+  
+  /* === LIGHT MODE NEUMORPHIC CARD VISIBILITY FIX === */
+  .neumorphic-card .text-muted-foreground,
+  .neumorphic-card [class*="CardDescription"] {
+    color: hsl(0 0% 25%) !important;
+  }
+
+  .neumorphic-card h1,
+  .neumorphic-card h2,
+  .neumorphic-card h3,
+  .neumorphic-card h4,
+  .neumorphic-card [class*="CardTitle"],
+  .neumorphic-card .font-bold,
+  .neumorphic-card .font-semibold {
+    color: hsl(0 0% 10%) !important;
+  }
+
+  .neumorphic-card .text-2xl,
+  .neumorphic-card .text-3xl,
+  .neumorphic-card .text-4xl {
+    color: hsl(var(--foreground)) !important;
+  }
+
+  /* Dark mode override - restore normal colors */
+  .dark .neumorphic-card .text-muted-foreground,
+  .dark .neumorphic-card [class*="CardDescription"],
+  .dark .neumorphic-card h1,
+  .dark .neumorphic-card h2,
+  .dark .neumorphic-card h3,
+  .dark .neumorphic-card h4,
+  .dark .neumorphic-card [class*="CardTitle"],
+  .dark .neumorphic-card .font-bold,
+  .dark .neumorphic-card .font-semibold {
+    color: inherit !important;
   }
 
   .neumorphic-card:hover {
@@ -833,6 +868,98 @@ button[class*="shadow-primary"] a {
     opacity: 0;
     transition: opacity 400ms ease-in;
   }
+
+  /* === MOBILE VIEWPORT OPTIMIZATION (100% ZOOM) === */
+  @media (max-width: 640px) {
+    /* Card spacing and sizing */
+    .neumorphic-card,
+    [class*="Card"]:not([class*="CardContent"]):not([class*="CardHeader"]):not([class*="CardTitle"]):not([class*="CardDescription"]) {
+      padding: 0.875rem;
+      margin-bottom: 0.75rem;
+    }
+    
+    /* Card content padding */
+    [class*="CardContent"] {
+      padding: 0.75rem !important;
+    }
+  
+    [class*="CardHeader"] {
+      padding: 0.75rem 0.75rem 0.5rem !important;
+    }
+    
+    /* Responsive typography */
+    h1 { font-size: clamp(1.5rem, 6vw, 2rem); }
+    h2 { font-size: clamp(1.25rem, 5vw, 1.75rem); }
+    h3 { font-size: clamp(1rem, 4vw, 1.25rem); }
+    
+    /* Stats text sizing */
+    .text-2xl { font-size: clamp(1.125rem, 5vw, 1.5rem); }
+    .text-3xl { font-size: clamp(1.25rem, 5vw, 1.875rem); }
+    
+    /* Badge sizing for mobile readability */
+    [class*="Badge"] {
+      font-size: 0.65rem;
+      padding: 0.125rem 0.375rem;
+    }
+    
+    /* Responsive button layouts */
+    .flex.justify-end.gap-2,
+    .flex.justify-end.gap-3 {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .flex.justify-end.gap-2 button,
+    .flex.justify-end.gap-3 button {
+      width: 100%;
+    }
+    
+    /* Stats grid - 2 columns on mobile */
+    .grid.grid-cols-1.md\\:grid-cols-2.lg\\:grid-cols-4,
+    .grid.grid-cols-1.md\\:grid-cols-4 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.5rem;
+    }
+    
+    /* Form inputs full width */
+    input, select, textarea {
+      width: 100%;
+      min-height: 44px;
+    }
+    
+    /* Table responsive */
+    table {
+      display: block;
+      overflow-x: auto;
+    }
+  }
+
+  /* Tablet optimization */
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .neumorphic-card {
+      padding: 1.25rem;
+    }
+    
+    .grid.grid-cols-1.md\\:grid-cols-2.lg\\:grid-cols-4 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* Badge visibility enhancement for light mode */
+  .bg-warning\/10 { background-color: hsl(var(--warning) / 0.15) !important; }
+  .bg-success\/10 { background-color: hsl(var(--success) / 0.15) !important; }
+  .bg-info\/10 { background-color: hsl(var(--info) / 0.15) !important; }
+  .bg-destructive\/10 { background-color: hsl(var(--destructive) / 0.15) !important; }
+
+  /* Ensure badge text is dark enough in light mode */
+  .text-warning { color: hsl(38 92% 38%) !important; }
+  .text-success { color: hsl(155 60% 28%) !important; }
+  .text-info { color: hsl(200 70% 38%) !important; }
+
+  /* Dark mode restore original badge colors */
+  .dark .text-warning { color: hsl(38 92% 50%) !important; }
+  .dark .text-success { color: hsl(155 60% 50%) !important; }
+  .dark .text-info { color: hsl(200 70% 60%) !important; }
 
   /* === BRAND COLOR UTILITY CLASSES === */
   .brand-gold-accent {

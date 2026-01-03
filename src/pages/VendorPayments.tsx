@@ -170,7 +170,7 @@ export default function VendorPayments() {
         />
 
         {/* Financial Overview with Enhanced Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
           <StatsCard
             title="Expected Earnings"
             value={`$${(payoutSummary.pending + payoutSummary.acknowledged).toFixed(2)}`}
