@@ -17,11 +17,14 @@ import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
 
 export default function UnifiedSettings() {
-  const { user, hasRole } = useAuth();
+  const { user, hasRole, userRoles, getUserRole } = useAuth();
   const { toast } = useToast();
   const { theme, setTheme } = useTheme();
   const [isLoading, setIsLoading] = useState(false);
   const isVendor = hasRole('vendor');
+  
+  // Get the actual user role from the auth context (based on user_roles table)
+  const actualRole = getUserRole();
   
   const [notificationSettings, setNotificationSettings] = useState({
     email_notifications: true,
@@ -178,7 +181,7 @@ export default function UnifiedSettings() {
                     </div>
                     <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50 border border-border/50">
                       <span className="text-sm font-medium text-muted-foreground">Role:</span>
-                      <span className="text-sm font-semibold capitalize text-primary">{user?.role || 'tenant'}</span>
+                      <span className="text-sm font-semibold capitalize text-primary">{actualRole}</span>
                     </div>
                   </div>
                 </CardContent>

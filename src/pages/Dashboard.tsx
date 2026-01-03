@@ -22,12 +22,29 @@ export default function Dashboard() {
 
   const isLoading = authLoading || accessLoading;
 
+  // Determine if user has a proper role (admin, vendor, or property_manager)
+  const hasFullAccess = hasRole('admin') || hasRole('vendor') || hasRole('property_manager');
+
   // Redirect vendors to their dedicated dashboard
   useEffect(() => {
     if (!isLoading && hasRole('vendor')) {
       navigate('/vendor/dashboard', { replace: true });
     }
   }, [hasRole, isLoading, navigate]);
+
+  // Handle approved requests - redirect immediately based on approved role
+  useEffect(() => {
+    if (!isLoading && hasApprovedRequest && existingRequest?.role_requested) {
+      // User has an approved request but auth context may not have refreshed yet
+      // Force redirect to appropriate dashboard
+      if (existingRequest.role_requested === 'vendor') {
+        navigate('/vendor/dashboard', { replace: true });
+      } else if (existingRequest.role_requested === 'property_manager') {
+        // Stay on dashboard for property managers, but ensure we don't show pending view
+        return;
+      }
+    }
+  }, [isLoading, hasApprovedRequest, existingRequest, navigate]);
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -37,18 +54,27 @@ export default function Dashboard() {
     return <LoadingSpinner />;
   }
 
-  // Determine if user has a proper role (admin, vendor, or property_manager)
-  const hasFullAccess = hasRole('admin') || hasRole('vendor') || hasRole('property_manager');
-
-  // If user has no full access role and no existing request - show access gate overlay
-  if (!hasFullAccess && !existingRequest) {
-    return <AccessGateOverlay />;
+  // If user has full access or has an approved request - show appropriate dashboard
+  // The approved check handles race condition where auth context hasn't refreshed yet
+  if (hasFullAccess || hasApprovedRequest) {
+    // Vendors are already redirected above
+    return (
+      <DashboardShell user={user}>
+        <div className="space-y-6">
+          <QuickActions />
+          <EnhancedRoleBasedDashboard />
+        </div>
+      </DashboardShell>
+    );
   }
 
-  // If user has a pending, approved (not yet refreshed), or rejected request - show pending view
-  if (!hasFullAccess && existingRequest) {
+  // If user has no full access and has a pending or rejected request - show pending view
+  if (existingRequest && (hasPendingRequest || hasRejectedRequest)) {
     return <PendingApprovalView />;
   }
+
+  // If user has no full access role and no existing request - show access gate overlay
+  return <AccessGateOverlay />;
 
   // User has full access - show appropriate dashboard
   // Vendors are already redirected above, so this is for admin and property_manager

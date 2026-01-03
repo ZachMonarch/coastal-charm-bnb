@@ -21,7 +21,7 @@ import { formatDistanceToNow } from 'date-fns';
 
 export function PendingApprovalView() {
   const navigate = useNavigate();
-  const { user, signOut } = useAuth();
+  const { user, signOut, refreshUser } = useAuth();
   const { 
     existingRequest, 
     hasPendingRequest, 
@@ -36,15 +36,16 @@ export function PendingApprovalView() {
   };
 
   const handleRefresh = async () => {
+    // Refresh auth context to get latest roles
+    await refreshUser();
     await fetchExistingRequest();
+    
     // Navigate to appropriate dashboard based on role
     if (existingRequest?.role_requested === 'vendor') {
       navigate('/vendor/dashboard', { replace: true });
     } else {
       navigate('/dashboard', { replace: true });
     }
-    // Force reload to ensure fresh auth context
-    window.location.reload();
   };
 
   // If approved, show success and redirect option
