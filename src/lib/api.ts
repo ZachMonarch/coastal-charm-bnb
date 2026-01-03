@@ -156,9 +156,11 @@ export class PropertyAPI {
       const { data, error, count } = await query;
 
       if (error) {
-        console.error('Supabase error:', error);
+        console.error('[PropertyAPI] Supabase error:', error.message, error.code, error.details);
         throw error;
       }
+
+      console.log('[PropertyAPI] Fetched', count, 'properties successfully');
 
       const totalPages = Math.ceil((count || 0) / params.pageSize);
       const response: APIResponse<any> = {

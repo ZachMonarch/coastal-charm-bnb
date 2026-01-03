@@ -95,9 +95,9 @@ export default function VendorShowcase() {
       <EnhancedPageBackground gradient="linear" pattern="dots" primaryColor="primary">
         <div className="container mx-auto px-4 py-16 text-center">
           <h1 className="text-2xl font-bold mb-4">Vendor Not Found</h1>
-          <Button onClick={() => navigate("/vendors")}>
+          <Button onClick={() => navigate("/")}>
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Marketplace
+            Back to Home
           </Button>
         </div>
       </EnhancedPageBackground>
@@ -132,10 +132,10 @@ export default function VendorShowcase() {
             <Button
               variant="ghost"
               className="mb-6"
-              onClick={() => navigate("/vendors")}
+              onClick={() => navigate("/")}
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Marketplace
+              Back to Home
             </Button>
 
             <div className="flex flex-col md:flex-row items-start gap-8">

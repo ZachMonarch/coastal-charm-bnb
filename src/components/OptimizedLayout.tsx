@@ -21,7 +21,7 @@ export default function OptimizedLayout({ children }: LayoutProps) {
   const shouldShowNavbar = !hideNavbarRoutes.includes(location.pathname);
   
   // Public routes that should NOT use sidebar even when authenticated
-  const publicRoutes = ['/', '/auth', '/privacy', '/terms', '/sitemap', '/vendors/showcase', '/vendors', '/join-as-vendor', '/request-quote'];
+  const publicRoutes = ['/', '/auth', '/privacy', '/terms', '/sitemap', '/vendors/showcase', '/join-as-vendor', '/request-quote', '/services', '/properties'];
   
   // Determine if sidebar should show: authenticated AND (route starts with protected prefix OR not in public list)
   const isProtectedRoute = 

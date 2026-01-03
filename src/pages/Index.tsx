@@ -154,8 +154,8 @@ export default function Index() {
                       </Link>
                     </Button>
                     <Button asChild variant="outline" className="border-2 border-primary text-foreground hover:bg-primary hover:text-white hover:border-primary">
-                      <Link to="/vendors">
-                        Browse Vendors
+                      <Link to="/services">
+                        Our Services
                       </Link>
                     </Button>
                   </div>

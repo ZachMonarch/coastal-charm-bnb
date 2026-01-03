@@ -2776,3 +2776,25 @@ a[class*="bg-primary"] {
 [data-slot].bg-primary {
   color: white !important;
 }
+
+/* Auth form button text fix - ultra-high specificity */
+form button[type="submit"].bg-primary,
+form button[type="submit"].bg-primary *,
+form button[type="submit"],
+form button[type="submit"] span,
+[data-form="auth"] button,
+.auth-button {
+  color: white !important;
+  -webkit-text-fill-color: white !important;
+}
+
+/* Force visibility on ALL submit buttons on the page */
+button[type="submit"] {
+  color: white !important;
+  -webkit-text-fill-color: white !important;
+}
+
+button[type="submit"] span {
+  color: white !important;
+  -webkit-text-fill-color: white !important;
+}
