@@ -405,20 +405,19 @@ export function AppSidebar() {
                       const iconColor = getGroupIconColor(group.title);
                       return (
                        <SidebarMenuItem key={`${item.title}-${itemIndex}`}>
-                          <SidebarMenuButton asChild isActive={itemIsActive}>
+                          <SidebarMenuButton asChild isActive={itemIsActive} className="text-foreground hover:text-primary">
                             <NavLink 
                               to={item.url} 
                               className={cn(
+                                "text-foreground hover:text-primary",
                                 getNavCls({ isActive: itemIsActive, groupTitle: group.title }),
-                                itemIsActive 
-                                  ? "text-primary" 
-                                  : "text-foreground"
+                                itemIsActive && "text-primary"
                               )}
                               aria-current={itemIsActive ? "page" : undefined}
                               title={item.description || item.title}
                             >
                               <IconComponent className={`h-4 w-4 ${itemIsActive ? 'text-primary' : iconColor}`} />
-                              {!isCollapsed && <span className="ml-3">{item.title}</span>}
+                              {!isCollapsed && <span className="ml-3 text-inherit">{item.title}</span>}
                             </NavLink>
                           </SidebarMenuButton>
                         </SidebarMenuItem>
