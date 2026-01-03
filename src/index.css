@@ -425,59 +425,58 @@
   --card-foreground: 0 0% 8%;      /* Match foreground */
 }
 
-/* === ENHANCED TAB VISIBILITY (WCAG AA Compliant) === */
-/* Force high-contrast text on all tab triggers */
-[role="tablist"] [role="tab"] {
-  color: hsl(0 0% 15%);
-}
-
-.dark [role="tablist"] [role="tab"] {
-  color: hsl(0 0% 92%);
-}
-
-[role="tablist"] [role="tab"][data-state="inactive"] {
-  color: hsl(0 0% 20%);
-}
-
-.dark [role="tablist"] [role="tab"][data-state="inactive"] {
-  color: hsl(0 0% 88%);
-}
-
-[role="tablist"] [role="tab"][data-state="active"] {
-  color: hsl(0 0% 100%);
-}
-
-/* === LIGHT MODE MUTED TEXT ENHANCEMENT === */
+/* === MUTED TEXT VISIBILITY (Single consolidated rule) === */
 :root:not(.dark) .text-muted-foreground {
-  color: hsl(0 0% 25%) !important;
+  color: hsl(0 0% 22%);
+}
+
+.dark .text-muted-foreground {
+  color: hsl(0 0% 75%);
 }
 
 /* === NAVBAR TEXT & BUTTON VISIBILITY === */
-/* Ensure all navbar elements are visible with proper contrast */
+/* Light mode: dark text for maximum contrast */
 header nav ul li > button,
 header nav ul li > button > span,
+header nav ul li > button > svg,
 header nav ul li a,
+header nav [data-nav-dropdown],
+header nav [data-nav-dropdown] > span,
+header nav [data-nav-dropdown] > svg,
 header nav .nav-dropdown-trigger,
 header nav .nav-dropdown-trigger > span,
-header nav .nav-dropdown-trigger > svg,
-header nav [data-radix-dropdown-menu-trigger],
-header nav [data-radix-dropdown-menu-trigger] > span,
-header nav [data-radix-dropdown-menu-trigger] > svg {
-  color: hsl(var(--foreground)) !important;
-  opacity: 1 !important;
-  visibility: visible !important;
+header nav .nav-dropdown-trigger > svg {
+  color: hsl(0 0% 10%);
+  opacity: 1;
+  visibility: visible;
 }
 
+/* Dark mode: light text for maximum contrast */
+.dark header nav ul li > button,
+.dark header nav ul li > button > span,
+.dark header nav ul li > button > svg,
+.dark header nav ul li a,
+.dark header nav [data-nav-dropdown],
+.dark header nav [data-nav-dropdown] > span,
+.dark header nav [data-nav-dropdown] > svg,
+.dark header nav .nav-dropdown-trigger,
+.dark header nav .nav-dropdown-trigger > span,
+.dark header nav .nav-dropdown-trigger > svg {
+  color: hsl(0 0% 96%);
+}
+
+/* Hover states - primary color */
 header nav ul li > button:hover,
 header nav ul li > button:hover > span,
+header nav ul li > button:hover > svg,
 header nav ul li a:hover,
+header nav [data-nav-dropdown]:hover,
+header nav [data-nav-dropdown]:hover > span,
+header nav [data-nav-dropdown]:hover > svg,
 header nav .nav-dropdown-trigger:hover,
 header nav .nav-dropdown-trigger:hover > span,
-header nav .nav-dropdown-trigger:hover > svg,
-header nav [data-radix-dropdown-menu-trigger]:hover,
-header nav [data-radix-dropdown-menu-trigger]:hover > span,
-header nav [data-radix-dropdown-menu-trigger]:hover > svg {
-  color: hsl(var(--primary)) !important;
+header nav .nav-dropdown-trigger:hover > svg {
+  color: hsl(var(--primary));
 }
 
 /* === DROPDOWN MENU VISIBILITY === */
@@ -570,9 +569,6 @@ header [data-radix-select-trigger] div {
 }
 
 /* === GENERAL TEXT VISIBILITY (LIGHT MODE) === */
-:root:not(.dark) .text-muted-foreground {
-  color: hsl(0 0% 28%) !important;
-}
 /* General section text - but EXCLUDE hero sections with image overlays */
 :root:not(.dark) section:not(.hero-section) p:not([class*="text-white"]):not([style*="color"]),
 :root:not(.dark) section:not(.hero-section) span:not([class*="text-white"]):not([class*="text-primary"]):not([class*="bg-"]):not([style*="color"]) {
@@ -663,9 +659,6 @@ section[role="banner"] p {
 }
 
 /* === DARK MODE VISIBILITY POLISH === */
-.dark .text-muted-foreground {
-  color: hsl(0 0% 75%) !important;
-}
 
 .dark [class*="Card"] p,
 .dark [class*="CardDescription"] {
