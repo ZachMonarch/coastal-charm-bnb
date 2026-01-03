@@ -1,15 +1,14 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.2";
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
+import { ProcessWithdrawalSchema, createValidationErrorResponse } from "../_shared/validation.ts";
+import { getCorsHeaders, handleCorsPreflightRequest } from "../_shared/cors.ts";
 
 serve(async (req) => {
-  if (req.method === "OPTIONS") {
-    return new Response(null, { headers: corsHeaders });
-  }
+  // Handle CORS preflight
+  const corsResponse = handleCorsPreflightRequest(req);
+  if (corsResponse) return corsResponse;
+
+  const corsHeaders = getCorsHeaders(req);
 
   const supabaseClient = createClient(
     Deno.env.get("SUPABASE_URL") ?? "",
@@ -17,12 +16,25 @@ serve(async (req) => {
   );
 
   try {
-    const authHeader = req.headers.get("Authorization")!;
+    // Authentication
+    const authHeader = req.headers.get("Authorization");
+    if (!authHeader) {
+      return new Response(
+        JSON.stringify({ error: "Authorization required" }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 401 }
+      );
+    }
+
     const token = authHeader.replace("Bearer ", "");
     const { data } = await supabaseClient.auth.getUser(token);
     const user = data.user;
 
-    if (!user) throw new Error("Unauthorized");
+    if (!user) {
+      return new Response(
+        JSON.stringify({ error: "Unauthorized" }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 401 }
+      );
+    }
 
     // Check if user is admin
     const { data: roles } = await supabaseClient
@@ -31,13 +43,25 @@ serve(async (req) => {
       .eq("user_id", user.id);
 
     const isAdmin = roles?.some(r => r.role === "admin");
-    if (!isAdmin) throw new Error("Only admins can process withdrawals");
-
-    const { payoutId, action, transactionId, notes } = await req.json();
-
-    if (!payoutId || !action) {
-      throw new Error("Missing payoutId or action");
+    if (!isAdmin) {
+      console.warn(`Unauthorized withdrawal attempt by user: ${user.id}`);
+      return new Response(
+        JSON.stringify({ error: "Admin access required" }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 403 }
+      );
     }
+
+    // Validate input with Zod schema
+    const requestBody = await req.json();
+    const validationResult = ProcessWithdrawalSchema.safeParse(requestBody);
+
+    if (!validationResult.success) {
+      console.warn(`Validation failed for withdrawal request:`, validationResult.error.errors);
+      return createValidationErrorResponse(validationResult.error, corsHeaders);
+    }
+
+    const { payoutId, action, transactionId, notes } = validationResult.data;
+    console.log(`Processing withdrawal ${payoutId} with action ${action} by admin ${user.id}`);
 
     // Get payout details
     const { data: payout, error: payoutError } = await supabaseClient
@@ -154,10 +178,14 @@ serve(async (req) => {
       { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 200 }
     );
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error processing withdrawal:", error);
+    // Return generic error to prevent information leakage
     return new Response(
-      JSON.stringify({ error: error.message || 'Unknown error' }),
+      JSON.stringify({ 
+        error: "Unable to process withdrawal request",
+        code: "WITHDRAWAL_PROCESSING_FAILED"
+      }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 500 }
     );
   }
