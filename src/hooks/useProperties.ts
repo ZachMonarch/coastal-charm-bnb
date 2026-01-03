@@ -1,14 +1,15 @@
 import { useState, useEffect, useMemo } from 'react';
 import { PropertyAPI, PropertySearchParams } from '@/lib/api';
+import { useAuth } from '@/contexts/OptimizedAuthContext';
 
 export interface Property {
   id: number;
   title: string;
   description: string;
-  address: string;
+  address?: string;
   city: string;
   state: string;
-  zip_code: number;
+  zip_code?: number;
   price: number;
   bedrooms: number;
   bathrooms: number;
@@ -19,6 +20,9 @@ export interface Property {
   image_urls: string;
   amenities: string;
   qualityImages?: string[];
+  // Masked fields for anonymous users
+  location_display?: string;
+  price_range?: string;
 }
 
 export interface PropertyFilters {
@@ -91,6 +95,9 @@ const getQualityImages = (imageUrls: string): string[] => {
 };
 
 export const useProperties = (filters: Partial<PropertyFilters> = {}, pageSize: number = DEFAULT_PAGE_SIZE) => {
+  const { user } = useAuth();
+  const isAuthenticated = !!user;
+  
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -140,8 +147,11 @@ export const useProperties = (filters: Partial<PropertyFilters> = {}, pageSize: 
         setTimeout(() => reject(new Error('Request timeout')), timeout)
       );
 
+      // Pass authentication status to use appropriate view
+      // Anonymous: masked view (city/state, price range)
+      // Authenticated: full view (address, exact price)
       const response = await Promise.race([
-        PropertyAPI.getProperties(searchParams),
+        PropertyAPI.getProperties(searchParams, isAuthenticated),
         timeoutPromise
       ]) as any;
       
@@ -197,9 +207,10 @@ export const useProperties = (filters: Partial<PropertyFilters> = {}, pageSize: 
     fetchProperties();
   };
 
+  // Re-fetch when auth status changes to get appropriate data tier
   useEffect(() => {
     fetchProperties();
-  }, [currentPage, pageSize, JSON.stringify(filters)]);
+  }, [currentPage, pageSize, JSON.stringify(filters), isAuthenticated]);
 
   const paginationInfo = useMemo(() => ({
     currentPage,

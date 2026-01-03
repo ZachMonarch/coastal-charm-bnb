@@ -75,15 +75,4 @@ export default function Dashboard() {
 
   // If user has no full access role and no existing request - show access gate overlay
   return <AccessGateOverlay />;
-
-  // User has full access - show appropriate dashboard
-  // Vendors are already redirected above, so this is for admin and property_manager
-  return (
-    <DashboardShell user={user}>
-      <div className="space-y-6">
-        <QuickActions />
-        <EnhancedRoleBasedDashboard />
-      </div>
-    </DashboardShell>
-  );
 }

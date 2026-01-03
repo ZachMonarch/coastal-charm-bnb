@@ -66,9 +66,9 @@ export class PropertyAPI {
     this.cache.set(key, { data, timestamp: Date.now() });
   }
 
-  static async getProperties(params: PropertySearchParams): Promise<APIResponse<any>> {
+  static async getProperties(params: PropertySearchParams, isAuthenticated: boolean = false): Promise<APIResponse<any>> {
     const startTime = Date.now();
-    const cacheKey = this.generateCacheKey(params);
+    const cacheKey = this.generateCacheKey(params) + `:auth=${isAuthenticated}`;
     
     // Check cache first
     const cachedData = this.getCachedData<APIResponse<any>>(cacheKey);
@@ -84,30 +84,27 @@ export class PropertyAPI {
       };
     }
 
-    // Field selection - only fetch public fields (security: owner_id excluded)
-    const selectedFields = [
-      'id',
-      'title', 
-      'description',
-      'address',
-      'city',
-      'state',
-      'zip_code',
-      'price',
-      'bedrooms',
-      'bathrooms',
-      'square_feet',
-      'property_type',
-      'status',
-      'available_date',
-      'image_urls',
-      'amenities'
-    ].join(',');
+    // Use appropriate view based on authentication status
+    // Anonymous users: masked view (city/state, price range only)
+    // Authenticated users: full view (address, exact price)
+    const viewName = isAuthenticated ? 'safe_property_listings' : 'public_property_listings_masked';
+    
+    // Field selection based on view - security: owner_id excluded
+    const selectedFields = isAuthenticated 
+      ? [
+          'id', 'title', 'description', 'address', 'city', 'state', 'zip_code',
+          'price', 'bedrooms', 'bathrooms', 'square_feet', 'property_type',
+          'status', 'available_date', 'image_urls', 'amenities'
+        ].join(',')
+      : [
+          'id', 'title', 'description', 'city', 'state', 'location_display', 'price_range',
+          'price', 'bedrooms', 'bathrooms', 'square_feet', 'property_type',
+          'status', 'available_date', 'image_urls', 'amenities'
+        ].join(',');
 
     try {
-      // Use safe_property_listings view for public queries (excludes owner_id, coordinates)
       let query = supabase
-        .from('safe_property_listings')
+        .from(viewName)
         .select(selectedFields, { count: 'exact' });
 
       // Apply filters with proper indexing consideration
