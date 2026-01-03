@@ -131,30 +131,30 @@ export default function UnifiedSettings() {
 
         <Tabs defaultValue="profile" className="space-y-6">
           <TabsList variant="colorful" className="w-full lg:w-auto">
-            <TabsTrigger value="profile" variant="colorful" className="text-slate-800 dark:text-slate-200">
-              <User className="h-4 w-4 text-[#5a4015] dark:text-[#e8e8e8]" strokeWidth={2.5} />
+            <TabsTrigger value="profile" variant="colorful">
+              <User className="h-4 w-4" strokeWidth={2.5} />
               <span className="hidden sm:inline">Profile</span>
             </TabsTrigger>
-            <TabsTrigger value="security" variant="colorful" className="text-slate-800 dark:text-slate-200">
-              <Shield className="h-4 w-4 text-[#1a6aa8] dark:text-[#e8e8e8]" strokeWidth={2.5} />
+            <TabsTrigger value="security" variant="colorful">
+              <Shield className="h-4 w-4" strokeWidth={2.5} />
               <span className="hidden sm:inline">Security</span>
             </TabsTrigger>
-            <TabsTrigger value="notifications" variant="colorful" className="text-slate-800 dark:text-slate-200">
-              <Bell className="h-4 w-4 text-[#b57a10] dark:text-[#e8e8e8]" strokeWidth={2.5} />
+            <TabsTrigger value="notifications" variant="colorful">
+              <Bell className="h-4 w-4" strokeWidth={2.5} />
               <span className="hidden sm:inline">Notifications</span>
             </TabsTrigger>
             {isVendor && (
-              <TabsTrigger value="billing" variant="colorful" className="text-slate-800 dark:text-slate-200">
-                <CreditCard className="h-4 w-4 text-[#1a7a5a] dark:text-[#e8e8e8]" strokeWidth={2.5} />
+              <TabsTrigger value="billing" variant="colorful">
+                <CreditCard className="h-4 w-4" strokeWidth={2.5} />
                 <span className="hidden sm:inline">Billing</span>
               </TabsTrigger>
             )}
-            <TabsTrigger value="preferences" variant="colorful" className="text-slate-800 dark:text-slate-200">
-              <Globe className="h-4 w-4 text-[#2a6b6e] dark:text-[#e8e8e8]" strokeWidth={2.5} />
+            <TabsTrigger value="preferences" variant="colorful">
+              <Globe className="h-4 w-4" strokeWidth={2.5} />
               <span className="hidden sm:inline">Preferences</span>
             </TabsTrigger>
-            <TabsTrigger value="appearance" variant="colorful" className="text-slate-800 dark:text-slate-200">
-              <Monitor className="h-4 w-4 text-[#5a4015] dark:text-[#e8e8e8]" strokeWidth={2.5} />
+            <TabsTrigger value="appearance" variant="colorful">
+              <Monitor className="h-4 w-4" strokeWidth={2.5} />
               <span className="hidden sm:inline">Appearance</span>
             </TabsTrigger>
           </TabsList>
