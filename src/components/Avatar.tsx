@@ -42,11 +42,11 @@ const getInitials = (name: string): string => {
 const getVariantClasses = (variant: 'default' | 'vendor' | 'user') => {
   switch (variant) {
     case 'vendor':
-      return 'bg-success/10 text-success border-success/30';
+      return 'bg-success/20 text-success border-2 border-success/40 font-bold';
     case 'user':
-      return 'bg-info/10 text-info border-info/30';
+      return 'bg-info/20 text-info border-2 border-info/40 font-bold';
     default:
-      return 'bg-primary/10 text-primary';
+      return 'bg-primary/20 text-primary border-2 border-primary/30 font-bold';
   }
 };
 
