@@ -153,8 +153,8 @@ export default function Navbar() {
               <Link
                 to="/"
                 className={cn(
-                  "px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200",
-                  "text-[hsl(0_0%_12%)] dark:text-foreground hover:text-primary hover:bg-primary/5",
+                  "px-4 py-2.5 text-base font-bold rounded-lg transition-all duration-200",
+                  "text-foreground hover:text-primary hover:bg-primary/5",
                   "relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2",
                   "after:w-0 hover:after:w-3/4 after:h-0.5 after:bg-primary/60 after:transition-all",
                   "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none",
@@ -175,9 +175,8 @@ export default function Navbar() {
                 <Link
                   to={link.path}
                   className={cn(
-                    "px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200",
-                    "text-[hsl(0_0%_12%)] dark:text-foreground hover:text-primary hover:bg-primary/5",
-                    "text-shadow-nav-light dark:text-shadow-nav",
+                    "px-4 py-2.5 text-base font-bold rounded-lg transition-all duration-200",
+                    "text-foreground hover:text-primary hover:bg-primary/5",
                     "relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2",
                     "after:w-0 hover:after:w-3/4 after:h-0.5 after:bg-primary/60 after:transition-all",
                     "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none",
@@ -192,14 +191,14 @@ export default function Navbar() {
 
           {/* Desktop Tools - lg:flex matches mobile lg:hidden breakpoint */}
           <div className="hidden lg:flex items-center space-x-2">
-            <div className="rounded-lg border-2 border-primary/40 bg-card/80 p-1.5 shadow-sm hover:shadow-md hover:border-primary/60 transition-all [&_svg]:text-foreground [&_svg]:dark:text-foreground">
+            <div className="rounded-lg border-2 border-primary/60 bg-card p-1.5 shadow-md hover:shadow-lg hover:border-primary transition-all">
               <LanguageSelector />
             </div>
-            <div className="rounded-lg border-2 border-primary/40 bg-card/80 p-1.5 shadow-sm hover:shadow-md hover:border-primary/60 transition-all [&_svg]:text-foreground [&_svg]:dark:text-foreground">
+            <div className="rounded-lg border-2 border-primary/60 bg-card p-1.5 shadow-md hover:shadow-lg hover:border-primary transition-all">
               <ThemeToggle />
             </div>
             {isAuthenticated && (
-              <div className="rounded-lg border-2 border-primary/40 bg-card/80 p-1.5 shadow-sm hover:shadow-md hover:border-primary/60 transition-all [&_svg]:text-foreground [&_svg]:dark:text-foreground">
+              <div className="rounded-lg border-2 border-primary/60 bg-card p-1.5 shadow-md hover:shadow-lg hover:border-primary transition-all">
                 <RealtimeNotifications />
               </div>
             )}
