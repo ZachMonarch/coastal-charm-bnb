@@ -151,7 +151,7 @@ export default function VendorRFQTabs() {
                 <CardContent>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4 text-sm">
                     <div className="flex items-center gap-2">
-                      <DollarSign className="h-4 w-4 text-foreground/70" />
+                      <DollarSign className="h-4 w-4 text-muted-foreground" />
                       <span>
                         ${rfq.budget_min || 0} - ${rfq.budget_max || 'Open'}
                       </span>

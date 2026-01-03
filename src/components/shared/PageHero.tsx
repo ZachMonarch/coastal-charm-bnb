@@ -163,7 +163,7 @@ export default function PageHero({
                   <p className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors">
                     {stat.value}
                   </p>
-                  <p className="text-xs text-foreground/70 font-medium">{stat.label}</p>
+                  <p className="text-xs text-muted-foreground font-medium">{stat.label}</p>
                 </div>
               </div>
             ))}

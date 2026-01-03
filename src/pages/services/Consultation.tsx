@@ -158,7 +158,7 @@ export default function Consultation() {
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div className="text-4xl md:text-5xl font-bold text-primary mb-2">{stat.value}</div>
-                <div className="text-foreground/70">{stat.label}</div>
+                <div className="text-muted-foreground">{stat.label}</div>
               </div>
             ))}
           </div>
