@@ -176,7 +176,9 @@ export function PendingApprovalView() {
                 Access Request Pending
               </h2>
               <p className="text-muted-foreground text-sm max-w-sm mx-auto">
-                Your request is being reviewed by our team. You'll receive a notification once it's processed.
+                Your <span className="font-semibold text-foreground">
+                  {existingRequest?.role_requested === 'vendor' ? 'Vendor' : 'Property Manager'}
+                </span> application is being reviewed. You'll receive full access once approved by our team.
               </p>
             </div>
 
