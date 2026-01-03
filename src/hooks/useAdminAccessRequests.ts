@@ -112,6 +112,12 @@ export function useAdminAccessRequests() {
         return false;
       }
 
+      // Explicitly update profiles.role for redundancy (belt and suspenders)
+      await supabase
+        .from('profiles')
+        .update({ role: request.role_requested })
+        .eq('id', request.user_id);
+
       // Create notification for user
       await supabase
         .from('notifications')

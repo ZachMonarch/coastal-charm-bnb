@@ -42,14 +42,14 @@ const Card = React.forwardRef<
         'bg-gradient-to-br from-card via-card to-primary/[0.1] shadow-md hover:shadow-primary/[0.4] border-border/[0.6]': variant === 'gradient',
         // Glass - frosted glass effect
         'bg-card/[0.8] dark:bg-card/[0.7] backdrop-blur-xl border-border/[0.4] shadow-md hover:shadow-primary/[0.25]': variant === 'glass',
-        // Colorful - vibrant gradient background
-        'bg-gradient-to-br from-primary/[0.15] via-card to-secondary/[0.1] border-primary/[0.3] shadow-md hover:shadow-lg hover:border-primary/[0.5]': variant === 'colorful',
+        // Colorful - vibrant gradient background (increased opacity for light mode visibility)
+        'bg-gradient-to-br from-primary/[0.20] via-card to-secondary/[0.12] border-primary/[0.35] shadow-md hover:shadow-lg hover:border-primary/[0.5]': variant === 'colorful',
         // Accent left - gold accent border
-        'border-l-4 border-l-primary border-t-border/[0.6] border-r-border/[0.6] border-b-border/[0.6] bg-gradient-to-r from-primary/[0.05] to-card': variant === 'accent-left',
-        // Status variants - success/warning/info with consistent opacity
-        'bg-gradient-to-br from-success/[0.15] via-card to-success/[0.05] border-success/[0.4] shadow-md hover:shadow-success/[0.2]': variant === 'success',
-        'bg-gradient-to-br from-warning/[0.15] via-card to-warning/[0.05] border-warning/[0.4] shadow-md hover:shadow-warning/[0.2]': variant === 'warning',
-        'bg-gradient-to-br from-info/[0.15] via-card to-info/[0.05] border-info/[0.4] shadow-md hover:shadow-info/[0.2]': variant === 'info',
+        'border-l-4 border-l-primary border-t-border/[0.6] border-r-border/[0.6] border-b-border/[0.6] bg-gradient-to-r from-primary/[0.08] to-card': variant === 'accent-left',
+        // Status variants - success/warning/info with increased opacity for light mode
+        'bg-gradient-to-br from-success/[0.20] via-card to-success/[0.08] border-success/[0.45] shadow-md hover:shadow-success/[0.2]': variant === 'success',
+        'bg-gradient-to-br from-warning/[0.20] via-card to-warning/[0.08] border-warning/[0.45] shadow-md hover:shadow-warning/[0.2]': variant === 'warning',
+        'bg-gradient-to-br from-info/[0.20] via-card to-info/[0.08] border-info/[0.45] shadow-md hover:shadow-info/[0.2]': variant === 'info',
         // Premium - shimmer effect
         'bg-gradient-to-br from-primary/[0.2] via-card to-accent/[0.15] border-primary/[0.4] shadow-lg hover:shadow-primary/[0.3] relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-primary/[0.1] before:to-transparent before:animate-shimmer': variant === 'premium',
         // Hero - large feature cards
