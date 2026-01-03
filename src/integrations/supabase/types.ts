@@ -273,6 +273,13 @@ export type Database = {
             foreignKeyName: "bookings_property_id_fkey"
             columns: ["property_id"]
             isOneToOne: false
+            referencedRelation: "public_property_listings_masked"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
             referencedRelation: "safe_property_listings"
             referencedColumns: ["id"]
           },
@@ -1718,6 +1725,13 @@ export type Database = {
             foreignKeyName: "property_inquiries_property_id_fkey"
             columns: ["property_id"]
             isOneToOne: false
+            referencedRelation: "public_property_listings_masked"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "property_inquiries_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
             referencedRelation: "safe_property_listings"
             referencedColumns: ["id"]
           },
@@ -1824,6 +1838,13 @@ export type Database = {
             columns: ["property_id"]
             isOneToOne: false
             referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quick_quote_requests_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_property_listings_masked"
             referencedColumns: ["id"]
           },
           {
@@ -2118,6 +2139,13 @@ export type Database = {
             columns: ["property_id"]
             isOneToOne: false
             referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rfqs_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_property_listings_masked"
             referencedColumns: ["id"]
           },
           {
@@ -2858,6 +2886,13 @@ export type Database = {
             columns: ["property_id"]
             isOneToOne: false
             referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vendor_applications_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_property_listings_masked"
             referencedColumns: ["id"]
           },
           {
@@ -4042,6 +4077,13 @@ export type Database = {
             foreignKeyName: "work_orders_property_id_fkey"
             columns: ["property_id"]
             isOneToOne: false
+            referencedRelation: "public_property_listings_masked"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "work_orders_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
             referencedRelation: "safe_property_listings"
             referencedColumns: ["id"]
           },
@@ -4056,6 +4098,63 @@ export type Database = {
       }
     }
     Views: {
+      public_property_listings_masked: {
+        Row: {
+          amenities: string | null
+          available_date: string | null
+          bathrooms: number | null
+          bedrooms: number | null
+          city: string | null
+          description: string | null
+          id: number | null
+          image_urls: string | null
+          location_display: string | null
+          price: number | null
+          price_range: string | null
+          property_type: string | null
+          square_feet: string | null
+          state: string | null
+          status: string | null
+          title: string | null
+        }
+        Insert: {
+          amenities?: string | null
+          available_date?: string | null
+          bathrooms?: number | null
+          bedrooms?: number | null
+          city?: string | null
+          description?: string | null
+          id?: number | null
+          image_urls?: string | null
+          location_display?: never
+          price?: number | null
+          price_range?: never
+          property_type?: string | null
+          square_feet?: string | null
+          state?: string | null
+          status?: string | null
+          title?: string | null
+        }
+        Update: {
+          amenities?: string | null
+          available_date?: string | null
+          bathrooms?: number | null
+          bedrooms?: number | null
+          city?: string | null
+          description?: string | null
+          id?: number | null
+          image_urls?: string | null
+          location_display?: never
+          price?: number | null
+          price_range?: never
+          property_type?: string | null
+          square_feet?: string | null
+          state?: string | null
+          status?: string | null
+          title?: string | null
+        }
+        Relationships: []
+      }
       safe_property_listings: {
         Row: {
           address: string | null

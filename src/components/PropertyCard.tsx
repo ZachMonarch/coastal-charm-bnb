@@ -1,28 +1,33 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { MapPin, Bed, Bath, Square, DollarSign, Calendar, Eye, Heart } from 'lucide-react';
+import { MapPin, Bed, Bath, Square, DollarSign, Calendar, Eye, Heart, LogIn } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { Property } from '@/hooks/useProperties';
-import LazyImage from '@/components/LazyImage';
 import OptimizedImageDisplay from '@/components/OptimizedImageDisplay';
 import useOptimizedImages from '@/hooks/useOptimizedImages';
+import { usePropertyAccess } from '@/hooks/usePropertyAccess';
 import luxuryDowntown from '@/assets/cdn/properties/luxury-downtown.webp';
 import familyTownhouse from '@/assets/cdn/properties/family-townhouse.webp';
 import studioLoft from '@/assets/cdn/properties/studio-loft.webp';
 import { getStatusColor } from '@/utils/themeColors';
 
+interface ExtendedProperty extends Property {
+  location_display?: string;
+  price_range?: string;
+}
+
 interface PropertyCardProps {
-  property: Property;
+  property: ExtendedProperty;
   className?: string;
 }
 
 export default function PropertyCard({ property, className }: PropertyCardProps) {
-  const [imageError, setImageError] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const { isAuthenticated, canViewFullAddress, canViewExactPrice } = usePropertyAccess();
 
   // Get optimized images using the hook
   const { images: qualityImages } = useOptimizedImages({ 
@@ -150,14 +155,20 @@ export default function PropertyCard({ property, className }: PropertyCardProps)
           <Heart className={cn("h-5 w-5", isFavorite && "fill-current text-destructive")} />
         </Button>
 
-        {/* Price Overlay */}
+        {/* Price Overlay - Tiered display */}
         <div className="absolute bottom-4 left-4">
           <div className="glass-card px-3 py-2 rounded-xl">
             <div className="flex items-center text-white">
               <DollarSign className="h-4 w-4 mr-1 text-primary" />
-              <span className="text-lg font-bold">{formattedPrice}</span>
-              {property.property_type?.toLowerCase().includes('rent') && (
-                <span className="text-sm text-white/80 ml-1">/mo</span>
+              {canViewExactPrice ? (
+                <>
+                  <span className="text-lg font-bold">{formattedPrice}</span>
+                  {property.property_type?.toLowerCase().includes('rent') && (
+                    <span className="text-sm text-white/80 ml-1">/mo</span>
+                  )}
+                </>
+              ) : (
+                <span className="text-lg font-bold">{property.price_range || '$$$'}</span>
               )}
             </div>
           </div>
@@ -180,12 +191,27 @@ export default function PropertyCard({ property, className }: PropertyCardProps)
             {property.title}
           </h3>
           
+          {/* Address - Tiered display */}
           <div className="flex items-center text-muted-foreground text-sm">
             <MapPin className="h-4 w-4 mr-1 text-primary flex-shrink-0" />
             <span className="line-clamp-1">
-              {property.address}, {property.city}, {property.state} {property.zip_code}
+              {canViewFullAddress 
+                ? `${property.address}, ${property.city}, ${property.state} ${property.zip_code}`
+                : property.location_display || `${property.city}, ${property.state}`
+              }
             </span>
           </div>
+
+          {/* Sign in prompt for anonymous users */}
+          {!isAuthenticated && (
+            <Link 
+              to="/auth" 
+              className="inline-flex items-center text-xs text-primary hover:underline mt-1"
+            >
+              <LogIn className="h-3 w-3 mr-1" />
+              Sign in to view full details
+            </Link>
+          )}
         </div>
       </CardHeader>
 

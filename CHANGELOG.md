@@ -2,6 +2,56 @@
 
 All notable changes to Monarch Property Management platform will be documented in this file.
 
+## [2.8.0] - 2026-01-03 🔒 Security Hardening & Data Protection
+
+### Security - Critical Fixes
+- **PUBLIC_DATA_EXPOSURE Fixed**: Created `public_property_listings_masked` database view
+  - Anonymous users now see only city/state and price range
+  - Full address and exact price require authentication
+  - Dropped permissive `properties_public_view_available` RLS policy
+  - Created `properties_authenticated_view` RLS policy for authenticated users
+- **Audit Logs Policy Cleanup**: Removed 2 redundant SELECT policies
+  - Dropped `Only admins can read audit logs` policy
+  - Dropped `audit_logs_select_admin` policy
+  - Reduced from 7 overlapping policies to 5 clean policies
+- **Unreachable Code Removed**: Cleaned Dashboard.tsx dead code (lines 79-88)
+
+### Added
+- `usePropertyAccess` hook for auth-aware property data access
+- `public_property_listings_masked` database view for anonymous users
+- Tiered property display: masked data for anonymous, full details for authenticated
+- "Sign in to view full details" prompts on PropertyCard component
+- Auth-aware view selection in PropertyAPI
+
+### Fixed
+- PropertyCard now conditionally displays address (city/state vs full address)
+- PropertyCard now conditionally displays price (range vs exact)
+- lib/api.ts PropertyAPI uses correct view based on authentication status
+- Role assignment now uses UPSERT (UserApprovalQueue.tsx) - prevents silent failures
+- NavDropdown visibility hardened with inline styles
+- Profile icon border enhanced (3px primary border + shadows)
+- Avatar fallback contrast improved (bg-success/20, bg-info/20)
+
+### Database Changes
+- Created `public_property_listings_masked` view with SECURITY INVOKER
+- Dropped `properties_public_view_available` RLS policy
+- Created `properties_authenticated_view` RLS policy
+- Dropped redundant `Only admins can read audit logs` policy
+- Dropped redundant `audit_logs_select_admin` policy
+
+### Files Modified
+- `src/pages/Dashboard.tsx` - Removed unreachable code
+- `src/hooks/usePropertyAccess.ts` - NEW auth-aware property hook
+- `src/components/PropertyCard.tsx` - Tiered display logic
+- `src/lib/api.ts` - Auth-aware view selection
+
+### Manual Action Required
+- **Enable "Leaked Password Protection" in Supabase Dashboard**
+  - Navigate to: Authentication → Settings → Security
+  - Enable the toggle and save
+
+---
+
 ## [2.7.2] - 2025-12-15 📱 Viewport & Display Optimization
 
 ### Added - Modern Device Support
