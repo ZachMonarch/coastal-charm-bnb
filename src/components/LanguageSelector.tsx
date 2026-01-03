@@ -47,10 +47,11 @@ export default function LanguageSelector() {
         >
           <div className="flex items-center space-x-1.5">
             <Globe 
-              className="h-5 w-5 text-foreground" 
+              className="h-5 w-5 text-[#1a1a1a] dark:text-[#f5f5f5]" 
               aria-hidden="true" 
+              strokeWidth={2.5}
             />
-            <span className="text-sm font-bold text-foreground">
+            <span className="text-sm font-bold text-[#1a1a1a] dark:text-[#f5f5f5]">
               {currentLanguage?.abbr || 'EN'}
             </span>
           </div>

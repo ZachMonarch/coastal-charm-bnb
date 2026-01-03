@@ -190,33 +190,33 @@ export default function Navbar() {
           </ul>
 
           {/* Desktop Tools - lg:flex matches mobile lg:hidden breakpoint */}
-          <div className="hidden lg:flex items-center space-x-2">
-            <div className="rounded-lg border-2 border-primary/60 bg-card p-1.5 shadow-md hover:shadow-lg hover:border-primary transition-all">
+          <div className="hidden lg:flex items-center space-x-2" data-header-controls>
+            <div className="rounded-lg border-2 border-primary/60 bg-card p-1.5 shadow-md hover:shadow-lg hover:border-primary transition-all" data-header-icon>
               <LanguageSelector />
             </div>
-            <div className="rounded-lg border-2 border-primary/60 bg-card p-1.5 shadow-md hover:shadow-lg hover:border-primary transition-all">
+            <div className="rounded-lg border-2 border-primary/60 bg-card p-1.5 shadow-md hover:shadow-lg hover:border-primary transition-all" data-header-icon>
               <ThemeToggle />
             </div>
             {isAuthenticated && (
-              <div className="rounded-lg border-2 border-primary/60 bg-card p-1.5 shadow-md hover:shadow-lg hover:border-primary transition-all">
+              <div className="rounded-lg border-2 border-primary/60 bg-card p-1.5 shadow-md hover:shadow-lg hover:border-primary transition-all" data-header-icon>
                 <RealtimeNotifications />
               </div>
             )}
-            <div className="rounded-lg border-[3px] border-primary bg-card p-1.5 shadow-lg shadow-primary/15 hover:shadow-xl hover:border-primary transition-all">
+            <div className="rounded-lg border-[3px] border-primary bg-card p-1.5 shadow-lg shadow-primary/15 hover:shadow-xl hover:border-primary transition-all" data-header-icon>
               <OptimizedUserMenu />
             </div>
           </div>
 
           {/* Mobile Navigation */}
-          <div className="flex items-center space-x-1.5 md:space-x-2 lg:hidden">
-            <div className="rounded-lg border-2 border-primary/40 bg-card/80 p-0.5 md:p-1 shadow-sm">
+          <div className="flex items-center space-x-1.5 md:space-x-2 lg:hidden" data-header-controls>
+            <div className="rounded-lg border-2 border-primary/40 bg-card/80 p-0.5 md:p-1 shadow-sm" data-header-icon>
               <LanguageSelector />
             </div>
-            <div className="rounded-lg border-2 border-primary/40 bg-card/80 p-0.5 md:p-1 shadow-sm">
+            <div className="rounded-lg border-2 border-primary/40 bg-card/80 p-0.5 md:p-1 shadow-sm" data-header-icon>
               <ThemeToggle />
             </div>
             {isAuthenticated && (
-              <div className="rounded-lg border-2 border-primary/40 bg-card/80 p-0.5 md:p-1 shadow-sm">
+              <div className="rounded-lg border-2 border-primary/40 bg-card/80 p-0.5 md:p-1 shadow-sm" data-header-icon>
                 <RealtimeNotifications />
               </div>
             )}
