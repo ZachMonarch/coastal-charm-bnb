@@ -41,11 +41,11 @@ const tabsTriggerVariants = cva(
   {
     variants: {
       variant: {
-        default: "rounded-md text-muted-foreground hover:text-foreground hover:bg-background/60 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm",
-        pills: "rounded-full border border-transparent text-muted-foreground hover:text-foreground hover:bg-muted/60 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary data-[state=active]:shadow-md",
-        underline: "rounded-none border-b-2 border-transparent text-muted-foreground hover:text-foreground -mb-px data-[state=active]:border-primary data-[state=active]:text-primary data-[state=active]:font-semibold",
-        colorful: "rounded-md text-slate-700 dark:text-muted-foreground hover:text-foreground hover:bg-primary/15 data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-sm",
-        grid: "rounded-md text-muted-foreground hover:text-foreground hover:bg-background/60 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm",
+        default: "rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-background/60 data-[state=active]:bg-background data-[state=active]:text-slate-900 dark:data-[state=active]:text-white data-[state=active]:font-semibold data-[state=active]:shadow-sm",
+        pills: "rounded-full border border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-muted/60 data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:border-primary data-[state=active]:shadow-md",
+        underline: "rounded-none border-b-2 border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 -mb-px data-[state=active]:border-primary data-[state=active]:text-primary data-[state=active]:font-semibold",
+        colorful: "rounded-md text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-primary/15 data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-sm",
+        grid: "rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-background/60 data-[state=active]:bg-background data-[state=active]:text-slate-900 dark:data-[state=active]:text-white data-[state=active]:font-semibold data-[state=active]:shadow-sm",
       },
     },
     defaultVariants: {
