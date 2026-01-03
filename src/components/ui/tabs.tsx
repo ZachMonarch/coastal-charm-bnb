@@ -6,15 +6,15 @@ import { cn } from "@/lib/utils"
 const Tabs = TabsPrimitive.Root
 
 const tabsListVariants = cva(
-  "inline-flex items-center text-muted-foreground",
+  "inline-flex items-center justify-center rounded-lg p-1",
   {
     variants: {
       variant: {
-        default: "flex-wrap gap-1.5 rounded-lg bg-muted/60 p-1.5 border border-border/30",
-        pills: "flex-wrap gap-2 bg-transparent p-1",
-        underline: "flex-wrap gap-1 border-b border-border bg-transparent rounded-none pb-0",
-        colorful: "flex-wrap gap-1.5 rounded-xl bg-primary/15 p-2 border border-primary/30 shadow-sm",
-        grid: "grid gap-1 rounded-lg bg-muted/60 p-1.5 border border-border/30",
+        default: "bg-muted text-muted-foreground",
+        pills: "bg-transparent gap-2",
+        underline: "bg-transparent border-b border-border rounded-none p-0 gap-4",
+        colorful: "bg-primary/10",
+        grid: "bg-muted/50 gap-1",
       },
     },
     defaultVariants: {
@@ -23,10 +23,13 @@ const tabsListVariants = cva(
   }
 )
 
+interface TabsListProps
+  extends React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>,
+    VariantProps<typeof tabsListVariants> {}
+
 const TabsList = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.List>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.List> & 
-    VariantProps<typeof tabsListVariants>
+  TabsListProps
 >(({ className, variant, ...props }, ref) => (
   <TabsPrimitive.List
     ref={ref}
@@ -37,15 +40,44 @@ const TabsList = React.forwardRef<
 TabsList.displayName = TabsPrimitive.List.displayName
 
 const tabsTriggerVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap min-h-[36px] px-3 py-1.5 text-sm font-medium ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center whitespace-nowrap px-3 py-2 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        default: "rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-background/60 data-[state=active]:bg-background data-[state=active]:text-slate-900 dark:data-[state=active]:text-white data-[state=active]:font-semibold data-[state=active]:shadow-sm",
-        pills: "rounded-full border border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-muted/60 data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:border-primary data-[state=active]:shadow-md",
-        underline: "rounded-none border-b-2 border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 -mb-px data-[state=active]:border-primary data-[state=active]:text-primary data-[state=active]:font-semibold",
-        colorful: "rounded-md text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-primary/15 data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-sm",
-        grid: "rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-background/60 data-[state=active]:bg-background data-[state=active]:text-slate-900 dark:data-[state=active]:text-white data-[state=active]:font-semibold data-[state=active]:shadow-sm",
+        default: [
+          "rounded-md",
+          "text-foreground/70 dark:text-foreground/60",
+          "hover:text-foreground dark:hover:text-foreground",
+          "data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm",
+          "dark:data-[state=active]:bg-background dark:data-[state=active]:text-foreground"
+        ],
+        pills: [
+          "rounded-full border border-transparent",
+          "text-foreground/70 dark:text-foreground/60",
+          "hover:bg-muted/50 hover:text-foreground dark:hover:text-foreground",
+          "data-[state=active]:border-primary data-[state=active]:bg-primary/10 data-[state=active]:text-primary",
+          "dark:data-[state=active]:text-primary"
+        ],
+        underline: [
+          "rounded-none border-b-2 border-transparent pb-3",
+          "text-foreground/60 dark:text-foreground/50",
+          "hover:text-foreground dark:hover:text-foreground",
+          "data-[state=active]:border-primary data-[state=active]:text-foreground data-[state=active]:font-semibold",
+          "dark:data-[state=active]:text-foreground"
+        ],
+        colorful: [
+          "rounded-md",
+          "text-foreground/70 dark:text-foreground/60",
+          "hover:bg-primary/5 hover:text-foreground dark:hover:text-foreground",
+          "data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md",
+        ],
+        grid: [
+          "rounded-md flex-1",
+          "text-foreground/70 dark:text-foreground/60",
+          "hover:bg-muted hover:text-foreground dark:hover:text-foreground",
+          "data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm",
+          "dark:data-[state=active]:text-foreground"
+        ],
       },
     },
     defaultVariants: {
@@ -54,10 +86,13 @@ const tabsTriggerVariants = cva(
   }
 )
 
+interface TabsTriggerProps
+  extends React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>,
+    VariantProps<typeof tabsTriggerVariants> {}
+
 const TabsTrigger = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger> & 
-    VariantProps<typeof tabsTriggerVariants>
+  TabsTriggerProps
 >(({ className, variant, ...props }, ref) => (
   <TabsPrimitive.Trigger
     ref={ref}
@@ -74,7 +109,7 @@ const TabsContent = React.forwardRef<
   <TabsPrimitive.Content
     ref={ref}
     className={cn(
-      "mt-4 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 animate-fade-in",
+      "mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 animate-fade-in",
       className
     )}
     {...props}
