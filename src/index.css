@@ -535,32 +535,70 @@ header nav .nav-dropdown-trigger:hover > svg {
   color: #aaaaaa !important;
 }
 
-/* === HEADER ICON & TEXT VISIBILITY (robust, token-based) === */
-/* Ensure all header controls are visible on both light/dark backgrounds */
-header button svg,
-header [data-radix-select-trigger] svg,
-header .flex svg {
-  color: hsl(var(--foreground));
-  stroke: hsl(var(--foreground));
-  fill: none;
-  opacity: 1;
-  visibility: visible;
+/* === HEADER ICON & TEXT VISIBILITY (FORCED explicit hex colors) === */
+/* Target header icon containers specifically with data attributes */
+:root:not(.dark) [data-header-icon] svg,
+:root:not(.dark) [data-header-controls] svg,
+:root:not(.dark) header button svg,
+:root:not(.dark) header [data-radix-select-trigger] svg {
+  color: #1a1a1a !important;
+  stroke: #1a1a1a !important;
+  fill: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  stroke-width: 2.5 !important;
+}
+
+/* Dark mode header icons */
+.dark [data-header-icon] svg,
+.dark [data-header-controls] svg,
+.dark header button svg,
+.dark header [data-radix-select-trigger] svg {
+  color: #f5f5f5 !important;
+  stroke: #f5f5f5 !important;
+  fill: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  stroke-width: 2.5 !important;
 }
 
 /* Language selector text and icon container */
-header [data-radix-select-trigger],
-header [data-radix-select-trigger] span,
-header [data-radix-select-trigger] div {
-  color: hsl(var(--foreground));
+:root:not(.dark) [data-header-icon] span,
+:root:not(.dark) [data-header-icon] div,
+:root:not(.dark) header [data-radix-select-trigger],
+:root:not(.dark) header [data-radix-select-trigger] span,
+:root:not(.dark) header [data-radix-select-trigger] div {
+  color: #1a1a1a !important;
 }
 
-/* Force icon visibility with explicit class */
-.text-foreground {
-  color: hsl(var(--foreground)) !important;
+.dark [data-header-icon] span,
+.dark [data-header-icon] div,
+.dark header [data-radix-select-trigger],
+.dark header [data-radix-select-trigger] span,
+.dark header [data-radix-select-trigger] div {
+  color: #f5f5f5 !important;
 }
 
-/* Lucide icons inherit stroke from currentColor */
-.text-foreground svg {
+/* Force icon visibility with explicit class - LIGHT MODE */
+:root:not(.dark) .text-foreground {
+  color: #1a1a1a !important;
+}
+
+:root:not(.dark) .text-foreground svg {
+  stroke: #1a1a1a !important;
+}
+
+/* Force icon visibility - DARK MODE */
+.dark .text-foreground {
+  color: #f5f5f5 !important;
+}
+
+.dark .text-foreground svg {
+  stroke: #f5f5f5 !important;
+}
+
+/* Lucide icons inherit stroke from currentColor with increased stroke-width */
+.lucide {
   stroke: currentColor;
 }
 

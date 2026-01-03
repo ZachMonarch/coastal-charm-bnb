@@ -183,7 +183,7 @@ export default function RealtimeNotifications() {
           className="relative min-h-[36px] min-w-[36px] w-9 h-9 md:min-h-[40px] md:min-w-[40px] md:w-10 md:h-10 rounded-full border border-border/40 dark:border-border/60 bg-transparent hover:border-primary/50 hover:bg-muted/50"
           aria-label={`Notifications${unreadCount > 0 ? `, ${unreadCount} unread` : ''}`}
         >
-          <Bell className="h-4 w-4 text-foreground" />
+          <Bell className="h-4 w-4 text-[#1a1a1a] dark:text-[#f5f5f5]" strokeWidth={2.5} />
           {unreadCount > 0 && (
             <Badge 
               variant="destructive" 

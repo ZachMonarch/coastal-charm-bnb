@@ -281,9 +281,10 @@ export function AppSidebar() {
     return false;
   };
   
-  // Color mapping for navigation groups - adds visual differentiation
+  // Color mapping for navigation groups - adds visual differentiation with explicit high-contrast colors
   const getGroupIconColor = (groupTitle: string): string => {
     const colorMap: Record<string, string> = {
+      'Navigation': 'text-[#1a1a1a] dark:text-[#f5f5f5]',
       'Dashboard': 'text-primary',
       'Portal': 'text-primary',
       'Admin': 'text-destructive',
@@ -294,20 +295,20 @@ export function AppSidebar() {
       'Finance': 'text-success',
       'Content': 'text-info',
       'System': 'text-warning',
-      'Settings': 'text-muted-foreground',
-      'Account': 'text-muted-foreground',
+      'Settings': 'text-[#444444] dark:text-[#cccccc]',
+      'Account': 'text-[#444444] dark:text-[#cccccc]',
       'Property Management': 'text-info',
     };
-    return colorMap[groupTitle] || 'text-muted-foreground';
+    return colorMap[groupTitle] || 'text-[#1a1a1a] dark:text-[#f5f5f5]';
   };
 
   const getNavCls = ({ isActive, groupTitle }: { isActive: boolean; groupTitle: string }) => {
     if (isActive) {
       // Very subtle faint active state - low opacity background with delicate left border
-      return "bg-primary/8 text-foreground font-medium border-l-2 border-primary/40";
+      return "bg-primary/8 text-primary font-medium border-l-2 border-primary/40";
     }
     const iconColor = getGroupIconColor(groupTitle);
-    return `hover:bg-primary/5 ${iconColor} hover:text-foreground`;
+    return `hover:bg-primary/5 ${iconColor} hover:text-primary`;
   };
 
   // Role-based navigation items
