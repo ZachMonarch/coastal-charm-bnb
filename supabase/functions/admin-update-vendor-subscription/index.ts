@@ -15,21 +15,42 @@ interface UpdateSubscriptionRequest {
 }
 
 const handler = async (req: Request): Promise<Response> => {
+  console.log('[admin-update-vendor-subscription] Function invoked at:', new Date().toISOString());
+  console.log('[admin-update-vendor-subscription] Method:', req.method);
+  
   // Handle CORS preflight
   if (req.method === "OPTIONS") {
+    console.log('[admin-update-vendor-subscription] CORS preflight request');
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-    const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
-    const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY");
+    const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+
+    console.log('[admin-update-vendor-subscription] Environment check:', {
+      hasUrl: !!supabaseUrl,
+      hasAnonKey: !!supabaseAnonKey,
+      hasServiceKey: !!supabaseServiceKey
+    });
+
+    if (!supabaseUrl || !supabaseAnonKey || !supabaseServiceKey) {
+      console.error('[admin-update-vendor-subscription] Missing environment variables');
+      return new Response(
+        JSON.stringify({ error: "Server configuration error" }),
+        { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
 
     // Get user from auth header
     const authHeader = req.headers.get("Authorization");
+    console.log('[admin-update-vendor-subscription] Auth header present:', !!authHeader);
+    
     if (!authHeader) {
+      console.error('[admin-update-vendor-subscription] No authorization header');
       return new Response(
-        JSON.stringify({ error: "Unauthorized" }),
+        JSON.stringify({ error: "Unauthorized - No authorization header" }),
         { status: 401, headers: { "Content-Type": "application/json", ...corsHeaders } }
       );
     }
@@ -40,9 +61,16 @@ const handler = async (req: Request): Promise<Response> => {
 
     const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
     
+    console.log('[admin-update-vendor-subscription] User check:', {
+      hasUser: !!user,
+      userId: user?.id,
+      error: userError?.message
+    });
+    
     if (userError || !user) {
+      console.error('[admin-update-vendor-subscription] Auth failed:', userError);
       return new Response(
-        JSON.stringify({ error: "Unauthorized" }),
+        JSON.stringify({ error: "Unauthorized - Invalid token" }),
         { status: 401, headers: { "Content-Type": "application/json", ...corsHeaders } }
       );
     }
@@ -51,12 +79,17 @@ const handler = async (req: Request): Promise<Response> => {
     const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
 
     // Check if user is admin
-    const { data: adminRole } = await supabaseAdmin
+    const { data: adminRole, error: adminError } = await supabaseAdmin
       .from("user_roles")
       .select("role")
       .eq("user_id", user.id)
       .eq("role", "admin")
       .single();
+
+    console.log('[admin-update-vendor-subscription] Admin check:', {
+      isAdmin: !!adminRole,
+      error: adminError?.message
+    });
 
     if (!adminRole) {
       return new Response(

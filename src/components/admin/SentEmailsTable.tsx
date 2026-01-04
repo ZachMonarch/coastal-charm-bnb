@@ -101,7 +101,12 @@ export default function SentEmailsTable() {
       setSelectedEmail(null);
     },
     onError: (error: any) => {
-      toast.error(error.message || 'Failed to resend email');
+      console.error('[SentEmailsTable] Resend error:', error);
+      const errorMessage = error?.message || 
+        error?.context?.message || 
+        error?.error?.message ||
+        'Failed to resend email. Please try again.';
+      toast.error(errorMessage);
     }
   });
 

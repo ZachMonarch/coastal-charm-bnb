@@ -4651,6 +4651,14 @@ export type Database = {
         Args: { activity_limit?: number; user_uuid: string }
         Returns: Json
       }
+      get_tenant_emails: {
+        Args: never
+        Returns: {
+          email: string
+          full_name: string
+          user_id: string
+        }[]
+      }
       get_user_id: { Args: never; Returns: string }
       get_user_profile_with_roles: {
         Args: { p_user_id: string }
@@ -4670,6 +4678,14 @@ export type Database = {
       get_vendor_dashboard_summary_optimized: {
         Args: { vendor_user_id: string }
         Returns: Json
+      }
+      get_vendor_emails: {
+        Args: never
+        Returns: {
+          company_name: string
+          email: string
+          user_id: string
+        }[]
       }
       get_vendor_projects_summary: {
         Args: {

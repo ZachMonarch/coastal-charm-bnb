@@ -47,39 +47,42 @@ export default function EmailComposeForm({ onEmailSent }: EmailComposeFormProps)
     }
   });
 
-  const { data: vendorEmails = [] } = useQuery({
-    queryKey: ['vendor-emails'],
+  // Fetch vendor emails using RPC function for reliable access
+  const { data: vendorEmails = [], isLoading: vendorEmailsLoading, error: vendorEmailsError } = useQuery({
+    queryKey: ['vendor-emails-rpc'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('vendor_profiles')
-        .select('user_id, company_name, profiles!inner(email)')
-        .limit(500);
+      const { data, error } = await supabase.rpc('get_vendor_emails');
       
-      if (error) throw error;
-      return data?.map(v => ({
-        email: (v.profiles as any)?.email,
-        name: v.company_name
-      })).filter(v => v.email) || [];
+      if (error) {
+        console.error('Failed to fetch vendor emails:', error);
+        throw error;
+      }
+      return data?.map((v: { email: string; company_name: string; user_id: string }) => ({
+        email: v.email,
+        name: v.company_name,
+        userId: v.user_id
+      })).filter((v: { email: string }) => v.email) || [];
     },
-    enabled: recipientType === 'vendors'
+    staleTime: 30000 // Cache for 30 seconds
   });
 
-  const { data: tenantEmails = [] } = useQuery({
-    queryKey: ['tenant-emails'],
+  // Fetch tenant emails using RPC function for reliable access
+  const { data: tenantEmails = [], isLoading: tenantEmailsLoading, error: tenantEmailsError } = useQuery({
+    queryKey: ['tenant-emails-rpc'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('id, email, full_name, role')
-        .eq('role', 'tenant')
-        .limit(500);
+      const { data, error } = await supabase.rpc('get_tenant_emails');
       
-      if (error) throw error;
-      return data?.map(t => ({
+      if (error) {
+        console.error('Failed to fetch tenant emails:', error);
+        throw error;
+      }
+      return data?.map((t: { email: string; full_name: string; user_id: string }) => ({
         email: t.email,
-        name: t.full_name
-      })) || [];
+        name: t.full_name || 'Tenant',
+        userId: t.user_id
+      })).filter((t: { email: string }) => t.email) || [];
     },
-    enabled: recipientType === 'tenants'
+    staleTime: 30000 // Cache for 30 seconds
   });
 
   const sendMutation = useMutation({
@@ -118,6 +121,7 @@ export default function EmailComposeForm({ onEmailSent }: EmailComposeFormProps)
       setSelectedTemplate('');
       setSubject('');
       setHtmlContent('');
+      toast.info('Template cleared');
       return;
     }
     setSelectedTemplate(templateId);
@@ -125,6 +129,9 @@ export default function EmailComposeForm({ onEmailSent }: EmailComposeFormProps)
     if (template) {
       setSubject(template.subject);
       setHtmlContent(template.html_content);
+      toast.success(`Template "${template.name}" loaded`);
+    } else {
+      toast.error('Failed to load template');
     }
   };
 
@@ -212,15 +219,35 @@ export default function EmailComposeForm({ onEmailSent }: EmailComposeFormProps)
           </div>
 
           {recipientType === 'individual' && (
-            <div className="space-y-2">
-              <Label htmlFor="recipient-email">Recipient Email</Label>
-              <Input
-                id="recipient-email"
-                type="email"
-                value={recipientEmail}
-                onChange={(e) => setRecipientEmail(e.target.value)}
-                placeholder="recipient@example.com"
-              />
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="recipient-email">Recipient Email</Label>
+                <Input
+                  id="recipient-email"
+                  type="email"
+                  value={recipientEmail}
+                  onChange={(e) => setRecipientEmail(e.target.value)}
+                  placeholder="recipient@example.com"
+                />
+              </div>
+              
+              {vendorEmails.length > 0 && (
+                <div className="space-y-2">
+                  <Label>Or select a vendor</Label>
+                  <Select value={recipientEmail} onValueChange={setRecipientEmail}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a vendor..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {vendorEmails.map((v) => (
+                        <SelectItem key={v.email} value={v.email}>
+                          {v.name} ({v.email})
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
             </div>
           )}
 
