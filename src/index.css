@@ -1008,6 +1008,11 @@ table td {
   color: #1a1a1a !important;
 }
 
+/* CRITICAL: Explicitly target span text inside tab triggers */
+:root:not(.dark) [data-radix-collection-item] span {
+  color: #1a1a1a !important;
+}
+
 :root:not(.dark) [data-radix-collection-item] svg {
   color: #1a1a1a !important;
   stroke: #1a1a1a !important;
@@ -1019,10 +1024,33 @@ table td {
   color: white !important;
 }
 
+:root:not(.dark) [data-radix-collection-item][data-state="active"] span {
+  color: white !important;
+}
+
 :root:not(.dark) [data-radix-collection-item][data-state="active"] svg {
   color: white !important;
   stroke: white !important;
   stroke-width: 2.5 !important;
+}
+
+/* === HERO BUTTON TEXT VISIBILITY === */
+/* Force white text on all primary/gradient buttons and their children */
+:root:not(.dark) .btn-primary,
+:root:not(.dark) .btn-primary *,
+:root:not(.dark) .btn-primary a,
+:root:not(.dark) .btn-primary span,
+:root:not(.dark) .tech-glow,
+:root:not(.dark) .tech-glow *,
+:root:not(.dark) .tech-glow a,
+:root:not(.dark) .tech-glow span {
+  color: white !important;
+}
+
+:root:not(.dark) .btn-primary svg,
+:root:not(.dark) .tech-glow svg {
+  color: white !important;
+  stroke: white !important;
 }
 
 /* Badge text visibility - ensure readable in light mode */
