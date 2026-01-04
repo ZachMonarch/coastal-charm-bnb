@@ -28,7 +28,12 @@ const EmailRequestSchema = z.object({
     'test', 'welcome', 'project_assignment', 'password_reset'
   ]).optional(),
   data: z.record(z.any()).optional(),
-  emailType: z.enum(['notification', 'welcome', 'reset', 'verification', 'maintenance', 'payment', 'booking', 'test']).optional()
+  emailType: z.enum([
+    'notification', 'welcome', 'reset', 'verification', 
+    'maintenance', 'payment', 'booking', 'test',
+    'vendor_invite', 'vendor_invitation', 'general', 
+    'rfq_invitation', 'contract_award', 'bid_confirmation'
+  ]).optional()
 }).refine(data => data.html || data.template, {
   message: "Either 'html' or 'template' must be provided"
 });

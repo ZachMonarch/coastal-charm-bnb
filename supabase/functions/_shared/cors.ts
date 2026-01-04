@@ -22,8 +22,9 @@ export function isAllowedOrigin(origin: string | null): boolean {
   // Check Vercel preview pattern
   if (origin.match(/^https:\/\/[a-z0-9-]+\.vercel\.app$/)) return true;
   
-  // Check Lovable preview pattern
+  // Check Lovable preview patterns (multiple subdomain levels)
   if (origin.match(/^https:\/\/[a-z0-9-]+\.lovable\.app$/)) return true;
+  if (origin.match(/^https:\/\/[a-z0-9-]+\.lovableproject\.com$/)) return true;
   
   return false;
 }
