@@ -430,86 +430,47 @@
 /* Light mode handled in LIGHT MODE VISIBILITY ENHANCEMENTS section */
 
 /* === HEADER BACKGROUND & NAVBAR TEXT VISIBILITY (FORCED) === */
-/* CSS custom property for header background - theme-aware */
-:root {
-  --header-bg: #ffffff;
-  --header-text: #1a1a1a;
-  --header-border: #e5e7eb;
-}
+/* Header always has white/light background, so text must always be BLACK for visibility */
 
-.dark {
-  --header-bg: #0f172a;
-  --header-text: #ffffff;
-  --header-border: #334155;
-}
-
-/* Force header background using dedicated class */
-.monarch-header,
-header[data-monarch-header] {
-  background-color: var(--header-bg) !important;
-  border-bottom-color: var(--header-border) !important;
-}
-
-/* Fallback: Force header background in dark mode to be dark slate */
-.dark header,
-.dark header.fixed,
-.dark header[class*="fixed"],
-.dark .monarch-header {
-  background-color: #0f172a !important; /* slate-900 */
-  border-bottom-color: #334155 !important; /* slate-700 */
-}
-
-/* Light mode header background */
-:root:not(.dark) header,
-:root:not(.dark) header.fixed,
-:root:not(.dark) header[class*="fixed"],
-:root:not(.dark) .monarch-header {
+/* Force header to ALWAYS have white background in both modes */
+header,
+header.fixed,
+header[data-monarch-header],
+.monarch-header {
   background-color: #ffffff !important;
+  border-bottom-color: #e5e7eb !important;
 }
 
-/* Light mode: dark text for maximum contrast - using !important to override all conflicts */
-:root:not(.dark) header nav ul li > button,
-:root:not(.dark) header nav ul li > button > span,
-:root:not(.dark) header nav ul li > button > svg,
-:root:not(.dark) header nav ul li a,
-:root:not(.dark) header nav [data-nav-dropdown],
-:root:not(.dark) header nav [data-nav-dropdown] > span,
-:root:not(.dark) header nav [data-nav-dropdown] > svg,
-:root:not(.dark) header nav .nav-dropdown-trigger,
-:root:not(.dark) header nav .nav-dropdown-trigger > span,
-:root:not(.dark) header nav .nav-dropdown-trigger > svg,
-:root:not(.dark) .monarch-header nav a,
-:root:not(.dark) .monarch-header nav button {
+/* CRITICAL: Force ALL header nav text to BLACK in BOTH light and dark modes */
+/* Since header background is always white, text must always be dark */
+header nav ul li > button,
+header nav ul li > button > span,
+header nav ul li > button > svg,
+header nav ul li a,
+header nav [data-nav-dropdown],
+header nav [data-nav-dropdown] > span,
+header nav [data-nav-dropdown] > svg,
+header nav .nav-dropdown-trigger,
+header nav .nav-dropdown-trigger > span,
+header nav .nav-dropdown-trigger > svg,
+.monarch-header nav a,
+.monarch-header nav button,
+.monarch-header nav button span,
+[data-monarch-header] nav ul li a,
+[data-monarch-header] nav ul li button,
+[data-monarch-header] nav ul li button span {
   color: #1a1a1a !important;
   opacity: 1 !important;
   visibility: visible !important;
 }
 
-/* Dark mode: WHITE text for maximum contrast on dark background */
-.dark header nav ul li > button,
-.dark header nav ul li > button > span,
-.dark header nav ul li > button > svg,
-.dark header nav ul li a,
-.dark header nav [data-nav-dropdown],
-.dark header nav [data-nav-dropdown] > span,
-.dark header nav [data-nav-dropdown] > svg,
-.dark header nav .nav-dropdown-trigger,
-.dark header nav .nav-dropdown-trigger > span,
-.dark header nav .nav-dropdown-trigger > svg,
-.dark .monarch-header nav a,
-.dark .monarch-header nav button,
-.dark .monarch-header nav button span,
-.dark .monarch-header nav button svg {
-  color: #ffffff !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-}
-
-/* Ensure all SVG icons in header nav are visible in dark mode */
-.dark header nav svg,
-.dark .monarch-header nav svg {
-  color: #ffffff !important;
-  stroke: #ffffff !important;
+/* Force SVG icons in header to be black */
+header nav svg,
+header nav ul li svg,
+.monarch-header nav svg,
+[data-monarch-header] nav svg {
+  color: #1a1a1a !important;
+  stroke: #1a1a1a !important;
 }
 
 /* Hover states - primary color */
@@ -524,6 +485,12 @@ header nav .nav-dropdown-trigger:hover,
 header nav .nav-dropdown-trigger:hover > span,
 header nav .nav-dropdown-trigger:hover > svg {
   color: hsl(var(--primary)) !important;
+}
+
+header nav ul li a:hover svg,
+header nav ul li button:hover svg {
+  color: hsl(var(--primary)) !important;
+  stroke: hsl(var(--primary)) !important;
 }
 
 /* === DROPDOWN MENU VISIBILITY === */
@@ -768,14 +735,14 @@ section[role="banner"] p {
   color: hsl(var(--primary)) !important;
 }
 
-/* === DARK MODE NAVBAR VISIBILITY === */
+/* === NAVBAR VISIBILITY (applies to all themes - header always has light bg) === */
 .dark header nav ul li > button,
 .dark header nav ul li > button > span,
 .dark header nav ul li > button > svg,
 .dark header nav .nav-dropdown-trigger,
 .dark header nav .nav-dropdown-trigger > span,
 .dark header nav .nav-dropdown-trigger > svg {
-  color: hsl(0 0% 96%) !important;
+  color: #1a1a1a !important;
 }
 
 .dark header nav ul li > button:hover,
@@ -790,7 +757,7 @@ section[role="banner"] p {
 .dark header nav [data-radix-dropdown-menu-trigger],
 .dark header nav [data-radix-dropdown-menu-trigger] span,
 .dark header nav [data-radix-dropdown-menu-trigger] svg {
-  color: hsl(0 0% 96%) !important;
+  color: #1a1a1a !important;
 }
 
 .dark header nav [data-radix-dropdown-menu-trigger]:hover,
