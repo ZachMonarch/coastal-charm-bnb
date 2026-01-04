@@ -210,7 +210,10 @@ export default function About() {
               <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-8">
                 <div className="flex items-center gap-2 text-muted-foreground">
                   <Phone className="h-5 w-5 text-primary" />
-                  <span>+1 (304) 365-8349</span>
+                  <div className="flex flex-col">
+                    <span>+1 (304) 365-8349</span>
+                    <span className="text-sm">+1 (614) 427-8576</span>
+                  </div>
                 </div>
                 <div className="flex items-center gap-2 text-muted-foreground">
                   <Mail className="h-5 w-5 text-primary" />

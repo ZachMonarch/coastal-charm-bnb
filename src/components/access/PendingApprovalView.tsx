@@ -175,12 +175,12 @@ export function PendingApprovalView() {
               <h2 className="text-xl font-serif font-bold text-slate-900 dark:text-slate-50 mb-2">
                 Access Request Pending
               </h2>
-              <p className="text-slate-600 dark:text-slate-300 text-sm max-w-sm mx-auto">
+              <p className="text-slate-600 dark:text-slate-200 text-sm max-w-sm mx-auto">
                 Your <span className="font-semibold text-slate-900 dark:text-slate-100">
                   {existingRequest?.role_requested === 'vendor' ? 'Vendor' : 'Property Manager'}
                 </span> application is being reviewed. You'll receive full access once approved by our team.
               </p>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 italic">
+              <p className="text-xs text-slate-500 dark:text-slate-300 mt-2 italic">
                 Note: Your account temporarily shows "Tenant" status until your {existingRequest?.role_requested === 'vendor' ? 'vendor' : 'property manager'} access is approved.
               </p>
             </div>
@@ -239,14 +239,14 @@ export function PendingApprovalView() {
               <div className="flex gap-4">
                 <Link 
                   to="/profile" 
-                  className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
+                  className="flex items-center gap-1.5 text-slate-600 dark:text-slate-200 hover:text-foreground transition-colors"
                 >
                   <User className="h-4 w-4" />
                   Profile
                 </Link>
                 <Link 
                   to="/settings" 
-                  className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
+                  className="flex items-center gap-1.5 text-slate-600 dark:text-slate-200 hover:text-foreground transition-colors"
                 >
                   <Settings className="h-4 w-4" />
                   Settings
@@ -254,7 +254,7 @@ export function PendingApprovalView() {
               </div>
               <button
                 onClick={handleSignOut}
-                className="flex items-center gap-1.5 text-muted-foreground hover:text-destructive transition-colors"
+                className="flex items-center gap-1.5 text-slate-600 dark:text-slate-200 hover:text-destructive transition-colors"
               >
                 <LogOut className="h-4 w-4" />
                 Sign Out
@@ -264,7 +264,7 @@ export function PendingApprovalView() {
         </Card>
 
         {/* Signed in as */}
-        <p className="text-center text-xs text-slate-500 dark:text-slate-400 mt-4">
+        <p className="text-center text-xs text-slate-500 dark:text-slate-300 mt-4">
           Signed in as <span className="font-medium text-slate-700 dark:text-slate-200">{user?.email}</span>
         </p>
       </div>

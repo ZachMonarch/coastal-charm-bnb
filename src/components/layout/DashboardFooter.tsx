@@ -153,8 +153,11 @@ export default function DashboardFooter() {
               <li className="flex items-start gap-2 text-sm text-muted-foreground">
                 <Phone className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
                 <div>
-                  <a href="tel:+13043658349" className="hover:text-primary transition-colors">
+                  <a href="tel:+13043658349" className="hover:text-primary transition-colors block">
                     (304) 365-8349
+                  </a>
+                  <a href="tel:+16144278576" className="hover:text-primary transition-colors block text-xs">
+                    (614) 427-8576
                   </a>
                   <p className="text-xs">24/7 Emergency Line</p>
                 </div>

@@ -128,7 +128,7 @@ export default function Privacy() {
                 </p>
                 <div className="space-y-2 text-sm text-muted-foreground">
                   <p>Email: privacy@monarchpropertymmgt.com</p>
-                  <p>Phone: +1 (304) 365-8349</p>
+                  <p>Phone: +1 (304) 365-8349 | +1 (614) 427-8576</p>
                   <p>Address: 2195 N. Highway 83 Suite 14B, Franktown, CO 80116</p>
                 </div>
               </CardContent>

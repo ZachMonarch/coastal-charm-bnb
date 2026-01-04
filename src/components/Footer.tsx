@@ -204,7 +204,10 @@ United States</p>
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Phone</p>
-                    <a href="tel:+16144278576" className="font-medium hover:text-primary transition-colors">
+                    <a href="tel:+13043658349" className="font-medium hover:text-primary transition-colors">
+                      +1 (304) 365-8349
+                    </a>
+                    <a href="tel:+16144278576" className="block text-sm hover:text-primary transition-colors">
                       +1 (614) 427-8576
                     </a>
                   </div>

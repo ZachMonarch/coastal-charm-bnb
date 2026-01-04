@@ -140,6 +140,9 @@ export default function Contact() {
                   <p className="text-muted-foreground">
                     +1 (304) 365-8349
                   </p>
+                  <p className="text-muted-foreground text-sm">
+                    +1 (614) 427-8576
+                  </p>
                 </CardContent>
               </Card>
 

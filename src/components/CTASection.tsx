@@ -40,6 +40,7 @@ export default function CTASection() {
                 <Phone className="h-8 w-8 text-primary mx-auto mb-3" />
                 <p className="text-sm text-muted-foreground">Call Us</p>
                 <p className="font-semibold">+1 (304) 365-8349</p>
+                <p className="text-sm font-medium">+1 (614) 427-8576</p>
               </div>
               <div className="glass-card p-6 rounded-2xl text-center">
                 <Mail className="h-8 w-8 text-primary mx-auto mb-3" />

@@ -33,7 +33,7 @@ export const EMAIL_CONFIG = {
   company: {
     name: "Monarch Property Management",
     phone1: "(304) 365-8349",
-    phone2: "(952) 374-9413",
+    phone2: "(614) 427-8576",
     email: "support@monarchpropertymmgt.com",
     address: "United States",
   }
