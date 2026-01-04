@@ -1121,6 +1121,17 @@ label {
   font-weight: 600;
 }
 
+/* === PILLS AND GRID TAB VISIBILITY FIX === */
+:root:not(.dark) [data-radix-collection-item][class*="rounded-full"],
+:root:not(.dark) [data-radix-collection-item][class*="flex-1"] {
+  color: #1a1a1a !important;
+}
+
+:root:not(.dark) [data-radix-collection-item][class*="rounded-full"] span,
+:root:not(.dark) [data-radix-collection-item][class*="flex-1"] span {
+  color: #1a1a1a !important;
+}
+
 
 /* Ensure button text is always visible when using asChild with Link */
 /* Covers: bg-primary, gradients with primary, and default buttons */
