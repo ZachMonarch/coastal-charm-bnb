@@ -46,7 +46,7 @@ export default function NavDropdown({ label, items, icon, className }: NavDropdo
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="start"
-        className="min-w-[220px] bg-popover border border-border shadow-xl z-[500]"
+        className="min-w-[220px] bg-white dark:bg-slate-900 border border-border dark:border-slate-700 shadow-xl z-[500]"
       >
         {items.map((item, index) => (
           <DropdownMenuItem key={index} asChild>
@@ -58,7 +58,7 @@ export default function NavDropdown({ label, items, icon, className }: NavDropdo
               <div className="flex flex-col">
                 <span className="font-medium text-[#1a1a1a] dark:text-[#f5f5f5]">{item.label}</span>
                 {item.description && (
-                  <span className="text-xs text-muted-foreground">{item.description}</span>
+                  <span className="text-xs text-slate-600 dark:text-slate-300">{item.description}</span>
                 )}
               </div>
             </Link>
