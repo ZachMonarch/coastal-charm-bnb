@@ -1,6 +1,6 @@
 # Monarch Property Management - Application Status
 
-**Last Updated:** December 28, 2025
+**Last Updated:** January 4, 2026
 
 ## ✅ Completed Features
 
@@ -89,6 +89,13 @@
 - [x] Lazy loading for 70+ components
 - [x] SEO meta tags
 
+### Visual Display & Accessibility (Jan 2026)
+- [x] Light mode tab visibility fixes (colorful, pills, grid variants)
+- [x] High-contrast text (#1a1a1a) for inactive tabs
+- [x] Hero button text visibility (white on gradient)
+- [x] CSS specificity hardening for Radix components
+- [x] Role display shows "Vendor (Pending)" for new signups
+
 ## ⚠️ Manual Actions Required
 
 ### 1. Enable Leaked Password Protection (CRITICAL)
@@ -109,16 +116,20 @@ When ready to accept payments:
 2. Configure Stripe webhook endpoint
 3. Test payment flows
 
-## 📊 Current Database Stats
+## 📊 Current Database Stats (Jan 4, 2026)
 
 | Metric | Count |
 |--------|-------|
-| Total Users | 14 |
-| User Roles | 14 |
+| Total Users | 16 |
+| User Roles | 15 |
+| Pending Access Requests | 1 |
+| Approved Access Requests | 10 |
 | Vendor Profiles | 13 |
 | Verified Vendors | 8 |
 | Open Projects | 31 |
+| Active Contracts | 1 |
 | Open RFQs | 1 |
+| Properties | 10 |
 | Active Email Templates | 11 |
 | Storage Buckets | 15 |
 

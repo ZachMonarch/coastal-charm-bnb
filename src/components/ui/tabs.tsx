@@ -53,7 +53,8 @@ const tabsTriggerVariants = cva(
         ],
         pills: [
           "rounded-full border border-transparent",
-          "text-[#3a3a3a] dark:text-slate-300",
+          "text-[#1a1a1a] dark:text-slate-100",
+          "[&>span]:text-[#1a1a1a] [&>span]:dark:text-slate-100",
           "hover:bg-muted/50 hover:text-[#1a1a1a] dark:hover:text-slate-100",
           "data-[state=active]:border-primary data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
         ],
@@ -73,7 +74,8 @@ const tabsTriggerVariants = cva(
         ],
         grid: [
           "rounded-md flex-1",
-          "text-[#3a3a3a] dark:text-slate-300",
+          "text-[#1a1a1a] dark:text-slate-100",
+          "[&>span]:text-[#1a1a1a] [&>span]:dark:text-slate-100",
           "hover:bg-muted hover:text-[#1a1a1a] dark:hover:text-slate-100",
           "data-[state=active]:bg-background data-[state=active]:text-[#1a1a1a] dark:data-[state=active]:text-slate-50 data-[state=active]:shadow-sm"
         ],
