@@ -429,7 +429,22 @@
 /* NOTE: Dark mode rule is in @layer base above - do not duplicate */
 /* Light mode handled in LIGHT MODE VISIBILITY ENHANCEMENTS section */
 
-/* === NAVBAR TEXT & BUTTON VISIBILITY (FORCED) === */
+/* === HEADER BACKGROUND & NAVBAR TEXT VISIBILITY (FORCED) === */
+/* Force header background in dark mode to be dark slate */
+.dark header,
+.dark header.fixed,
+.dark header[class*="fixed"] {
+  background-color: #0f172a !important; /* slate-900 */
+  border-bottom-color: #334155 !important; /* slate-700 */
+}
+
+/* Light mode header background */
+:root:not(.dark) header,
+:root:not(.dark) header.fixed,
+:root:not(.dark) header[class*="fixed"] {
+  background-color: #ffffff !important;
+}
+
 /* Light mode: dark text for maximum contrast - using !important to override all conflicts */
 :root:not(.dark) header nav ul li > button,
 :root:not(.dark) header nav ul li > button > span,
@@ -446,7 +461,7 @@
   visibility: visible !important;
 }
 
-/* Dark mode: light text for maximum contrast */
+/* Dark mode: WHITE text for maximum contrast on dark background */
 .dark header nav ul li > button,
 .dark header nav ul li > button > span,
 .dark header nav ul li > button > svg,
@@ -457,7 +472,7 @@
 .dark header nav .nav-dropdown-trigger,
 .dark header nav .nav-dropdown-trigger > span,
 .dark header nav .nav-dropdown-trigger > svg {
-  color: #f5f5f5 !important;
+  color: #ffffff !important;
   opacity: 1 !important;
   visibility: visible !important;
 }
@@ -544,13 +559,13 @@ header nav .nav-dropdown-trigger:hover > svg {
   stroke-width: 2.5 !important;
 }
 
-/* Dark mode header icons */
+/* Dark mode header icons - WHITE for maximum visibility */
 .dark [data-header-icon] svg,
 .dark [data-header-controls] svg,
 .dark header button svg,
 .dark header [data-radix-select-trigger] svg {
-  color: #f5f5f5 !important;
-  stroke: #f5f5f5 !important;
+  color: #ffffff !important;
+  stroke: #ffffff !important;
   fill: none !important;
   opacity: 1 !important;
   visibility: visible !important;
@@ -571,7 +586,7 @@ header nav .nav-dropdown-trigger:hover > svg {
 .dark header [data-radix-select-trigger],
 .dark header [data-radix-select-trigger] span,
 .dark header [data-radix-select-trigger] div {
-  color: #f5f5f5 !important;
+  color: #ffffff !important;
 }
 
 /* Force icon visibility with explicit class - LIGHT MODE */

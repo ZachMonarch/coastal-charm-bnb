@@ -115,8 +115,8 @@ export default function Navbar() {
         className={cn(
           "fixed top-0 left-0 right-0 z-[150] transition-all duration-500",
           scrolled
-            ? "bg-white dark:bg-slate-900 shadow-xl border-b-2 border-primary/30 py-3"
-            : "bg-white dark:bg-slate-900 backdrop-blur-md py-5 shadow-md border-b border-border dark:border-slate-700",
+            ? "bg-white dark:!bg-slate-900 shadow-xl border-b-2 border-primary/30 dark:border-slate-600 py-3"
+            : "bg-white dark:!bg-slate-900 backdrop-blur-md py-5 shadow-md border-b border-border dark:border-slate-700",
         )}
       >
         <nav aria-label="Main navigation" className="container flex justify-between items-center">
