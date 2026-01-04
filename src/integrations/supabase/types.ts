@@ -2251,6 +2251,77 @@ export type Database = {
         }
         Relationships: []
       }
+      sent_emails: {
+        Row: {
+          created_at: string | null
+          email_type: string
+          error_message: string | null
+          html_content: string
+          id: string
+          metadata: Json | null
+          opened_at: string | null
+          parent_email_id: string | null
+          recipient_email: string
+          recipient_name: string | null
+          recipient_user_id: string | null
+          resend_count: number | null
+          sent_at: string | null
+          sent_by: string | null
+          status: string
+          subject: string
+          template_used: string | null
+          text_content: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email_type?: string
+          error_message?: string | null
+          html_content: string
+          id?: string
+          metadata?: Json | null
+          opened_at?: string | null
+          parent_email_id?: string | null
+          recipient_email: string
+          recipient_name?: string | null
+          recipient_user_id?: string | null
+          resend_count?: number | null
+          sent_at?: string | null
+          sent_by?: string | null
+          status?: string
+          subject: string
+          template_used?: string | null
+          text_content?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email_type?: string
+          error_message?: string | null
+          html_content?: string
+          id?: string
+          metadata?: Json | null
+          opened_at?: string | null
+          parent_email_id?: string | null
+          recipient_email?: string
+          recipient_name?: string | null
+          recipient_user_id?: string | null
+          resend_count?: number | null
+          sent_at?: string | null
+          sent_by?: string | null
+          status?: string
+          subject?: string
+          template_used?: string | null
+          text_content?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sent_emails_parent_email_id_fkey"
+            columns: ["parent_email_id"]
+            isOneToOne: false
+            referencedRelation: "sent_emails"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       stripe_customers: {
         Row: {
           created_at: string | null

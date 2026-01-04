@@ -21,6 +21,7 @@ import VendorVerificationSystem from './VendorVerificationSystem';
 import VerifiedBadge from './VerifiedBadge';
 import { logger } from '@/utils/logger';
 import AdminSubscriptionManagement from './admin/AdminSubscriptionManagement';
+import AdminEmailCenter from './admin/AdminEmailCenter';
 
 export default function AdminVendorManagement() {
   const { vendors, loading, refetch } = useVendorProfiles();
@@ -171,6 +172,10 @@ export default function AdminVendorManagement() {
             <CreditCard className="h-4 w-4" />
             Subscriptions
           </TabsTrigger>
+          <TabsTrigger variant="default" value="email-center" className="gap-2">
+            <Mail className="h-4 w-4" />
+            Email Center
+          </TabsTrigger>
           <TabsTrigger variant="default" value="invitations">Invite Vendors</TabsTrigger>
         </TabsList>
 
@@ -300,6 +305,10 @@ export default function AdminVendorManagement() {
 
         <TabsContent value="subscriptions">
           <AdminSubscriptionManagement />
+        </TabsContent>
+
+        <TabsContent value="email-center">
+          <AdminEmailCenter />
         </TabsContent>
 
         <TabsContent value="invitations">
