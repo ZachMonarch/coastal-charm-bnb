@@ -430,10 +430,31 @@
 /* Light mode handled in LIGHT MODE VISIBILITY ENHANCEMENTS section */
 
 /* === HEADER BACKGROUND & NAVBAR TEXT VISIBILITY (FORCED) === */
-/* Force header background in dark mode to be dark slate */
+/* CSS custom property for header background - theme-aware */
+:root {
+  --header-bg: #ffffff;
+  --header-text: #1a1a1a;
+  --header-border: #e5e7eb;
+}
+
+.dark {
+  --header-bg: #0f172a;
+  --header-text: #ffffff;
+  --header-border: #334155;
+}
+
+/* Force header background using dedicated class */
+.monarch-header,
+header[data-monarch-header] {
+  background-color: var(--header-bg) !important;
+  border-bottom-color: var(--header-border) !important;
+}
+
+/* Fallback: Force header background in dark mode to be dark slate */
 .dark header,
 .dark header.fixed,
-.dark header[class*="fixed"] {
+.dark header[class*="fixed"],
+.dark .monarch-header {
   background-color: #0f172a !important; /* slate-900 */
   border-bottom-color: #334155 !important; /* slate-700 */
 }
@@ -441,7 +462,8 @@
 /* Light mode header background */
 :root:not(.dark) header,
 :root:not(.dark) header.fixed,
-:root:not(.dark) header[class*="fixed"] {
+:root:not(.dark) header[class*="fixed"],
+:root:not(.dark) .monarch-header {
   background-color: #ffffff !important;
 }
 
@@ -455,7 +477,9 @@
 :root:not(.dark) header nav [data-nav-dropdown] > svg,
 :root:not(.dark) header nav .nav-dropdown-trigger,
 :root:not(.dark) header nav .nav-dropdown-trigger > span,
-:root:not(.dark) header nav .nav-dropdown-trigger > svg {
+:root:not(.dark) header nav .nav-dropdown-trigger > svg,
+:root:not(.dark) .monarch-header nav a,
+:root:not(.dark) .monarch-header nav button {
   color: #1a1a1a !important;
   opacity: 1 !important;
   visibility: visible !important;
@@ -471,10 +495,21 @@
 .dark header nav [data-nav-dropdown] > svg,
 .dark header nav .nav-dropdown-trigger,
 .dark header nav .nav-dropdown-trigger > span,
-.dark header nav .nav-dropdown-trigger > svg {
+.dark header nav .nav-dropdown-trigger > svg,
+.dark .monarch-header nav a,
+.dark .monarch-header nav button,
+.dark .monarch-header nav button span,
+.dark .monarch-header nav button svg {
   color: #ffffff !important;
   opacity: 1 !important;
   visibility: visible !important;
+}
+
+/* Ensure all SVG icons in header nav are visible in dark mode */
+.dark header nav svg,
+.dark .monarch-header nav svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
 }
 
 /* Hover states - primary color */
