@@ -112,12 +112,16 @@ export default function Navbar() {
       </a>
 
       <header
+        data-monarch-header
         className={cn(
-          "fixed top-0 left-0 right-0 z-[150] transition-all duration-500",
+          "monarch-header fixed top-0 left-0 right-0 z-[150] transition-all duration-500",
           scrolled
-            ? "bg-white dark:!bg-slate-900 shadow-xl border-b-2 border-primary/30 dark:border-slate-600 py-3"
-            : "bg-white dark:!bg-slate-900 backdrop-blur-md py-5 shadow-md border-b border-border dark:border-slate-700",
+            ? "shadow-xl border-b-2 border-primary/30 py-3"
+            : "backdrop-blur-md py-5 shadow-md border-b border-border",
         )}
+        style={{
+          backgroundColor: 'var(--header-bg)',
+        }}
       >
         <nav aria-label="Main navigation" className="container flex justify-between items-center">
           {/* Logo */}
@@ -154,12 +158,13 @@ export default function Navbar() {
                 to="/"
                 className={cn(
                   "px-4 py-2.5 text-base font-bold rounded-lg transition-all duration-200",
-                  "text-[#1a1a1a] dark:text-[#f5f5f5] hover:text-primary hover:bg-primary/5",
+                  "hover:text-primary hover:bg-primary/5",
                   "relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2",
                   "after:w-0 hover:after:w-3/4 after:h-0.5 after:bg-primary/60 after:transition-all",
                   "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none",
                   location.pathname === "/" && "text-primary after:w-3/4",
                 )}
+                style={{ color: location.pathname === "/" ? undefined : 'var(--header-text)' }}
               >
                 {t.nav.home}
               </Link>
@@ -176,12 +181,13 @@ export default function Navbar() {
                   to={link.path}
                   className={cn(
                     "px-4 py-2.5 text-base font-bold rounded-lg transition-all duration-200",
-                    "text-[#1a1a1a] dark:text-[#f5f5f5] hover:text-primary hover:bg-primary/5",
+                    "hover:text-primary hover:bg-primary/5",
                     "relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2",
                     "after:w-0 hover:after:w-3/4 after:h-0.5 after:bg-primary/60 after:transition-all",
                     "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none",
                     location.pathname === link.path && "text-primary after:w-3/4",
                   )}
+                  style={{ color: location.pathname === link.path ? undefined : 'var(--header-text)' }}
                 >
                   {link.name}
                 </Link>
