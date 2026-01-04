@@ -66,9 +66,10 @@ const tabsTriggerVariants = cva(
         colorful: [
           "rounded-md gap-2",
           "text-[#1a1a1a] dark:text-slate-100",
+          "[&>span]:text-[#1a1a1a] [&>span]:dark:text-slate-100",
           "[&>svg]:text-[#1a1a1a] [&>svg]:dark:text-slate-300 [&>svg]:[stroke-width:2.5]",
           "hover:bg-primary/10 hover:text-black dark:hover:text-white",
-          "data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:[&>svg]:text-white data-[state=active]:shadow-md data-[state=active]:font-semibold"
+          "data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:[&>span]:text-white data-[state=active]:[&>svg]:text-white data-[state=active]:shadow-md data-[state=active]:font-semibold"
         ],
         grid: [
           "rounded-md flex-1",

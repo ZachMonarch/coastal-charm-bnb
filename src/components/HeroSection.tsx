@@ -131,10 +131,10 @@ export default function HeroSection() {
           
           {/* CTA buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-16">
-            <Button asChild size="lg" className="btn-primary tech-glow min-w-[240px] group">
-              <Link to="/auth?mode=signup">
-                <Sparkles className="mr-2 h-5 w-5 group-hover:animate-bounce" />
-                Get Started
+            <Button asChild size="lg" className="btn-primary tech-glow min-w-[240px] group text-white">
+              <Link to="/auth?mode=signup" className="text-white">
+                <Sparkles className="mr-2 h-5 w-5 group-hover:animate-bounce text-white" />
+                <span className="text-white font-semibold">Get Started</span>
               </Link>
             </Button>
             <Button 
