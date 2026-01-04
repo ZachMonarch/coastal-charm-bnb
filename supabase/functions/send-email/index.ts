@@ -275,6 +275,34 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log("Email sent successfully:", emailResponse);
 
+    // Log sent email to sent_emails table for tracking
+    try {
+      const serviceClient = createClient(
+        Deno.env.get('SUPABASE_URL') ?? '',
+        Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+      );
+
+      await serviceClient.from('sent_emails').insert({
+        recipient_email: to,
+        recipient_name: data?.name || data?.companyName || null,
+        recipient_user_id: recipientProfile?.id || null,
+        subject: sanitizedSubject,
+        html_content: emailHtml,
+        template_used: template || null,
+        email_type: emailType || template || 'general',
+        status: 'sent',
+        sent_by: user.id,
+        metadata: {
+          messageId: emailResponse.data?.id,
+          template_data: data || {}
+        }
+      });
+      console.log("Email logged to sent_emails table");
+    } catch (logError) {
+      console.warn('Failed to log email to sent_emails:', logError);
+      // Don't fail the request if logging fails
+    }
+
     return new Response(JSON.stringify({ 
       success: true, 
       messageId: emailResponse.data?.id 
