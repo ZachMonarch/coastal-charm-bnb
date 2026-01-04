@@ -72,12 +72,24 @@ export default function SentEmailsTable() {
       newSubject?: string; 
       newContent?: string; 
     }) => {
+      // Map email_type to valid schema values
+      const validEmailTypes = [
+        'notification', 'welcome', 'reset', 'verification', 
+        'maintenance', 'payment', 'booking', 'test',
+        'vendor_invite', 'vendor_invitation', 'general',
+        'rfq_invitation', 'contract_award', 'bid_confirmation'
+      ];
+      
+      const emailType = validEmailTypes.includes(email.email_type) 
+        ? email.email_type 
+        : 'notification';
+
       const { error } = await supabase.functions.invoke('send-email', {
         body: {
           to: email.recipient_email,
           subject: newSubject || email.subject,
           html: newContent || email.html_content,
-          emailType: email.email_type
+          emailType
         }
       });
       if (error) throw error;

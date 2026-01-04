@@ -67,7 +67,10 @@ const handler = async (req: Request): Promise<Response> => {
 
     const { vendorId, newPlan, requestId, action, adminNotes }: UpdateSubscriptionRequest = await req.json();
 
+    console.log('Request received:', { vendorId, newPlan, requestId, action, adminNotes });
+
     if (!vendorId || !newPlan) {
+      console.error('Missing required fields:', { vendorId, newPlan });
       return new Response(
         JSON.stringify({ error: "Missing required fields: vendorId, newPlan" }),
         { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
@@ -77,6 +80,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Validate plan
     const validPlans = ['free', 'basic', 'premium', 'enterprise'];
     if (!validPlans.includes(newPlan)) {
+      console.error('Invalid plan:', newPlan);
       return new Response(
         JSON.stringify({ error: "Invalid plan" }),
         { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }

@@ -114,6 +114,12 @@ export default function EmailComposeForm({ onEmailSent }: EmailComposeFormProps)
   });
 
   const handleTemplateSelect = (templateId: string) => {
+    if (templateId === 'none') {
+      setSelectedTemplate('');
+      setSubject('');
+      setHtmlContent('');
+      return;
+    }
     setSelectedTemplate(templateId);
     const template = templates.find(t => t.id === templateId);
     if (template) {
@@ -236,7 +242,7 @@ export default function EmailComposeForm({ onEmailSent }: EmailComposeFormProps)
               <SelectValue placeholder="Select a template..." />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">No template</SelectItem>
+              <SelectItem value="none">No template</SelectItem>
               {templates.map((template) => (
                 <SelectItem key={template.id} value={template.id}>
                   {template.name}
