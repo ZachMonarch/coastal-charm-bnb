@@ -597,69 +597,100 @@ export default function AdminPropertyManagement() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredProperties.map((property) => (
-                <TableRow key={property.id}>
-                  <TableCell>
-                    <div>
-                      <div className="font-medium">{property.title}</div>
-                      <div className="text-sm text-muted-foreground">
-                        {property.address}, {property.city}
+              {filteredProperties.map((property) => {
+                let firstImage = '/placeholder.svg';
+                try {
+                  if (property.image_urls) {
+                    if (property.image_urls.startsWith('{') && property.image_urls.endsWith('}')) {
+                      const cleanedString = property.image_urls.slice(1, -1);
+                      const url = cleanedString.split(',')[0]?.trim().replace(/^"/, '').replace(/"$/, '');
+                      if (url?.startsWith('http')) firstImage = url;
+                    } else if (property.image_urls.startsWith('[')) {
+                      const parsed = JSON.parse(property.image_urls);
+                      if (parsed[0]?.startsWith('http')) firstImage = parsed[0];
+                    }
+                  }
+                } catch (e) { /* use placeholder */ }
+
+                return (
+                  <TableRow key={property.id}>
+                    <TableCell>
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 rounded-md overflow-hidden bg-muted flex-shrink-0">
+                          <img
+                            src={firstImage}
+                            alt={property.title}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).src = '/placeholder.svg';
+                            }}
+                          />
+                        </div>
+                        <div>
+                          <div className="font-medium">{property.title}</div>
+                          <div className="text-sm text-muted-foreground">
+                            {property.address}, {property.city}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant="outline">{property.property_type}</Badge>
-                  </TableCell>
-                  <TableCell>
-                    <Badge className={getStatusColor(property.status)}>
-                      {property.status}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>${property.price}/month</TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm">{getImageCount(property.image_urls)} images</span>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        disabled={uploadingImages}
-                        onClick={() => {
-                          const input = document.createElement('input');
-                          input.type = 'file';
-                          input.multiple = true;
-                          input.accept = 'image/*';
-                          input.onchange = (e) => {
-                            const files = (e.target as HTMLInputElement).files;
-                            if (files) uploadImages(property.id, files);
-                          };
-                          input.click();
-                        }}
-                      >
-                        <Upload className="h-3 w-3" />
-                      </Button>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => setEditingProperty(property)}
-                      >
-                        <Edit className="h-3 w-3" />
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => deleteProperty(property.id)}
-                        className="text-destructive"
-                      >
-                        <Trash2 className="h-3 w-3" />
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="outline">{property.property_type}</Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Badge className={getStatusColor(property.status)}>
+                        {property.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>${property.price?.toLocaleString()}/month</TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm">{getImageCount(property.image_urls)} images</span>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          disabled={uploadingImages}
+                          onClick={() => {
+                            const input = document.createElement('input');
+                            input.type = 'file';
+                            input.multiple = true;
+                            input.accept = 'image/*';
+                            input.onchange = (e) => {
+                              const files = (e.target as HTMLInputElement).files;
+                              if (files) uploadImages(property.id, files);
+                            };
+                            input.click();
+                          }}
+                          aria-label="Upload images"
+                        >
+                          <Upload className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setEditingProperty(property)}
+                          aria-label="Edit property"
+                        >
+                          <Edit className="h-3 w-3" />
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => deleteProperty(property.id)}
+                          className="text-destructive hover:bg-destructive/10"
+                          aria-label="Delete property"
+                        >
+                          <Trash2 className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         </CardContent>
@@ -668,10 +699,10 @@ export default function AdminPropertyManagement() {
       {/* Edit Property Dialog */}
       {editingProperty && (
         <Dialog open={!!editingProperty} onOpenChange={() => setEditingProperty(null)}>
-          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>Edit Property</DialogTitle>
-              <DialogDescription>Update property information</DialogDescription>
+              <DialogDescription>Update property information and manage images</DialogDescription>
             </DialogHeader>
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
@@ -702,6 +733,84 @@ export default function AdminPropertyManagement() {
                   onChange={(e) => setEditingProperty(prev => prev ? { ...prev, description: e.target.value } : null)}
                   rows={3}
                 />
+              </div>
+
+              <div>
+                <Label htmlFor="edit-address">Address</Label>
+                <Input
+                  id="edit-address"
+                  value={editingProperty.address}
+                  onChange={(e) => setEditingProperty(prev => prev ? { ...prev, address: e.target.value } : null)}
+                />
+              </div>
+
+              <div className="grid grid-cols-3 gap-4">
+                <div>
+                  <Label htmlFor="edit-city">City</Label>
+                  <Input
+                    id="edit-city"
+                    value={editingProperty.city}
+                    onChange={(e) => setEditingProperty(prev => prev ? { ...prev, city: e.target.value } : null)}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="edit-state">State</Label>
+                  <Input
+                    id="edit-state"
+                    value={editingProperty.state}
+                    onChange={(e) => setEditingProperty(prev => prev ? { ...prev, state: e.target.value } : null)}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="edit-zip">Zip Code</Label>
+                  <Input
+                    id="edit-zip"
+                    type="number"
+                    value={editingProperty.zip_code || ''}
+                    onChange={(e) => setEditingProperty(prev => prev ? { ...prev, zip_code: Number(e.target.value) } : null)}
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-4 gap-4">
+                <div>
+                  <Label htmlFor="edit-bedrooms">Bedrooms</Label>
+                  <Input
+                    id="edit-bedrooms"
+                    type="number"
+                    value={editingProperty.bedrooms}
+                    onChange={(e) => setEditingProperty(prev => prev ? { ...prev, bedrooms: Number(e.target.value) } : null)}
+                    min="0"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="edit-bathrooms">Bathrooms</Label>
+                  <Input
+                    id="edit-bathrooms"
+                    type="number"
+                    value={editingProperty.bathrooms}
+                    onChange={(e) => setEditingProperty(prev => prev ? { ...prev, bathrooms: Number(e.target.value) } : null)}
+                    min="1"
+                    step="0.5"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="edit-sqft">Square Feet</Label>
+                  <Input
+                    id="edit-sqft"
+                    value={editingProperty.square_feet}
+                    onChange={(e) => setEditingProperty(prev => prev ? { ...prev, square_feet: e.target.value } : null)}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="edit-available">Available Date</Label>
+                  <Input
+                    id="edit-available"
+                    type="date"
+                    value={editingProperty.available_date || ''}
+                    onChange={(e) => setEditingProperty(prev => prev ? { ...prev, available_date: e.target.value } : null)}
+                  />
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
@@ -742,7 +851,118 @@ export default function AdminPropertyManagement() {
                 </div>
               </div>
 
-              <div className="flex justify-end gap-2">
+              <div>
+                <Label htmlFor="edit-amenities">Amenities</Label>
+                <Textarea
+                  id="edit-amenities"
+                  value={editingProperty.amenities}
+                  onChange={(e) => setEditingProperty(prev => prev ? { ...prev, amenities: e.target.value } : null)}
+                  placeholder="List amenities separated by commas"
+                  rows={2}
+                />
+              </div>
+
+              {/* Image Management Section */}
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <Label>Property Images</Label>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    disabled={uploadingImages}
+                    onClick={() => {
+                      const input = document.createElement('input');
+                      input.type = 'file';
+                      input.multiple = true;
+                      input.accept = 'image/*';
+                      input.onchange = async (e) => {
+                        const files = (e.target as HTMLInputElement).files;
+                        if (files && editingProperty) {
+                          await uploadImages(editingProperty.id, files);
+                          // Refresh the editing property with new images
+                          const updatedProperty = properties.find(p => p.id === editingProperty.id);
+                          if (updatedProperty) {
+                            setEditingProperty(updatedProperty);
+                          }
+                        }
+                      };
+                      input.click();
+                    }}
+                  >
+                    <Upload className="h-3 w-3 mr-1" />
+                    Add Images
+                  </Button>
+                </div>
+                
+                {(() => {
+                  let images: string[] = [];
+                  try {
+                    if (editingProperty.image_urls) {
+                      if (editingProperty.image_urls.startsWith('{') && editingProperty.image_urls.endsWith('}')) {
+                        const cleanedString = editingProperty.image_urls.slice(1, -1);
+                        images = cleanedString.split(',').map(url => url.trim().replace(/^"/, '').replace(/"$/, '')).filter(url => url.startsWith('http'));
+                      } else if (editingProperty.image_urls.startsWith('[')) {
+                        images = JSON.parse(editingProperty.image_urls);
+                      }
+                    }
+                  } catch (e) {
+                    logger.debug('Error parsing images:', e);
+                  }
+
+                  if (images.length === 0) {
+                    return (
+                      <div className="text-center py-6 bg-muted/30 rounded-lg border border-dashed">
+                        <p className="text-muted-foreground text-sm">No images uploaded yet</p>
+                      </div>
+                    );
+                  }
+
+                  return (
+                    <div className="grid grid-cols-4 gap-2 max-h-48 overflow-y-auto p-2 bg-muted/20 rounded-lg">
+                      {images.slice(0, 12).map((url, index) => (
+                        <div key={index} className="relative group aspect-square">
+                          <img
+                            src={url}
+                            alt={`Property image ${index + 1}`}
+                            className="w-full h-full object-cover rounded-md"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).src = '/placeholder.svg';
+                            }}
+                          />
+                          <button
+                            onClick={async () => {
+                              const newImages = images.filter((_, i) => i !== index);
+                              const { error } = await supabase
+                                .from('properties')
+                                .update({ image_urls: JSON.stringify(newImages) })
+                                .eq('id', editingProperty.id);
+                              
+                              if (error) {
+                                toast.error('Failed to remove image');
+                              } else {
+                                toast.success('Image removed');
+                                setEditingProperty(prev => prev ? { ...prev, image_urls: JSON.stringify(newImages) } : null);
+                                fetchProperties();
+                              }
+                            }}
+                            className="absolute top-1 right-1 bg-destructive text-destructive-foreground rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                            aria-label="Remove image"
+                          >
+                            <Trash2 className="h-3 w-3" />
+                          </button>
+                        </div>
+                      ))}
+                      {images.length > 12 && (
+                        <div className="aspect-square flex items-center justify-center bg-muted rounded-md">
+                          <span className="text-sm text-muted-foreground">+{images.length - 12} more</span>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })()}
+              </div>
+
+              <div className="flex justify-end gap-2 pt-4 border-t">
                 <Button variant="outline" onClick={() => setEditingProperty(null)}>
                   Cancel
                 </Button>
