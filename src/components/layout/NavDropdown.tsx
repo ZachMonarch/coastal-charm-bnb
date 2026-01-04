@@ -30,19 +30,19 @@ export default function NavDropdown({ label, items, icon, className }: NavDropdo
         data-nav-dropdown
         className={cn(
           "nav-dropdown-trigger flex items-center gap-1 px-4 py-2 text-base font-bold rounded-lg transition-all duration-200",
+          "text-[#1a1a1a] dark:text-[#1a1a1a]",
           "hover:text-primary hover:bg-primary/10",
-          "data-[state=open]:bg-primary/10 data-[state=open]:text-primary",
+          "data-[state=open]:bg-primary/10 data-[state=open]:!text-primary",
           "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none",
           "relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2",
           "after:w-0 data-[state=open]:after:w-3/4 after:h-0.5 after:bg-primary after:transition-all",
           className
         )}
         aria-label={`${label} menu`}
-        style={{ color: 'var(--header-text)' }}
       >
-        {icon && <span className="mr-1" style={{ color: 'var(--header-text)' }}>{icon}</span>}
-        <span style={{ color: 'var(--header-text)' }}>{label}</span>
-        <ChevronDown className="w-4 h-4 transition-transform duration-200 data-[state=open]:rotate-180" style={{ color: 'var(--header-text)' }} />
+        {icon && <span className="mr-1 text-[#1a1a1a] dark:text-[#1a1a1a]">{icon}</span>}
+        <span className="text-[#1a1a1a] dark:text-[#1a1a1a]">{label}</span>
+        <ChevronDown className="w-4 h-4 text-[#1a1a1a] dark:text-[#1a1a1a] transition-transform duration-200 data-[state=open]:rotate-180" />
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="start"
