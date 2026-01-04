@@ -1,7 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AdminDashboardContent from "@/components/AdminDashboardContent";
 import AdminPropertyManagement from "@/components/AdminPropertyManagement";
-import AdminVendorInvite from "@/components/AdminVendorInvite";
+import AdminVendorManagement from "@/components/AdminVendorManagement";
 import VendorVerificationSystem from "@/components/VendorVerificationSystem";
 import AdminRFQSystem from "@/components/AdminRFQSystem";
 import EnhancedPaymentManagement from "@/components/admin/EnhancedPaymentManagement";
@@ -92,7 +92,7 @@ export default function AdminManagementSystem() {
             </TabsContent>
             
             <TabsContent value="vendors" className="animate-fade-in">
-              <AdminVendorInvite />
+              <AdminVendorManagement />
             </TabsContent>
             
             <TabsContent value="projects" className="animate-fade-in">
