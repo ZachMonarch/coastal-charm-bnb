@@ -219,7 +219,7 @@
     --popover-foreground: 0 0% 98%;     /* BRIGHTENED: Match foreground */
     
     --muted: 0 0% 18%;                  /* Muted surface */
-    --muted-foreground: 0 0% 78%;       /* BRIGHTENED: 5:1 contrast ratio for WCAG AA (was 70%) */
+    --muted-foreground: 0 0% 82%;       /* BRIGHTENED: 6:1+ contrast ratio for WCAG AA (was 78%) */
     
     --accent: 175 30% 15%;              /* Dark teal accent */
     --accent-foreground: 34 85% 60%;    /* Gold text on accent */
