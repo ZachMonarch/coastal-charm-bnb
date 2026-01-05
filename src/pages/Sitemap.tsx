@@ -78,7 +78,7 @@ const siteStructure = [
     pages: [
       { name: "Admin Dashboard", path: "/admin", description: "Administrative overview" },
       { name: "User Management", path: "/admin/users", description: "Manage system users" },
-      { name: "Vendor Management", path: "/admin/vendors", description: "Vendor oversight" },
+      { name: "Vendor Management", path: "/admin?tab=vendors", description: "Vendor oversight" },
       { name: "RFQ Management", path: "/admin/rfq", description: "RFQ administration" },
       { name: "Work Orders", path: "/admin/work-orders", description: "Work order management" },
       { name: "Team Management", path: "/admin/team", description: "Staff management" },

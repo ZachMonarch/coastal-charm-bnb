@@ -43,8 +43,9 @@ export default function SentEmailsTable() {
   const [isResendOpen, setIsResendOpen] = useState(false);
   const [editedContent, setEditedContent] = useState('');
   const [editedSubject, setEditedSubject] = useState('');
+  const [resendingId, setResendingId] = useState<string | null>(null);
 
-  const { data: emails = [], isLoading, refetch } = useQuery({
+  const { data: emails = [], isLoading, refetch, isRefetching } = useQuery({
     queryKey: ['sent-emails', typeFilter, statusFilter],
     queryFn: async () => {
       let query = supabase
@@ -94,6 +95,9 @@ export default function SentEmailsTable() {
       });
       if (error) throw error;
     },
+    onMutate: (variables) => {
+      setResendingId(variables.email.id);
+    },
     onSuccess: () => {
       toast.success('Email resent successfully');
       queryClient.invalidateQueries({ queryKey: ['sent-emails'] });
@@ -107,6 +111,9 @@ export default function SentEmailsTable() {
         error?.error?.message ||
         'Failed to resend email. Please try again.';
       toast.error(errorMessage);
+    },
+    onSettled: () => {
+      setResendingId(null);
     }
   });
 
@@ -192,9 +199,9 @@ export default function SentEmailsTable() {
                 View and manage all sent emails with resend capability
               </CardDescription>
             </div>
-            <Button onClick={() => refetch()} variant="outline" size="sm">
-              <RefreshCw className="h-4 w-4 mr-2" />
-              Refresh
+            <Button onClick={() => refetch()} variant="outline" size="sm" disabled={isRefetching}>
+              <RefreshCw className={`h-4 w-4 mr-2 ${isRefetching ? 'animate-spin' : ''}`} />
+              {isRefetching ? 'Refreshing...' : 'Refresh'}
             </Button>
           </div>
         </CardHeader>
@@ -290,8 +297,17 @@ export default function SentEmailsTable() {
                         <Button variant="ghost" size="sm" onClick={() => handleViewDetails(email)}>
                           <Eye className="h-4 w-4" />
                         </Button>
-                        <Button variant="ghost" size="sm" onClick={() => handleResend(email)}>
-                          <Send className="h-4 w-4" />
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          onClick={() => handleResend(email)}
+                          disabled={resendingId === email.id}
+                        >
+                          {resendingId === email.id ? (
+                            <RefreshCw className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <Send className="h-4 w-4" />
+                          )}
                         </Button>
                       </div>
                     </TableCell>
