@@ -42,7 +42,7 @@ export const sitemap: SiteMapItem[] = [
   // Admin Portal
   { path: "/admin", label: "Admin Dashboard", description: "Admin overview", role: "admin", icon: "Shield" },
   { path: "/admin/users", label: "Users", description: "User management", role: "admin", icon: "Users", parent: "/admin" },
-  { path: "/admin/vendors", label: "Vendors", description: "Vendor management", role: "admin", icon: "Wrench", parent: "/admin" },
+  { path: "/admin?tab=vendors", label: "Vendors", description: "Vendor management", role: "admin", icon: "Wrench", parent: "/admin" },
   { path: "/admin/properties", label: "Properties", description: "Property management", role: "admin", icon: "Building2", parent: "/admin" },
   { path: "/admin/projects", label: "Projects", description: "Project management", role: "admin", icon: "Briefcase", parent: "/admin" },
   { path: "/admin/rfq", label: "RFQ System", description: "Manage RFQs", role: "admin", icon: "FileText", parent: "/admin" },

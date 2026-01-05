@@ -191,7 +191,7 @@ export default function EmailComposeForm({ onEmailSent }: EmailComposeFormProps)
         {/* Recipient Selection */}
         <div className="space-y-4">
           <Label>Recipient Type</Label>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <Button
               variant={recipientType === 'individual' ? 'default' : 'outline'}
               onClick={() => setRecipientType('individual')}
@@ -204,19 +204,46 @@ export default function EmailComposeForm({ onEmailSent }: EmailComposeFormProps)
               variant={recipientType === 'vendors' ? 'default' : 'outline'}
               onClick={() => setRecipientType('vendors')}
               className="gap-2"
+              disabled={vendorEmailsLoading}
             >
-              <Users className="h-4 w-4" />
-              All Vendors ({vendorEmails.length})
+              {vendorEmailsLoading ? (
+                <RefreshCw className="h-4 w-4 animate-spin" />
+              ) : (
+                <Users className="h-4 w-4" />
+              )}
+              All Vendors ({vendorEmailsLoading ? '...' : vendorEmails.length})
             </Button>
             <Button
               variant={recipientType === 'tenants' ? 'default' : 'outline'}
               onClick={() => setRecipientType('tenants')}
               className="gap-2"
+              disabled={tenantEmailsLoading}
             >
-              <Users className="h-4 w-4" />
-              All Tenants ({tenantEmails.length})
+              {tenantEmailsLoading ? (
+                <RefreshCw className="h-4 w-4 animate-spin" />
+              ) : (
+                <Users className="h-4 w-4" />
+              )}
+              All Tenants ({tenantEmailsLoading ? '...' : tenantEmails.length})
             </Button>
           </div>
+
+          {/* Error displays for RPC failures */}
+          {vendorEmailsError && (
+            <div className="p-3 bg-destructive/10 border border-destructive/30 rounded-lg">
+              <p className="text-sm text-destructive">
+                Failed to load vendor emails. Please refresh or try again.
+              </p>
+            </div>
+          )}
+
+          {tenantEmailsError && (
+            <div className="p-3 bg-destructive/10 border border-destructive/30 rounded-lg">
+              <p className="text-sm text-destructive">
+                Failed to load tenant emails. Please refresh or try again.
+              </p>
+            </div>
+          )}
 
           {recipientType === 'individual' && (
             <div className="space-y-4">
@@ -231,7 +258,12 @@ export default function EmailComposeForm({ onEmailSent }: EmailComposeFormProps)
                 />
               </div>
               
-              {vendorEmails.length > 0 && (
+              {vendorEmailsLoading ? (
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <RefreshCw className="h-4 w-4 animate-spin" />
+                  Loading vendors...
+                </div>
+              ) : vendorEmails.length > 0 ? (
                 <div className="space-y-2">
                   <Label>Or select a vendor</Label>
                   <Select value={recipientEmail} onValueChange={setRecipientEmail}>
@@ -247,7 +279,29 @@ export default function EmailComposeForm({ onEmailSent }: EmailComposeFormProps)
                     </SelectContent>
                   </Select>
                 </div>
+              ) : (
+                <div className="p-3 bg-warning/10 border border-warning/30 rounded-lg">
+                  <p className="text-sm text-warning">
+                    No vendors with email addresses found. Invite vendors first.
+                  </p>
+                </div>
               )}
+            </div>
+          )}
+
+          {recipientType === 'vendors' && vendorEmails.length === 0 && !vendorEmailsLoading && (
+            <div className="p-3 bg-warning/10 border border-warning/30 rounded-lg">
+              <p className="text-sm text-warning">
+                No vendors with email addresses found. Invite vendors first.
+              </p>
+            </div>
+          )}
+
+          {recipientType === 'tenants' && tenantEmails.length === 0 && !tenantEmailsLoading && (
+            <div className="p-3 bg-warning/10 border border-warning/30 rounded-lg">
+              <p className="text-sm text-warning">
+                No tenants with email addresses found.
+              </p>
             </div>
           )}
 
