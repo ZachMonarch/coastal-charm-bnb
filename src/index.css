@@ -100,17 +100,17 @@
     --status-active: var(--success);
     --status-overdue: var(--destructive);
     
-    /* Badge-specific backgrounds with opacity for light mode */
-    --badge-success-bg: 155 60% 35% / 0.1;
-    --badge-success-fg: 155 60% 35%;
-    --badge-warning-bg: 38 92% 50% / 0.1;
-    --badge-warning-fg: 38 92% 50%;
-    --badge-error-bg: 0 75% 55% / 0.1;
-    --badge-error-fg: 0 75% 55%;
-    --badge-info-bg: 200 70% 50% / 0.1;
-    --badge-info-fg: 200 70% 50%;
-    --badge-muted-bg: 240 5% 64.9% / 0.1;
-    --badge-muted-fg: 240 3.8% 46.1%;
+    /* Badge-specific backgrounds with opacity for light mode - INCREASED VISIBILITY */
+    --badge-success-bg: 155 60% 35% / 0.18;
+    --badge-success-fg: 155 60% 28%;
+    --badge-warning-bg: 38 92% 50% / 0.18;
+    --badge-warning-fg: 38 92% 38%;
+    --badge-error-bg: 0 75% 55% / 0.18;
+    --badge-error-fg: 0 75% 42%;
+    --badge-info-bg: 200 70% 50% / 0.18;
+    --badge-info-fg: 200 70% 38%;
+    --badge-muted-bg: 240 5% 64.9% / 0.15;
+    --badge-muted-fg: 240 3.8% 35%;
 
     /* === CHART COLORS (brand-aligned) === */
     --chart-1: 32 80% 40%;              /* Monarch Gold - WCAG compliant */
@@ -242,17 +242,17 @@
     --input: 0 0% 22%;
     --ring: 34 85% 55%;
 
-    /* Enhanced dark mode badge backgrounds with better visibility and vibrancy */
-    --badge-success-bg: 155 55% 45% / 0.3;
-    --badge-success-fg: 155 60% 55%;
-    --badge-warning-bg: 38 90% 55% / 0.3;
-    --badge-warning-fg: 38 95% 65%;
-    --badge-error-bg: 0 70% 60% / 0.3;
-    --badge-error-fg: 0 75% 70%;
-    --badge-info-bg: 200 65% 55% / 0.3;
-    --badge-info-fg: 200 70% 65%;
-    --badge-muted-bg: 0 0% 35% / 0.3;
-    --badge-muted-fg: 0 0% 80%;
+    /* Enhanced dark mode badge backgrounds with MAXIMUM visibility */
+    --badge-success-bg: 155 55% 45% / 0.35;
+    --badge-success-fg: 155 65% 60%;
+    --badge-warning-bg: 38 90% 55% / 0.35;
+    --badge-warning-fg: 38 95% 70%;
+    --badge-error-bg: 0 70% 60% / 0.35;
+    --badge-error-fg: 0 80% 72%;
+    --badge-info-bg: 200 65% 55% / 0.35;
+    --badge-info-fg: 200 75% 68%;
+    --badge-muted-bg: 0 0% 40% / 0.35;
+    --badge-muted-fg: 0 0% 85%;
 
     /* === CHART COLORS (dark mode) === */
     --chart-1: 34 85% 55%;

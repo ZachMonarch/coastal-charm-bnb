@@ -15,22 +15,22 @@ const badgeVariants = cva(
         destructive:
           "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
         outline: "text-foreground border-border",
-        // Semantic variants with dark mode optimization
+        // Semantic variants with ENHANCED dark mode visibility
         success:
-          "border-transparent bg-[hsl(var(--badge-success-bg))] text-[hsl(var(--badge-success-fg))] dark:bg-[hsl(var(--badge-success-bg))] dark:text-[hsl(var(--badge-success-fg))]",
+          "border-success/30 bg-success/15 text-success dark:bg-success/25 dark:text-success dark:border-success/40",
         warning:
-          "border-transparent bg-[hsl(var(--badge-warning-bg))] text-[hsl(var(--badge-warning-fg))] dark:bg-[hsl(var(--badge-warning-bg))] dark:text-[hsl(var(--badge-warning-fg))]",
+          "border-warning/30 bg-warning/15 text-warning dark:bg-warning/25 dark:text-warning dark:border-warning/40",
         error:
-          "border-transparent bg-[hsl(var(--badge-error-bg))] text-[hsl(var(--badge-error-fg))] dark:bg-[hsl(var(--badge-error-bg))] dark:text-[hsl(var(--badge-error-fg))]",
+          "border-destructive/30 bg-destructive/15 text-destructive dark:bg-destructive/25 dark:text-destructive dark:border-destructive/40",
         info:
-          "border-transparent bg-[hsl(var(--badge-info-bg))] text-[hsl(var(--badge-info-fg))] dark:bg-[hsl(var(--badge-info-bg))] dark:text-[hsl(var(--badge-info-fg))]",
+          "border-info/30 bg-info/15 text-info dark:bg-info/25 dark:text-info dark:border-info/40",
         muted:
-          "border-transparent bg-[hsl(var(--badge-muted-bg))] text-[hsl(var(--badge-muted-fg))] dark:bg-[hsl(var(--badge-muted-bg))] dark:text-[hsl(var(--badge-muted-fg))]",
+          "border-muted-foreground/20 bg-muted text-muted-foreground dark:bg-muted/50 dark:text-muted-foreground",
         // Premium variants
         gold:
-          "border-transparent bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary",
+          "border-primary/30 bg-primary/15 text-primary dark:bg-primary/25 dark:text-primary dark:border-primary/40",
         teal:
-          "border-transparent bg-secondary/10 text-secondary dark:bg-secondary/20 dark:text-secondary",
+          "border-secondary/30 bg-secondary/15 text-secondary dark:bg-secondary/25 dark:text-secondary dark:border-secondary/40",
       },
     },
     defaultVariants: {
