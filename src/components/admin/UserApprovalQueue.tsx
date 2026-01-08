@@ -40,16 +40,19 @@ export default function UserApprovalQueue() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [adminNotes, setAdminNotes] = useState('');
 
+  // Fetch approval requests with vendor profile info
   const { data: requests = [], isLoading, refetch } = useQuery({
     queryKey: ['user-approval-requests'],
     queryFn: async () => {
-      const { data, error } = await supabase
+      // First get approval requests
+      const { data: approvalData, error: approvalError } = await supabase
         .from('user_approval_requests')
         .select('id, user_id, email, full_name, role_requested, status, admin_notes, reviewed_by, company_name, phone, created_at, reviewed_at')
-        .order('created_at', { ascending: false });
+        .order('created_at', { ascending: false })
+        .limit(100);
       
-      if (error) throw error;
-      return data as ApprovalRequest[];
+      if (approvalError) throw approvalError;
+      return approvalData as ApprovalRequest[];
     }
   });
 
@@ -159,11 +162,11 @@ export default function UserApprovalQueue() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'pending':
-        return <Badge variant="outline" className="bg-warning/10 text-warning border-warning/30">Pending</Badge>;
+        return <Badge variant="warning">Pending</Badge>;
       case 'approved':
-        return <Badge variant="outline" className="bg-success/10 text-success border-success/30">Approved</Badge>;
+        return <Badge variant="success">Approved</Badge>;
       case 'rejected':
-        return <Badge variant="outline" className="bg-destructive/10 text-destructive border-destructive/30">Rejected</Badge>;
+        return <Badge variant="error">Rejected</Badge>;
       default:
         return <Badge variant="secondary">{status}</Badge>;
     }
@@ -251,11 +254,11 @@ export default function UserApprovalQueue() {
           {filteredRequests.length === 0 ? (
             <div className="text-center py-12">
               <UserCheck className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <h3 className="text-lg font-semibold mb-2">No Approval Requests</h3>
-              <p className="text-muted-foreground">
+              <h3 className="text-lg font-semibold mb-2">No Approval Requests Found</h3>
+              <p className="text-muted-foreground max-w-md mx-auto">
                 {requests.length === 0 
-                  ? 'No property manager registration requests pending.'
-                  : 'No requests match your current filters.'}
+                  ? 'No pending registration requests. New vendor and property manager signups will appear here for your review.'
+                  : 'No requests match your current filters. Try adjusting the search or status filter.'}
               </p>
             </div>
           ) : (

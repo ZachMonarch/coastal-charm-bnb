@@ -46,38 +46,46 @@ const tabsTriggerVariants = cva(
       variant: {
         default: [
           "rounded-md",
-          // Enhanced contrast: explicit hex colors for better readability
-          "text-[#3a3a3a] dark:text-slate-300",
-          "hover:text-[#1a1a1a] dark:hover:text-slate-100",
-          "data-[state=active]:bg-background data-[state=active]:text-[#1a1a1a] dark:data-[state=active]:text-slate-50 data-[state=active]:shadow-sm"
+          // HIGH CONTRAST: Maximum readability in both themes
+          "text-foreground/80 dark:text-foreground/90",
+          "[&>svg]:text-foreground/70 dark:[&>svg]:text-foreground/80 [&>svg]:opacity-100",
+          "hover:text-foreground dark:hover:text-foreground hover:bg-muted/60",
+          "data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm",
+          "data-[state=active]:[&>svg]:text-primary"
         ],
         pills: [
           "rounded-full border border-transparent",
-          "text-[#1a1a1a] dark:text-slate-100",
-          "[&>span]:text-[#1a1a1a] [&>span]:dark:text-slate-100",
-          "hover:bg-muted/50 hover:text-[#1a1a1a] dark:hover:text-slate-100",
-          "data-[state=active]:border-primary data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
+          "text-foreground dark:text-foreground",
+          "[&>span]:text-foreground [&>svg]:text-foreground/70 [&>svg]:opacity-100",
+          "hover:bg-muted/50 hover:text-foreground",
+          "data-[state=active]:border-primary data-[state=active]:bg-primary/10 data-[state=active]:text-primary",
+          "data-[state=active]:[&>svg]:text-primary"
         ],
         underline: [
           "rounded-none border-b-2 border-transparent pb-3",
-          "text-[#4a4a4a] dark:text-slate-400",
-          "hover:text-[#1a1a1a] dark:hover:text-slate-100",
-          "data-[state=active]:border-primary data-[state=active]:text-[#1a1a1a] dark:data-[state=active]:text-slate-50 data-[state=active]:font-semibold"
+          "text-foreground/70 dark:text-foreground/80",
+          "[&>svg]:text-foreground/60 [&>svg]:opacity-100",
+          "hover:text-foreground",
+          "data-[state=active]:border-primary data-[state=active]:text-foreground data-[state=active]:font-semibold",
+          "data-[state=active]:[&>svg]:text-primary"
         ],
         colorful: [
           "rounded-md gap-2",
-          "text-[#1a1a1a] dark:text-slate-100",
-          "[&>span]:text-[#1a1a1a] [&>span]:dark:text-slate-100",
-          "[&>svg]:text-[#1a1a1a] [&>svg]:dark:text-slate-300 [&>svg]:[stroke-width:2.5]",
-          "hover:bg-primary/10 hover:text-black dark:hover:text-white",
-          "data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:[&>span]:text-white data-[state=active]:[&>svg]:text-white data-[state=active]:shadow-md data-[state=active]:font-semibold"
+          "text-foreground dark:text-foreground",
+          "[&>span]:text-foreground",
+          "[&>svg]:text-foreground/80 dark:[&>svg]:text-foreground/90 [&>svg]:[stroke-width:2.5] [&>svg]:opacity-100",
+          "hover:bg-primary/10 hover:text-foreground",
+          "data-[state=active]:bg-primary data-[state=active]:text-primary-foreground",
+          "data-[state=active]:[&>span]:text-primary-foreground data-[state=active]:[&>svg]:text-primary-foreground",
+          "data-[state=active]:shadow-md data-[state=active]:font-semibold"
         ],
         grid: [
           "rounded-md flex-1",
-          "text-[#1a1a1a] dark:text-slate-100",
-          "[&>span]:text-[#1a1a1a] [&>span]:dark:text-slate-100",
-          "hover:bg-muted hover:text-[#1a1a1a] dark:hover:text-slate-100",
-          "data-[state=active]:bg-background data-[state=active]:text-[#1a1a1a] dark:data-[state=active]:text-slate-50 data-[state=active]:shadow-sm"
+          "text-foreground dark:text-foreground",
+          "[&>span]:text-foreground [&>svg]:text-foreground/70 [&>svg]:opacity-100",
+          "hover:bg-muted hover:text-foreground",
+          "data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm",
+          "data-[state=active]:[&>svg]:text-primary"
         ],
       },
     },
