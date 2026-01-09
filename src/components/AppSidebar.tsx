@@ -281,10 +281,10 @@ export function AppSidebar() {
     return false;
   };
   
-  // Color mapping for navigation groups - adds visual differentiation with explicit high-contrast colors
+  // Color mapping for navigation groups - uses semantic tokens
   const getGroupIconColor = (groupTitle: string): string => {
     const colorMap: Record<string, string> = {
-      'Navigation': 'text-[#1a1a1a] dark:text-[#f5f5f5]',
+      'Navigation': 'text-foreground',
       'Dashboard': 'text-primary',
       'Portal': 'text-primary',
       'Admin': 'text-destructive',
@@ -295,11 +295,11 @@ export function AppSidebar() {
       'Finance': 'text-success',
       'Content': 'text-info',
       'System': 'text-warning',
-      'Settings': 'text-[#444444] dark:text-[#cccccc]',
-      'Account': 'text-[#444444] dark:text-[#cccccc]',
+      'Settings': 'text-muted-foreground',
+      'Account': 'text-muted-foreground',
       'Property Management': 'text-info',
     };
-    return colorMap[groupTitle] || 'text-[#1a1a1a] dark:text-[#f5f5f5]';
+    return colorMap[groupTitle] || 'text-foreground';
   };
 
   const getNavCls = ({ isActive, groupTitle }: { isActive: boolean; groupTitle: string }) => {
@@ -360,10 +360,10 @@ export function AppSidebar() {
             </div>
             {!isCollapsed && (
               <div>
-                <h2 className="text-lg font-extrabold text-[#1a1a1a] dark:text-[#f5f5f5] tracking-tight">
+                <h2 className="text-lg font-extrabold text-foreground tracking-tight">
                   Monarch
                 </h2>
-                <p className="text-xs font-medium text-[#555555] dark:text-[#aaaaaa] -mt-1">Property Management</p>
+                <p className="text-xs font-medium text-muted-foreground -mt-1">Property Management</p>
               </div>
             )}
           </div>
@@ -406,11 +406,11 @@ export function AppSidebar() {
                       const iconColor = getGroupIconColor(group.title);
                       return (
                        <SidebarMenuItem key={`${item.title}-${itemIndex}`}>
-                          <SidebarMenuButton asChild isActive={itemIsActive} className="text-[#1a1a1a] dark:text-[#f5f5f5] hover:text-primary">
+                          <SidebarMenuButton asChild isActive={itemIsActive} className="text-foreground hover:text-primary">
                             <NavLink 
                               to={item.url} 
                               className={cn(
-                                "text-[#1a1a1a] dark:text-[#f5f5f5] hover:text-primary",
+                                "text-foreground hover:text-primary",
                                 getNavCls({ isActive: itemIsActive, groupTitle: group.title }),
                                 itemIsActive && "text-primary"
                               )}
@@ -418,7 +418,7 @@ export function AppSidebar() {
                               title={item.description || item.title}
                             >
                               <IconComponent className={`h-4 w-4 ${itemIsActive ? 'text-primary' : iconColor}`} />
-                              {!isCollapsed && <span className="ml-3 text-[#1a1a1a] dark:text-[#f5f5f5]">{item.title}</span>}
+                              {!isCollapsed && <span className="ml-3 text-foreground">{item.title}</span>}
                             </NavLink>
                           </SidebarMenuButton>
                         </SidebarMenuItem>
