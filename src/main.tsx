@@ -30,39 +30,23 @@ if (import.meta.env.PROD) {
   initPerformanceMonitoring();
 }
 
-// Defer non-critical work
-if (typeof window !== 'undefined') {
-  if ('serviceWorker' in navigator && import.meta.env.PROD) {
-    const registerSW = () => {
-      navigator.serviceWorker.register('/sw.js').catch(() => {});
-    };
-    
-    const windowWithIdleCallback = window as Window & { requestIdleCallback?: (callback: () => void) => void };
+// Defer non-critical work - use VitePWA's service worker only (no custom SW registration)
+if (typeof window !== 'undefined' && import.meta.env.PROD) {
+  // Production monitoring - defer until idle
+  const windowWithIdleCallback = window as Window & { requestIdleCallback?: (callback: () => void) => void };
+  const deferWork = (fn: () => void) => {
     if (windowWithIdleCallback.requestIdleCallback) {
-      windowWithIdleCallback.requestIdleCallback(registerSW);
+      windowWithIdleCallback.requestIdleCallback(fn);
     } else {
-      window.addEventListener('load', () => setTimeout(registerSW, 2000));
+      window.addEventListener('load', () => setTimeout(fn, 3000));
     }
-  }
+  };
   
-  if (import.meta.env.PROD) {
-    const windowWithIdleCallback = window as Window & { requestIdleCallback?: (callback: () => void) => void };
-    if (windowWithIdleCallback.requestIdleCallback) {
-      windowWithIdleCallback.requestIdleCallback(() => {
-        import('@/utils/productionMonitoring').then(({ productionMonitor }) => {
-          productionMonitor.checkPerformanceThresholds();
-        });
-      });
-    } else {
-      window.addEventListener('load', () => {
-        setTimeout(() => {
-          import('@/utils/productionMonitoring').then(({ productionMonitor }) => {
-            productionMonitor.checkPerformanceThresholds();
-          });
-        }, 3000);
-      });
-    }
-  }
+  deferWork(() => {
+    import('@/utils/productionMonitoring').then(({ productionMonitor }) => {
+      productionMonitor.checkPerformanceThresholds();
+    });
+  });
 }
 
 createRoot(document.getElementById("root")!).render(
