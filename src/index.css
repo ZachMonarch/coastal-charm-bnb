@@ -429,65 +429,66 @@
 /* NOTE: Dark mode rule is in @layer base above - do not duplicate */
 /* Light mode handled in LIGHT MODE VISIBILITY ENHANCEMENTS section */
 
-/* === PUBLIC NAVBAR HEADER STYLING (SCOPED) === */
-/* ONLY the public navbar [data-monarch-header] has forced white background */
-/* The app's internal dashboard headers use theme tokens properly */
+/* === HEADER BACKGROUND & NAVBAR TEXT VISIBILITY (FORCED) === */
+/* Header always has white/light background, so text must always be BLACK for visibility */
 
-/* CSS variable for public header background */
-:root {
-  --header-bg: #ffffff;
-  --header-border: #e5e7eb;
-}
-
-.dark {
-  --header-bg: #ffffff; /* Public navbar stays white in dark mode for contrast */
-  --header-border: #e5e7eb;
-}
-
-/* ONLY the public navbar with data-monarch-header gets white background */
-[data-monarch-header],
+/* Force header to ALWAYS have white background in both modes */
+header,
+header.fixed,
+header[data-monarch-header],
 .monarch-header {
-  background-color: var(--header-bg) !important;
-  border-bottom-color: var(--header-border) !important;
+  background-color: #ffffff !important;
+  border-bottom-color: #e5e7eb !important;
 }
 
-/* Public navbar text must be dark since background is white */
-[data-monarch-header] nav ul li > button,
-[data-monarch-header] nav ul li > button > span,
-[data-monarch-header] nav ul li > button > svg,
-[data-monarch-header] nav ul li a,
-[data-monarch-header] nav [data-nav-dropdown],
-[data-monarch-header] nav [data-nav-dropdown] > span,
-[data-monarch-header] nav [data-nav-dropdown] > svg,
+/* CRITICAL: Force ALL header nav text to BLACK in BOTH light and dark modes */
+/* Since header background is always white, text must always be dark */
+header nav ul li > button,
+header nav ul li > button > span,
+header nav ul li > button > svg,
+header nav ul li a,
+header nav [data-nav-dropdown],
+header nav [data-nav-dropdown] > span,
+header nav [data-nav-dropdown] > svg,
+header nav .nav-dropdown-trigger,
+header nav .nav-dropdown-trigger > span,
+header nav .nav-dropdown-trigger > svg,
 .monarch-header nav a,
 .monarch-header nav button,
-.monarch-header nav button span {
+.monarch-header nav button span,
+[data-monarch-header] nav ul li a,
+[data-monarch-header] nav ul li button,
+[data-monarch-header] nav ul li button span {
   color: #1a1a1a !important;
   opacity: 1 !important;
   visibility: visible !important;
 }
 
-/* Force SVG icons in PUBLIC navbar to be black */
-[data-monarch-header] nav svg,
-[data-monarch-header] nav ul li svg,
-.monarch-header nav svg {
+/* Force SVG icons in header to be black */
+header nav svg,
+header nav ul li svg,
+.monarch-header nav svg,
+[data-monarch-header] nav svg {
   color: #1a1a1a !important;
   stroke: #1a1a1a !important;
 }
 
-/* Hover states for public navbar - primary color */
-[data-monarch-header] nav ul li > button:hover,
-[data-monarch-header] nav ul li > button:hover > span,
-[data-monarch-header] nav ul li > button:hover > svg,
-[data-monarch-header] nav ul li a:hover,
-[data-monarch-header] nav [data-nav-dropdown]:hover,
-[data-monarch-header] nav [data-nav-dropdown]:hover > span,
-[data-monarch-header] nav [data-nav-dropdown]:hover > svg {
+/* Hover states - primary color */
+header nav ul li > button:hover,
+header nav ul li > button:hover > span,
+header nav ul li > button:hover > svg,
+header nav ul li a:hover,
+header nav [data-nav-dropdown]:hover,
+header nav [data-nav-dropdown]:hover > span,
+header nav [data-nav-dropdown]:hover > svg,
+header nav .nav-dropdown-trigger:hover,
+header nav .nav-dropdown-trigger:hover > span,
+header nav .nav-dropdown-trigger:hover > svg {
   color: hsl(var(--primary)) !important;
 }
 
-[data-monarch-header] nav ul li a:hover svg,
-[data-monarch-header] nav ul li button:hover svg {
+header nav ul li a:hover svg,
+header nav ul li button:hover svg {
   color: hsl(var(--primary)) !important;
   stroke: hsl(var(--primary)) !important;
 }
@@ -515,67 +516,100 @@
   color: hsl(var(--primary));
 }
 
-/* === SIDEBAR VISIBILITY (token-based) === */
-[data-sidebar] a,
-[data-sidebar] button,
-[data-sidebar] span:not([class*="bg-"]) {
-  color: hsl(var(--sidebar-foreground));
+/* === SIDEBAR VISIBILITY (FORCED explicit colors) === */
+:root:not(.dark) [data-sidebar] a,
+:root:not(.dark) [data-sidebar] button,
+:root:not(.dark) [data-sidebar] span:not([class*="bg-"]) {
+  color: #1a1a1a !important;
+}
+
+.dark [data-sidebar] a,
+.dark [data-sidebar] button,
+.dark [data-sidebar] span:not([class*="bg-"]) {
+  color: #f5f5f5 !important;
 }
 
 [data-sidebar] a:hover,
 [data-sidebar] button:hover {
-  color: hsl(var(--sidebar-primary)) !important;
+  color: hsl(var(--primary)) !important;
 }
 
 [data-sidebar] a[aria-current="page"],
 [data-sidebar] a[aria-current="page"] span {
-  color: hsl(var(--sidebar-primary)) !important;
+  color: hsl(var(--primary)) !important;
 }
 
-[data-sidebar] .text-muted-foreground {
-  color: hsl(var(--muted-foreground));
+:root:not(.dark) [data-sidebar] .text-muted-foreground {
+  color: #555555 !important;
 }
 
-/* === PUBLIC NAVBAR ICON & TEXT VISIBILITY (scoped to [data-monarch-header]) === */
-/* Only the public navbar's header icons need forced colors - app headers use tokens */
-:root:not(.dark) [data-monarch-header] [data-header-icon] svg,
-:root:not(.dark) [data-monarch-header] [data-header-controls] svg,
-:root:not(.dark) [data-monarch-header] button svg {
+.dark [data-sidebar] .text-muted-foreground {
+  color: #aaaaaa !important;
+}
+
+/* === HEADER ICON & TEXT VISIBILITY (FORCED explicit hex colors) === */
+/* Target header icon containers specifically with data attributes */
+:root:not(.dark) [data-header-icon] svg,
+:root:not(.dark) [data-header-controls] svg,
+:root:not(.dark) header button svg,
+:root:not(.dark) header [data-radix-select-trigger] svg {
   color: #1a1a1a !important;
   stroke: #1a1a1a !important;
   fill: none !important;
   opacity: 1 !important;
+  visibility: visible !important;
+  stroke-width: 2.5 !important;
 }
 
-/* Dark mode PUBLIC navbar icons - since header bg is white, icons stay dark */
-.dark [data-monarch-header] [data-header-icon] svg,
-.dark [data-monarch-header] [data-header-controls] svg,
-.dark [data-monarch-header] button svg {
-  color: #1a1a1a !important;
-  stroke: #1a1a1a !important;
+/* Dark mode header icons - WHITE for maximum visibility */
+.dark [data-header-icon] svg,
+.dark [data-header-controls] svg,
+.dark header button svg,
+.dark header [data-radix-select-trigger] svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
   fill: none !important;
   opacity: 1 !important;
+  visibility: visible !important;
+  stroke-width: 2.5 !important;
 }
 
-/* Language selector in PUBLIC navbar */
-:root:not(.dark) [data-monarch-header] [data-header-icon] span,
-:root:not(.dark) [data-monarch-header] [data-radix-select-trigger],
-:root:not(.dark) [data-monarch-header] [data-radix-select-trigger] span {
+/* Language selector text and icon container */
+:root:not(.dark) [data-header-icon] span,
+:root:not(.dark) [data-header-icon] div,
+:root:not(.dark) header [data-radix-select-trigger],
+:root:not(.dark) header [data-radix-select-trigger] span,
+:root:not(.dark) header [data-radix-select-trigger] div {
   color: #1a1a1a !important;
 }
 
-.dark [data-monarch-header] [data-header-icon] span,
-.dark [data-monarch-header] [data-radix-select-trigger],
-.dark [data-monarch-header] [data-radix-select-trigger] span {
+.dark [data-header-icon] span,
+.dark [data-header-icon] div,
+.dark header [data-radix-select-trigger],
+.dark header [data-radix-select-trigger] span,
+.dark header [data-radix-select-trigger] div {
+  color: #ffffff !important;
+}
+
+/* Force icon visibility with explicit class - LIGHT MODE */
+:root:not(.dark) .text-foreground {
   color: #1a1a1a !important;
 }
 
-/* Token-based text-foreground - no forced colors */
-.text-foreground {
-  color: hsl(var(--foreground));
+:root:not(.dark) .text-foreground svg {
+  stroke: #1a1a1a !important;
 }
 
-/* Lucide icons inherit stroke from currentColor */
+/* Force icon visibility - DARK MODE */
+.dark .text-foreground {
+  color: #f5f5f5 !important;
+}
+
+.dark .text-foreground svg {
+  stroke: #f5f5f5 !important;
+}
+
+/* Lucide icons inherit stroke from currentColor with increased stroke-width */
 .lucide {
   stroke: currentColor;
 }
@@ -701,35 +735,34 @@ section[role="banner"] p {
   color: hsl(var(--primary)) !important;
 }
 
-/* === DARK MODE PUBLIC NAVBAR VISIBILITY (scoped to [data-monarch-header]) === */
-/* Only public navbar needs forced dark text since its background is white */
-.dark [data-monarch-header] nav ul li > button,
-.dark [data-monarch-header] nav ul li > button > span,
-.dark [data-monarch-header] nav ul li > button > svg,
-.dark [data-monarch-header] nav .nav-dropdown-trigger,
-.dark [data-monarch-header] nav .nav-dropdown-trigger > span,
-.dark [data-monarch-header] nav .nav-dropdown-trigger > svg {
+/* === NAVBAR VISIBILITY (applies to all themes - header always has light bg) === */
+.dark header nav ul li > button,
+.dark header nav ul li > button > span,
+.dark header nav ul li > button > svg,
+.dark header nav .nav-dropdown-trigger,
+.dark header nav .nav-dropdown-trigger > span,
+.dark header nav .nav-dropdown-trigger > svg {
   color: #1a1a1a !important;
 }
 
-.dark [data-monarch-header] nav ul li > button:hover,
-.dark [data-monarch-header] nav ul li > button:hover > span,
-.dark [data-monarch-header] nav ul li > button:hover > svg,
-.dark [data-monarch-header] nav .nav-dropdown-trigger:hover,
-.dark [data-monarch-header] nav .nav-dropdown-trigger:hover > span,
-.dark [data-monarch-header] nav .nav-dropdown-trigger:hover > svg {
+.dark header nav ul li > button:hover,
+.dark header nav ul li > button:hover > span,
+.dark header nav ul li > button:hover > svg,
+.dark header nav .nav-dropdown-trigger:hover,
+.dark header nav .nav-dropdown-trigger:hover > span,
+.dark header nav .nav-dropdown-trigger:hover > svg {
   color: hsl(var(--primary)) !important;
 }
 
-.dark [data-monarch-header] nav [data-radix-dropdown-menu-trigger],
-.dark [data-monarch-header] nav [data-radix-dropdown-menu-trigger] span,
-.dark [data-monarch-header] nav [data-radix-dropdown-menu-trigger] svg {
+.dark header nav [data-radix-dropdown-menu-trigger],
+.dark header nav [data-radix-dropdown-menu-trigger] span,
+.dark header nav [data-radix-dropdown-menu-trigger] svg {
   color: #1a1a1a !important;
 }
 
-.dark [data-monarch-header] nav [data-radix-dropdown-menu-trigger]:hover,
-.dark [data-monarch-header] nav [data-radix-dropdown-menu-trigger]:hover span,
-.dark [data-monarch-header] nav [data-radix-dropdown-menu-trigger]:hover svg {
+.dark header nav [data-radix-dropdown-menu-trigger]:hover,
+.dark header nav [data-radix-dropdown-menu-trigger]:hover span,
+.dark header nav [data-radix-dropdown-menu-trigger]:hover svg {
   color: hsl(var(--primary)) !important;
 }
 

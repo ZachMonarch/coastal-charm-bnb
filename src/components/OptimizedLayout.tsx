@@ -14,13 +14,16 @@ interface LayoutProps {
 export default function OptimizedLayout({ children }: LayoutProps) {
   const location = useLocation();
   const { isAuthenticated } = useAuth();
-  const { isLoading } = useSession();
+  const { session, isLoading } = useSession();
   
   // Pages that should not show the navbar (like auth pages)
   const hideNavbarRoutes = ['/auth'];
   const shouldShowNavbar = !hideNavbarRoutes.includes(location.pathname);
   
-  // Determine if this is a protected route that needs sidebar
+  // Public routes that should NOT use sidebar even when authenticated
+  const publicRoutes = ['/', '/auth', '/privacy', '/terms', '/sitemap', '/vendors/showcase', '/join-as-vendor', '/request-quote', '/services', '/properties'];
+  
+  // Determine if sidebar should show: authenticated AND (route starts with protected prefix OR not in public list)
   const isProtectedRoute = 
     location.pathname.startsWith('/dashboard') ||
     location.pathname.startsWith('/admin') ||
@@ -28,17 +31,16 @@ export default function OptimizedLayout({ children }: LayoutProps) {
     location.pathname.startsWith('/project') ||
     location.pathname.startsWith('/rfq');
   
-  // CRITICAL: Only block rendering for PROTECTED routes while loading
-  // Public routes render immediately - no blocking spinner
-  if (isLoading && isProtectedRoute) {
+  const shouldUseSidebar = isAuthenticated && isProtectedRoute && !isLoading;
+  
+  // Show loading state while session is being determined
+  if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" />
       </div>
     );
   }
-  
-  const shouldUseSidebar = isAuthenticated && isProtectedRoute;
   
   // If authenticated and should use sidebar, render sidebar layout
   if (shouldUseSidebar) {
