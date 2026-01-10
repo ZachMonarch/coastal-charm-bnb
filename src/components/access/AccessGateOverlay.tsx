@@ -81,22 +81,22 @@ export function AccessGateOverlay() {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-amber-100 dark:bg-primary/10 mb-4">
             <Crown className="w-8 h-8 text-amber-700 dark:text-primary" />
           </div>
-          <h1 className="text-3xl font-serif font-bold text-slate-900 dark:text-foreground">
+          <h1 className="text-3xl font-serif font-bold text-foreground">
             Monarch Property
           </h1>
-          <p className="text-slate-600 dark:text-muted-foreground mt-1">
+          <p className="text-muted-foreground mt-1">
             Management Platform
           </p>
         </div>
 
         {!submitted ? (
-          <Card className="shadow-xl border-border/50 bg-white dark:bg-card backdrop-blur">
+          <Card className="shadow-xl border-border/50 bg-card backdrop-blur">
             <CardHeader className="text-center pb-2">
-              <div className="mx-auto w-12 h-12 rounded-full bg-amber-100 dark:bg-primary/10 flex items-center justify-center mb-3">
-                <Shield className="w-6 h-6 text-amber-700 dark:text-primary" />
+              <div className="mx-auto w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-3">
+                <Shield className="w-6 h-6 text-primary" />
               </div>
-              <CardTitle className="text-xl font-serif text-slate-900 dark:text-foreground">Request Account Access</CardTitle>
-              <CardDescription className="text-sm text-slate-600 dark:text-muted-foreground">
+              <CardTitle className="text-xl font-serif text-foreground">Request Account Access</CardTitle>
+              <CardDescription className="text-sm text-muted-foreground">
                 Select your account type to unlock full platform features. 
                 An administrator will review your request.
               </CardDescription>
@@ -110,7 +110,7 @@ export function AccessGateOverlay() {
                     name="role_requested"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm font-medium text-slate-800 dark:text-foreground">Account Type</FormLabel>
+                        <FormLabel className="text-sm font-medium text-foreground">Account Type</FormLabel>
                         <FormControl>
                           <RadioGroup
                             onValueChange={field.onChange}
@@ -128,16 +128,16 @@ export function AccessGateOverlay() {
                               <RadioGroupItem value="vendor" className="sr-only" />
                               <div className={cn(
                                 "w-10 h-10 rounded-lg flex items-center justify-center",
-                                field.value === 'vendor' ? "bg-amber-100 dark:bg-primary/20" : "bg-slate-100 dark:bg-muted"
+                                field.value === 'vendor' ? "bg-primary/20" : "bg-muted"
                               )}>
                                 <Briefcase className={cn(
                                   "h-5 w-5",
-                                  field.value === 'vendor' ? "text-amber-700 dark:text-primary" : "text-slate-500 dark:text-muted-foreground"
+                                  field.value === 'vendor' ? "text-primary" : "text-muted-foreground"
                                 )} />
                               </div>
                               <div className="text-center">
-                                <p className="font-semibold text-sm text-slate-900 dark:text-foreground">Vendor</p>
-                                <p className="text-xs text-slate-500 dark:text-muted-foreground">Service provider</p>
+                                <p className="font-semibold text-sm text-foreground">Vendor</p>
+                                <p className="text-xs text-muted-foreground">Service provider</p>
                               </div>
                             </label>
                             <label
@@ -151,16 +151,16 @@ export function AccessGateOverlay() {
                               <RadioGroupItem value="property_manager" className="sr-only" />
                               <div className={cn(
                                 "w-10 h-10 rounded-lg flex items-center justify-center",
-                                field.value === 'property_manager' ? "bg-amber-100 dark:bg-primary/20" : "bg-slate-100 dark:bg-muted"
+                                field.value === 'property_manager' ? "bg-primary/20" : "bg-muted"
                               )}>
                                 <Building2 className={cn(
                                   "h-5 w-5",
-                                  field.value === 'property_manager' ? "text-amber-700 dark:text-primary" : "text-slate-500 dark:text-muted-foreground"
+                                  field.value === 'property_manager' ? "text-primary" : "text-muted-foreground"
                                 )} />
                               </div>
                               <div className="text-center">
-                                <p className="font-semibold text-sm text-slate-900 dark:text-foreground">Property Manager</p>
-                                <p className="text-xs text-slate-500 dark:text-muted-foreground">Property management</p>
+                                <p className="font-semibold text-sm text-foreground">Property Manager</p>
+                                <p className="text-xs text-muted-foreground">Property management</p>
                               </div>
                             </label>
                           </RadioGroup>
@@ -176,7 +176,7 @@ export function AccessGateOverlay() {
                     name="full_name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm font-medium text-slate-800 dark:text-foreground">Full Name</FormLabel>
+                        <FormLabel className="text-sm font-medium text-foreground">Full Name</FormLabel>
                         <FormControl>
                           <Input 
                             placeholder="Your full name" 
@@ -195,8 +195,8 @@ export function AccessGateOverlay() {
                     name="company_name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm font-medium text-slate-800 dark:text-foreground">
-                          Company Name <span className="text-slate-500 dark:text-muted-foreground font-normal">(optional)</span>
+                        <FormLabel className="text-sm font-medium text-foreground">
+                          Company Name <span className="text-muted-foreground font-normal">(optional)</span>
                         </FormLabel>
                         <FormControl>
                           <Input 
@@ -216,8 +216,8 @@ export function AccessGateOverlay() {
                     name="phone"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm font-medium text-slate-800 dark:text-foreground">
-                          Phone <span className="text-slate-500 dark:text-muted-foreground font-normal">(optional)</span>
+                        <FormLabel className="text-sm font-medium text-foreground">
+                          Phone <span className="text-muted-foreground font-normal">(optional)</span>
                         </FormLabel>
                         <FormControl>
                           <Input 
@@ -254,14 +254,14 @@ export function AccessGateOverlay() {
                 <div className="flex gap-4">
                   <Link 
                     to="/profile" 
-                    className="flex items-center gap-1.5 text-slate-600 dark:text-muted-foreground hover:text-slate-900 dark:hover:text-foreground transition-colors"
+                    className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
                   >
                     <User className="h-4 w-4" />
                     Profile
                   </Link>
                   <Link 
                     to="/settings" 
-                    className="flex items-center gap-1.5 text-slate-600 dark:text-muted-foreground hover:text-slate-900 dark:hover:text-foreground transition-colors"
+                    className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
                   >
                     <Settings className="h-4 w-4" />
                     Settings
@@ -269,7 +269,7 @@ export function AccessGateOverlay() {
                 </div>
                 <button
                   onClick={handleSignOut}
-                  className="flex items-center gap-1.5 text-slate-600 dark:text-muted-foreground hover:text-destructive transition-colors"
+                  className="flex items-center gap-1.5 text-muted-foreground hover:text-destructive transition-colors"
                 >
                   <LogOut className="h-4 w-4" />
                   Sign Out
@@ -279,20 +279,20 @@ export function AccessGateOverlay() {
           </Card>
         ) : (
           /* Success State - Show Pending Approval */
-          <Card className="shadow-xl border-border/50 bg-white dark:bg-card backdrop-blur">
+          <Card className="shadow-xl border-border/50 bg-card backdrop-blur">
             <CardContent className="pt-8 pb-6 text-center">
-              <div className="mx-auto w-16 h-16 rounded-full bg-emerald-100 dark:bg-success/10 flex items-center justify-center mb-4">
-                <Shield className="w-8 h-8 text-emerald-600 dark:text-success" />
+              <div className="mx-auto w-16 h-16 rounded-full bg-success/10 flex items-center justify-center mb-4">
+                <Shield className="w-8 h-8 text-success" />
               </div>
-              <h2 className="text-xl font-serif font-bold text-slate-900 dark:text-foreground mb-2">
+              <h2 className="text-xl font-serif font-bold text-foreground mb-2">
                 Request Submitted Successfully!
               </h2>
-              <p className="text-slate-600 dark:text-muted-foreground mb-6 max-w-sm mx-auto">
+              <p className="text-muted-foreground mb-6 max-w-sm mx-auto">
                 Your access request has been submitted. An administrator will review your request and you'll be notified once it's processed.
               </p>
-              <div className="bg-slate-100 dark:bg-muted/50 rounded-lg p-4 mb-6">
-                <p className="text-sm text-slate-600 dark:text-muted-foreground">
-                  <span className="font-medium text-slate-900 dark:text-foreground">Estimated review time:</span> 1-2 business days
+              <div className="bg-muted/50 rounded-lg p-4 mb-6">
+                <p className="text-sm text-muted-foreground">
+                  <span className="font-medium text-foreground">Estimated review time:</span> 1-2 business days
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -314,7 +314,7 @@ export function AccessGateOverlay() {
         )}
 
         {/* Signed in as */}
-        <p className="text-center text-xs text-slate-500 dark:text-muted-foreground mt-4">
+        <p className="text-center text-xs text-muted-foreground mt-4">
           Signed in as <span className="font-medium">{user?.email}</span>
         </p>
       </div>
