@@ -435,13 +435,13 @@
 
 /* CSS variable for public header background */
 :root {
-  --header-bg: #ffffff;
-  --header-border: #e5e7eb;
+  --header-bg: rgba(255, 255, 255, 0.98);
+  --header-border: hsl(var(--border));
 }
 
 .dark {
-  --header-bg: #ffffff; /* Public navbar stays white in dark mode for contrast */
-  --header-border: #e5e7eb;
+  --header-bg: rgba(255, 255, 255, 0.98); /* Public navbar stays white in dark mode for brand contrast */
+  --header-border: hsl(var(--border));
 }
 
 /* ONLY the public navbar with data-monarch-header gets white background */
@@ -1322,39 +1322,61 @@ button[class*="shadow-primary"] a {
     }
   }
   
-  /* === LIGHT MODE NEUMORPHIC CARD VISIBILITY FIX === */
-  .neumorphic-card .text-muted-foreground,
-  .neumorphic-card [class*="CardDescription"] {
-    color: hsl(0 0% 25%) !important;
+  /* === NEUMORPHIC CARD TEXT VISIBILITY (theme-aware) === */
+  /* Light mode: ensure high contrast text */
+  :root:not(.dark) .neumorphic-card {
+    color: hsl(0 0% 12%);
+  }
+  
+  :root:not(.dark) .neumorphic-card .text-muted-foreground,
+  :root:not(.dark) .neumorphic-card [class*="CardDescription"] {
+    color: hsl(0 0% 35%) !important;
   }
 
-  .neumorphic-card h1,
-  .neumorphic-card h2,
-  .neumorphic-card h3,
-  .neumorphic-card h4,
-  .neumorphic-card [class*="CardTitle"],
-  .neumorphic-card .font-bold,
-  .neumorphic-card .font-semibold {
-    color: hsl(0 0% 10%) !important;
+  :root:not(.dark) .neumorphic-card h1,
+  :root:not(.dark) .neumorphic-card h2,
+  :root:not(.dark) .neumorphic-card h3,
+  :root:not(.dark) .neumorphic-card h4,
+  :root:not(.dark) .neumorphic-card [class*="CardTitle"],
+  :root:not(.dark) .neumorphic-card .font-bold,
+  :root:not(.dark) .neumorphic-card .font-semibold {
+    color: hsl(0 0% 8%) !important;
   }
 
-  .neumorphic-card .text-2xl,
-  .neumorphic-card .text-3xl,
-  .neumorphic-card .text-4xl {
-    color: hsl(var(--foreground)) !important;
+  :root:not(.dark) .neumorphic-card .text-2xl,
+  :root:not(.dark) .neumorphic-card .text-3xl,
+  :root:not(.dark) .neumorphic-card .text-4xl,
+  :root:not(.dark) .neumorphic-card .text-foreground {
+    color: hsl(0 0% 8%) !important;
+  }
+  
+  :root:not(.dark) .neumorphic-card .text-sm {
+    color: hsl(0 0% 40%) !important;
   }
 
-  /* Dark mode override - restore normal colors */
+  /* Dark mode: use token-based colors for proper visibility */
+  .dark .neumorphic-card {
+    color: hsl(var(--card-foreground));
+  }
+  
   .dark .neumorphic-card .text-muted-foreground,
   .dark .neumorphic-card [class*="CardDescription"],
+  .dark .neumorphic-card .text-sm {
+    color: hsl(0 0% 75%) !important;
+  }
+  
   .dark .neumorphic-card h1,
   .dark .neumorphic-card h2,
   .dark .neumorphic-card h3,
   .dark .neumorphic-card h4,
   .dark .neumorphic-card [class*="CardTitle"],
   .dark .neumorphic-card .font-bold,
-  .dark .neumorphic-card .font-semibold {
-    color: inherit !important;
+  .dark .neumorphic-card .font-semibold,
+  .dark .neumorphic-card .text-2xl,
+  .dark .neumorphic-card .text-3xl,
+  .dark .neumorphic-card .text-4xl,
+  .dark .neumorphic-card .text-foreground {
+    color: hsl(0 0% 98%) !important;
   }
 
   .neumorphic-card:hover {
