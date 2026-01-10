@@ -83,20 +83,15 @@ export default function HeroSection() {
         />
       </div>
 
-      {/* Floating elements - CSS animations only, no JS calculations */}
+      {/* Subtle decorative elements - reduced and refined */}
       <div 
         className="absolute inset-0 z-[2] pointer-events-none transition-opacity duration-500"
-        style={{ opacity: isVisible ? 1 : 0 }}
+        style={{ opacity: isVisible ? 0.4 : 0 }}
+        aria-hidden="true"
       >
-        <div className="absolute top-1/4 left-1/4 w-32 h-32 opacity-10">
-          <div className="neumorphic-card w-full h-full rounded-3xl animate-morphic-float" />
-        </div>
-        <div className="absolute top-3/4 right-1/4 w-24 h-24 opacity-10">
-          <div className="glass-card w-full h-full rounded-full animate-pulse-glow" />
-        </div>
-        <div className="absolute bottom-1/3 left-1/6 w-40 h-40 opacity-5">
-          <div className="tech-glow w-full h-full rounded-2xl rotate-45 animate-morphic-float" />
-        </div>
+        {/* Decorative gradient orbs - subtle ambient glow effects */}
+        <div className="absolute top-1/4 left-[15%] w-64 h-64 bg-gradient-to-br from-primary/20 to-transparent rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/3 right-[10%] w-48 h-48 bg-gradient-to-br from-secondary/15 to-transparent rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
       </div>
       
       {/* Main content */}
