@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
 import { Send, Mail, FileText, Eye, Code, Users, RefreshCw } from 'lucide-react';
-import DOMPurify from 'dompurify';
+import { sanitizeHtml } from '@/lib/sanitize';
 
 interface EmailTemplate {
   id: string;
@@ -396,7 +396,7 @@ export default function EmailComposeForm({ onEmailSent }: EmailComposeFormProps)
                 <div 
                   className="prose prose-sm max-w-none"
                   dangerouslySetInnerHTML={{ 
-                    __html: DOMPurify.sanitize(htmlContent) 
+                    __html: sanitizeHtml(htmlContent) 
                   }} 
                 />
               ) : (
