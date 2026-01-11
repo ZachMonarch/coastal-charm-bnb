@@ -216,9 +216,7 @@ export const EnhancedSEOLayout: React.FC<EnhancedSEOLayoutProps> = ({
           })}
         </script>
 
-        {/* Performance optimizations */}
-        <link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
-        <link rel="modulepreload" href="/src/main.tsx" />
+        {/* Performance optimizations - fonts loaded via Google Fonts in index.html */}
         
         {/* Resource hints - fonts already optimized in SEOHead */}
         <link rel="dns-prefetch" href="//api.stripe.com" />
