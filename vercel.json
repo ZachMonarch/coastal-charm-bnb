@@ -1,7 +1,16 @@
 {
   "headers": [
     {
-      "source": "/assets/:path*",
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/lovable-uploads/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
@@ -19,7 +28,7 @@
       ]
     },
     {
-      "source": "/:path*.(jpg|jpeg|png|webp|svg|gif|ico)",
+      "source": "/placeholder.svg",
       "headers": [
         {
           "key": "Cache-Control",
@@ -28,7 +37,7 @@
       ]
     },
     {
-      "source": "/:path*.(woff|woff2|ttf|eot)",
+      "source": "/(.*)\\.(?:jpg|jpeg|png|webp|svg|gif|ico)$",
       "headers": [
         {
           "key": "Cache-Control",
@@ -37,7 +46,7 @@
       ]
     },
     {
-      "source": "/:path*.(css|js)",
+      "source": "/(.*)\\.(?:woff|woff2|ttf|eot)$",
       "headers": [
         {
           "key": "Cache-Control",
