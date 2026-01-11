@@ -117,6 +117,7 @@ export const OptimizedImageDisplay: React.FC<OptimizedImageDisplayProps> = memo(
             size="sm"
             className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white opacity-0 group-hover:opacity-100 transition-opacity"
             onClick={prevImage}
+            aria-label="Previous image"
           >
             <ChevronLeft className="h-4 w-4" />
           </Button>
@@ -126,15 +127,19 @@ export const OptimizedImageDisplay: React.FC<OptimizedImageDisplayProps> = memo(
             size="sm"
             className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white opacity-0 group-hover:opacity-100 transition-opacity"
             onClick={nextImage}
+            aria-label="Next image"
           >
             <ChevronRight className="h-4 w-4" />
           </Button>
 
           {/* Image Indicators */}
-          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1">
+          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1" role="tablist" aria-label="Image navigation">
             {validImages.map((_, index) => (
               <button
                 key={index}
+                role="tab"
+                aria-selected={currentIndex === index}
+                aria-label={`Go to image ${index + 1} of ${validImages.length}`}
                 className={cn(
                   "w-2 h-2 rounded-full transition-all",
                   currentIndex === index 
