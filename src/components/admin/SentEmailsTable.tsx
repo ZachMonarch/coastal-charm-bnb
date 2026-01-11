@@ -15,7 +15,7 @@ import {
   Search, RefreshCw, Eye, Send, Mail, Filter, 
   CheckCircle, XCircle, Clock, ExternalLink 
 } from 'lucide-react';
-import DOMPurify from 'dompurify';
+import { sanitizeHtml } from '@/lib/sanitize';
 import { format } from 'date-fns';
 
 interface SentEmail {
@@ -365,7 +365,7 @@ export default function SentEmailsTable() {
                 <div 
                   className="prose prose-sm max-w-none"
                   dangerouslySetInnerHTML={{ 
-                    __html: DOMPurify.sanitize(selectedEmail.html_content) 
+                    __html: sanitizeHtml(selectedEmail.html_content) 
                   }} 
                 />
               </div>

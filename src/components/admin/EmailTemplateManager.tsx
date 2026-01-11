@@ -1,6 +1,5 @@
 import { useState, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import DOMPurify from 'dompurify';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -14,26 +13,7 @@ import { Switch } from '@/components/ui/switch';
 import { toast } from 'sonner';
 import { Mail, Plus, Edit, Trash2, Eye, RefreshCw, Code, FileText } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-
-// Configure DOMPurify to allow safe email HTML elements
-const DOMPURIFY_CONFIG = {
-  ALLOWED_TAGS: [
-    'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'br', 'hr',
-    'a', 'img', 'strong', 'b', 'em', 'i', 'u', 's', 'span', 'div',
-    'table', 'thead', 'tbody', 'tr', 'th', 'td',
-    'ul', 'ol', 'li', 'blockquote', 'pre', 'code',
-    'center', 'font', 'small', 'sub', 'sup'
-  ],
-  ALLOWED_ATTR: [
-    'href', 'src', 'alt', 'title', 'width', 'height', 'style',
-    'class', 'id', 'align', 'valign', 'bgcolor', 'color',
-    'border', 'cellpadding', 'cellspacing', 'colspan', 'rowspan',
-    'target', 'rel'
-  ],
-  ALLOW_DATA_ATTR: false,
-  FORBID_TAGS: ['script', 'iframe', 'object', 'embed', 'form', 'input', 'button'],
-  FORBID_ATTR: ['onerror', 'onload', 'onclick', 'onmouseover', 'onfocus', 'onblur']
-};
+import { sanitizeHtml } from '@/lib/sanitize';
 
 interface EmailTemplate {
   id: string;
@@ -376,7 +356,7 @@ export default function EmailTemplateManager() {
                 {/* Sanitize HTML content to prevent XSS attacks */}
                 <div 
                   dangerouslySetInnerHTML={{ 
-                    __html: DOMPurify.sanitize(selectedTemplate.html_content, DOMPURIFY_CONFIG) 
+                    __html: sanitizeHtml(selectedTemplate.html_content) 
                   }} 
                 />
               </div>
