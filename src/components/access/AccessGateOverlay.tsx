@@ -303,7 +303,7 @@ export function AccessGateOverlay() {
                   </Button>
                 </Link>
                 <button onClick={handleSignOut}>
-                  <Button variant="ghost" className="w-full sm:w-auto text-slate-600 dark:text-muted-foreground">
+                  <Button variant="ghost" className="w-full sm:w-auto text-muted-foreground">
                     <LogOut className="mr-2 h-4 w-4" />
                     Sign Out
                   </Button>

@@ -76,12 +76,12 @@ const DropdownMenuContent = React.forwardRef<
       sideOffset={sideOffset}
       className={cn(
         "z-[10050] min-w-[8rem] overflow-hidden rounded-lg border-2 border-border/80 p-1.5 shadow-xl ring-1 ring-border/20",
-        "bg-white dark:bg-slate-900",
-        "text-[#1a1a1a] dark:text-[#f5f5f5]",
-        "[&_span]:text-[#1a1a1a] [&_p]:text-[#1a1a1a] dark:[&_span]:text-[#f5f5f5] dark:[&_p]:text-[#f5f5f5]",
-        "[&_.text-muted-foreground]:text-slate-600 dark:[&_.text-muted-foreground]:text-slate-300",
+        "bg-popover",
+        "text-popover-foreground",
+        "[&_span]:text-popover-foreground [&_p]:text-popover-foreground",
+        "[&_.text-muted-foreground]:text-muted-foreground",
         "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
-        "dark:border-slate-700 dark:ring-slate-600/30 dark:shadow-2xl backdrop-blur-sm",
+        "dark:border-border dark:ring-border/30 dark:shadow-2xl backdrop-blur-sm",
         className
       )}
       {...props}

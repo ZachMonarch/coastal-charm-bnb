@@ -176,11 +176,11 @@ export function PendingApprovalView() {
                 Access Request Pending
               </h2>
               <p className="text-muted-foreground text-sm max-w-sm mx-auto">
-                Your <span className="font-semibold text-slate-900 dark:text-slate-100">
+                Your <span className="font-semibold text-foreground">
                   {existingRequest?.role_requested === 'vendor' ? 'Vendor' : 'Property Manager'}
                 </span> application is being reviewed. You'll receive full access once approved by our team.
               </p>
-              <p className="text-xs text-slate-500 dark:text-slate-300 mt-2 italic">
+              <p className="text-xs text-muted-foreground mt-2 italic">
                 Note: Your account temporarily shows "Tenant" status until your {existingRequest?.role_requested === 'vendor' ? 'vendor' : 'property manager'} access is approved.
               </p>
             </div>

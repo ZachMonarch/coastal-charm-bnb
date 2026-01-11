@@ -69,7 +69,7 @@ export default function OptimizedUserMenu() {
           />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-64 sm:w-56 bg-white dark:bg-slate-900 border border-border dark:border-slate-700 shadow-2xl z-[200]" align="end" forceMount>
+      <DropdownMenuContent className="w-64 sm:w-56 bg-popover border border-border shadow-2xl z-[200]" align="end" forceMount>
         <div className="flex flex-col space-y-1 p-3">
           <div className="flex items-center gap-3">
             <ReusableAvatar 
@@ -79,8 +79,8 @@ export default function OptimizedUserMenu() {
               variant={hasRole('vendor') ? 'vendor' : 'user'}
             />
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium truncate text-[#1a1a1a] dark:text-[#f5f5f5]">{displayName}</p>
-              <p className="text-xs truncate flex items-center gap-1 text-slate-600 dark:text-slate-300">
+              <p className="text-sm font-medium truncate text-foreground">{displayName}</p>
+              <p className="text-xs truncate flex items-center gap-1 text-muted-foreground">
                 <Mail className="h-3 w-3" />
                 {user.email}
               </p>
@@ -92,7 +92,7 @@ export default function OptimizedUserMenu() {
                 <Badge className={`${getRoleBadgeColor(existingRequest.role_requested)} text-xs capitalize`}>
                   {existingRequest.role_requested.replace('_', ' ')}
                 </Badge>
-                <span className="flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 border border-amber-300 dark:border-amber-700 font-medium">
+                <span className="flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-warning/20 text-warning dark:text-warning border border-warning/40 font-medium">
                   <Clock className="h-3 w-3" />
                   Pending
                 </span>
@@ -110,10 +110,10 @@ export default function OptimizedUserMenu() {
         <DropdownMenuItem asChild>
           <Link 
             to={hasRole('vendor') ? "/vendor/dashboard" : "/dashboard"} 
-            className="flex items-center px-3 py-2 text-[#1a1a1a] dark:text-[#f5f5f5] hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary transition-colors"
+            className="flex items-center px-3 py-2 text-popover-foreground hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary transition-colors"
           >
             <User className="mr-3 h-4 w-4 text-primary" />
-            <span className="text-[#1a1a1a] dark:text-[#f5f5f5]">Dashboard</span>
+            <span className="text-popover-foreground">Dashboard</span>
           </Link>
         </DropdownMenuItem>
         
@@ -121,10 +121,10 @@ export default function OptimizedUserMenu() {
           <DropdownMenuItem asChild>
             <Link 
               to="/vendor/profile" 
-              className="flex items-center px-3 py-2 text-[#1a1a1a] dark:text-[#f5f5f5] hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary transition-colors"
+              className="flex items-center px-3 py-2 text-popover-foreground hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary transition-colors"
             >
               <User className="mr-3 h-4 w-4 text-primary" />
-              <span className="text-[#1a1a1a] dark:text-[#f5f5f5]">Profile</span>
+              <span className="text-popover-foreground">Profile</span>
             </Link>
           </DropdownMenuItem>
         )}
@@ -132,10 +132,10 @@ export default function OptimizedUserMenu() {
         <DropdownMenuItem asChild>
           <Link 
             to="/settings" 
-            className="flex items-center px-3 py-2 text-[#1a1a1a] dark:text-[#f5f5f5] hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary transition-colors"
+            className="flex items-center px-3 py-2 text-popover-foreground hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary transition-colors"
           >
             <Settings className="mr-3 h-4 w-4 text-primary" />
-            <span className="text-[#1a1a1a] dark:text-[#f5f5f5]">Settings</span>
+            <span className="text-popover-foreground">Settings</span>
           </Link>
         </DropdownMenuItem>
         
@@ -143,19 +143,19 @@ export default function OptimizedUserMenu() {
           <DropdownMenuItem asChild>
             <Link 
               to="/admin" 
-              className="flex items-center px-3 py-2 text-[#1a1a1a] dark:text-[#f5f5f5] hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary transition-colors"
+              className="flex items-center px-3 py-2 text-popover-foreground hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary transition-colors"
             >
               <Settings className="mr-3 h-4 w-4 text-primary" />
-              <span className="text-[#1a1a1a] dark:text-[#f5f5f5]">Admin Panel</span>
+              <span className="text-popover-foreground">Admin Panel</span>
             </Link>
           </DropdownMenuItem>
         )}
         
-        <DropdownMenuSeparator className="bg-slate-200 dark:bg-slate-700" />
+        <DropdownMenuSeparator className="bg-border" />
         
-        <DropdownMenuItem onClick={handleLogout} className="text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 px-3 py-2 transition-colors">
+        <DropdownMenuItem onClick={handleLogout} className="text-destructive hover:bg-destructive/10 px-3 py-2 transition-colors">
           <LogOut className="mr-3 h-4 w-4" />
-          <span className="text-red-600 dark:text-red-400">Sign Out</span>
+          <span className="text-destructive">Sign Out</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
