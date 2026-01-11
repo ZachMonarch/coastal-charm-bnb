@@ -54,9 +54,5 @@ export function handleCorsPreflightRequest(request: Request): Response | null {
   }
   return null;
 }
-
-// Legacy export for backward compatibility (will be deprecated)
-export const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
+// NOTE: Legacy wildcard corsHeaders export REMOVED for security
+// All functions must use getCorsHeaders(req) and handleCorsPreflightRequest(req)
