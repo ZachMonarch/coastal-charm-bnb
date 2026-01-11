@@ -4593,6 +4593,7 @@ export type Database = {
         }
         Returns: string
       }
+      current_user_has_role: { Args: { role_name: string }; Returns: boolean }
       enhanced_auth_rate_limit_check: {
         Args: {
           p_endpoint: string
@@ -4626,6 +4627,12 @@ export type Database = {
       }
       get_admin_dashboard_stats_optimized: { Args: never; Returns: Json }
       get_admin_testing_stats: { Args: never; Returns: Json }
+      get_current_user_roles: {
+        Args: never
+        Returns: {
+          role: string
+        }[]
+      }
       get_document_signed_url: {
         Args: { bucket_name: string; expires_in?: number; file_path: string }
         Returns: string
@@ -4645,6 +4652,47 @@ export type Database = {
           in_progress_projects: number
           open_projects: number
           total_projects: number
+        }[]
+      }
+      get_public_property_count: {
+        Args: {
+          p_bedrooms?: number
+          p_city?: string
+          p_max_price?: number
+          p_min_price?: number
+          p_property_type?: string
+          p_status?: string
+        }
+        Returns: number
+      }
+      get_public_property_listings: {
+        Args: {
+          p_bedrooms?: number
+          p_city?: string
+          p_limit?: number
+          p_max_price?: number
+          p_min_price?: number
+          p_offset?: number
+          p_property_type?: string
+          p_status?: string
+        }
+        Returns: {
+          amenities: string
+          available_date: string
+          bathrooms: number
+          bedrooms: number
+          city: string
+          description: string
+          id: number
+          image_urls: string
+          location_display: string
+          price: number
+          price_range: string
+          property_type: string
+          square_feet: string
+          state: string
+          status: string
+          title: string
         }[]
       }
       get_recent_activity_summary: {
@@ -4707,6 +4755,7 @@ export type Database = {
       }
       is_admin: { Args: never; Returns: boolean }
       is_admin_user: { Args: { user_uuid?: string }; Returns: boolean }
+      is_current_user_admin: { Args: never; Returns: boolean }
       is_dashboard_query: { Args: never; Returns: boolean }
       log_audit_event: {
         Args: {

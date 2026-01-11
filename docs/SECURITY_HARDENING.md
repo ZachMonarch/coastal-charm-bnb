@@ -376,7 +376,35 @@ vendor_payout_settings_select_own  -- Vendor owner + admin
 
 ---
 
-## REMAINING MANUAL ACTION
+## Security Fixes Applied (2026-01-11)
+
+### 1. Properties Public Data Exposure - FIXED ✅
+- **Issue:** Anonymous users could query `properties` table directly, exposing full addresses, GPS coordinates, owner IDs
+- **Fix:** 
+  - Dropped policies: `anon_view_published_properties`, `properties_public_read_available`
+  - Created blocking policy: `anon_denied_direct_properties_access` with `USING (false)`
+  - Anonymous users now MUST use `public_property_listings_masked` view
+  - Created RPC functions: `get_public_property_listings()`, `get_public_property_count()`
+
+### 2. SECURITY DEFINER Functions - MITIGATED ✅
+- **Issue:** Functions accepted arbitrary user_id parameters enabling role enumeration
+- **Fix:**
+  - Created safe no-parameter versions: `is_current_user_admin()`, `current_user_has_role()`, `get_current_user_roles()`
+  - Revoked anonymous access from parameterized versions
+  - Parameterized versions kept for RLS policy backward compatibility (they use auth.uid() explicitly)
+
+### 3. Multi-Tenant Isolation - DOCUMENTED ⚠️
+- **Issue:** Some tables allow cross-tenant access for admin/property_manager roles
+- **Status:** Requires business decision on admin scope (platform super-admin vs tenant-scoped)
+- **Recommendation:** Document current behavior, create `super_admin` role for explicit cross-tenant access
+
+### 4. Storage Bucket Security - MANUAL VERIFICATION REQUIRED ⚠️
+- **Issue:** Storage bucket RLS configuration cannot be verified from code
+- **Action Required:** Verify in Supabase Dashboard → Storage → Buckets that `vendor_docs` is private
+
+---
+
+## REMAINING MANUAL ACTIONS
 
 ⚠️ **CRITICAL**: Enable Leaked Password Protection
 1. Go to [Supabase Dashboard](https://supabase.com/dashboard)
@@ -387,7 +415,12 @@ vendor_payout_settings_select_own  -- Vendor owner + admin
 
 This protects against users choosing passwords from known data breaches.
 
+⚠️ **MEDIUM**: Verify Storage Bucket Privacy
+1. Go to [Storage Dashboard](https://supabase.com/dashboard/project/yhegaaqxmuhszesbjtdo/storage/buckets)
+2. Verify `vendor_docs` bucket is set to **Private**
+3. Check that storage RLS policies are configured
+
 ---
 
-*Last updated: December 14, 2025*
-*Next security review: March 2026*
+*Last updated: January 11, 2026*
+*Next security review: April 2026*
