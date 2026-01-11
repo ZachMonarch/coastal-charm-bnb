@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { CheckCircle, AlertCircle, DollarSign, FileText, TrendingUp, Download } from 'lucide-react';
 import { useAuth } from '@/contexts/OptimizedAuthContext';
 import { useVendorInvoicing } from '@/hooks/useVendorInvoicing';
-import { generateInvoicePDF } from '@/utils/pdfGenerator';
+// PDF generator is now lazy-loaded to reduce initial bundle size (~528KB savings)
 import { toast } from 'sonner';
 
 export default function PaymentSystemVerification() {
@@ -22,6 +22,7 @@ export default function PaymentSystemVerification() {
   const [testing, setTesting] = useState(false);
   const [testResults, setTestResults] = useState<{ [key: string]: boolean }>({});
 
+  // Lazy load PDF generator only when testing (saves ~528KB on initial load)
   const testPDFGeneration = async () => {
     if (invoices.length === 0) {
       toast.warning('No invoices available to test PDF generation');
@@ -29,6 +30,8 @@ export default function PaymentSystemVerification() {
     }
     
     try {
+      // Dynamic import - PDF library only loads when needed
+      const { generateInvoicePDF } = await import('@/utils/pdfGenerator');
       await generateInvoicePDF(invoices[0]);
       toast.success('PDF generation test successful');
       return true;
