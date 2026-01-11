@@ -215,14 +215,14 @@ export default function Navbar() {
 
           {/* Mobile Navigation */}
           <div className="flex items-center space-x-1.5 md:space-x-2 lg:hidden" data-header-controls>
-            <div className="rounded-lg border-2 border-primary/40 bg-white dark:bg-slate-800 p-0.5 md:p-1 shadow-sm" data-header-icon>
+            <div className="rounded-lg border-2 border-primary/40 bg-card p-0.5 md:p-1 shadow-sm" data-header-icon>
               <LanguageSelector />
             </div>
-            <div className="rounded-lg border-2 border-primary/40 bg-white dark:bg-slate-800 p-0.5 md:p-1 shadow-sm" data-header-icon>
+            <div className="rounded-lg border-2 border-primary/40 bg-card p-0.5 md:p-1 shadow-sm" data-header-icon>
               <ThemeToggle />
             </div>
             {isAuthenticated && (
-              <div className="rounded-lg border-2 border-primary/40 bg-white dark:bg-slate-800 p-0.5 md:p-1 shadow-sm" data-header-icon>
+              <div className="rounded-lg border-2 border-primary/40 bg-card p-0.5 md:p-1 shadow-sm" data-header-icon>
                 <RealtimeNotifications />
               </div>
             )}
