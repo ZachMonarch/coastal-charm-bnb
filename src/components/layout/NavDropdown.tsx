@@ -30,7 +30,7 @@ export default function NavDropdown({ label, items, icon, className }: NavDropdo
         data-nav-dropdown
         className={cn(
           "nav-dropdown-trigger flex items-center gap-1 px-4 py-2 text-base font-bold rounded-lg transition-all duration-200",
-          "text-[#1a1a1a] dark:text-[#1a1a1a]",
+          "text-foreground",
           "hover:text-primary hover:bg-primary/10",
           "data-[state=open]:bg-primary/10 data-[state=open]:!text-primary",
           "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none",
@@ -40,25 +40,25 @@ export default function NavDropdown({ label, items, icon, className }: NavDropdo
         )}
         aria-label={`${label} menu`}
       >
-        {icon && <span className="mr-1 text-[#1a1a1a] dark:text-[#1a1a1a]">{icon}</span>}
-        <span className="text-[#1a1a1a] dark:text-[#1a1a1a]">{label}</span>
-        <ChevronDown className="w-4 h-4 text-[#1a1a1a] dark:text-[#1a1a1a] transition-transform duration-200 data-[state=open]:rotate-180" />
+        {icon && <span className="mr-1 text-foreground">{icon}</span>}
+        <span className="text-foreground">{label}</span>
+        <ChevronDown className="w-4 h-4 text-foreground transition-transform duration-200 data-[state=open]:rotate-180" />
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="start"
-        className="min-w-[220px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-xl z-[500]"
+        className="min-w-[220px] bg-popover border border-border shadow-xl z-[500]"
       >
         {items.map((item, index) => (
           <DropdownMenuItem key={index} asChild>
             <Link
               to={item.href}
-              className="flex items-center gap-3 px-3 py-2.5 cursor-pointer rounded-md text-[#1a1a1a] dark:text-[#f5f5f5] hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary transition-colors"
+              className="flex items-center gap-3 px-3 py-2.5 cursor-pointer rounded-md text-popover-foreground hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary transition-colors"
             >
               {item.icon && <span className="text-primary">{item.icon}</span>}
               <div className="flex flex-col">
-                <span className="font-medium text-[#1a1a1a] dark:text-[#f5f5f5]">{item.label}</span>
+                <span className="font-medium text-popover-foreground">{item.label}</span>
                 {item.description && (
-                  <span className="text-xs text-slate-600 dark:text-slate-400">{item.description}</span>
+                  <span className="text-xs text-muted-foreground">{item.description}</span>
                 )}
               </div>
             </Link>

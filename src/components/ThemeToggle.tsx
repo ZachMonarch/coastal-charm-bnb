@@ -49,12 +49,12 @@ export default function ThemeToggle() {
       <span className="sr-only">Toggle theme</span>
       {isDark ? (
         <Sun 
-          className="h-5 w-5 text-[#f5f5f5] transition-transform duration-500" 
+          className="h-5 w-5 text-foreground transition-transform duration-500" 
           strokeWidth={2.5}
         />
       ) : (
         <Moon 
-          className="h-5 w-5 text-[#1a1a1a] transition-transform duration-500" 
+          className="h-5 w-5 text-foreground transition-transform duration-500" 
           strokeWidth={2.5}
         />
       )}

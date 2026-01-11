@@ -197,18 +197,18 @@ export default function Navbar() {
 
           {/* Desktop Tools - lg:flex matches mobile lg:hidden breakpoint */}
           <div className="hidden lg:flex items-center space-x-2" data-header-controls>
-            <div className="rounded-lg border-2 border-primary/60 bg-white dark:bg-slate-800 p-1.5 shadow-md hover:shadow-lg hover:border-primary transition-all" data-header-icon>
+            <div className="rounded-lg border-2 border-primary/60 bg-card p-1.5 shadow-md hover:shadow-lg hover:border-primary transition-all" data-header-icon>
               <LanguageSelector />
             </div>
-            <div className="rounded-lg border-2 border-primary/60 bg-white dark:bg-slate-800 p-1.5 shadow-md hover:shadow-lg hover:border-primary transition-all" data-header-icon>
+            <div className="rounded-lg border-2 border-primary/60 bg-card p-1.5 shadow-md hover:shadow-lg hover:border-primary transition-all" data-header-icon>
               <ThemeToggle />
             </div>
             {isAuthenticated && (
-              <div className="rounded-lg border-2 border-primary/60 bg-white dark:bg-slate-800 p-1.5 shadow-md hover:shadow-lg hover:border-primary transition-all" data-header-icon>
+              <div className="rounded-lg border-2 border-primary/60 bg-card p-1.5 shadow-md hover:shadow-lg hover:border-primary transition-all" data-header-icon>
                 <RealtimeNotifications />
               </div>
             )}
-            <div className="rounded-lg border-[3px] border-primary bg-white dark:bg-slate-800 p-1.5 shadow-lg shadow-primary/15 hover:shadow-xl hover:border-primary transition-all" data-header-icon>
+            <div className="rounded-lg border-[3px] border-primary bg-card p-1.5 shadow-lg shadow-primary/15 hover:shadow-xl hover:border-primary transition-all" data-header-icon>
               <OptimizedUserMenu />
             </div>
           </div>
@@ -231,13 +231,13 @@ export default function Navbar() {
                 asChild
                 variant="outline"
                 size="sm"
-                className="h-9 px-3 text-xs font-semibold text-[#1a1a1a] dark:text-[#f5f5f5]"
+                className="h-9 px-3 text-xs font-semibold text-foreground"
               >
                 <Link to="/auth">Sign In</Link>
               </Button>
             )}
             {isAuthenticated && (
-              <div className="rounded-lg border-2 border-primary/40 bg-white dark:bg-slate-800 p-1 shadow-sm">
+              <div className="rounded-lg border-2 border-primary/40 bg-card p-1 shadow-sm">
                 <OptimizedUserMenu />
               </div>
             )}
