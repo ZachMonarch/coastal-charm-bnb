@@ -566,48 +566,67 @@
 
 /* === PUBLIC NAVBAR ICON CONTAINERS - GUARANTEED VISIBILITY === */
 /* Header icons (theme toggle, language, notifications, user menu) */
-:root:not(.dark) [data-monarch-header] [data-header-icon],
-:root:not(.dark) [data-monarch-header] [data-header-controls] > div {
+/* Force white background and proper visibility in both themes */
+[data-monarch-header] [data-header-icon],
+[data-monarch-header] [data-header-controls] > div:not([data-header-auth]) {
   background: hsl(0 0% 100%) !important;
   border-color: hsl(var(--primary) / 0.5) !important;
 }
 
-:root:not(.dark) [data-monarch-header] [data-header-icon] svg,
-:root:not(.dark) [data-monarch-header] [data-header-controls] svg,
-:root:not(.dark) [data-monarch-header] [data-header-controls] button svg {
-  color: hsl(0 0% 15%) !important;
-  stroke: hsl(0 0% 15%) !important;
+[data-monarch-header] [data-header-icon]:hover,
+[data-monarch-header] [data-header-controls] > div:not([data-header-auth]):hover {
+  border-color: hsl(var(--primary)) !important;
+  box-shadow: 0 2px 8px hsl(var(--primary) / 0.15) !important;
+}
+
+/* Icons inside header containers - guaranteed dark visibility on white bg */
+[data-monarch-header] [data-header-icon] svg,
+[data-monarch-header] [data-header-controls] svg,
+[data-monarch-header] [data-header-controls] button svg {
+  color: hsl(0 0% 12%) !important;
+  stroke: hsl(0 0% 12%) !important;
   fill: none !important;
   opacity: 1 !important;
 }
 
-/* Dark mode PUBLIC navbar header icons - stays dark on white background */
-.dark [data-monarch-header] [data-header-icon],
-.dark [data-monarch-header] [data-header-controls] > div {
-  background: hsl(0 0% 100%) !important;
-  border-color: hsl(var(--primary) / 0.5) !important;
+/* Language selector text in PUBLIC navbar */
+[data-monarch-header] [data-header-icon] span,
+[data-monarch-header] [data-radix-select-trigger],
+[data-monarch-header] [data-radix-select-trigger] span {
+  color: hsl(0 0% 12%) !important;
 }
 
-.dark [data-monarch-header] [data-header-icon] svg,
-.dark [data-monarch-header] [data-header-controls] svg,
-.dark [data-monarch-header] [data-header-controls] button svg {
-  color: hsl(0 0% 15%) !important;
-  stroke: hsl(0 0% 15%) !important;
-  fill: none !important;
-  opacity: 1 !important;
+/* === PUBLIC NAVBAR AUTH BUTTONS - GUARANTEED VISIBILITY === */
+/* Sign In button (outline style) */
+[data-monarch-header] [data-header-auth] a,
+[data-monarch-header] [data-header-auth] button {
+  font-weight: 600 !important;
 }
 
-/* Language selector in PUBLIC navbar */
-:root:not(.dark) [data-monarch-header] [data-header-icon] span,
-:root:not(.dark) [data-monarch-header] [data-radix-select-trigger],
-:root:not(.dark) [data-monarch-header] [data-radix-select-trigger] span {
-  color: #1a1a1a !important;
+/* Primary button in header (Join Now) */
+[data-monarch-header] [data-header-auth] .bg-primary,
+[data-monarch-header] [data-header-auth] [class*="bg-primary"] {
+  background-color: hsl(var(--primary)) !important;
+  color: white !important;
 }
 
-.dark [data-monarch-header] [data-header-icon] span,
-.dark [data-monarch-header] [data-radix-select-trigger],
-.dark [data-monarch-header] [data-radix-select-trigger] span {
-  color: #1a1a1a !important;
+[data-monarch-header] [data-header-auth] .bg-primary a,
+[data-monarch-header] [data-header-auth] [class*="bg-primary"] a,
+[data-monarch-header] [data-header-auth] .bg-primary span,
+[data-monarch-header] [data-header-auth] [class*="bg-primary"] span {
+  color: white !important;
+}
+
+/* Outline button in header (Sign In) */
+[data-monarch-header] [data-header-auth] [class*="variant-outline"],
+[data-monarch-header] [data-header-auth] .border-primary\\/60 {
+  background-color: hsl(0 0% 100%) !important;
+  border-color: hsl(var(--primary) / 0.6) !important;
+}
+
+[data-monarch-header] [data-header-auth] [class*="variant-outline"] a,
+[data-monarch-header] [data-header-auth] .border-primary\\/60 a {
+  color: hsl(0 0% 12%) !important;
 }
 
 /* Token-based text-foreground - no forced colors */
