@@ -42,7 +42,7 @@ export default function LanguageSelector() {
     <div className="flex items-center">
       <Select value={language} onValueChange={handleLanguageChange}>
         <SelectTrigger 
-          className="w-[65px] h-10 min-h-[40px] border-0 bg-transparent text-foreground hover:bg-primary/10 focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors"
+          className="w-[72px] h-11 min-h-[44px] bg-muted/50 border border-border hover:border-primary/30 text-foreground hover:bg-primary/15 focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors rounded-lg"
           aria-label="Select Language"
         >
           <div className="flex items-center space-x-1.5">
@@ -56,7 +56,7 @@ export default function LanguageSelector() {
             </span>
           </div>
         </SelectTrigger>
-        <SelectContent align="start" className="w-[160px] z-[500] bg-popover border-border">
+        <SelectContent align="start" className="w-[160px] z-[500] bg-popover border-border shadow-lg">
           {languages.map((lang) => (
             <SelectItem 
               key={lang.code} 

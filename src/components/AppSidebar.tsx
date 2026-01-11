@@ -431,9 +431,9 @@ export function AppSidebar() {
           })}
         </div>
 
-        {/* Footer Controls */}
-        <div className="p-4 border-t-2 border-border bg-muted/30">
-          <div className={`flex ${isCollapsed ? 'flex-col space-y-2' : 'items-center justify-center gap-4'}`}>
+        {/* Footer Controls - Enhanced visibility for mobile */}
+        <div className="p-4 border-t-2 border-border bg-card" data-sidebar="footer">
+          <div className={`flex ${isCollapsed ? 'flex-col space-y-3' : 'items-center justify-center gap-3'}`}>
             <ThemeToggle />
             <LanguageSelector />
           </div>

@@ -232,8 +232,8 @@ export default function VendorProjectList() {
                   </div>
                   
                   <div className="flex gap-2">
-                    <Button variant="outline" size="sm">
-                      View Details
+                    <Button variant="outline" size="sm" className="min-h-[44px] text-foreground">
+                      <span className="text-foreground font-medium">View Details</span>
                     </Button>
                     {project.status === 'open' && project.assigned_vendor_id !== user?.id && (
                       <Button size="sm" className="group-hover:shadow-md transition-all">
