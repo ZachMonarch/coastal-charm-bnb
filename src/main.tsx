@@ -13,8 +13,17 @@ import { HelmetProvider } from 'react-helmet-async'
 import { initializeCSRFProtection } from '@/utils/csrfProtection'
 import { inject } from '@vercel/analytics'
 
-// Initialize Vercel Web Analytics
-inject();
+// Initialize Vercel Web Analytics only on Vercel-hosted domains
+// This prevents 404 errors on Lovable preview domains
+const isVercelHosted = typeof window !== 'undefined' && (
+  window.location.hostname.endsWith('.vercel.app') ||
+  window.location.hostname === 'monarchpropertymmgt.com' ||
+  window.location.hostname.endsWith('monarchpropertymmgt.com')
+);
+
+if (isVercelHosted) {
+  inject();
+}
 
 // Initialize performance optimizations immediately
 setupAutoOptimizations();
