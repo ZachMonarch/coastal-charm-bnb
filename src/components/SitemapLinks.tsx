@@ -23,7 +23,11 @@ export default function SitemapLinks({ className, variant = 'grid' }: SitemapLin
     { path: '/settings', label: 'Settings', category: 'Account', public: false, requiresAuth: true },
     { path: '/privacy', label: 'Privacy Policy', category: 'Legal', public: true },
     { path: '/terms', label: 'Terms of Service', category: 'Legal', public: true },
-    { path: '/sitemap', label: 'Sitemap', category: 'Legal', public: true },
+    // Admin-only routes
+    ...(hasRole('admin') ? [
+      { path: '/sitemap', label: 'Sitemap', category: 'Admin', public: false, adminOnly: true },
+      { path: '/design-system', label: 'Design System', category: 'Admin', public: false, adminOnly: true },
+    ] : []),
     // Admin-only routes
     ...(hasRole('admin') ? [
       { path: '/admin', label: 'Admin Dashboard', category: 'Management', public: false, adminOnly: true },

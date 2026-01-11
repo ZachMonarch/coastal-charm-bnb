@@ -162,15 +162,23 @@ const App = () => (
                 <Route path="/auth-debug" element={<AuthDebug />} />
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/privacy" element={<Privacy />} />
-                <Route path="/design-system" element={<DesignSystemShowcase />} />
+                <Route path="/design-system" element={
+                  <OptimizedProtectedRoute requiredRole="admin">
+                    <DesignSystemShowcase />
+                  </OptimizedProtectedRoute>
+                } />
                 
                 {/* Public Vendor Pages - Marketplace Hidden */}
                 <Route path="/join-as-vendor" element={<JoinAsVendor />} />
                 {/* Vendor Marketplace route removed - access restricted */}
                 <Route path="/request-quote" element={<RequestQuote />} />
                 
-                {/* Public Sitemap - SEO friendly, accessible to all */}
-                <Route path="/sitemap" element={<Sitemap />} />
+                {/* Admin-only Sitemap - restricted access */}
+                <Route path="/sitemap" element={
+                  <OptimizedProtectedRoute requiredRole="admin">
+                    <Sitemap />
+                  </OptimizedProtectedRoute>
+                } />
                 
                 {/* About Page - Phase 9B */}
                 <Route path="/about" element={<About />} />

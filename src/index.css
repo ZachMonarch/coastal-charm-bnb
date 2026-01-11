@@ -444,35 +444,63 @@
   --header-border: hsl(var(--border));
 }
 
-/* ONLY the public navbar with data-monarch-header gets white background */
+/* ONLY the public navbar with data-monarch-header gets styled background */
 [data-monarch-header],
 .monarch-header {
   background-color: var(--header-bg) !important;
   border-bottom-color: var(--header-border) !important;
 }
 
-/* Public navbar text must be dark since background is white */
-[data-monarch-header] nav ul li > button,
-[data-monarch-header] nav ul li > button > span,
-[data-monarch-header] nav ul li > button > svg,
-[data-monarch-header] nav ul li a,
-[data-monarch-header] nav [data-nav-dropdown],
-[data-monarch-header] nav [data-nav-dropdown] > span,
-[data-monarch-header] nav [data-nav-dropdown] > svg,
-.monarch-header nav a,
-.monarch-header nav button,
-.monarch-header nav button span {
-  color: #1a1a1a !important;
+/* Public navbar text - GUARANTEED VISIBILITY */
+/* Light mode: dark text on white bg */
+:root:not(.dark) [data-monarch-header] nav ul li > button,
+:root:not(.dark) [data-monarch-header] nav ul li > button > span,
+:root:not(.dark) [data-monarch-header] nav ul li > button > svg,
+:root:not(.dark) [data-monarch-header] nav ul li a,
+:root:not(.dark) [data-monarch-header] nav [data-nav-dropdown],
+:root:not(.dark) [data-monarch-header] nav [data-nav-dropdown] > span,
+:root:not(.dark) [data-monarch-header] nav [data-nav-dropdown] > svg,
+:root:not(.dark) .monarch-header nav a,
+:root:not(.dark) .monarch-header nav button,
+:root:not(.dark) .monarch-header nav button span {
+  color: hsl(0 0% 8%) !important;
   opacity: 1 !important;
   visibility: visible !important;
+  font-weight: 600;
 }
 
-/* Force SVG icons in PUBLIC navbar to be black */
-[data-monarch-header] nav svg,
-[data-monarch-header] nav ul li svg,
-.monarch-header nav svg {
-  color: #1a1a1a !important;
-  stroke: #1a1a1a !important;
+/* Dark mode: dark text on white bg (header stays white for brand contrast) */
+.dark [data-monarch-header] nav ul li > button,
+.dark [data-monarch-header] nav ul li > button > span,
+.dark [data-monarch-header] nav ul li > button > svg,
+.dark [data-monarch-header] nav ul li a,
+.dark [data-monarch-header] nav [data-nav-dropdown],
+.dark [data-monarch-header] nav [data-nav-dropdown] > span,
+.dark [data-monarch-header] nav [data-nav-dropdown] > svg,
+.dark .monarch-header nav a,
+.dark .monarch-header nav button,
+.dark .monarch-header nav button span {
+  color: hsl(0 0% 8%) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  font-weight: 600;
+}
+
+/* Force SVG icons in PUBLIC navbar - GUARANTEED VISIBILITY */
+:root:not(.dark) [data-monarch-header] nav svg,
+:root:not(.dark) [data-monarch-header] nav ul li svg,
+:root:not(.dark) .monarch-header nav svg {
+  color: hsl(0 0% 8%) !important;
+  stroke: hsl(0 0% 8%) !important;
+  opacity: 1 !important;
+}
+
+.dark [data-monarch-header] nav svg,
+.dark [data-monarch-header] nav ul li svg,
+.dark .monarch-header nav svg {
+  color: hsl(0 0% 8%) !important;
+  stroke: hsl(0 0% 8%) !important;
+  opacity: 1 !important;
 }
 
 /* Hover states for public navbar - primary color */
@@ -536,23 +564,35 @@
   color: hsl(var(--muted-foreground));
 }
 
-/* === PUBLIC NAVBAR ICON & TEXT VISIBILITY (scoped to [data-monarch-header]) === */
-/* Only the public navbar's header icons need forced colors - app headers use tokens */
+/* === PUBLIC NAVBAR ICON CONTAINERS - GUARANTEED VISIBILITY === */
+/* Header icons (theme toggle, language, notifications, user menu) */
+:root:not(.dark) [data-monarch-header] [data-header-icon],
+:root:not(.dark) [data-monarch-header] [data-header-controls] > div {
+  background: hsl(0 0% 100%) !important;
+  border-color: hsl(var(--primary) / 0.5) !important;
+}
+
 :root:not(.dark) [data-monarch-header] [data-header-icon] svg,
 :root:not(.dark) [data-monarch-header] [data-header-controls] svg,
-:root:not(.dark) [data-monarch-header] button svg {
-  color: #1a1a1a !important;
-  stroke: #1a1a1a !important;
+:root:not(.dark) [data-monarch-header] [data-header-controls] button svg {
+  color: hsl(0 0% 15%) !important;
+  stroke: hsl(0 0% 15%) !important;
   fill: none !important;
   opacity: 1 !important;
 }
 
-/* Dark mode PUBLIC navbar icons - since header bg is white, icons stay dark */
+/* Dark mode PUBLIC navbar header icons - stays dark on white background */
+.dark [data-monarch-header] [data-header-icon],
+.dark [data-monarch-header] [data-header-controls] > div {
+  background: hsl(0 0% 100%) !important;
+  border-color: hsl(var(--primary) / 0.5) !important;
+}
+
 .dark [data-monarch-header] [data-header-icon] svg,
 .dark [data-monarch-header] [data-header-controls] svg,
-.dark [data-monarch-header] button svg {
-  color: #1a1a1a !important;
-  stroke: #1a1a1a !important;
+.dark [data-monarch-header] [data-header-controls] button svg {
+  color: hsl(0 0% 15%) !important;
+  stroke: hsl(0 0% 15%) !important;
   fill: none !important;
   opacity: 1 !important;
 }
