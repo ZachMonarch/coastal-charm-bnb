@@ -843,6 +843,30 @@ table td {
   color: hsl(0 0% 80%) !important;
 }
 
+/* === WCAG AA BUTTON TEXT CONTRAST FIX === */
+/* Ensures white text on primary background buttons for 4.5:1 contrast ratio */
+button.bg-primary,
+a.bg-primary,
+[class*="bg-primary"]:is(button, a),
+button[class*="default"],
+a[class*="variant"][href] {
+  color: white !important;
+}
+
+/* Primary variant buttons must have white text */
+button.inline-flex.bg-primary,
+a.inline-flex.bg-primary,
+button[style*="color: white"],
+a[style*="color: white"] {
+  color: #ffffff !important;
+}
+
+/* Ensure Book Now and CTA buttons have proper contrast */
+.inline-flex.items-center.justify-center.gap-2.bg-primary,
+.inline-flex.items-center.justify-center.gap-2[class*="bg-primary"] {
+  color: #ffffff !important;
+}
+
 @layer base {
   body {
     background: hsl(var(--background));
