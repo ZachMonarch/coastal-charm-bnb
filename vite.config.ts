@@ -145,7 +145,7 @@ export default defineConfig(({ mode }) => ({
           'vendor-query': ['@tanstack/react-query'],
           'vendor-supabase': ['@supabase/supabase-js'],
           'vendor-charts': ['recharts'],
-          'vendor-pdf': ['html2pdf.js', 'html2canvas'],
+          'vendor-pdf': ['@react-pdf/renderer'],
           'vendor-utils': ['lodash-es', 'date-fns', 'zod'],
         },
         chunkFileNames: 'assets/[name]-[hash].js',
