@@ -154,7 +154,9 @@ export default defineConfig(({ mode }) => ({
       }
     },
     chunkSizeWarningLimit: 1500,
-    sourcemap: true, // Generate source maps for debugging and Lighthouse
+    // Use 'hidden' source maps - generates maps for error tracking (Sentry)
+    // but doesn't expose them publicly (security + fixes Lighthouse timeout)
+    sourcemap: 'hidden',
     reportCompressedSize: false,
   },
   optimizeDeps: {
