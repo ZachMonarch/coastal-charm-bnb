@@ -196,75 +196,56 @@ export default function Navbar() {
           </ul>
 
           {/* Desktop Tools - lg:flex matches mobile lg:hidden breakpoint */}
-          <div className="hidden lg:flex items-center space-x-2.5" data-header-controls>
-            {/* Language Selector */}
-            <div className="flex items-center justify-center rounded-lg border-2 border-primary/50 bg-white p-1.5 shadow-sm hover:shadow-md hover:border-primary transition-all min-w-[40px] min-h-[40px]" data-header-icon>
+          <div className="hidden lg:flex items-center space-x-2" data-header-controls>
+            <div className="rounded-lg border-2 border-primary/60 bg-card p-1.5 shadow-md hover:shadow-lg hover:border-primary transition-all" data-header-icon>
               <LanguageSelector />
             </div>
-            {/* Theme Toggle */}
-            <div className="flex items-center justify-center rounded-lg border-2 border-primary/50 bg-white p-1.5 shadow-sm hover:shadow-md hover:border-primary transition-all min-w-[40px] min-h-[40px]" data-header-icon>
+            <div className="rounded-lg border-2 border-primary/60 bg-card p-1.5 shadow-md hover:shadow-lg hover:border-primary transition-all" data-header-icon>
               <ThemeToggle />
             </div>
-            {/* Notifications (authenticated only) */}
             {isAuthenticated && (
-              <div className="flex items-center justify-center rounded-lg border-2 border-primary/50 bg-white p-1.5 shadow-sm hover:shadow-md hover:border-primary transition-all min-w-[40px] min-h-[40px]" data-header-icon>
+              <div className="rounded-lg border-2 border-primary/60 bg-card p-1.5 shadow-md hover:shadow-lg hover:border-primary transition-all" data-header-icon>
                 <RealtimeNotifications />
               </div>
             )}
-            {/* User Menu / Auth Buttons */}
-            {isAuthenticated ? (
-              <div className="flex items-center justify-center rounded-lg border-2 border-primary bg-white p-1.5 shadow-md hover:shadow-lg hover:border-primary transition-all min-w-[40px] min-h-[40px]" data-header-icon>
-                <OptimizedUserMenu />
-              </div>
-            ) : (
-              <div className="flex items-center gap-2" data-header-auth>
-                <Button
-                  asChild
-                  variant="outline"
-                  size="sm"
-                  className="h-10 px-4 text-sm font-semibold border-2 border-primary/60 bg-white text-foreground hover:bg-primary/5 hover:border-primary"
-                >
-                  <Link to="/auth">Sign In</Link>
-                </Button>
-                <Button
-                  asChild
-                  size="sm"
-                  className="h-10 px-4 text-sm font-semibold bg-primary hover:bg-primary-dark shadow-md"
-                >
-                  <Link to="/auth?tab=register" className="!text-white">Join Now</Link>
-                </Button>
-              </div>
-            )}
+            <div className="rounded-lg border-[3px] border-primary bg-card p-1.5 shadow-lg shadow-primary/15 hover:shadow-xl hover:border-primary transition-all" data-header-icon>
+              <OptimizedUserMenu />
+            </div>
           </div>
 
           {/* Mobile Navigation */}
           <div className="flex items-center space-x-1.5 md:space-x-2 lg:hidden" data-header-controls>
-            {/* Language Selector - Mobile */}
-            <div className="flex items-center justify-center rounded-lg border-2 border-primary/40 bg-white p-1 shadow-sm min-w-[36px] min-h-[36px] md:min-w-[40px] md:min-h-[40px]" data-header-icon>
+            <div className="rounded-lg border-2 border-primary/40 bg-card p-0.5 md:p-1 shadow-sm" data-header-icon>
               <LanguageSelector />
             </div>
-            {/* Theme Toggle - Mobile */}
-            <div className="flex items-center justify-center rounded-lg border-2 border-primary/40 bg-white p-1 shadow-sm min-w-[36px] min-h-[36px] md:min-w-[40px] md:min-h-[40px]" data-header-icon>
+            <div className="rounded-lg border-2 border-primary/40 bg-card p-0.5 md:p-1 shadow-sm" data-header-icon>
               <ThemeToggle />
             </div>
-            {/* Notifications - Mobile (authenticated only) */}
             {isAuthenticated && (
-              <div className="flex items-center justify-center rounded-lg border-2 border-primary/40 bg-white p-1 shadow-sm min-w-[36px] min-h-[36px] md:min-w-[40px] md:min-h-[40px]" data-header-icon>
+              <div className="rounded-lg border-2 border-primary/40 bg-card p-0.5 md:p-1 shadow-sm" data-header-icon>
                 <RealtimeNotifications />
               </div>
             )}
-            {/* User Menu - Mobile (authenticated only) */}
+            {!isLoading && !isAuthenticated && (
+              <Button
+                asChild
+                variant="outline"
+                size="sm"
+                className="h-9 px-3 text-xs font-semibold text-foreground"
+              >
+                <Link to="/auth">Sign In</Link>
+              </Button>
+            )}
             {isAuthenticated && (
-              <div className="flex items-center justify-center rounded-lg border-2 border-primary/60 bg-white p-1 shadow-sm min-w-[36px] min-h-[36px] md:min-w-[40px] md:min-h-[40px]" data-header-icon>
+              <div className="rounded-lg border-2 border-primary/40 bg-card p-1 shadow-sm">
                 <OptimizedUserMenu />
               </div>
             )}
-            {/* Mobile Menu Toggle */}
             <Button
               variant="outline"
               size="icon"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="relative z-[160] border-2 border-primary bg-white rounded-lg w-10 h-10 min-h-[40px] min-w-[40px] hover:bg-primary/10 hover:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 shadow-md"
+              className="relative z-[160] border-2 border-primary bg-background/95 rounded-lg w-10 h-10 min-h-[40px] min-w-[40px] hover:bg-primary/10 hover:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 shadow-md"
               aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-menu"
