@@ -135,17 +135,17 @@ export default function VendorProjectCard({ project }: VendorProjectCardProps) {
 
         {/* Action Buttons */}
         <div className="flex gap-2 pt-2">
-          <Button asChild className="flex-1">
-            <Link to={`/vendor/projects/${project.id}`} className="flex items-center gap-2">
-              <Eye className="h-4 w-4" />
-              View Details
+          <Button asChild variant="default" className="flex-1 min-h-[44px]">
+            <Link to={`/vendor/projects/${project.id}`} className="flex items-center justify-center gap-2 text-white">
+              <Eye className="h-4 w-4 text-white" />
+              <span className="text-white font-medium">View Details</span>
             </Link>
           </Button>
           
           {project.status === 'in_progress' && (
-            <Button variant="outline" size="sm" className="flex items-center gap-2">
+            <Button variant="outline" size="sm" className="flex items-center gap-2 min-h-[44px]">
               <FileText className="h-4 w-4" />
-              Update
+              <span>Update</span>
             </Button>
           )}
         </div>

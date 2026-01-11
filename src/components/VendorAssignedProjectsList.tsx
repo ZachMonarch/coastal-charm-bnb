@@ -136,9 +136,9 @@ export default function VendorAssignedProjectsList() {
                 </div>
               )}
               
-              <Button asChild className="w-full mt-4">
-                <Link to={`/vendor/projects/${project.id}`}>
-                  View Details
+              <Button asChild variant="default" className="w-full mt-4 min-h-[44px]">
+                <Link to={`/vendor/projects/${project.id}`} className="flex items-center justify-center gap-2 text-white">
+                  <span className="text-white font-medium">View Details</span>
                 </Link>
               </Button>
             </CardContent>

@@ -169,8 +169,8 @@ export default function VendorRFQTabs() {
                   </div>
                   
                   <div className="flex flex-col sm:flex-row justify-end gap-2">
-                    <Button variant="outline" size="sm" className="w-full sm:w-auto">
-                      View Details
+                    <Button variant="outline" size="sm" className="w-full sm:w-auto min-h-[44px] text-foreground">
+                      <span className="text-foreground font-medium">View Details</span>
                     </Button>
                     
                     {!canApplyToProjects ? (
@@ -292,8 +292,8 @@ export default function VendorRFQTabs() {
                   </div>
                   
                   <div className="flex justify-end gap-2">
-                    <Button variant="outline" size="sm">
-                      View Details
+                    <Button variant="outline" size="sm" className="min-h-[44px] text-foreground">
+                      <span className="text-foreground font-medium">View Details</span>
                     </Button>
                     {bid.status === 'submitted' && (
                       <Button 

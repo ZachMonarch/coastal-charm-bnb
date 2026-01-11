@@ -3604,6 +3604,74 @@ button[type="submit"] span {
   -webkit-text-fill-color: white !important;
 }
 
+/* === SIDEBAR FOOTER VISIBILITY ENHANCEMENT === */
+/* Ensure sidebar footer controls are visible in both themes */
+[data-sidebar="footer"],
+[data-sidebar] .p-4:last-child {
+  background-color: hsl(var(--card));
+  border-top: 2px solid hsl(var(--border));
+}
+
+[data-sidebar="footer"] button,
+[data-sidebar] .p-4:last-child button {
+  color: hsl(var(--foreground)) !important;
+  background-color: hsl(var(--muted) / 0.5);
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.5rem;
+}
+
+[data-sidebar="footer"] button:hover,
+[data-sidebar] .p-4:last-child button:hover {
+  background-color: hsl(var(--primary) / 0.1);
+  color: hsl(var(--primary)) !important;
+}
+
+[data-sidebar="footer"] svg,
+[data-sidebar] .p-4:last-child svg {
+  color: hsl(var(--foreground)) !important;
+  opacity: 1 !important;
+}
+
+/* Dark mode sidebar footer */
+.dark [data-sidebar="footer"],
+.dark [data-sidebar] .p-4:last-child {
+  background-color: hsl(var(--card));
+}
+
+.dark [data-sidebar="footer"] button,
+.dark [data-sidebar] .p-4:last-child button {
+  color: hsl(var(--foreground)) !important;
+  background-color: hsl(var(--muted) / 0.3);
+  border-color: hsl(var(--border));
+}
+
+.dark [data-sidebar="footer"] svg,
+.dark [data-sidebar] .p-4:last-child svg {
+  color: hsl(var(--foreground)) !important;
+}
+
+/* === VIEW DETAILS BUTTON TEXT VISIBILITY === */
+/* Ensure "View Details" button text is always white on primary background */
+.flex-1 > a.flex.items-center.justify-center.gap-2,
+button.flex-1 a,
+.flex-1 a[href*="/projects/"] {
+  color: white !important;
+}
+
+.flex-1 > a.flex.items-center.justify-center.gap-2 span,
+button.flex-1 a span,
+.flex-1 a[href*="/projects/"] span {
+  color: white !important;
+  -webkit-text-fill-color: white !important;
+}
+
+.flex-1 > a.flex.items-center.justify-center.gap-2 svg,
+button.flex-1 a svg,
+.flex-1 a[href*="/projects/"] svg {
+  color: white !important;
+  stroke: white !important;
+}
+
 /* ======================================================================
    COMPREHENSIVE LIGHT MODE VISIBILITY & ACCESSIBILITY ENHANCEMENTS
    WCAG AA Compliant - Contrast Ratio 4.5:1 for normal text, 3:1 for large
