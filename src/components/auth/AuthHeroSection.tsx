@@ -103,6 +103,10 @@ export function AuthHeroSection({ activeRole = "property_manager" }: AuthHeroSec
               src="/lovable-uploads/318cdd13-7256-4cfe-99e0-948e43902b7b.png" 
               alt="Monarch Logo"
               className="h-16 w-16 rounded-xl shadow-lg border-2 border-overlay/20 object-contain bg-overlay/10 backdrop-blur-sm"
+              width={64}
+              height={64}
+              loading="lazy"
+              decoding="async"
             />
             <div>
               <h2 className="text-2xl font-bold text-overlay-foreground tracking-wide">MONARCH</h2>

@@ -135,9 +135,12 @@ export default function Navbar() {
                   src="/lovable-uploads/318cdd13-7256-4cfe-99e0-948e43902b7b.png"
                   alt="Monarch Property Management Logo"
                   className="w-full h-full object-contain"
+                  width={40}
+                  height={40}
                   onError={() => setLogoError(true)}
                   loading="eager"
                   decoding="async"
+                  fetchPriority="high"
                 />
               ) : (
                 <Crown className="h-5 w-5 md:h-6 md:w-6 text-primary" />
@@ -269,7 +272,11 @@ export default function Navbar() {
                   src="/lovable-uploads/318cdd13-7256-4cfe-99e0-948e43902b7b.png"
                   alt="Monarch Logo"
                   className="w-full h-full object-contain"
+                  width={32}
+                  height={32}
                   onError={() => setLogoError(true)}
+                  loading="lazy"
+                  decoding="async"
                 />
               ) : (
                 <Crown className="h-5 w-5 text-primary" />
