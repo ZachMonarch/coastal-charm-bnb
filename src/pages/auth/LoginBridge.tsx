@@ -227,6 +227,10 @@ export default function LoginBridge() {
             src="/lovable-uploads/318cdd13-7256-4cfe-99e0-948e43902b7b.png" 
             alt="Monarch Logo"
             className="absolute inset-0 m-auto h-8 w-8 rounded object-contain"
+            width={32}
+            height={32}
+            loading="lazy"
+            decoding="async"
           />
         </div>
         <div className="text-sm text-muted-foreground font-medium">

@@ -345,6 +345,10 @@ export default function Auth() {
               src="/lovable-uploads/318cdd13-7256-4cfe-99e0-948e43902b7b.png" 
               alt="Monarch Logo"
               className="absolute inset-0 m-auto h-8 w-8 rounded object-contain"
+              width={32}
+              height={32}
+              loading="lazy"
+              decoding="async"
             />
           </div>
           <p className="text-muted-foreground font-medium">
@@ -421,6 +425,10 @@ export default function Auth() {
                 src="/lovable-uploads/318cdd13-7256-4cfe-99e0-948e43902b7b.png" 
                 alt="Monarch Logo"
                 className="h-14 w-14 rounded-xl shadow-lg border border-border object-contain bg-card"
+                width={56}
+                height={56}
+                loading="lazy"
+                decoding="async"
               />
               <div className="text-left">
                 <h1 className="text-2xl font-bold text-foreground">MONARCH</h1>
