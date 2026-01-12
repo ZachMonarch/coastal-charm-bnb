@@ -175,9 +175,9 @@ export default function DesignTokens() {
 
   // Brand colors
   const brandColors = [
-    { name: 'Primary (Gold)', light: '32 80% 40%', dark: '34 85% 55%', desc: 'Monarch Gold - Primary brand color' },
-    { name: 'Primary Light', light: '32 75% 50%', dark: '36 80% 62%', desc: 'Lighter variant for hover' },
-    { name: 'Primary Dark', light: '28 85% 35%', dark: '30 90% 45%', desc: 'Darker variant for pressed' },
+    { name: 'Primary (Gold)', light: '32 82% 33%', dark: '34 85% 55%', desc: 'Monarch Gold - WCAG AA (4.64:1)' },
+    { name: 'Primary Light', light: '32 80% 40%', dark: '36 80% 62%', desc: 'Lighter variant for hover' },
+    { name: 'Primary Dark', light: '28 85% 28%', dark: '30 90% 45%', desc: 'Darker variant for pressed' },
     { name: 'Secondary (Teal)', light: '175 35% 35%', dark: '175 40% 50%', desc: 'Teal from MONARCH text' },
   ];
 
@@ -200,7 +200,7 @@ export default function DesignTokens() {
 
   // Chart colors
   const chartColors = [
-    { name: 'Chart 1', light: '32 80% 40%', dark: '34 85% 55%', desc: 'Monarch Gold' },
+    { name: 'Chart 1', light: '32 82% 33%', dark: '34 85% 55%', desc: 'Monarch Gold' },
     { name: 'Chart 2', light: '175 35% 45%', dark: '175 45% 55%', desc: 'Teal' },
     { name: 'Chart 3', light: '200 60% 60%', dark: '200 55% 65%', desc: 'Sky Blue' },
     { name: 'Chart 4', light: '25 50% 55%', dark: '28 55% 60%', desc: 'Earth Brown' },
