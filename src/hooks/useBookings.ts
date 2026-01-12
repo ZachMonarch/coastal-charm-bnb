@@ -28,9 +28,15 @@ export interface BookingFilters {
   };
 }
 
-export const useBookings = (filters: Partial<BookingFilters> = {}) => {
+export interface UseBookingsOptions {
+  autoFetch?: boolean;
+  filters?: Partial<BookingFilters>;
+}
+
+export const useBookings = (options: UseBookingsOptions = {}) => {
+  const { autoFetch = false, filters = {} } = options;
   const [bookings, setBookings] = useState<Booking[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(autoFetch);
   const [error, setError] = useState<string | null>(null);
 
   const fetchBookings = async () => {
@@ -80,8 +86,10 @@ export const useBookings = (filters: Partial<BookingFilters> = {}) => {
   };
 
   useEffect(() => {
-    fetchBookings();
-  }, [JSON.stringify(filters)]);
+    if (autoFetch) {
+      fetchBookings();
+    }
+  }, [autoFetch, JSON.stringify(filters)]);
 
   const createBooking = async (bookingData: Omit<Booking, 'id' | 'created_at' | 'updated_at'>) => {
     try {

@@ -30,7 +30,14 @@ export interface BookingFilters {
   };
 }
 
-export const useOptimizedBookings = (filters: Partial<BookingFilters> = {}) => {
+export interface UseOptimizedBookingsOptions {
+  autoFetch?: boolean;
+  filters?: Partial<BookingFilters>;
+}
+
+export const useOptimizedBookings = (options: UseOptimizedBookingsOptions = {}) => {
+  const { autoFetch = false, filters = {} } = options;
+  
   // Create stable query key with proper serialization
   const queryKey = useMemo(() => ['bookings', JSON.stringify(filters)], [filters]);
   
@@ -72,6 +79,7 @@ export const useOptimizedBookings = (filters: Partial<BookingFilters> = {}) => {
   }, [filters]);
 
   // Use optimized query with longer cache times and smart retries
+  // Only fetch if autoFetch is enabled
   const {
     data: bookings = [],
     isLoading: loading,
@@ -85,6 +93,7 @@ export const useOptimizedBookings = (filters: Partial<BookingFilters> = {}) => {
       gcTime: 30 * 60 * 1000, // 30 minutes
       refetchOnWindowFocus: false,
       refetchOnMount: false,
+      enabled: autoFetch, // Only fetch when autoFetch is true
     }
   );
 

@@ -4,11 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
     
-    <!-- Performance: Preconnect to Supabase for faster API requests -->
-    <link rel="preconnect" href="https://yhegaaqxmuhszesbjtdo.supabase.co" crossorigin />
-    <link rel="dns-prefetch" href="https://yhegaaqxmuhszesbjtdo.supabase.co" />
-    
-    <!-- Security headers moved to vercel.json HTTP headers -->
+    <!-- Security headers are configured in vercel.json -->
     
     <!-- SEO and Branding -->
     <title>Monarch Property Management - Professional Property Management Platform</title>
@@ -37,12 +33,13 @@
     
     <!-- Critical resource preconnect and preload - Order matters for performance -->
     <!-- 1. Preconnect to critical origins FIRST (before any other resources) -->
+    <link rel="dns-prefetch" href="https://yhegaaqxmuhszesbjtdo.supabase.co" />
     <link rel="preconnect" href="https://yhegaaqxmuhszesbjtdo.supabase.co" crossorigin />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <!-- Preconnect to Unsplash for faster image loading -->
-    <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
     <link rel="dns-prefetch" href="https://images.unsplash.com" />
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
     
     <!-- 2. DNS prefetch for secondary origins -->
     <link rel="dns-prefetch" href="https://api.stripe.com" />
