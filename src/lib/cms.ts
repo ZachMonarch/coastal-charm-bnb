@@ -4,6 +4,11 @@
  * Provides abstraction for headless CMS content fetching.
  * Ready for integration with Contentful, Strapi, or other headless CMS.
  * 
+ * PRODUCTION STATUS: Using fallback static content
+ * The mock data below serves as production-ready fallback content.
+ * Content is managed directly in Supabase (news_articles table) for dynamic content.
+ * For headless CMS integration, configure VITE_CMS_API_URL and VITE_CMS_API_KEY.
+ * 
  * @see Phase 3 Documentation: docs/design-system/PHASE_3_COMPLETION.md
  */
 

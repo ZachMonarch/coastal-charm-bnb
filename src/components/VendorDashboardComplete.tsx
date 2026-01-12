@@ -93,53 +93,8 @@ export default function VendorDashboardComplete({ canApply, canViewAll }: Vendor
     profileCompletion: stats.profileCompletion
   };
 
-  const mockAvailableProjects = [
-    {
-      id: 1,
-      title: 'HVAC System Maintenance',
-      property: 'Downtown Complex A',
-      budget: '$5,000 - $8,000',
-      deadline: '2024-03-15',
-      category: 'HVAC',
-      description: 'Quarterly maintenance for 24-unit HVAC system',
-      requiresVerification: false,
-      urgency: 'medium',
-      location: 'Downtown District'
-    },
-    {
-      id: 2,
-      title: 'Emergency Plumbing Repair',
-      property: 'Riverside Apartments',
-      budget: '$2,500 - $4,000',
-      deadline: '2024-02-10',
-      category: 'Plumbing',
-      description: 'Emergency pipe burst repair in basement level',
-      requiresVerification: true,
-      urgency: 'high',
-      location: 'Riverside'
-    },
-    {
-      id: 3,
-      title: 'Electrical Panel Upgrade',
-      property: 'Sunset Manor',
-      budget: '$8,000 - $12,000',
-      deadline: '2024-02-28',
-      category: 'Electrical',
-      description: '200A electrical panel upgrade with modern safety features',
-      requiresVerification: true,
-      urgency: 'medium',
-      location: 'West End'
-    }
-  ];
-
-  const getUrgencyColor = (urgency: string) => {
-    switch (urgency) {
-      case 'high': return 'bg-destructive/10 text-destructive border-destructive/30 dark:bg-destructive/20 dark:border-destructive/40';
-      case 'medium': return 'bg-warning/10 text-warning border-warning/30 dark:bg-warning/20 dark:border-warning/40';
-      case 'low': return 'bg-success/10 text-success border-success/30 dark:bg-success/20 dark:border-success/40';
-      default: return 'bg-muted text-muted-foreground border-border';
-    }
-  };
+  // Note: Available projects are now fetched dynamically via VendorProjectBrowser component
+  // The dashboard displays stats and quick actions; project browsing is done via dedicated tabs/pages
 
   return (
     <EnhancedPageBackground pattern="dots" gradient="mesh" intensity="subtle" showOrbs={true}>
