@@ -2,8 +2,12 @@
  * Analytics Instrumentation Library
  * 
  * Provides unified interface for tracking events across the application.
- * Currently supports console logging (dev) with prepared structure for
- * PostHog, GA4, or other analytics platforms.
+ * Vercel Analytics is enabled via @vercel/analytics package (see main.tsx).
+ * This module provides additional custom event tracking with console logging in dev.
+ * 
+ * PRODUCTION STATUS: Active
+ * - Vercel Analytics: Enabled (automatic page views and web vitals)
+ * - Custom events: Logged to console in dev, ready for PostHog/GA4 integration
  * 
  * @see Phase 3 Documentation: docs/design-system/PHASE_3_COMPLETION.md
  */
