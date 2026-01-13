@@ -1,45 +1,70 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Crown, Shield, Calendar, DollarSign, AlertTriangle, CheckCircle } from 'lucide-react';
+import { Crown, Shield, Calendar, DollarSign, AlertTriangle, CheckCircle, FileText, Briefcase } from 'lucide-react';
 import { useAuth } from '@/contexts/OptimizedAuthContext';
 import { useVendorApplications, useVendorBids } from '@/hooks/useVendors';
 import VerifiedBadge from './VerifiedBadge';
+import { Link } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
 
 interface VendorDashboardContentProps {
   canApply: boolean;
   canViewAll: boolean;
 }
 
+interface AvailableProject {
+  id: string;
+  title: string;
+  description: string | null;
+  category: string | null;
+  budget_max: number | null;
+  deadline: string | null;
+  status: string;
+}
+
 export default function VendorDashboardContent({ canApply, canViewAll }: VendorDashboardContentProps) {
   const { user } = useAuth();
   const { applications, loading: applicationsLoading } = useVendorApplications({ userId: user?.id });
   const { bids, loading: bidsLoading } = useVendorBids();
+  const [projects, setProjects] = useState<AvailableProject[]>([]);
+  const [projectsLoading, setProjectsLoading] = useState(true);
 
-  const mockProjects = [
-    {
-      id: 1,
-      title: 'HVAC System Replacement',
-      property: 'Downtown Complex',
-      budget: '$15,000',
-      deadline: '2024-03-15',
-      category: 'HVAC',
-      description: 'Complete HVAC system replacement for 24-unit building',
-      requiresVerification: true
-    },
-    {
-      id: 2,
-      title: 'Emergency Plumbing Repair',
-      property: 'Riverside Apartments',
-      budget: '$2,500',
-      deadline: '2024-02-10',
-      category: 'Plumbing',
-      description: 'Emergency pipe burst repair in basement',
-      requiresVerification: false
-    }
-  ];
+  useEffect(() => {
+    const fetchAvailableProjects = async () => {
+      try {
+        setProjectsLoading(true);
+        // Fetch open RFQs that vendors can bid on
+        const { data, error } = await supabase
+          .from('rfqs')
+          .select('id, title, description, category, deadline, status')
+          .eq('status', 'open')
+          .order('created_at', { ascending: false })
+          .limit(10);
+
+        if (error) throw error;
+        
+        setProjects(data?.map(rfq => ({
+          id: rfq.id,
+          title: rfq.title,
+          description: rfq.description,
+          category: rfq.category,
+          budget_max: null, // RFQs don't expose budget to vendors
+          deadline: rfq.deadline,
+          status: rfq.status
+        })) || []);
+      } catch (error) {
+        console.error('Error fetching projects:', error);
+        setProjects([]);
+      } finally {
+        setProjectsLoading(false);
+      }
+    };
+
+    fetchAvailableProjects();
+  }, []);
 
   return (
     <Tabs defaultValue="projects" className="space-y-6">
@@ -51,63 +76,67 @@ export default function VendorDashboardContent({ canApply, canViewAll }: VendorD
       </TabsList>
 
       <TabsContent value="projects" className="space-y-6">
-        <div className="grid gap-6">
-          {mockProjects.map((project) => (
-            <Card key={project.id} className="hover:shadow-md transition-shadow duration-200">
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div>
-                    <CardTitle className="flex items-center gap-2">
-                      {project.title}
-                      {project.requiresVerification && (
-                        <Badge variant="outline" className="text-xs">
-                          <Shield className="h-3 w-3 mr-1" />
-                          Verified Only
-                        </Badge>
-                      )}
-                    </CardTitle>
-                    <p className="text-sm text-muted-foreground mt-2">{project.description}</p>
+        {projectsLoading ? (
+          <div className="text-center py-8">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Loading available projects...</p>
+          </div>
+        ) : projects.length === 0 ? (
+          <div className="text-center py-12">
+            <Briefcase className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+            <p className="text-muted-foreground">No open projects available at this time</p>
+            <p className="text-sm text-muted-foreground mt-2">Check back later for new opportunities</p>
+          </div>
+        ) : (
+          <div className="grid gap-6">
+            {projects.map((project) => (
+              <Card key={project.id} className="hover:shadow-md transition-shadow duration-200">
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <CardTitle className="flex items-center gap-2">
+                        {project.title}
+                      </CardTitle>
+                      <p className="text-sm text-muted-foreground mt-2">
+                        {project.description || 'No description provided'}
+                      </p>
+                    </div>
+                    {project.category && (
+                      <Badge className="bg-primary/10 text-primary">{project.category}</Badge>
+                    )}
                   </div>
-                  <Badge className="bg-primary/10 text-primary">{project.category}</Badge>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 gap-4 mb-4 text-sm">
-                  <div>
-                    <span className="text-muted-foreground">Property:</span>
-                    <span className="ml-2 font-medium">{project.property}</span>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-2 gap-4 mb-4 text-sm">
+                    <div>
+                      <span className="text-muted-foreground">Deadline:</span>
+                      <span className="ml-2 font-medium">
+                        {project.deadline ? new Date(project.deadline).toLocaleDateString() : 'TBD'}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground">Status:</span>
+                      <span className="ml-2 font-medium capitalize">{project.status}</span>
+                    </div>
                   </div>
-                  <div>
-                    <span className="text-muted-foreground">Budget:</span>
-                    <span className="ml-2 font-medium">{project.budget}</span>
+                  
+                  <div className="flex justify-end">
+                    {!canApply ? (
+                      <Button disabled variant="outline">
+                        <AlertTriangle className="h-4 w-4 mr-2" />
+                        Subscription Required
+                      </Button>
+                    ) : (
+                      <Button asChild>
+                        <Link to={`/vendor/rfq/${project.id}`}>View & Apply</Link>
+                      </Button>
+                    )}
                   </div>
-                  <div>
-                    <span className="text-muted-foreground">Deadline:</span>
-                    <span className="ml-2 font-medium">{project.deadline}</span>
-                  </div>
-                </div>
-                
-                <div className="flex justify-end">
-                  {!canApply ? (
-                    <Button disabled variant="outline">
-                      <AlertTriangle className="h-4 w-4 mr-2" />
-                      Subscription Required
-                    </Button>
-                  ) : project.requiresVerification && !canViewAll ? (
-                    <Button disabled variant="outline">
-                      <Shield className="h-4 w-4 mr-2" />
-                      Premium Required
-                    </Button>
-                  ) : (
-                    <Button>
-                      Apply for Project
-                    </Button>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
       </TabsContent>
 
       <TabsContent value="applications">
@@ -207,6 +236,10 @@ export default function VendorDashboardContent({ canApply, canViewAll }: VendorD
                 </div>
               </div>
             )}
+
+            <Button asChild className="w-full">
+              <Link to="/vendor/profile">Manage Profile</Link>
+            </Button>
           </CardContent>
         </Card>
       </TabsContent>
@@ -221,8 +254,8 @@ export default function VendorDashboardContent({ canApply, canViewAll }: VendorD
             <div className="text-center py-8">
               <DollarSign className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
               <p className="text-muted-foreground">Payment management interface</p>
-              <Button className="mt-4" variant="outline">
-                View Payment Details
+              <Button className="mt-4" variant="outline" asChild>
+                <Link to="/vendor/payments">View Payment Details</Link>
               </Button>
             </div>
           </CardContent>

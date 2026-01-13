@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Plus, Search, Filter, MoreHorizontal, User, Mail, Calendar, Shield } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Plus, Search, Filter, MoreHorizontal, User, Mail, Calendar, Shield, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -8,61 +8,64 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useNavigate } from "react-router-dom";
 import { getRoleBadgeColor, getStatusColor } from '@/utils/themeColors';
+import { supabase } from "@/integrations/supabase/client";
 
-// Mock user data
-const mockUsers = [
-  {
-    id: "1",
-    name: "John Smith",
-    email: "john.smith@example.com",
-    role: "Admin",
-    status: "Active",
-    lastLogin: "2024-01-15",
-    avatar: "/placeholder.svg",
-    properties: 12,
-    tenants: 45
-  },
-  {
-    id: "2", 
-    name: "Sarah Johnson",
-    email: "sarah.johnson@example.com",
-    role: "Property Manager",
-    status: "Active",
-    lastLogin: "2024-01-14",
-    avatar: "/placeholder.svg",
-    properties: 8,
-    tenants: 32
-  },
-  {
-    id: "3",
-    name: "Mike Wilson",
-    email: "mike.wilson@example.com", 
-    role: "Tenant",
-    status: "Active",
-    lastLogin: "2024-01-13",
-    avatar: "/placeholder.svg",
-    properties: 0,
-    tenants: 0
-  },
-  {
-    id: "4",
-    name: "Emily Davis",
-    email: "emily.davis@example.com",
-    role: "Vendor",
-    status: "Pending",
-    lastLogin: "2024-01-12",
-    avatar: "/placeholder.svg",
-    properties: 0,
-    tenants: 0
-  }
-];
+interface UserProfile {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  status: string;
+  lastLogin: string;
+  avatar: string | null;
+}
 
 export default function UserManagement() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRole, setSelectedRole] = useState("All");
+  const [users, setUsers] = useState<UserProfile[]>([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const filteredUsers = mockUsers.filter(user => {
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        setLoading(true);
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('id, full_name, email, role, status, avatar_url, updated_at')
+          .order('created_at', { ascending: false })
+          .limit(100);
+
+        if (error) {
+          console.error('Error fetching users:', error);
+          setUsers([]);
+          return;
+        }
+
+        const mappedUsers: UserProfile[] = (data || []).map(profile => ({
+          id: profile.id,
+          name: profile.full_name || 'Unknown User',
+          email: profile.email,
+          role: profile.role ? profile.role.charAt(0).toUpperCase() + profile.role.slice(1).replace('_', ' ') : 'User',
+          status: profile.status === 'active' ? 'Active' : profile.status || 'Pending',
+          lastLogin: profile.updated_at ? new Date(profile.updated_at).toLocaleDateString() : 'Never',
+          avatar: profile.avatar_url
+        }));
+
+        setUsers(mappedUsers);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+        setUsers([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+  const filteredUsers = users.filter(user => {
     const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          user.email.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesRole = selectedRole === "All" || user.role === selectedRole;
@@ -120,7 +123,7 @@ export default function UserManagement() {
               <User className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{mockUsers.length}</div>
+              <div className="text-2xl font-bold">{users.length}</div>
             </CardContent>
           </Card>
           
@@ -130,7 +133,7 @@ export default function UserManagement() {
               <Shield className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{mockUsers.filter(u => u.status === "Active").length}</div>
+              <div className="text-2xl font-bold">{users.filter(u => u.status === "Active").length}</div>
             </CardContent>
           </Card>
 
@@ -140,7 +143,7 @@ export default function UserManagement() {
               <Shield className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{mockUsers.filter(u => u.role === "Admin").length}</div>
+              <div className="text-2xl font-bold">{users.filter(u => u.role === "Admin").length}</div>
             </CardContent>
           </Card>
 
@@ -150,7 +153,7 @@ export default function UserManagement() {
               <User className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{mockUsers.filter(u => u.role === "Property Manager").length}</div>
+              <div className="text-2xl font-bold">{users.filter(u => u.role === "Property Manager").length}</div>
             </CardContent>
           </Card>
         </div>
@@ -162,6 +165,17 @@ export default function UserManagement() {
             <CardDescription>All registered users in the system</CardDescription>
           </CardHeader>
           <CardContent>
+            {loading ? (
+              <div className="text-center py-8">
+                <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-primary" />
+                <p className="text-muted-foreground">Loading users...</p>
+              </div>
+            ) : filteredUsers.length === 0 ? (
+              <div className="text-center py-8">
+                <User className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+                <p className="text-muted-foreground">No users found</p>
+              </div>
+            ) : (
             <div className="space-y-4">
               {filteredUsers.map((user) => (
                 <div
@@ -194,7 +208,7 @@ export default function UserManagement() {
                     
                     {user.role === "Property Manager" && (
                       <div className="text-xs text-muted-foreground">
-                        {user.properties} properties, {user.tenants} tenants
+                        Property Manager
                       </div>
                     )}
 
@@ -220,6 +234,7 @@ export default function UserManagement() {
                 </div>
               ))}
             </div>
+            )}
           </CardContent>
         </Card>
       </div>

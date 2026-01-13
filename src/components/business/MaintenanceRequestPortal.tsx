@@ -61,56 +61,49 @@ export const MaintenanceRequestPortal: React.FC = () => {
   const fetchMaintenanceRequests = async () => {
     try {
       setLoading(true);
-      // Mock data for demonstration - in real implementation, fetch from database
-      const mockRequests: MaintenanceRequest[] = [
-        {
-          id: '1',
-          property_id: '101',
-          property_name: 'Sunset Apartments Unit 4B',
-          tenant_id: user?.id || null,
-          title: 'Kitchen Faucet Leaking',
-          description: 'The kitchen faucet has been leaking constantly. Water is dripping from the base and needs immediate attention.',
-          category: 'plumbing',
-          priority: 'high',
-          status: 'submitted',
-          profiles: {
-            full_name: user?.full_name || 'John Smith',
-            email: user?.email || 'john.smith@email.com'
-          },
-          assigned_vendor_name: null,
-          created_at: '2024-08-20T10:30:00Z',
-          updated_at: '2024-08-20T10:30:00Z',
-          scheduled_date: null,
-          cost_estimate: 150,
-          actual_cost: null,
-          notes: null,
-          images: null
-        },
-        {
-          id: '2',
-          property_id: '102',
-          property_name: 'Oak Street Condo 2A',
-          tenant_id: user?.id || null,
-          title: 'HVAC Not Working',
-          description: 'Air conditioning unit stopped working. No cold air coming from vents.',
-          category: 'hvac',
-          priority: 'emergency',
-          status: 'assigned',
-          profiles: {
-            full_name: user?.full_name || 'Sarah Johnson',
-            email: user?.email || 'sarah.j@email.com'
-          },
-          assigned_vendor_name: 'Cool Air Services',
-          created_at: '2024-08-19T14:15:00Z',
-          updated_at: '2024-08-20T09:00:00Z',
-          scheduled_date: '2024-08-21T10:00:00Z',
-          cost_estimate: 350
-        }
-      ];
-      setRequests(mockRequests);
+      
+      // Fetch real maintenance requests from the database
+      const { data, error } = await supabase
+        .from('maintenance_requests')
+        .select('id, property_id, property_name, tenant_id, title, description, category, priority, status, assigned_vendor_id, assigned_vendor_name, created_at, updated_at, scheduled_date, completed_date, cost_estimate, actual_cost, images, notes')
+        .order('created_at', { ascending: false })
+        .limit(50);
+
+      if (error) {
+        console.error('Error fetching maintenance requests:', error);
+        toast.error('Failed to load maintenance requests');
+        setRequests([]);
+        return;
+      }
+
+      // Map database results to our interface
+      const mappedRequests: MaintenanceRequest[] = (data || []).map(req => ({
+        id: req.id,
+        property_id: req.property_id,
+        property_name: req.property_name,
+        tenant_id: req.tenant_id,
+        title: req.title,
+        description: req.description,
+        category: req.category as MaintenanceRequest['category'],
+        priority: req.priority as MaintenanceRequest['priority'],
+        status: req.status as MaintenanceRequest['status'],
+        assigned_vendor_id: req.assigned_vendor_id || undefined,
+        assigned_vendor_name: req.assigned_vendor_name || undefined,
+        created_at: req.created_at,
+        updated_at: req.updated_at,
+        scheduled_date: req.scheduled_date || undefined,
+        completed_date: req.completed_date || undefined,
+        cost_estimate: req.cost_estimate || undefined,
+        actual_cost: req.actual_cost || undefined,
+        images: req.images || undefined,
+        notes: req.notes || undefined
+      }));
+
+      setRequests(mappedRequests);
     } catch (error) {
       console.error('Error fetching maintenance requests:', error);
       toast.error('Failed to load maintenance requests');
+      setRequests([]);
     } finally {
       setLoading(false);
     }

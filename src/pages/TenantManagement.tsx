@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Plus, Search, User, Home, DollarSign, Calendar, MoreHorizontal } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Plus, Search, User, Home, DollarSign, Calendar, MoreHorizontal, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -11,73 +11,75 @@ import { getStatusColor } from '@/utils/themeColors';
 import EnhancedPageBackground from "@/components/shared/EnhancedPageBackground";
 import PageHero from "@/components/shared/PageHero";
 import StatsCard from "@/components/shared/StatsCard";
+import { supabase } from "@/integrations/supabase/client";
 
-// Mock tenant data
-const mockTenants = [
-  {
-    id: "1",
-    name: "Alice Johnson",
-    email: "alice.johnson@example.com",
-    phone: "+1 (555) 234-5678",
-    unit: "A101",
-    property: "Downtown Apartments",
-    rent: 1200,
-    status: "Current",
-    leaseStart: "2023-06-01",
-    leaseEnd: "2024-05-31",
-    avatar: "/placeholder.svg",
-    emergencyContact: "Bob Johnson - (555) 345-6789"
-  },
-  {
-    id: "2",
-    name: "Michael Chen",
-    email: "michael.chen@example.com",
-    phone: "+1 (555) 345-6789",
-    unit: "B205",
-    property: "Riverside Complex",
-    rent: 1350,
-    status: "Current",
-    leaseStart: "2023-08-15",
-    leaseEnd: "2024-08-14",
-    avatar: "/placeholder.svg",
-    emergencyContact: "Linda Chen - (555) 456-7890"
-  },
-  {
-    id: "3",
-    name: "Sarah Williams",
-    email: "sarah.williams@example.com",
-    phone: "+1 (555) 456-7890",
-    unit: "C302",
-    property: "Garden View",
-    rent: 1100,
-    status: "Notice Given",
-    leaseStart: "2023-04-01",
-    leaseEnd: "2024-03-31",
-    avatar: "/placeholder.svg",
-    emergencyContact: "Tom Williams - (555) 567-8901"
-  },
-  {
-    id: "4",
-    name: "David Martinez",
-    email: "david.martinez@example.com",
-    phone: "+1 (555) 567-8901",
-    unit: "D401",
-    property: "Sunset Heights",
-    rent: 1450,
-    status: "Late Payment",
-    leaseStart: "2023-09-01",
-    leaseEnd: "2024-08-31",
-    avatar: "/placeholder.svg",
-    emergencyContact: "Maria Martinez - (555) 678-9012"
-  }
-];
+interface Tenant {
+  id: string;
+  name: string;
+  email: string;
+  phone: string | null;
+  unit: string;
+  property: string;
+  rent: number;
+  status: string;
+  leaseStart: string;
+  leaseEnd: string;
+  avatar: string | null;
+}
 
 export default function TenantManagement() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("All");
+  const [tenants, setTenants] = useState<Tenant[]>([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const filteredTenants = mockTenants.filter(tenant => {
+  useEffect(() => {
+    const fetchTenants = async () => {
+      try {
+        setLoading(true);
+        // Fetch profiles with tenant role
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('id, full_name, email, phone, avatar_url, status, created_at')
+          .eq('role', 'tenant')
+          .order('created_at', { ascending: false })
+          .limit(100);
+
+        if (error) {
+          console.error('Error fetching tenants:', error);
+          setTenants([]);
+          return;
+        }
+
+        // Map to our tenant interface
+        const mappedTenants: Tenant[] = (data || []).map(profile => ({
+          id: profile.id,
+          name: profile.full_name || 'Unknown',
+          email: profile.email,
+          phone: profile.phone,
+          unit: 'N/A', // Would come from a lease/booking table
+          property: 'N/A', // Would come from a lease/booking table
+          rent: 0, // Would come from a lease/booking table
+          status: profile.status === 'active' ? 'Current' : profile.status || 'Unknown',
+          leaseStart: profile.created_at,
+          leaseEnd: '',
+          avatar: profile.avatar_url
+        }));
+
+        setTenants(mappedTenants);
+      } catch (error) {
+        console.error('Error fetching tenants:', error);
+        setTenants([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTenants();
+  }, []);
+
+  const filteredTenants = tenants.filter(tenant => {
     const matchesSearch = tenant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          tenant.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          tenant.unit.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -86,10 +88,10 @@ export default function TenantManagement() {
     return matchesSearch && matchesStatus;
   });
 
-  const totalTenants = mockTenants.length;
-  const currentTenants = mockTenants.filter(t => t.status === "Current").length;
-  const monthlyRevenue = mockTenants.filter(t => t.status === "Current").reduce((sum, t) => sum + t.rent, 0);
-  const latePayments = mockTenants.filter(t => t.status === "Late Payment").length;
+  const totalTenants = tenants.length;
+  const currentTenants = tenants.filter(t => t.status === "Current").length;
+  const monthlyRevenue = tenants.filter(t => t.status === "Current").reduce((sum, t) => sum + t.rent, 0);
+  const latePayments = tenants.filter(t => t.status === "Late Payment").length;
 
   return (
     <EnhancedPageBackground gradient="linear" pattern="dots" primaryColor="primary">
@@ -173,6 +175,18 @@ export default function TenantManagement() {
             <CardDescription>All tenants across your properties</CardDescription>
           </CardHeader>
           <CardContent>
+            {loading ? (
+              <div className="text-center py-8">
+                <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-primary" />
+                <p className="text-muted-foreground">Loading tenants...</p>
+              </div>
+            ) : filteredTenants.length === 0 ? (
+              <div className="text-center py-8">
+                <User className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+                <p className="text-muted-foreground">No tenants found</p>
+                <p className="text-sm text-muted-foreground mt-2">Try adjusting your search or filters</p>
+              </div>
+            ) : (
             <div className="space-y-4">
               {filteredTenants.map((tenant) => (
                 <div
@@ -236,6 +250,7 @@ export default function TenantManagement() {
                 </div>
               ))}
             </div>
+            )}
           </CardContent>
         </Card>
       </div>
