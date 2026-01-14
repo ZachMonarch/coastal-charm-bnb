@@ -84,84 +84,106 @@ export class PropertyAPI {
       };
     }
 
-    // Use appropriate view based on authentication status
-    // Anonymous users: masked view (city/state, price range only)
-    // Authenticated users: full view (address, exact price)
-    const viewName = isAuthenticated ? 'safe_property_listings' : 'public_property_listings_masked';
-    
-    // Field selection based on view - security: owner_id excluded
-    const selectedFields = isAuthenticated 
-      ? [
+    try {
+      let data: any[] = [];
+      let count: number | null = 0;
+
+      if (isAuthenticated) {
+        // Authenticated users: use direct view access with full details
+        const selectedFields = [
           'id', 'title', 'description', 'address', 'city', 'state', 'zip_code',
-          'price', 'bedrooms', 'bathrooms', 'square_feet', 'property_type',
-          'status', 'available_date', 'image_urls', 'amenities'
-        ].join(',')
-      : [
-          'id', 'title', 'description', 'city', 'state', 'location_display', 'price_range',
           'price', 'bedrooms', 'bathrooms', 'square_feet', 'property_type',
           'status', 'available_date', 'image_urls', 'amenities'
         ].join(',');
 
-    try {
-      let query = supabase
-        .from(viewName)
-        .select(selectedFields, { count: 'exact' });
+        let query = supabase
+          .from('safe_property_listings')
+          .select(selectedFields, { count: 'exact' });
 
-      // Apply filters with proper indexing consideration
-      if (params.search) {
-        query = query.or(`title.ilike.%${params.search}%,description.ilike.%${params.search}%,city.ilike.%${params.search}%`);
-      }
-      
-      if (params.city && params.city !== 'all') {
-        query = query.eq('city', params.city);
-      }
-      
-      if (params.propertyType && params.propertyType !== 'all') {
-        query = query.eq('property_type', params.propertyType);
-      }
-      
-      if (params.minPrice) {
-        query = query.gte('price', params.minPrice);
-      }
-      
-      if (params.maxPrice) {
-        query = query.lte('price', params.maxPrice);
-      }
-      
-      if (params.bedrooms) {
-        query = query.gte('bedrooms', params.bedrooms);
-      }
-      
-      if (params.bathrooms) {
-        query = query.gte('bathrooms', params.bathrooms);
-      }
-      
-      if (params.status && params.status !== 'all') {
-        query = query.eq('status', params.status);
+        // Apply filters
+        if (params.search) {
+          query = query.or(`title.ilike.%${params.search}%,description.ilike.%${params.search}%,city.ilike.%${params.search}%`);
+        }
+        if (params.city && params.city !== 'all') {
+          query = query.eq('city', params.city);
+        }
+        if (params.propertyType && params.propertyType !== 'all') {
+          query = query.eq('property_type', params.propertyType);
+        }
+        if (params.minPrice) {
+          query = query.gte('price', params.minPrice);
+        }
+        if (params.maxPrice) {
+          query = query.lte('price', params.maxPrice);
+        }
+        if (params.bedrooms) {
+          query = query.gte('bedrooms', params.bedrooms);
+        }
+        if (params.bathrooms) {
+          query = query.gte('bathrooms', params.bathrooms);
+        }
+        if (params.status && params.status !== 'all') {
+          query = query.eq('status', params.status);
+        }
+
+        // Sorting and pagination
+        const sortBy = params.sortBy || 'id';
+        const sortOrder = params.sortOrder === 'asc' ? { ascending: true } : { ascending: false };
+        query = query.order(sortBy, sortOrder);
+
+        const from = (params.page - 1) * params.pageSize;
+        const to = from + params.pageSize - 1;
+        query = query.range(from, to);
+
+        const result = await query;
+        if (result.error) {
+          console.error('[PropertyAPI] Supabase error:', result.error.message, result.error.code, result.error.details);
+          throw result.error;
+        }
+        data = result.data || [];
+        count = result.count;
+      } else {
+        // Anonymous users: use SECURITY DEFINER RPCs for masked data
+        // This bypasses RLS that blocks direct anon access to properties table
+        const [listingsResult, countResult] = await Promise.all([
+          supabase.rpc('get_public_property_listings', {
+            p_limit: params.pageSize,
+            p_offset: (params.page - 1) * params.pageSize,
+            p_city: params.city && params.city !== 'all' ? params.city : null,
+            p_property_type: params.propertyType && params.propertyType !== 'all' ? params.propertyType : null,
+            p_min_price: params.minPrice || null,
+            p_max_price: params.maxPrice || null,
+            p_bedrooms: params.bedrooms || null,
+            p_status: params.status && params.status !== 'all' ? params.status : null
+          }),
+          supabase.rpc('get_public_property_count', {
+            p_city: params.city && params.city !== 'all' ? params.city : null,
+            p_property_type: params.propertyType && params.propertyType !== 'all' ? params.propertyType : null,
+            p_min_price: params.minPrice || null,
+            p_max_price: params.maxPrice || null,
+            p_bedrooms: params.bedrooms || null,
+            p_status: params.status && params.status !== 'all' ? params.status : null
+          })
+        ]);
+
+        if (listingsResult.error) {
+          console.error('[PropertyAPI] RPC error:', listingsResult.error.message);
+          throw listingsResult.error;
+        }
+        if (countResult.error) {
+          console.error('[PropertyAPI] Count RPC error:', countResult.error.message);
+          throw countResult.error;
+        }
+
+        data = listingsResult.data || [];
+        count = countResult.data || 0;
       }
 
-      // Sorting with index optimization
-      const sortBy = params.sortBy || 'id';
-      const sortOrder = params.sortOrder === 'asc' ? { ascending: true } : { ascending: false };
-      query = query.order(sortBy, sortOrder);
-
-      // Pagination
-      const from = (params.page - 1) * params.pageSize;
-      const to = from + params.pageSize - 1;
-      query = query.range(from, to);
-
-      const { data, error, count } = await query;
-
-      if (error) {
-        console.error('[PropertyAPI] Supabase error:', error.message, error.code, error.details);
-        throw error;
-      }
-
-      console.log('[PropertyAPI] Fetched', count, 'properties successfully');
+      console.log('[PropertyAPI] Fetched', count, 'properties successfully (authenticated:', isAuthenticated, ')');
 
       const totalPages = Math.ceil((count || 0) / params.pageSize);
       const response: APIResponse<any> = {
-        data: data || [],
+        data: data,
         metadata: {
           total: count || 0,
           page: params.page,

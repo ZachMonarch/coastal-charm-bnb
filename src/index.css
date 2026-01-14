@@ -564,6 +564,66 @@
   color: hsl(var(--muted-foreground));
 }
 
+/* === SIDEBAR FOOTER ICON CONTAINERS - GUARANTEED VISIBILITY === */
+/* Footer icons (theme toggle, language selector) - enhanced visibility in both themes */
+[data-sidebar="footer"] > div > div {
+  background: hsl(0 0% 100%) !important;
+  border: 2px solid hsl(var(--primary) / 0.5) !important;
+  box-shadow: 0 1px 3px hsl(0 0% 0% / 0.08) !important;
+  border-radius: 0.5rem;
+  padding: 0.25rem;
+}
+
+.dark [data-sidebar="footer"] > div > div {
+  background: hsl(var(--card)) !important;
+  border-color: hsl(var(--primary) / 0.5) !important;
+}
+
+/* All SVG icons in sidebar footer - force visible colors */
+[data-sidebar="footer"] svg {
+  color: hsl(0 0% 25%) !important;
+  stroke: hsl(0 0% 25%) !important;
+  opacity: 1 !important;
+}
+
+.dark [data-sidebar="footer"] svg {
+  color: hsl(0 0% 90%) !important;
+  stroke: hsl(0 0% 90%) !important;
+}
+
+/* Sun icon gets amber color */
+[data-sidebar="footer"] svg.lucide-sun {
+  color: hsl(38 92% 50%) !important;
+  stroke: hsl(38 92% 50%) !important;
+}
+
+/* Globe icon visibility */
+[data-sidebar="footer"] svg.lucide-globe {
+  color: hsl(0 0% 30%) !important;
+  stroke: hsl(0 0% 30%) !important;
+}
+
+.dark [data-sidebar="footer"] svg.lucide-globe {
+  color: hsl(0 0% 85%) !important;
+  stroke: hsl(0 0% 85%) !important;
+}
+
+/* Language selector text in sidebar footer */
+[data-sidebar="footer"] [data-radix-select-trigger] span {
+  color: hsl(0 0% 15%) !important;
+  font-weight: 700 !important;
+}
+
+.dark [data-sidebar="footer"] [data-radix-select-trigger] span {
+  color: hsl(0 0% 90%) !important;
+}
+
+/* Hover states */
+[data-sidebar="footer"] > div > div:hover {
+  border-color: hsl(var(--primary)) !important;
+  box-shadow: 0 2px 6px hsl(var(--primary) / 0.15) !important;
+}
+
 /* === PUBLIC NAVBAR ICON CONTAINERS - GUARANTEED VISIBILITY === */
 /* Header icons (theme toggle, language, notifications, user menu) - BOTH MODES use white bg */
 [data-monarch-header] [data-header-icon],
