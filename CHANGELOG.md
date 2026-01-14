@@ -2,6 +2,27 @@
 
 All notable changes to Monarch Property Management platform will be documented in this file.
 
+## [2.9.3] - 2026-01-14 🔧 Critical RPC Type Mismatch Fix
+
+### Database - Critical Bug Fix
+- **Public Property Listings RPC**: Fixed type mismatch causing "0 properties" for anonymous users
+  - Root cause: `properties.id` is `bigint`, but RPC returned `integer` → type mismatch error
+  - Fixed all column types to match actual database schema:
+    - `id`, `price`, `bedrooms`, `bathrooms` → `bigint` (was integer/numeric)
+    - `available_date` → `text` (was date)
+  - Verified: 1802+ properties now visible to anonymous users
+- **RPC Security Maintained**:
+  - Both `get_public_property_listings` and `get_public_property_count` use `SECURITY DEFINER`
+  - `SET search_path = 'public'` for security best practice
+  - Execute permissions granted to `anon` and `authenticated` roles
+
+### Verification
+- Properties page: Shows "1802 Total Listings" for anonymous users
+- API: RPCs return correct masked data (city/state, price range)
+- Authentication-aware: Authenticated users see full details via direct view access
+
+---
+
 ## [2.9.2] - 2026-01-14 🔐 Public Property Access & UI Visibility Fixes
 
 ### Database - Critical Security & Access Fix
