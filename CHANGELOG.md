@@ -2,6 +2,22 @@
 
 All notable changes to Monarch Property Management platform will be documented in this file.
 
+## [2.9.4] - 2026-01-14 🚀 Deployment Cache Fix
+
+### Deployment
+- **HTML Cache Prevention**: Added explicit `no-cache` headers for HTML pages
+  - Prevents stale content after deployments
+  - `index.html` and all routes now have `no-cache, no-store, must-revalidate`
+  - Static assets (JS, CSS, images, fonts) retain immutable caching for performance
+
+### Verification
+- Home page: Hero, navigation, and icons visible correctly
+- Properties page: 1802 listings displayed with proper filtering
+- Contact page: Form and contact info displayed correctly
+- All header icons (theme toggle, language selector) visible in both themes
+
+---
+
 ## [2.9.3] - 2026-01-14 🔧 Critical RPC Type Mismatch Fix
 
 ### Database - Critical Bug Fix
