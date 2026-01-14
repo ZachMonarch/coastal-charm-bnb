@@ -43,18 +43,18 @@ export default function ThemeToggle() {
       variant="ghost"
       size="icon"
       onClick={toggleTheme}
-      className="rounded-lg min-w-[44px] min-h-[44px] w-11 h-11 transition-all duration-300 bg-muted/50 hover:bg-primary/15 border border-border hover:border-primary/30 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+      className="rounded-lg min-w-[44px] min-h-[44px] w-11 h-11 transition-all duration-300 bg-white dark:bg-white border-2 border-primary/50 hover:border-primary hover:bg-primary/10 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 shadow-sm"
       aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
     >
       <span className="sr-only">Toggle theme</span>
       {isDark ? (
         <Sun 
-          className="h-5 w-5 text-foreground transition-transform duration-500" 
+          className="h-5 w-5 text-amber-500 transition-transform duration-500" 
           strokeWidth={2.5}
         />
       ) : (
         <Moon 
-          className="h-5 w-5 text-foreground transition-transform duration-500" 
+          className="h-5 w-5 text-slate-700 transition-transform duration-500" 
           strokeWidth={2.5}
         />
       )}

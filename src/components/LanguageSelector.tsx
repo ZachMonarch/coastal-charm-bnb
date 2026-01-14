@@ -42,16 +42,16 @@ export default function LanguageSelector() {
     <div className="flex items-center">
       <Select value={language} onValueChange={handleLanguageChange}>
         <SelectTrigger 
-          className="w-[72px] h-11 min-h-[44px] bg-muted/50 border border-border hover:border-primary/30 text-foreground hover:bg-primary/15 focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors rounded-lg"
+          className="w-[72px] h-11 min-h-[44px] bg-white dark:bg-white border-2 border-primary/50 hover:border-primary text-slate-800 hover:bg-primary/10 focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors rounded-lg shadow-sm"
           aria-label="Select Language"
         >
           <div className="flex items-center space-x-1.5">
             <Globe 
-              className="h-5 w-5 text-foreground" 
+              className="h-5 w-5 text-slate-700" 
               aria-hidden="true" 
               strokeWidth={2.5}
             />
-            <span className="text-sm font-bold text-foreground">
+            <span className="text-sm font-bold text-slate-800">
               {currentLanguage?.abbr || 'EN'}
             </span>
           </div>
