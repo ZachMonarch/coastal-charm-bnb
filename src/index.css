@@ -565,49 +565,43 @@
 }
 
 /* === PUBLIC NAVBAR ICON CONTAINERS - GUARANTEED VISIBILITY === */
-/* Header icons (theme toggle, language, notifications, user menu) */
-:root:not(.dark) [data-monarch-header] [data-header-icon],
-:root:not(.dark) [data-monarch-header] [data-header-controls] > div {
+/* Header icons (theme toggle, language, notifications, user menu) - BOTH MODES use white bg */
+[data-monarch-header] [data-header-icon],
+[data-monarch-header] [data-header-controls] > div {
   background: hsl(0 0% 100%) !important;
-  border-color: hsl(var(--primary) / 0.5) !important;
+  border: 2px solid hsl(var(--primary) / 0.5) !important;
+  box-shadow: 0 1px 3px hsl(0 0% 0% / 0.08) !important;
 }
 
-:root:not(.dark) [data-monarch-header] [data-header-icon] svg,
-:root:not(.dark) [data-monarch-header] [data-header-controls] svg,
-:root:not(.dark) [data-monarch-header] [data-header-controls] button svg {
-  color: hsl(0 0% 15%) !important;
-  stroke: hsl(0 0% 15%) !important;
+/* All SVG icons in header - force dark color for visibility on white */
+[data-monarch-header] [data-header-icon] svg,
+[data-monarch-header] [data-header-controls] svg {
+  color: hsl(0 0% 25%) !important;
+  stroke: hsl(0 0% 25%) !important;
   fill: none !important;
   opacity: 1 !important;
 }
 
-/* Dark mode PUBLIC navbar header icons - stays dark on white background */
-.dark [data-monarch-header] [data-header-icon],
-.dark [data-monarch-header] [data-header-controls] > div {
-  background: hsl(0 0% 100%) !important;
-  border-color: hsl(var(--primary) / 0.5) !important;
+/* Sun icon gets amber color for better recognition */
+[data-monarch-header] [data-header-icon] svg.lucide-sun,
+[data-monarch-header] [data-header-controls] svg.lucide-sun {
+  color: hsl(38 92% 50%) !important;
+  stroke: hsl(38 92% 50%) !important;
 }
 
-.dark [data-monarch-header] [data-header-icon] svg,
-.dark [data-monarch-header] [data-header-controls] svg,
-.dark [data-monarch-header] [data-header-controls] button svg {
+/* Language selector text - force dark on white background */
+[data-monarch-header] [data-header-icon] span,
+[data-monarch-header] [data-radix-select-trigger],
+[data-monarch-header] [data-radix-select-trigger] span {
   color: hsl(0 0% 15%) !important;
-  stroke: hsl(0 0% 15%) !important;
-  fill: none !important;
-  opacity: 1 !important;
+  font-weight: 700 !important;
 }
 
-/* Language selector in PUBLIC navbar */
-:root:not(.dark) [data-monarch-header] [data-header-icon] span,
-:root:not(.dark) [data-monarch-header] [data-radix-select-trigger],
-:root:not(.dark) [data-monarch-header] [data-radix-select-trigger] span {
-  color: #1a1a1a !important;
-}
-
-.dark [data-monarch-header] [data-header-icon] span,
-.dark [data-monarch-header] [data-radix-select-trigger],
-.dark [data-monarch-header] [data-radix-select-trigger] span {
-  color: #1a1a1a !important;
+/* Hover states for header icons */
+[data-monarch-header] [data-header-icon]:hover,
+[data-monarch-header] [data-header-controls] > div:hover {
+  border-color: hsl(var(--primary)) !important;
+  box-shadow: 0 2px 6px hsl(var(--primary) / 0.15) !important;
 }
 
 /* Token-based text-foreground - no forced colors */

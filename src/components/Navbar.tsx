@@ -140,7 +140,6 @@ export default function Navbar() {
                   onError={() => setLogoError(true)}
                   loading="eager"
                   decoding="async"
-                  fetchPriority="high"
                 />
               ) : (
                 <Crown className="h-5 w-5 md:h-6 md:w-6 text-primary" />
