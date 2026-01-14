@@ -4,9 +4,9 @@
 
 Supabase Auth includes a **Leaked Password Protection** feature that validates user passwords against known breach databases (e.g., HaveIBeenPwned). This prevents users from using compromised passwords that have appeared in data breaches.
 
-**Current Status:** ⚠️ **DISABLED** (Supabase Advisor warning detected)
+**Current Status:** ⚠️ **PENDING MANUAL ACTION**
 
-**Required Action:** Enable this feature in the Supabase dashboard.
+**Required Action:** Enable this feature in the Supabase dashboard (Authentication → Settings → Password → Enable "Leaked Password Protection").
 
 ---
 
