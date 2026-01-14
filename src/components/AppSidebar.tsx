@@ -431,11 +431,15 @@ export function AppSidebar() {
           })}
         </div>
 
-        {/* Footer Controls - Enhanced visibility for mobile */}
+        {/* Footer Controls - Enhanced visibility for all themes */}
         <div className="p-4 border-t-2 border-border bg-card" data-sidebar="footer">
           <div className={`flex ${isCollapsed ? 'flex-col space-y-3' : 'items-center justify-center gap-3'}`}>
-            <ThemeToggle />
-            <LanguageSelector />
+            <div className="rounded-lg border-2 border-primary/50 bg-white dark:bg-card p-1 shadow-sm hover:border-primary transition-colors">
+              <ThemeToggle />
+            </div>
+            <div className="rounded-lg border-2 border-primary/50 bg-white dark:bg-card p-1 shadow-sm hover:border-primary transition-colors">
+              <LanguageSelector />
+            </div>
           </div>
         </div>
       </SidebarContent>

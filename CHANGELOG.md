@@ -2,7 +2,44 @@
 
 All notable changes to Monarch Property Management platform will be documented in this file.
 
-## [2.9.1] - 2026-01-14 🎯 Header Icon Visibility & Performance Fixes
+## [2.9.2] - 2026-01-14 🔐 Public Property Access & UI Visibility Fixes
+
+### Database - Critical Security & Access Fix
+- **Public Property Listings**: Fixed anonymous users seeing "0 Total Listings"
+  - Converted `get_public_property_listings` and `get_public_property_count` RPCs to `SECURITY DEFINER`
+  - RPCs now bypass RLS that blocks direct anonymous access to properties table
+  - Sensitive data (address, zip, coordinates, owner_id) remains masked for anonymous users
+  - Authenticated users continue to see full property details via direct view access
+  - Expected: 1800+ properties now visible to public users
+
+### UI/UX - Icon Visibility Fixes
+- **Sidebar Footer Icons**: Fixed invisible theme/language toggles
+  - Added explicit container styling with borders and backgrounds
+  - Added CSS rules for `[data-sidebar="footer"]` with proper icon colors
+  - Theme toggle shows amber sun icon, dark slate moon icon
+  - Language selector text and globe icon now visible in both themes
+- **Dark Mode Header**: Enhanced icon visibility in public navbar
+  - All header icons now use solid backgrounds for contrast
+  - Sun/Moon icons have explicit colors for recognition
+
+### API Improvements
+- **PropertyAPI**: Refactored `getProperties()` to use RPCs for anonymous users
+  - Authenticated users: Direct view access with full filtering/sorting
+  - Anonymous users: RPC calls with masked data
+  - Maintained caching and performance optimizations
+
+### Files Modified
+- `supabase/migrations/` - New migration for SECURITY DEFINER RPCs
+- `src/lib/api.ts` - RPC-based anonymous property fetching
+- `src/components/AppSidebar.tsx` - Footer icon containers
+- `src/index.css` - Sidebar footer visibility CSS rules
+
+### Security
+- RPCs properly set `search_path = 'public'` for security
+- Only `available` and `published` properties exposed to public
+- Execute permissions granted to `anon` and `authenticated` roles
+
+---
 
 ### UI/UX - Critical Visibility Fixes
 - **Language Selector**: Fixed gray-on-gray visibility issue
