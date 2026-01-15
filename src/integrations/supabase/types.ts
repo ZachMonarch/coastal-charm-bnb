@@ -1337,54 +1337,6 @@ export type Database = {
           },
         ]
       }
-      profiles_snapshot_20251026_corrupted: {
-        Row: {
-          address: string | null
-          avatar_url: string | null
-          city: string | null
-          created_at: string | null
-          email: string | null
-          full_name: string | null
-          id: string | null
-          phone: string | null
-          role: string | null
-          state: string | null
-          status: string | null
-          updated_at: string | null
-          zip_code: string | null
-        }
-        Insert: {
-          address?: string | null
-          avatar_url?: string | null
-          city?: string | null
-          created_at?: string | null
-          email?: string | null
-          full_name?: string | null
-          id?: string | null
-          phone?: string | null
-          role?: string | null
-          state?: string | null
-          status?: string | null
-          updated_at?: string | null
-          zip_code?: string | null
-        }
-        Update: {
-          address?: string | null
-          avatar_url?: string | null
-          city?: string | null
-          created_at?: string | null
-          email?: string | null
-          full_name?: string | null
-          id?: string | null
-          phone?: string | null
-          role?: string | null
-          state?: string | null
-          status?: string | null
-          updated_at?: string | null
-          zip_code?: string | null
-        }
-        Relationships: []
-      }
       project_assignments: {
         Row: {
           assigned_at: string
@@ -2197,24 +2149,6 @@ export type Database = {
           name?: string
           updated_at?: string | null
           url?: string
-        }
-        Relationships: []
-      }
-      security_backup_profiles_role_20251025: {
-        Row: {
-          backup_timestamp: string | null
-          id: string | null
-          role: string | null
-        }
-        Insert: {
-          backup_timestamp?: string | null
-          id?: string | null
-          role?: string | null
-        }
-        Update: {
-          backup_timestamp?: string | null
-          id?: string | null
-          role?: string | null
         }
         Relationships: []
       }

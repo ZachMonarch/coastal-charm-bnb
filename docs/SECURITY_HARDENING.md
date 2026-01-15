@@ -404,6 +404,28 @@ vendor_payout_settings_select_own  -- Vendor owner + admin
 
 ---
 
+## COMPLETED ACTIONS (2026-01-16)
+
+✅ **Email Templates Activated**
+- `access_request_approved` template: NOW ACTIVE
+- `payment_notification` template: NOW ACTIVE
+
+✅ **Legacy Tables Archived**
+- `profiles_snapshot_20251026_corrupted` → moved to `archive` schema
+- `security_backup_profiles_role_20251025` → moved to `archive` schema
+
+✅ **RLS Performance Optimization**
+- 72 linter warnings resolved
+- Helper functions created: `current_user_id()`, `is_staff_or_admin()`
+- 8 performance indexes added
+- Policies consolidated to eliminate `multiple_permissive_policies` warnings
+
+✅ **RLS Policy Verification**
+- `profiles` table: Users can only see own profile OR admin/property_manager access
+- `invoices` table: Multi-tenant isolation with creator/vendor/admin access only
+
+---
+
 ## REMAINING MANUAL ACTIONS
 
 ⚠️ **CRITICAL**: Enable Leaked Password Protection
@@ -420,7 +442,16 @@ This protects against users choosing passwords from known data breaches.
 2. Verify `vendor_docs` bucket is set to **Private**
 3. Check that storage RLS policies are configured
 
+⚠️ **FOR PAYMENTS**: Configure Stripe Integration
+1. Add `STRIPE_SECRET_KEY` to [Edge Function Secrets](https://supabase.com/dashboard/project/yhegaaqxmuhszesbjtdo/settings/functions)
+2. Configure webhook in Stripe Dashboard pointing to `https://yhegaaqxmuhszesbjtdo.supabase.co/functions/v1/stripe-webhook`
+3. Add `STRIPE_WEBHOOK_SECRET` from Stripe webhook configuration
+
+⚠️ **FOR AUTOMATION**: Enable Cron Extensions
+1. Enable `pg_cron` and `pg_net` extensions in [Database Extensions](https://supabase.com/dashboard/project/yhegaaqxmuhszesbjtdo/database/extensions)
+2. Execute cron job SQL from `docs/CRON-JOBS.md`
+
 ---
 
-*Last updated: January 11, 2026*
+*Last updated: January 16, 2026*
 *Next security review: April 2026*
