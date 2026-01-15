@@ -4594,6 +4594,7 @@ export type Database = {
         Returns: string
       }
       current_user_has_role: { Args: { role_name: string }; Returns: boolean }
+      current_user_id: { Args: never; Returns: string }
       enhanced_auth_rate_limit_check: {
         Args: {
           p_endpoint: string
@@ -4757,6 +4758,7 @@ export type Database = {
       is_admin_user: { Args: { user_uuid?: string }; Returns: boolean }
       is_current_user_admin: { Args: never; Returns: boolean }
       is_dashboard_query: { Args: never; Returns: boolean }
+      is_staff_or_admin: { Args: never; Returns: boolean }
       log_audit_event: {
         Args: {
           p_action: string
