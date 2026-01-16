@@ -4704,6 +4704,10 @@ export type Database = {
       is_admin_user: { Args: { user_uuid?: string }; Returns: boolean }
       is_current_user_admin: { Args: never; Returns: boolean }
       is_dashboard_query: { Args: never; Returns: boolean }
+      is_staff_in_tenant: {
+        Args: { target_tenant_id?: string }
+        Returns: boolean
+      }
       is_staff_or_admin: { Args: never; Returns: boolean }
       is_tenant_admin: {
         Args: { target_tenant_id?: string; user_uuid: string }
@@ -4830,6 +4834,14 @@ export type Database = {
       user_has_role:
         | { Args: { role_name: string }; Returns: boolean }
         | { Args: { role_name: string; user_uuid: string }; Returns: boolean }
+      user_has_role_in_tenant: {
+        Args: {
+          role_name: string
+          target_tenant_id?: string
+          user_uuid: string
+        }
+        Returns: boolean
+      }
       validate_and_sanitize_input: {
         Args: { p_allow_html?: boolean; p_input: string; p_max_length?: number }
         Returns: string
