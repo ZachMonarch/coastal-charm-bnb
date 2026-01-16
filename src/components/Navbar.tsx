@@ -233,7 +233,7 @@ export default function Navbar() {
                 asChild
                 variant="outline"
                 size="sm"
-                className="h-9 px-3 text-xs font-semibold text-foreground"
+                className="h-9 px-3 text-xs font-semibold text-slate-800 dark:text-slate-800 border-primary/50 bg-white hover:bg-primary/10 hover:text-primary"
               >
                 <Link to="/auth">Sign In</Link>
               </Button>
