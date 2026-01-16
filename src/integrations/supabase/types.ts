@@ -1194,6 +1194,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "payments_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "vendor_invoice_summary"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "payments_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
@@ -4361,6 +4368,69 @@ export type Database = {
           verified_by?: string | null
         }
         Relationships: []
+      }
+      vendor_invoice_summary: {
+        Row: {
+          amount: number | null
+          client_email_masked: string | null
+          client_name: string | null
+          created_at: string | null
+          currency: string | null
+          due_date: string | null
+          id: string | null
+          invoice_number: string | null
+          milestone_id: string | null
+          project_id: string | null
+          status: string | null
+          updated_at: string | null
+          vendor_id: string | null
+        }
+        Insert: {
+          amount?: number | null
+          client_email_masked?: never
+          client_name?: never
+          created_at?: string | null
+          currency?: string | null
+          due_date?: string | null
+          id?: string | null
+          invoice_number?: string | null
+          milestone_id?: string | null
+          project_id?: string | null
+          status?: string | null
+          updated_at?: string | null
+          vendor_id?: string | null
+        }
+        Update: {
+          amount?: number | null
+          client_email_masked?: never
+          client_name?: never
+          created_at?: string | null
+          currency?: string | null
+          due_date?: string | null
+          id?: string | null
+          invoice_number?: string | null
+          milestone_id?: string | null
+          project_id?: string | null
+          status?: string | null
+          updated_at?: string | null
+          vendor_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoices_milestone_id_fkey"
+            columns: ["milestone_id"]
+            isOneToOne: false
+            referencedRelation: "project_milestones"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Functions: {
