@@ -180,10 +180,10 @@ export default function RealtimeNotifications() {
         <Button 
           variant="ghost" 
           size="icon" 
-          className="relative min-h-[36px] min-w-[36px] w-9 h-9 md:min-h-[40px] md:min-w-[40px] md:w-10 md:h-10 rounded-full border border-border/40 dark:border-border/60 bg-transparent hover:border-primary/50 hover:bg-muted/50"
+          className="relative min-h-[36px] min-w-[36px] w-9 h-9 md:min-h-[40px] md:min-w-[40px] md:w-10 md:h-10 rounded-full border-0 bg-transparent hover:bg-primary/10"
           aria-label={`Notifications${unreadCount > 0 ? `, ${unreadCount} unread` : ''}`}
         >
-          <Bell className="h-4 w-4 text-foreground" strokeWidth={2.5} />
+          <Bell className="h-4 w-4 lucide-bell" strokeWidth={2.5} />
           {unreadCount > 0 && (
             <Badge 
               variant="destructive" 

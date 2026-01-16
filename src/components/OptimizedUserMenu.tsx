@@ -58,7 +58,7 @@ export default function OptimizedUserMenu() {
       <DropdownMenuTrigger asChild>
         <Button 
           variant="ghost" 
-          className="relative h-10 w-10 rounded-full border-[3px] border-primary min-h-[44px] min-w-[44px] hover:border-primary hover:bg-primary/10 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 transition-all shadow-lg shadow-primary/20 bg-card dark:bg-card ring-1 ring-primary/20"
+          className="relative h-10 w-10 rounded-full border-[3px] border-primary min-h-[44px] min-w-[44px] hover:border-primary hover:bg-primary/10 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 transition-all shadow-lg shadow-primary/20 bg-transparent ring-1 ring-primary/20"
           aria-label="Open user menu"
         >
           <ReusableAvatar 
