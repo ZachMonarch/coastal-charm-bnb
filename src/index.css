@@ -633,6 +633,14 @@
   box-shadow: 0 1px 3px hsl(0 0% 0% / 0.08) !important;
 }
 
+/* CRITICAL: Force white background on buttons INSIDE header icon containers (fixes dark mode black boxes) */
+[data-monarch-header] [data-header-icon] button,
+[data-monarch-header] [data-header-controls] > div button,
+[data-monarch-header] [data-header-controls] button {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
 /* All SVG icons in header - force dark color for visibility on white */
 [data-monarch-header] [data-header-icon] svg,
 [data-monarch-header] [data-header-controls] svg {
@@ -647,6 +655,20 @@
 [data-monarch-header] [data-header-controls] svg.lucide-sun {
   color: hsl(38 92% 50%) !important;
   stroke: hsl(38 92% 50%) !important;
+}
+
+/* Moon icon gets slate color */
+[data-monarch-header] [data-header-icon] svg.lucide-moon,
+[data-monarch-header] [data-header-controls] svg.lucide-moon {
+  color: hsl(215 25% 35%) !important;
+  stroke: hsl(215 25% 35%) !important;
+}
+
+/* Bell icon gets foreground color */
+[data-monarch-header] [data-header-icon] svg.lucide-bell,
+[data-monarch-header] [data-header-controls] svg.lucide-bell {
+  color: hsl(0 0% 20%) !important;
+  stroke: hsl(0 0% 20%) !important;
 }
 
 /* Language selector text - force dark on white background */
