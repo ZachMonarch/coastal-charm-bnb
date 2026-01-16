@@ -63,6 +63,7 @@ export type Database = {
           old_values: Json | null
           record_id: string | null
           table_name: string | null
+          tenant_id: string | null
           user_agent: string | null
           user_id: string | null
         }
@@ -75,6 +76,7 @@ export type Database = {
           old_values?: Json | null
           record_id?: string | null
           table_name?: string | null
+          tenant_id?: string | null
           user_agent?: string | null
           user_id?: string | null
         }
@@ -87,10 +89,19 @@ export type Database = {
           old_values?: Json | null
           record_id?: string | null
           table_name?: string | null
+          tenant_id?: string | null
           user_agent?: string | null
           user_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "audit_logs_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       bid_comments: {
         Row: {
@@ -4529,6 +4540,7 @@ export type Database = {
       }
       current_user_has_role: { Args: { role_name: string }; Returns: boolean }
       current_user_id: { Args: never; Returns: string }
+      current_user_tenant_id: { Args: never; Returns: string }
       enhanced_auth_rate_limit_check: {
         Args: {
           p_endpoint: string
@@ -4693,6 +4705,10 @@ export type Database = {
       is_current_user_admin: { Args: never; Returns: boolean }
       is_dashboard_query: { Args: never; Returns: boolean }
       is_staff_or_admin: { Args: never; Returns: boolean }
+      is_tenant_admin: {
+        Args: { target_tenant_id?: string; user_uuid: string }
+        Returns: boolean
+      }
       log_audit_event: {
         Args: {
           p_action: string
@@ -4724,6 +4740,15 @@ export type Database = {
           p_event_type: string
           p_severity: string
           p_user_id?: string
+        }
+        Returns: undefined
+      }
+      log_security_event: {
+        Args: {
+          details?: Json
+          event_type: string
+          p_record_id?: string
+          p_table_name?: string
         }
         Returns: undefined
       }

@@ -3,6 +3,7 @@ import { User as SupabaseUser, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { logger } from '@/utils/logger';
+import { withRateLimit } from '@/lib/rateLimit';
 
 export type UserRole = 'admin' | 'property_manager' | 'vendor' | 'tenant';
 
@@ -273,19 +274,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setIsLoading(true);
       const redirectUrl = `${window.location.origin}/`;
       
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: redirectUrl,
-          data: userData
+      // Apply rate limiting to signup
+      const { error } = await withRateLimit('auth/signup', async () => {
+        return supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            emailRedirectTo: redirectUrl,
+            data: userData
+          }
+        });
+      }, { throwOnLimit: false }).catch((rateLimitError) => {
+        if (rateLimitError.code === 'RATE_LIMIT_EXCEEDED') {
+          toast.error('Too many signup attempts. Please try again in a few minutes.');
+          return { error: rateLimitError };
         }
+        throw rateLimitError;
       });
 
       if (error) {
-        if (error.message.includes('User already registered')) {
+        if (error.code === 'RATE_LIMIT_EXCEEDED') {
+          return { error };
+        }
+        if (error.message?.includes('User already registered')) {
           toast.error('An account with this email already exists.');
-        } else if (error.message.includes('Password should be')) {
+        } else if (error.message?.includes('Password should be')) {
           toast.error('Password must be at least 6 characters long.');
         } else {
           toast.error(error.message || 'Failed to create account');
@@ -306,12 +319,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signIn = async (email: string, password: string) => {
     try {
       setIsLoading(true);
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      
+      // Apply rate limiting to sign in
+      const { error } = await withRateLimit('auth/signin', async () => {
+        return supabase.auth.signInWithPassword({ email, password });
+      }, { throwOnLimit: false }).catch((rateLimitError) => {
+        if (rateLimitError.code === 'RATE_LIMIT_EXCEEDED') {
+          toast.error('Too many login attempts. Please try again in 5 minutes.');
+          return { error: rateLimitError };
+        }
+        throw rateLimitError;
+      });
 
       if (error) {
-        if (error.message.includes('Invalid login credentials')) {
+        if (error.code === 'RATE_LIMIT_EXCEEDED') {
+          return { error };
+        }
+        if (error.message?.includes('Invalid login credentials')) {
           toast.error('Invalid email or password.');
-        } else if (error.message.includes('Email not confirmed')) {
+        } else if (error.message?.includes('Email not confirmed')) {
           toast.error('Please confirm your email before signing in.');
         } else {
           toast.error(error.message || 'Failed to sign in');
