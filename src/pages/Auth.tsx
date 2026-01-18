@@ -688,7 +688,7 @@ export default function Auth() {
             </Tabs>
           </Card>
 
-          <p className="text-center mt-6 text-sm text-slate-600 dark:text-slate-400">
+          <p className="text-center mt-6 text-sm text-muted-foreground">
             By continuing, you agree to our{" "}
             <Link to="/terms" className="text-[#8B5A2B] dark:text-primary font-semibold hover:underline">Terms</Link>
             {" "}and{" "}

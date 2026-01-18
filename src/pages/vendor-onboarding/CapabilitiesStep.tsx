@@ -100,15 +100,15 @@ export default function CapabilitiesStep() {
               <Wrench className="h-5 w-5 text-amber-700 dark:text-primary" />
             </div>
             <div>
-              <CardTitle className="text-slate-900 dark:text-foreground">Service Capabilities</CardTitle>
-              <CardDescription className="text-slate-600 dark:text-muted-foreground">Select the services you provide</CardDescription>
+              <CardTitle className="text-foreground">Service Capabilities</CardTitle>
+              <CardDescription className="text-muted-foreground">Select the services you provide</CardDescription>
             </div>
           </div>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-4">
-              <Label className="text-slate-800 dark:text-foreground">Select all that apply *</Label>
+              <Label className="text-foreground">Select all that apply *</Label>
               <div className="grid grid-cols-2 gap-4">
                 {SERVICE_CATEGORIES.map((service) => (
                   <div key={service.id} className="flex items-center space-x-2">
@@ -119,7 +119,7 @@ export default function CapabilitiesStep() {
                     />
                     <label
                       htmlFor={service.id}
-                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer text-slate-700 dark:text-foreground"
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer text-foreground"
                     >
                       {service.label}
                     </label>

@@ -67,15 +67,15 @@ export default function ComplianceStep() {
               <FileCheck className="h-5 w-5 text-amber-700 dark:text-primary" />
             </div>
             <div>
-              <CardTitle className="text-slate-900 dark:text-foreground">Compliance & Certifications</CardTitle>
-              <CardDescription className="text-slate-600 dark:text-muted-foreground">Provide required documentation</CardDescription>
+              <CardTitle className="text-foreground">Compliance & Certifications</CardTitle>
+              <CardDescription className="text-muted-foreground">Provide required documentation</CardDescription>
             </div>
           </div>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-4">
-              <h3 className="font-semibold text-slate-900 dark:text-foreground">Insurance Information</h3>
+              <h3 className="font-semibold text-foreground">Insurance Information</h3>
               
               <div className="space-y-2">
                 <Label htmlFor="insurance_provider">Insurance Provider *</Label>
@@ -114,7 +114,7 @@ export default function ComplianceStep() {
             </div>
 
             <div className="space-y-4">
-              <h3 className="font-semibold text-slate-900 dark:text-foreground">Licensing</h3>
+              <h3 className="font-semibold text-foreground">Licensing</h3>
               
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
@@ -140,7 +140,7 @@ export default function ComplianceStep() {
             </div>
 
             <div className="space-y-4">
-              <h3 className="font-semibold text-slate-900 dark:text-foreground">Additional Requirements</h3>
+              <h3 className="font-semibold text-foreground">Additional Requirements</h3>
               
               <div className="flex items-center space-x-2">
                 <Checkbox
@@ -152,7 +152,7 @@ export default function ComplianceStep() {
                 />
                 <label
                   htmlFor="has_workers_comp"
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-slate-700 dark:text-foreground"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-foreground"
                 >
                   I have Workers' Compensation Insurance
                 </label>
@@ -168,7 +168,7 @@ export default function ComplianceStep() {
                 />
                 <label
                   htmlFor="background_check_completed"
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-slate-700 dark:text-foreground"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-foreground"
                 >
                   I consent to a background check
                 </label>
