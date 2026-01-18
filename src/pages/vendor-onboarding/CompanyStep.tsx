@@ -90,8 +90,8 @@ export default function CompanyStep() {
               <Building2 className="h-5 w-5 text-amber-700 dark:text-primary" />
             </div>
             <div>
-              <CardTitle className="text-slate-900 dark:text-foreground">Company Information</CardTitle>
-              <CardDescription className="text-slate-600 dark:text-muted-foreground">Tell us about your business</CardDescription>
+              <CardTitle className="text-foreground">Company Information</CardTitle>
+              <CardDescription className="text-muted-foreground">Tell us about your business</CardDescription>
             </div>
           </div>
         </CardHeader>

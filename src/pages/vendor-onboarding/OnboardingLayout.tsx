@@ -102,8 +102,8 @@ export default function OnboardingLayout({ children }: OnboardingLayoutProps) {
 
         <div className="max-w-4xl mx-auto mb-8">
           <div className="text-center mb-6">
-            <h1 className="text-3xl font-bold mb-2 text-slate-900 dark:text-foreground">Vendor Onboarding</h1>
-            <p className="text-slate-600 dark:text-muted-foreground">
+            <h1 className="text-3xl font-bold mb-2 text-foreground">Vendor Onboarding</h1>
+            <p className="text-muted-foreground">
               {isComplete ? 'Application Complete!' : `Step ${currentStepIndex + 1} of ${STEPS.length}`}
             </p>
           </div>
@@ -111,7 +111,7 @@ export default function OnboardingLayout({ children }: OnboardingLayoutProps) {
           {!isComplete && (
             <>
               <Progress value={progress} className="mb-4" />
-              <div className="flex justify-between text-xs text-slate-500 dark:text-muted-foreground">
+              <div className="flex justify-between text-xs text-muted-foreground">
                 {STEPS.slice(0, -1).map((step, index) => (
                   <span
                     key={step.path}

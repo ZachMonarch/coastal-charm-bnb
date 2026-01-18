@@ -52,14 +52,14 @@ export function CTABanner({
 }: CTABannerProps) {
   const variantClasses = {
     light: "bg-gradient-to-r from-background to-accent/20",
-    dark: "bg-gradient-to-r from-gray-900 to-gray-800 dark:from-gray-950 dark:to-gray-900",
+    dark: "bg-gradient-to-br from-card via-muted to-card",
     gradient: "bg-gradient-to-r from-primary to-primary-dark",
-    image: "relative bg-gray-900",
+    image: "relative bg-muted",
   };
 
   const textColorClasses = {
     light: "text-foreground",
-    dark: "text-white",
+    dark: "text-foreground",
     gradient: "text-white",
     image: "text-white",
   };
@@ -124,7 +124,7 @@ export function CTABanner({
                 "min-w-[180px] group",
                 variant === "light" && "btn-primary",
                 (variant === "dark" || variant === "gradient" || variant === "image") &&
-                  "bg-white text-gray-900 hover:bg-white/90"
+                  "bg-white text-foreground hover:bg-white/90"
               )}
               onClick={primaryCTA.onClick}
             >

@@ -65,16 +65,16 @@ export default function ReviewStep() {
     <div className="max-w-2xl mx-auto space-y-4">
       <Card>
         <CardHeader>
-          <CardTitle className="text-slate-900 dark:text-foreground">Review Your Information</CardTitle>
-          <CardDescription className="text-slate-600 dark:text-muted-foreground">Please review before submitting</CardDescription>
+          <CardTitle className="text-foreground">Review Your Information</CardTitle>
+          <CardDescription className="text-muted-foreground">Please review before submitting</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Profile Section */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <User className="h-4 w-4 text-slate-500 dark:text-muted-foreground" />
-                <h3 className="font-semibold text-slate-900 dark:text-foreground">Personal Information</h3>
+                <User className="h-4 w-4 text-muted-foreground" />
+                <h3 className="font-semibold text-foreground">Personal Information</h3>
               </div>
               <Button
                 variant="ghost"
@@ -85,7 +85,7 @@ export default function ReviewStep() {
               </Button>
             </div>
             {profileData && (
-              <div className="pl-6 space-y-1 text-sm text-slate-700 dark:text-foreground">
+              <div className="pl-6 space-y-1 text-sm text-foreground">
                 <p><strong>Name:</strong> {profileData.full_name}</p>
                 <p><strong>Email:</strong> {profileData.email}</p>
                 <p><strong>Phone:</strong> {profileData.phone}</p>
@@ -97,8 +97,8 @@ export default function ReviewStep() {
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Building2 className="h-4 w-4 text-slate-500 dark:text-muted-foreground" />
-                <h3 className="font-semibold text-slate-900 dark:text-foreground">Company Information</h3>
+                <Building2 className="h-4 w-4 text-muted-foreground" />
+                <h3 className="font-semibold text-foreground">Company Information</h3>
               </div>
               <Button
                 variant="ghost"
@@ -109,7 +109,7 @@ export default function ReviewStep() {
               </Button>
             </div>
             {companyData && (
-              <div className="pl-6 space-y-1 text-sm text-slate-700 dark:text-foreground">
+              <div className="pl-6 space-y-1 text-sm text-foreground">
                 <p><strong>Company:</strong> {companyData.company_name}</p>
                 <p><strong>Address:</strong> {companyData.address}</p>
                 <p><strong>Phone:</strong> {companyData.phone}</p>
@@ -121,8 +121,8 @@ export default function ReviewStep() {
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Wrench className="h-4 w-4 text-slate-500 dark:text-muted-foreground" />
-                <h3 className="font-semibold text-slate-900 dark:text-foreground">Service Capabilities</h3>
+                <Wrench className="h-4 w-4 text-muted-foreground" />
+                <h3 className="font-semibold text-foreground">Service Capabilities</h3>
               </div>
               <Button
                 variant="ghost"
@@ -145,8 +145,8 @@ export default function ReviewStep() {
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <FileCheck className="h-4 w-4 text-slate-500 dark:text-muted-foreground" />
-                <h3 className="font-semibold text-slate-900 dark:text-foreground">Compliance & Certifications</h3>
+                <FileCheck className="h-4 w-4 text-muted-foreground" />
+                <h3 className="font-semibold text-foreground">Compliance & Certifications</h3>
               </div>
               <Button
                 variant="ghost"
@@ -157,7 +157,7 @@ export default function ReviewStep() {
               </Button>
             </div>
             {complianceData && (
-              <div className="pl-6 space-y-1 text-sm text-slate-700 dark:text-foreground">
+              <div className="pl-6 space-y-1 text-sm text-foreground">
                 <p><strong>Insurance:</strong> {complianceData.insurance_provider}</p>
                 <p><strong>Policy:</strong> {complianceData.insurance_policy_number}</p>
                 <div className="flex gap-4 mt-2">
