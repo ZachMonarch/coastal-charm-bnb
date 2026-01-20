@@ -276,27 +276,29 @@ export default function PropertyCard({ property, className }: PropertyCardProps)
         </div>
 
         {/* Action Buttons */}
-        <div className="flex gap-2">
-          <Link to={`/properties/${property.id}`} className="flex-1">
-            <Button 
-              variant="outline" 
-              className="w-full group"
-              aria-label={`View details for ${property.title}`}
-            >
-              <Eye className="mr-2 h-4 w-4 group-hover:animate-pulse" aria-hidden="true" />
+        <div className="flex gap-3 pt-1">
+          <Button 
+            asChild
+            variant="outline" 
+            className="flex-1 min-h-[44px]"
+            aria-label={`View details for ${property.title}`}
+          >
+            <Link to={`/properties/${property.id}`}>
+              <Eye className="mr-2 h-4 w-4" aria-hidden="true" />
               Details
-            </Button>
-          </Link>
-          {property.status === 'available' && (
-            <Link to={`/booking/${property.id}`} className="flex-1">
-              <Button 
-                className="w-full btn-primary tech-glow group"
-                aria-label={`Book now for ${property.title}`}
-              >
-                <Calendar className="mr-2 h-4 w-4 group-hover:animate-pulse" aria-hidden="true" />
-                Book Now
-              </Button>
             </Link>
+          </Button>
+          {property.status === 'available' && (
+            <Button 
+              asChild
+              className="flex-1 min-h-[44px] btn-primary tech-glow"
+              aria-label={`Book now for ${property.title}`}
+            >
+              <Link to={`/booking/${property.id}`}>
+                <Calendar className="mr-2 h-4 w-4" aria-hidden="true" />
+                Book Now
+              </Link>
+            </Button>
           )}
         </div>
       </CardContent>
