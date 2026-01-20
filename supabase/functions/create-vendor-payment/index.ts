@@ -54,10 +54,10 @@ serve(async (req) => {
 
     const { paymentId } = validationResult.data;
     
-    // Get payment details
+    // Get payment details - explicit columns only (security best practice)
     const { data: payment, error: paymentError } = await supabaseClient
       .from('vendor_payments')
-      .select('*')
+      .select('id, vendor_id, amount, status, payment_type, title, description')
       .eq('id', paymentId)
       .eq('vendor_id', user.id)
       .single();
