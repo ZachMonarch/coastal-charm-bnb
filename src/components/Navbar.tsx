@@ -12,6 +12,9 @@ import RealtimeNotifications from "./RealtimeNotifications";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/OptimizedAuthContext";
 import { rafBatch } from "@/utils/rafBatch";
+// Optimized WebP logos for faster FCP
+import logo48 from "@/assets/cdn/ui/monarch-logo-48.webp";
+import logo32 from "@/assets/cdn/ui/monarch-logo-32.webp";
 
 export default function Navbar() {
   const { t } = useLanguage();
@@ -132,14 +135,15 @@ export default function Navbar() {
             <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-primary/20 to-primary/5 dark:from-primary/30 dark:to-primary/10 border-2 border-primary/40 dark:border-primary/50 rounded-xl p-1.5 md:p-2 flex items-center justify-center shadow-md shadow-primary/10 dark:shadow-primary/30 transition-all duration-300">
               {!logoError ? (
                 <img
-                  src="/lovable-uploads/318cdd13-7256-4cfe-99e0-948e43902b7b.png"
+                  src={logo48}
                   alt="Monarch Property Management Logo"
                   className="w-full h-full object-contain"
-                  width={40}
-                  height={40}
+                  width={48}
+                  height={48}
                   onError={() => setLogoError(true)}
                   loading="eager"
                   decoding="async"
+                  fetchPriority="high"
                 />
               ) : (
                 <Crown className="h-5 w-5 md:h-6 md:w-6 text-primary" />
@@ -268,7 +272,7 @@ export default function Navbar() {
             <div className="w-10 h-10 bg-gradient-to-br from-primary/20 to-primary/5 dark:from-primary/30 dark:to-primary/10 border-2 border-primary/40 dark:border-primary/50 rounded-xl p-2 flex items-center justify-center shadow-md shadow-primary/10 dark:shadow-primary/30">
               {!logoError ? (
                 <img
-                  src="/lovable-uploads/318cdd13-7256-4cfe-99e0-948e43902b7b.png"
+                  src={logo32}
                   alt="Monarch Logo"
                   className="w-full h-full object-contain"
                   width={32}
