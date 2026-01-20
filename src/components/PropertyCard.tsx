@@ -275,12 +275,12 @@ export default function PropertyCard({ property, className }: PropertyCardProps)
           )}
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex gap-3 pt-1">
+        {/* Action Buttons - gap-4 (16px) ensures 24px+ touch target spacing per WCAG 2.2 */}
+        <div className="flex gap-4 pt-2">
           <Button 
             asChild
             variant="outline" 
-            className="flex-1 min-h-[44px]"
+            className="flex-1 min-h-[48px] min-w-[48px]"
             aria-label={`View details for ${property.title}`}
           >
             <Link to={`/properties/${property.id}`}>
@@ -291,7 +291,7 @@ export default function PropertyCard({ property, className }: PropertyCardProps)
           {property.status === 'available' && (
             <Button 
               asChild
-              className="flex-1 min-h-[44px] btn-primary tech-glow"
+              className="flex-1 min-h-[48px] min-w-[48px] btn-primary tech-glow"
               aria-label={`Book now for ${property.title}`}
             >
               <Link to={`/booking/${property.id}`}>
