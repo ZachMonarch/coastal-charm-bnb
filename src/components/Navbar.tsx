@@ -143,7 +143,8 @@ export default function Navbar() {
                   onError={() => setLogoError(true)}
                   loading="eager"
                   decoding="async"
-                  fetchPriority="high"
+                  // @ts-expect-error - fetchpriority is valid HTML attribute
+                  fetchpriority="high"
                 />
               ) : (
                 <Crown className="h-5 w-5 md:h-6 md:w-6 text-primary" />
