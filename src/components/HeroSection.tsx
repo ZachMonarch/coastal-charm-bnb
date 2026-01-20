@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { ChevronDown, Sparkles, Building } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
-import heroImageWebP from "@/assets/hero-image-new.webp";
 
 export default function HeroSection() {
   const { t } = useLanguage();
@@ -52,17 +51,24 @@ export default function HeroSection() {
         }}
       >
         <picture>
+          {/* Desktop: optimized 16:9 hero image */}
           <source 
             type="image/webp" 
-            srcSet="/hero.webp 1920w, /hero.webp 1200w, /hero.webp 800w" 
-            sizes="100vw" 
+            srcSet="/hero-optimized.webp" 
+            media="(min-width: 768px)"
+          />
+          {/* Mobile: optimized 9:16 portrait hero image */}
+          <source 
+            type="image/webp" 
+            srcSet="/hero-mobile.webp" 
+            media="(max-width: 767px)"
           />
           <img 
-            src={heroImageWebP} 
+            src="/hero-optimized.webp" 
             alt="Monarch Property Management - Luxury apartment complex with pool and modern architecture" 
             className="w-full h-full object-cover"
             loading="eager" 
-            decoding="async" 
+            decoding="sync"
             width="1920" 
             height="1080"
             // @ts-expect-error - fetchpriority is valid HTML attribute
