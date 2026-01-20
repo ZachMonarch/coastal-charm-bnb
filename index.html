@@ -4,6 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
     
+    <!-- CRITICAL: Preconnect hints MUST be first for maximum effectiveness -->
+    <!-- Establishes early connections before any other resources are requested -->
+    <link rel="preconnect" href="https://yhegaaqxmuhszesbjtdo.supabase.co" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+    
+    <!-- DNS prefetch as fallback for browsers that don't support preconnect -->
+    <link rel="dns-prefetch" href="https://yhegaaqxmuhszesbjtdo.supabase.co" />
+    <link rel="dns-prefetch" href="https://images.unsplash.com" />
+    <link rel="dns-prefetch" href="https://api.stripe.com" />
+    <link rel="dns-prefetch" href="https://cdn.gpteng.co" />
+    
     <!-- Security headers are configured in vercel.json -->
     
     <!-- SEO and Branding -->
@@ -33,25 +46,8 @@
     <link rel="apple-touch-icon" href="/lovable-uploads/318cdd13-7256-4cfe-99e0-948e43902b7b.png" />
     <link rel="shortcut icon" href="/lovable-uploads/318cdd13-7256-4cfe-99e0-948e43902b7b.png" />
     
-    <!-- Critical resource preconnect and preload - Order matters for performance -->
-    <!-- 1. Preconnect to critical origins FIRST (before any other resources) -->
-    <link rel="dns-prefetch" href="https://yhegaaqxmuhszesbjtdo.supabase.co" />
-    <link rel="preconnect" href="https://yhegaaqxmuhszesbjtdo.supabase.co" crossorigin />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Preconnect to Unsplash for faster image loading -->
-    <link rel="dns-prefetch" href="https://images.unsplash.com" />
-    <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
-    
-    <!-- 2. DNS prefetch for secondary origins -->
-    <link rel="dns-prefetch" href="https://api.stripe.com" />
-    <link rel="dns-prefetch" href="https://cdn.gpteng.co" />
-    
-    <!-- 3. Preload critical hero image for LCP optimization -->
+    <!-- Preload critical hero image for LCP optimization -->
     <link rel="preload" as="image" href="/hero.webp" type="image/webp" fetchpriority="high" />
-    
-    <!-- 4. Preload logo for navbar (small file, high priority for above-fold content) -->
-    <link rel="preload" as="image" href="/lovable-uploads/318cdd13-7256-4cfe-99e0-948e43902b7b.png" type="image/png" />
     
     <!-- 4. Remove unnecessary preloads that cause warnings (resources load naturally) -->
     
