@@ -1,5 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getCorsHeaders, handleCorsPreflightRequest } from "../_shared/cors.ts";
+// @deno-types="https://esm.sh/v135/@types/dompurify@3.0.5/index.d.ts"
+import DOMPurify from "https://esm.sh/isomorphic-dompurify@2.9.0";
 
 // Simple in-memory rate limiter
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
@@ -21,6 +23,25 @@ function checkRateLimit(identifier: string): { allowed: boolean; remaining: numb
   
   record.count++;
   return { allowed: true, remaining: MAX_REQUESTS_PER_WINDOW - record.count };
+}
+
+/**
+ * Sanitize untrusted text content using DOMPurify
+ * Strips all HTML tags, entities, and malicious content
+ */
+function sanitizeText(input: string): string {
+  if (!input) return '';
+  // Use DOMPurify with ALLOWED_TAGS: [] to strip ALL HTML, keeping only text
+  const sanitized = DOMPurify.sanitize(input.trim(), { 
+    ALLOWED_TAGS: [], 
+    ALLOWED_ATTR: [],
+    KEEP_CONTENT: true 
+  });
+  // Additional cleanup: decode any remaining HTML entities and normalize whitespace
+  return sanitized
+    .replace(/&nbsp;/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 // RSS Feed sources for property management news (FREE backup)
@@ -70,22 +91,27 @@ async function parseRSSFeed(feedUrl: string, sourceName: string, category: strin
       const mediaMatch = item.match(/<media:content[^>]*url="([^"]*)"/) || item.match(/<enclosure[^>]*url="([^"]*)"/);
       const imgMatch = item.match(/<img[^>]*src="([^"]*)"/);
       
-      const title = titleMatch ? titleMatch[1].trim().replace(/<[^>]*>/g, '') : '';
-      const description = descMatch ? descMatch[1].trim().replace(/<[^>]*>/g, '').substring(0, 300) : '';
+      // SECURITY: Use DOMPurify to sanitize all untrusted RSS content
+      const title = sanitizeText(titleMatch ? titleMatch[1] : '');
+      const description = sanitizeText(descMatch ? descMatch[1] : '').substring(0, 300);
       const url = linkMatch ? linkMatch[1].trim() : '';
+      // Validate URL format to prevent javascript: or data: URLs
+      const safeUrl = url.match(/^https?:\/\//i) ? url : '';
       const imageUrl = mediaMatch ? mediaMatch[1] : (imgMatch ? imgMatch[1] : '');
+      // Validate image URL format
+      const safeImageUrl = imageUrl.match(/^https?:\/\//i) ? imageUrl : '';
       const publishedAt = pubDateMatch ? new Date(pubDateMatch[1]).toISOString() : new Date().toISOString();
       
-      if (title && url) {
+      if (title && safeUrl) {
         articles.push({
           id: `rss-${sourceName.toLowerCase().replace(/\s+/g, '-')}-${i}-${Date.now()}`,
           title,
           description: description || `Latest news from ${sourceName}`,
-          url,
-          imageUrl,
+          url: safeUrl,
+          imageUrl: safeImageUrl,
           publishedAt,
-          source: sourceName,
-          author: sourceName,
+          source: sanitizeText(sourceName),
+          author: sanitizeText(sourceName),
           category,
         });
       }

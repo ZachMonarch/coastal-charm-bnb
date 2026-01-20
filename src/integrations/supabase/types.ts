@@ -2672,6 +2672,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "transactions_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings_staff_view"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "transactions_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
@@ -4121,6 +4128,83 @@ export type Database = {
       }
     }
     Views: {
+      bookings_staff_view: {
+        Row: {
+          check_in_date: string | null
+          check_out_date: string | null
+          created_at: string | null
+          guest_details: Json | null
+          guests: number | null
+          id: string | null
+          payment_status: string | null
+          property_id: number | null
+          special_requests: string | null
+          status: string | null
+          total_amount: number | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          check_in_date?: string | null
+          check_out_date?: string | null
+          created_at?: string | null
+          guest_details?: never
+          guests?: number | null
+          id?: string | null
+          payment_status?: string | null
+          property_id?: number | null
+          special_requests?: string | null
+          status?: string | null
+          total_amount?: number | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          check_in_date?: string | null
+          check_out_date?: string | null
+          created_at?: string | null
+          guest_details?: never
+          guests?: number | null
+          id?: string | null
+          payment_status?: string | null
+          property_id?: number | null
+          special_requests?: string | null
+          status?: string | null
+          total_amount?: number | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_property_listings_masked"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "safe_property_listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       public_property_listings_masked: {
         Row: {
           amenities: string | null
