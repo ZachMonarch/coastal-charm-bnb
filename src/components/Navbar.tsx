@@ -12,8 +12,8 @@ import RealtimeNotifications from "./RealtimeNotifications";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/OptimizedAuthContext";
 import { rafBatch } from "@/utils/rafBatch";
-// Optimized small logo for faster FCP - properly sized at 64x64
-import logoOptimized from "@/assets/logo-64.webp";
+// Optimized small logo for faster FCP - properly sized at 48x48 for reduced payload
+import logoOptimized from "@/assets/logo-48.webp";
 
 export default function Navbar() {
   const { t } = useLanguage();
