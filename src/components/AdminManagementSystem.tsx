@@ -1,25 +1,37 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import AdminDashboardContent from "@/components/AdminDashboardContent";
-import AdminPropertyManagement from "@/components/AdminPropertyManagement";
-import AdminVendorManagement from "@/components/AdminVendorManagement";
-import VendorVerificationSystem from "@/components/VendorVerificationSystem";
-import AdminRFQSystem from "@/components/AdminRFQSystem";
-import EnhancedPaymentManagement from "@/components/admin/EnhancedPaymentManagement";
-import AdminUserManagement from "@/pages/AdminUserManagement";
-import AdminTesting from "@/pages/AdminTesting";
-import NewsAdminPanel from "@/components/admin/NewsAdminPanel";
-import AdminBidManagement from "@/components/admin/AdminBidManagement";
-import AdminNotificationCenter from "@/components/admin/AdminNotificationCenter";
-import AdminInquiryManagement from "@/components/admin/AdminInquiryManagement";
-import EmailTemplateManager from "@/components/admin/EmailTemplateManager";
-import NewsletterManagement from "@/components/admin/NewsletterManagement";
-import UserApprovalQueue from "@/components/admin/UserApprovalQueue";
-import AdminMessages from "@/components/admin/AdminMessages";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { Building, Users, UserPlus, FileText, Shield, BarChart3, CreditCard, Newspaper, UsersRound, Gavel, Bell, MessageSquare, Mail, UserCheck } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import EnhancedPageBackground from "@/components/shared/EnhancedPageBackground";
 import PageHero from "@/components/shared/PageHero";
+import { lazy, Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+
+// Lazy load all admin sub-components to reduce initial bundle size
+const AdminDashboardContent = lazy(() => import("@/components/AdminDashboardContent"));
+const AdminPropertyManagement = lazy(() => import("@/components/AdminPropertyManagement"));
+const AdminVendorManagement = lazy(() => import("@/components/AdminVendorManagement"));
+const VendorVerificationSystem = lazy(() => import("@/components/VendorVerificationSystem"));
+const AdminRFQSystem = lazy(() => import("@/components/AdminRFQSystem"));
+const EnhancedPaymentManagement = lazy(() => import("@/components/admin/EnhancedPaymentManagement"));
+const AdminUserManagement = lazy(() => import("@/pages/AdminUserManagement"));
+const AdminTesting = lazy(() => import("@/pages/AdminTesting"));
+const NewsAdminPanel = lazy(() => import("@/components/admin/NewsAdminPanel"));
+const AdminBidManagement = lazy(() => import("@/components/admin/AdminBidManagement"));
+const AdminNotificationCenter = lazy(() => import("@/components/admin/AdminNotificationCenter"));
+const AdminInquiryManagement = lazy(() => import("@/components/admin/AdminInquiryManagement"));
+const EmailTemplateManager = lazy(() => import("@/components/admin/EmailTemplateManager"));
+const NewsletterManagement = lazy(() => import("@/components/admin/NewsletterManagement"));
+const UserApprovalQueue = lazy(() => import("@/components/admin/UserApprovalQueue"));
+const AdminMessages = lazy(() => import("@/components/admin/AdminMessages"));
+
+// Loading fallback for tab content
+const TabContentSkeleton = () => (
+  <div className="space-y-4 p-4">
+    <Skeleton className="h-8 w-64" />
+    <Skeleton className="h-32 w-full" />
+    <Skeleton className="h-48 w-full" />
+  </div>
+);
 
 export default function AdminManagementSystem() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -84,67 +96,99 @@ export default function AdminManagementSystem() {
           
           <div className="mt-6">
             <TabsContent value="dashboard" className="animate-fade-in">
-              <AdminDashboardContent />
+              <Suspense fallback={<TabContentSkeleton />}>
+                <AdminDashboardContent />
+              </Suspense>
             </TabsContent>
             
             <TabsContent value="properties" className="animate-fade-in">
-              <AdminPropertyManagement />
+              <Suspense fallback={<TabContentSkeleton />}>
+                <AdminPropertyManagement />
+              </Suspense>
             </TabsContent>
             
             <TabsContent value="vendors" className="animate-fade-in">
-              <AdminVendorManagement />
+              <Suspense fallback={<TabContentSkeleton />}>
+                <AdminVendorManagement />
+              </Suspense>
             </TabsContent>
             
             <TabsContent value="projects" className="animate-fade-in">
-              <AdminRFQSystem />
+              <Suspense fallback={<TabContentSkeleton />}>
+                <AdminRFQSystem />
+              </Suspense>
             </TabsContent>
 
             <TabsContent value="bids" className="animate-fade-in">
-              <AdminBidManagement />
+              <Suspense fallback={<TabContentSkeleton />}>
+                <AdminBidManagement />
+              </Suspense>
             </TabsContent>
 
             <TabsContent value="payments" className="animate-fade-in">
-              <EnhancedPaymentManagement />
+              <Suspense fallback={<TabContentSkeleton />}>
+                <EnhancedPaymentManagement />
+              </Suspense>
             </TabsContent>
 
             <TabsContent value="notifications" className="animate-fade-in">
-              <AdminNotificationCenter />
+              <Suspense fallback={<TabContentSkeleton />}>
+                <AdminNotificationCenter />
+              </Suspense>
             </TabsContent>
 
             <TabsContent value="inquiries" className="animate-fade-in">
-              <AdminInquiryManagement />
+              <Suspense fallback={<TabContentSkeleton />}>
+                <AdminInquiryManagement />
+              </Suspense>
             </TabsContent>
 
             <TabsContent value="news" className="animate-fade-in">
-              <NewsAdminPanel />
+              <Suspense fallback={<TabContentSkeleton />}>
+                <NewsAdminPanel />
+              </Suspense>
             </TabsContent>
 
             <TabsContent value="templates" className="animate-fade-in">
-              <EmailTemplateManager />
+              <Suspense fallback={<TabContentSkeleton />}>
+                <EmailTemplateManager />
+              </Suspense>
             </TabsContent>
 
             <TabsContent value="newsletter" className="animate-fade-in">
-              <NewsletterManagement />
+              <Suspense fallback={<TabContentSkeleton />}>
+                <NewsletterManagement />
+              </Suspense>
             </TabsContent>
 
             <TabsContent value="messages" className="animate-fade-in">
-              <AdminMessages />
+              <Suspense fallback={<TabContentSkeleton />}>
+                <AdminMessages />
+              </Suspense>
             </TabsContent>
 
             <TabsContent value="approvals" className="animate-fade-in">
-              <UserApprovalQueue />
+              <Suspense fallback={<TabContentSkeleton />}>
+                <UserApprovalQueue />
+              </Suspense>
             </TabsContent>
             
             <TabsContent value="verification" className="animate-fade-in">
-              <VendorVerificationSystem />
+              <Suspense fallback={<TabContentSkeleton />}>
+                <VendorVerificationSystem />
+              </Suspense>
             </TabsContent>
 
             <TabsContent value="testing" className="animate-fade-in">
-              <AdminTesting />
+              <Suspense fallback={<TabContentSkeleton />}>
+                <AdminTesting />
+              </Suspense>
             </TabsContent>
             
             <TabsContent value="users" className="animate-fade-in">
-              <AdminUserManagement />
+              <Suspense fallback={<TabContentSkeleton />}>
+                <AdminUserManagement />
+              </Suspense>
             </TabsContent>
           </div>
         </Tabs>

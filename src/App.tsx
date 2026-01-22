@@ -19,7 +19,8 @@ import Auth from "./pages/Auth";
 import LoginBridge from "./pages/auth/LoginBridge";
 import AuthVerify from "./pages/auth/AuthVerify";
 import NotFound from "./pages/NotFound";
-import AdminManagementSystem from "./components/AdminManagementSystem";
+// AdminManagementSystem lazy-loaded to prevent eagerly bundling all admin components
+const AdminManagementSystem = lazy(() => import("./components/AdminManagementSystem"));
 
 // Lazy load non-critical pages for code splitting and performance
 const Properties = lazy(() => import("./pages/Properties"));
