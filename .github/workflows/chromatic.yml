@@ -1,5 +1,6 @@
 # Chromatic Visual Regression Testing Workflow
 # Runs on every push to automatically detect UI changes
+# NOTE: Requires CHROMATIC_PROJECT_TOKEN secret to be configured in GitHub
 
 name: 'Chromatic Deployment'
 
@@ -12,9 +13,12 @@ on:
     branches:
       - main
 
+# Skip workflow if token is not configured
 jobs:
   chromatic-deployment:
     runs-on: ubuntu-latest
+    # Only run if the secret is configured
+    if: ${{ vars.CHROMATIC_ENABLED == 'true' }}
     
     steps:
       - name: Checkout repository
