@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { LanguageProvider } from "./contexts/LanguageContext";
-import { AuthProvider } from "./contexts/OptimizedAuthContext";
+// AuthProvider is already in main.tsx - do not duplicate
 import { ThemeProvider } from "./design-system/ThemeProvider";
 import { SecurityHeaders } from "@/components/SecurityHeaders";
 import { OptimizedSecurityProvider } from "@/components/OptimizedSecurityProvider";
@@ -37,7 +37,7 @@ const Bookmarks = lazy(() => import("./pages/Bookmarks"));
 const AuthDebug = lazy(() => import("./pages/AuthDebug"));
 const AuthTest = lazy(() => import("./pages/AuthTest"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
-const UserProfile = lazy(() => import("./pages/UserProfile"));
+// UserProfile consolidated into UnifiedSettings
 const UnifiedSettings = lazy(() => import("./pages/UnifiedSettings"));
 const BookingPage = lazy(() => import("./pages/BookingPage"));
 const ApartmentBookingPage = lazy(() => import("./pages/ApartmentBooking"));
@@ -46,7 +46,7 @@ const Privacy = lazy(() => import("./pages/Privacy"));
 const Sitemap = lazy(() => import("./pages/Sitemap"));
 const TenantManagement = lazy(() => import("./pages/TenantManagement"));
 const ProjectManagement = lazy(() => import("./pages/ProjectManagement"));
-const VendorManagement = lazy(() => import("./pages/VendorManagement"));
+// VendorManagement consolidated into AdminManagementSystem
 const VendorSubscription = lazy(() => import("./pages/VendorSubscription"));
 const VendorPayments = lazy(() => import("./pages/VendorPayments"));
 const JoinAsVendor = lazy(() => import("./pages/JoinAsVendor"));
@@ -64,9 +64,7 @@ const CapabilitiesStep = lazy(() => import("./pages/vendor-onboarding/Capabiliti
 const ComplianceStep = lazy(() => import("./pages/vendor-onboarding/ComplianceStep"));
 const ReviewStep = lazy(() => import("./pages/vendor-onboarding/ReviewStep"));
 const CompleteStep = lazy(() => import("./pages/vendor-onboarding/CompleteStep"));
-const VendorRFQSystem = lazy(() => import("@/components/VendorRFQSystem"));
-const VendorVerificationSystem = lazy(() => import("@/components/VendorVerificationSystem"));
-const AdminRFQSystem = lazy(() => import("./components/AdminRFQSystem"));
+// VendorRFQSystem, VendorVerificationSystem, AdminRFQSystem consolidated into RFQSystem.tsx and AdminManagementSystem
 const VendorReports = lazy(() => import("./pages/VendorReports"));
 const VendorProjects = lazy(() => import("./pages/VendorProjects"));
 const VendorProjectDetails = lazy(() => import("./pages/VendorProjectDetails"));
@@ -78,19 +76,15 @@ const VendorDocuments = lazy(() => import("./pages/VendorDocuments"));
 const VendorProfile = lazy(() => import("./pages/VendorProfile"));
 
 const UserManagement = lazy(() => import("./pages/UserManagement"));
-const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
-const AdminUserManagement = lazy(() => import("./pages/AdminUserManagement"));
-const AdminVendorManagement = lazy(() => import("./pages/AdminVendorManagement"));
-const AdminSecurity = lazy(() => import("@/pages/AdminSecurity"));
-const AdminMonitoring = lazy(() => import("@/pages/AdminMonitoring"));
-const AdminProjectManagement = lazy(() => import("@/pages/AdminProjectManagement"));
+// Admin components consolidated into AdminManagementSystem
+// AdminDashboard, AdminUserManagement, AdminVendorManagement, AdminSecurity, 
+// AdminMonitoring, AdminProjectManagement all load inside AdminManagementSystem
 const AdminTesting = lazy(() => import("@/pages/AdminTesting"));
-const AdminPropertyManagement = lazy(() => import("@/components/AdminPropertyManagement"));
+// AdminPropertyManagement consolidated into AdminManagementSystem
 const ProjectDetails = lazy(() => import("./pages/ProjectDetails"));
-const RFQSystem = lazy(() => import("./pages/RFQSystem"));
-const AdminSecurityTesting = lazy(() => import("./pages/AdminSecurityTesting"));
+// RFQSystem redirects to /admin/rfq, AdminSecurityTesting redirects to /admin/testing
 const AdminTenants = lazy(() => import("./pages/AdminTenants"));
-const AdminInvoices = lazy(() => import("./pages/AdminInvoices"));
+// AdminInvoices redirects to /admin?tab=payments
 const AdminAuditLog = lazy(() => import("./pages/AdminAuditLog"));
 const AdminLabs = lazy(() => import("./pages/AdminLabs"));
 const AdminControlSuite = lazy(() => import("./pages/AdminControlSuite"));
