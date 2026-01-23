@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { getAuthBaseUrl, isValidRedirectUrl } from "@/utils/authRedirects";
+import OptimizedLogo from "@/components/ui/OptimizedLogo";
 
 /**
  * LoginBridge: Handles authentication tokens from magic links, password reset, and invites
@@ -223,15 +224,9 @@ export default function LoginBridge() {
       <div className="flex flex-col items-center gap-4">
         <div className="relative">
           <div className="animate-spin rounded-full h-16 w-16 border-4 border-primary/20 border-t-primary" />
-          <img 
-            src="/lovable-uploads/318cdd13-7256-4cfe-99e0-948e43902b7b.png" 
-            alt="Monarch Logo"
-            className="absolute inset-0 m-auto h-8 w-8 rounded object-contain"
-            width={32}
-            height={32}
-            loading="lazy"
-            decoding="async"
-          />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <OptimizedLogo size="sm" />
+          </div>
         </div>
         <div className="text-sm text-muted-foreground font-medium">
           {status}

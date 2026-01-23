@@ -2,6 +2,23 @@
 
 All notable changes to the Monarch Property Management application.
 
+## [2.1.2] - 2026-01-23
+
+### Fixed
+- **Brand Logo**: Implemented official Monarch Property Management Group mountain logo across entire app
+- **Header Sign In/Join Now Buttons**: Added visible buttons with high-contrast styling (slate-800 for Sign In, primary for Join Now) on desktop and mobile
+- **Logo Standardization**: Updated `OptimizedLogo` component to use official brand logo (`src/assets/brand/monarch-logo.png`)
+- **Favicon**: Updated to use official brand logo
+- **Auth Pages**: Mobile logo on Auth page and LoginBridge now use `OptimizedLogo`
+- **Dashboard Sidebar**: `AppSidebar` and `SidebarLayout` now use standardized `OptimizedLogo`
+- **Footer**: Updated to use larger brand logo with "Management Group" text
+
+### Changed
+- **vercel.json**: Simplified caching rules using `/images/(.*)` and `/fonts/(.*)` path patterns
+- **Header Controls**: Changed icon containers from `bg-card` to `bg-white` for guaranteed visibility
+
+---
+
 ## [2.1.1] - 2026-01-23
 
 ### Fixed

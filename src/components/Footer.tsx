@@ -28,14 +28,14 @@ export default function Footer() {
           {/* Enhanced Company Info */}
           <div className="animate-fade-in [animation-delay:100ms]">
             <div className="flex items-center space-x-3 mb-6">
-              <div className="p-3 bg-primary/10 rounded-2xl">
-                <OptimizedLogo size="sm" />
+              <div className="p-2 bg-primary/10 rounded-2xl">
+                <OptimizedLogo size="lg" />
               </div>
               <div>
                 <h2 className="text-xl font-bold text-primary">
                   Monarch Property
                 </h2>
-                <p className="text-sm text-muted-foreground -mt-1">Management</p>
+                <p className="text-sm text-muted-foreground -mt-1">Management Group</p>
               </div>
             </div>
             <p className="text-muted-foreground mb-6 leading-relaxed">
