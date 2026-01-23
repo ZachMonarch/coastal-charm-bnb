@@ -235,11 +235,11 @@ export default function Navbar() {
             {!isLoading && !isAuthenticated && (
               <Button
                 asChild
-                variant="outline"
+                variant="default"
                 size="sm"
-                className="h-9 px-3 text-xs font-semibold border-primary/50 bg-white hover:bg-primary/10 hover:text-primary [&>a]:text-slate-800 [&>a]:dark:text-slate-800"
+                className="h-9 px-3 text-xs font-semibold bg-primary text-primary-foreground hover:bg-primary/90 shadow-md"
               >
-                <Link to="/auth">Sign In</Link>
+                <Link to="/auth" className="!text-primary-foreground">Sign In</Link>
               </Button>
             )}
             {isAuthenticated && (

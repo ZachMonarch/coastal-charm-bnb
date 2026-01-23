@@ -2,6 +2,18 @@
 
 All notable changes to the Monarch Property Management application.
 
+## [2.1.1] - 2026-01-23
+
+### Fixed
+- **Deployment Blocker**: Removed invalid regex patterns in `vercel.json` (replaced `/(.*)\.(?:jpg|...)$` with simple path matching)
+- **Header Sign In Button**: Changed from outline to filled primary button for consistent visibility in all themes
+- **Logo Consistency**: Footer now uses `OptimizedLogo` component instead of direct image import
+
+### Changed
+- **vercel.json**: Simplified caching rules using `/images/(.*)` and `/fonts/(.*)` path patterns instead of unsupported regex
+
+---
+
 ## [2.1.0] - 2026-01-23
 
 ### Fixed
