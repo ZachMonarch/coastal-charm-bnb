@@ -3,7 +3,7 @@ import { MapPin, Phone, Mail, Facebook, Twitter, Instagram, Linkedin, Building2,
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/OptimizedAuthContext";
-import logo32 from "@/assets/cdn/ui/monarch-logo-32.webp";
+import OptimizedLogo from "@/components/ui/OptimizedLogo";
 
 // Footer component 
 export default function Footer() {
@@ -29,7 +29,7 @@ export default function Footer() {
           <div className="animate-fade-in [animation-delay:100ms]">
             <div className="flex items-center space-x-3 mb-6">
               <div className="p-3 bg-primary/10 rounded-2xl">
-                <img src={logo32} alt="Monarch Property Management" className="h-8 w-8 object-contain" width="32" height="32" loading="lazy" decoding="async" />
+                <OptimizedLogo size="sm" />
               </div>
               <div>
                 <h2 className="text-xl font-bold text-primary">
