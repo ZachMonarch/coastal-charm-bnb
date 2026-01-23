@@ -1,6 +1,6 @@
 # Monarch Property Management - Application Status
 
-**Last Updated:** January 4, 2026
+**Last Updated:** January 23, 2026
 
 ## ✅ Completed Features
 
@@ -11,6 +11,7 @@
 - [x] Supabase integration (Auth, Database, Storage, Edge Functions)
 - [x] Role-based access control (RBAC)
 - [x] Protected routes with role verification
+- [x] Storybook v8.6.14 (aligned with all addons)
 
 ### Authentication & Authorization
 - [x] Email/password authentication
@@ -19,14 +20,17 @@
 - [x] User roles: admin, property_manager, vendor, tenant
 - [x] Access request system for new users
 - [x] Admin approval queue for role requests
+- [x] Multi-tenant isolation (tenant_id on all core tables)
 
 ### Database & Security
-- [x] 77 database tables with RLS enabled
-- [x] 180+ Row-Level Security policies
-- [x] Audit logging for sensitive actions
+- [x] 82 database tables with RLS enabled
+- [x] 253 migrations applied
+- [x] Tenant-isolated RLS policies (profiles, invoices, financial_reports)
+- [x] Audit logging for sensitive actions (including payment method access)
 - [x] Security event tracking
 - [x] Protected admin accounts
 - [x] Profile name change auditing
+- [x] Vendor invoice summary view (PII redaction)
 
 ### Email System
 - [x] 11 email templates configured
@@ -72,6 +76,7 @@
 - [x] RFQ dashboard
 - [x] Contract management
 - [x] Payment tracking
+- [x] Payout settings
 
 ### Admin Features
 - [x] Unified admin management (16+ tabs)
@@ -81,6 +86,7 @@
 - [x] Property management
 - [x] RFQ management
 - [x] Audit logs viewer
+- [x] Admin payment method viewing (with audit logging)
 
 ### Production Readiness
 - [x] Production-safe logger with Sentry integration
@@ -88,6 +94,8 @@
 - [x] No console.log statements in source code
 - [x] Lazy loading for 70+ components
 - [x] SEO meta tags
+- [x] Cache headers configured (vercel.json)
+- [x] PWA with NetworkFirst strategy
 
 ### Visual Display & Accessibility (Jan 2026)
 - [x] Light mode tab visibility fixes (colorful, pills, grid variants)
@@ -95,6 +103,8 @@
 - [x] Hero button text visibility (white on gradient)
 - [x] CSS specificity hardening for Radix components
 - [x] Role display shows "Vendor (Pending)" for new signups
+- [x] Brand contrast WCAG AA compliant (4.64:1 ratio)
+- [x] 44px minimum touch targets
 
 ## ⚠️ Manual Actions Required
 
@@ -116,31 +126,34 @@ When ready to accept payments:
 2. Configure Stripe webhook endpoint
 3. Test payment flows
 
-## 📊 Current Database Stats (Jan 4, 2026)
+### 4. Hero Image Optimization (Performance)
+Compress the following images to improve FCP/LCP:
+- `public/hero-optimized.webp` → Target: <200KB
+- `public/hero-mobile.webp` → Target: <100KB
+Use [Squoosh.app](https://squoosh.app) or ImageMagick
+
+## 📊 Current Database Stats (Jan 23, 2026)
 
 | Metric | Count |
 |--------|-------|
-| Total Users | 16 |
-| User Roles | 15 |
-| Pending Access Requests | 1 |
-| Approved Access Requests | 10 |
-| Vendor Profiles | 13 |
-| Verified Vendors | 8 |
-| Open Projects | 31 |
-| Active Contracts | 1 |
-| Open RFQs | 1 |
-| Properties | 10 |
-| Active Email Templates | 11 |
+| Total Tables | 82 |
+| Migrations Applied | 253 |
+| RLS Policies | 200+ |
 | Storage Buckets | 15 |
+| Edge Functions | 37 |
 
 ## 🔒 Security Status
 
 | Check | Status |
 |-------|--------|
 | RLS on all tables | ✅ Enabled |
-| No public tables without policies | ✅ Verified |
+| Tenant isolation | ✅ Enforced |
 | Audit logging | ✅ Active |
 | Protected admin accounts | ✅ Configured |
+| Profiles tenant-scoped | ✅ Implemented |
+| Invoices party-restricted | ✅ Implemented |
+| Financial reports admin-only | ✅ Implemented |
+| Payment methods audited | ✅ Implemented |
 | Leaked Password Protection | ⚠️ Manual enable required |
 
 ## 🚀 Deployment Checklist
@@ -152,8 +165,11 @@ When ready to accept payments:
 - [x] Email templates populated
 - [x] Storage buckets configured
 - [x] RLS policies verified
+- [x] Cache headers configured
+- [x] Storybook version aligned (8.6.14)
 - [ ] Enable Leaked Password Protection (manual)
 - [ ] Schedule cron jobs (manual)
+- [ ] Compress hero images (manual)
 - [ ] Configure Stripe (when ready)
 - [ ] Set up uptime monitoring (recommended)
 
@@ -161,4 +177,6 @@ When ready to accept payments:
 
 - `docs/CRON-JOBS.md` - Scheduled task SQL
 - `docs/APP-STATUS.md` - This file
+- `docs/SECURITY_HARDENING.md` - Security documentation
+- `docs/CHANGELOG.md` - Version history
 - `src/utils/logger.ts` - Production logging utility
