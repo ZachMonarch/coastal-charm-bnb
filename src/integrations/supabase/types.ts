@@ -4598,16 +4598,12 @@ export type Database = {
         Returns: Json
       }
       admin_get_vendor_payment_methods: {
-        Args: { p_vendor_id: string }
+        Args: { target_vendor_id: string }
         Returns: {
-          bank_name: string
-          brand: string
           created_at: string
           id: string
-          is_default: boolean
-          last_four: string
-          type: string
-          updated_at: string
+          is_primary: boolean
+          payment_type: string
           vendor_id: string
         }[]
       }
