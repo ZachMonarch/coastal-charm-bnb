@@ -12,8 +12,7 @@ import RealtimeNotifications from "./RealtimeNotifications";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/OptimizedAuthContext";
 import { rafBatch } from "@/utils/rafBatch";
-// Optimized small logo for faster FCP - properly sized at 48x48 for reduced payload
-import logoOptimized from "@/assets/logo-48.webp";
+import OptimizedLogo from "@/components/ui/OptimizedLogo";
 
 export default function Navbar() {
   const { t } = useLanguage();
@@ -22,7 +21,7 @@ export default function Navbar() {
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [logoError, setLogoError] = useState(false);
+  
 
   const propertiesDropdownItems = [
     {
@@ -131,23 +130,8 @@ export default function Navbar() {
             to="/"
             className="flex items-center space-x-3 group hover:opacity-90 transition-opacity focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none rounded-lg"
           >
-            <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-primary/20 to-primary/5 dark:from-primary/30 dark:to-primary/10 border-2 border-primary/40 dark:border-primary/50 rounded-xl p-1.5 md:p-2 flex items-center justify-center shadow-md shadow-primary/10 dark:shadow-primary/30 transition-all duration-300">
-              {!logoError ? (
-                <img
-                  src={logoOptimized}
-                  alt="Monarch Property Management Logo"
-                  className="w-full h-full object-contain"
-                  width={48}
-                  height={48}
-                  onError={() => setLogoError(true)}
-                  loading="eager"
-                  decoding="async"
-                  // @ts-expect-error - fetchpriority is valid HTML attribute
-                  fetchpriority="high"
-                />
-              ) : (
-                <Crown className="h-5 w-5 md:h-6 md:w-6 text-primary" />
-              )}
+            <div className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center">
+              <OptimizedLogo size="lg" />
             </div>
             <div className="hidden md:flex flex-col">
               <span className="text-lg font-semibold text-primary">Monarch Property</span>
@@ -203,47 +187,68 @@ export default function Navbar() {
 
           {/* Desktop Tools - lg:flex matches mobile lg:hidden breakpoint */}
           <div className="hidden lg:flex items-center space-x-2" data-header-controls>
-            <div className="rounded-lg border-2 border-primary/60 bg-card p-1.5 shadow-md hover:shadow-lg hover:border-primary transition-all" data-header-icon>
+            <div className="rounded-lg border-2 border-primary/60 bg-white p-1.5 shadow-md hover:shadow-lg hover:border-primary transition-all" data-header-icon>
               <LanguageSelector />
             </div>
-            <div className="rounded-lg border-2 border-primary/60 bg-card p-1.5 shadow-md hover:shadow-lg hover:border-primary transition-all" data-header-icon>
+            <div className="rounded-lg border-2 border-primary/60 bg-white p-1.5 shadow-md hover:shadow-lg hover:border-primary transition-all" data-header-icon>
               <ThemeToggle />
             </div>
             {isAuthenticated && (
-              <div className="rounded-lg border-2 border-primary/60 bg-card p-1.5 shadow-md hover:shadow-lg hover:border-primary transition-all" data-header-icon>
+              <div className="rounded-lg border-2 border-primary/60 bg-white p-1.5 shadow-md hover:shadow-lg hover:border-primary transition-all" data-header-icon>
                 <RealtimeNotifications />
               </div>
             )}
-            <div className="rounded-lg border-[3px] border-primary bg-card p-1.5 shadow-lg shadow-primary/15 hover:shadow-xl hover:border-primary transition-all" data-header-icon>
-              <OptimizedUserMenu />
-            </div>
+            {/* Sign In button - visible for guests on desktop */}
+            {!isLoading && !isAuthenticated && (
+              <Button
+                asChild
+                size="sm"
+                className="h-10 px-4 text-sm font-bold bg-slate-800 text-white hover:bg-slate-700 shadow-md border-2 border-slate-700"
+              >
+                <Link to="/auth">Sign In</Link>
+              </Button>
+            )}
+            {/* Join Now button - visible for guests on desktop */}
+            {!isLoading && !isAuthenticated && (
+              <Button
+                asChild
+                size="sm"
+                className="h-10 px-4 text-sm font-bold bg-primary text-white hover:bg-primary/90 shadow-md border-2 border-primary"
+              >
+                <Link to="/auth?tab=register">Join Now</Link>
+              </Button>
+            )}
+            {isAuthenticated && (
+              <div className="rounded-lg border-[3px] border-primary bg-white p-1.5 shadow-lg shadow-primary/15 hover:shadow-xl hover:border-primary transition-all" data-header-icon>
+                <OptimizedUserMenu />
+              </div>
+            )}
           </div>
 
           {/* Mobile Navigation */}
           <div className="flex items-center space-x-1.5 md:space-x-2 lg:hidden" data-header-controls>
-            <div className="rounded-lg border-2 border-primary/40 bg-card p-0.5 md:p-1 shadow-sm" data-header-icon>
+            <div className="rounded-lg border-2 border-primary/40 bg-white p-0.5 md:p-1 shadow-sm" data-header-icon>
               <LanguageSelector />
             </div>
-            <div className="rounded-lg border-2 border-primary/40 bg-card p-0.5 md:p-1 shadow-sm" data-header-icon>
+            <div className="rounded-lg border-2 border-primary/40 bg-white p-0.5 md:p-1 shadow-sm" data-header-icon>
               <ThemeToggle />
             </div>
             {isAuthenticated && (
-              <div className="rounded-lg border-2 border-primary/40 bg-card p-0.5 md:p-1 shadow-sm" data-header-icon>
+              <div className="rounded-lg border-2 border-primary/40 bg-white p-0.5 md:p-1 shadow-sm" data-header-icon>
                 <RealtimeNotifications />
               </div>
             )}
             {!isLoading && !isAuthenticated && (
               <Button
                 asChild
-                variant="default"
                 size="sm"
-                className="h-9 px-3 text-xs font-semibold bg-primary text-primary-foreground hover:bg-primary/90 shadow-md"
+                className="h-9 px-3 text-xs font-bold bg-slate-800 text-white hover:bg-slate-700 shadow-md border border-slate-700"
               >
-                <Link to="/auth" className="!text-primary-foreground">Sign In</Link>
+                <Link to="/auth">Sign In</Link>
               </Button>
             )}
             {isAuthenticated && (
-              <div className="rounded-lg border-2 border-primary/40 bg-card p-1 shadow-sm">
+              <div className="rounded-lg border-2 border-primary/40 bg-white p-1 shadow-sm">
                 <OptimizedUserMenu />
               </div>
             )}
@@ -269,27 +274,12 @@ export default function Navbar() {
         title="Menu"
         logo={
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-primary/20 to-primary/5 dark:from-primary/30 dark:to-primary/10 border-2 border-primary/40 dark:border-primary/50 rounded-xl p-2 flex items-center justify-center shadow-md shadow-primary/10 dark:shadow-primary/30">
-              {!logoError ? (
-                <img
-                  src={logoOptimized}
-                  alt="Monarch Logo"
-                  className="w-full h-full object-contain"
-                  width={32}
-                  height={32}
-                  onError={() => setLogoError(true)}
-                  loading="lazy"
-                  decoding="async"
-                />
-              ) : (
-                <Crown className="h-5 w-5 text-primary" />
-              )}
-            </div>
+            <OptimizedLogo size="lg" />
             <div className="flex flex-col">
-              <span className="text-lg font-bold bg-gradient-to-r from-primary via-primary to-primary/80 bg-clip-text text-transparent">
+              <span className="text-lg font-bold text-primary">
                 Monarch
               </span>
-              <span className="text-xs text-primary/70 dark:text-primary/60 -mt-1 font-semibold tracking-wide uppercase">
+              <span className="text-xs text-primary/70 -mt-1 font-semibold tracking-wide uppercase">
                 Property Mgmt
               </span>
             </div>
