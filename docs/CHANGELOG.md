@@ -2,6 +2,20 @@
 
 All notable changes to the Monarch Property Management application.
 
+## [2.1.3] - 2026-01-24
+
+### Fixed
+- **CSS Syntax Errors**: Removed `:is()` and `:has()` selectors that caused "Unexpected button" build warnings
+- **PostCSS Configuration**: Updated `postcss.config.cjs` to resolve "missing `from` option" warning
+- **Header Button Visibility**: Added `data-auth-button` attribute and CSS rules to preserve white text on Sign In/Join Now buttons across all themes and devices
+- **React Warning**: Removed `fetchPriority` prop from `OptimizedLogo` to fix "unrecognized prop" console warning
+- **Build Warnings**: Consolidated button text color rules for cleaner CSS output
+
+### Changed
+- **Auth Buttons Styling**: Added explicit `[&>a]:text-white` and `!text-white` classes for guaranteed link text visibility inside buttons
+
+---
+
 ## [2.1.2] - 2026-01-23
 
 ### Fixed

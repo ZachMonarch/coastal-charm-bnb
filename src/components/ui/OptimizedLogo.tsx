@@ -50,7 +50,6 @@ const OptimizedLogo = memo(function OptimizedLogo({
       onError={() => setLogoError(true)}
       loading="eager"
       decoding="async"
-      fetchPriority="high"
     />
   );
 });
