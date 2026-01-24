@@ -250,14 +250,35 @@
       }
     </style>
     
-    <!-- CSS deferral script - loads CSS asynchronously after critical content -->
+    <!-- CSS deferral script - uses MutationObserver to catch Vite-injected CSS -->
     <script>
       // Defer non-critical CSS to eliminate render-blocking
+      // Uses MutationObserver since Vite injects CSS dynamically via module script
       (function() {
-        var links = document.querySelectorAll('link[rel="stylesheet"][href*="assets/index"]');
-        links.forEach(function(link) {
-          link.media = 'print';
-          link.onload = function() { this.media = 'all'; };
+        function deferCSS(link) {
+          if (link.href && link.href.includes('assets/index') && link.rel === 'stylesheet') {
+            link.media = 'print';
+            link.onload = function() { this.media = 'all'; };
+          }
+        }
+        
+        // Handle existing links
+        document.querySelectorAll('link[rel="stylesheet"]').forEach(deferCSS);
+        
+        // Watch for dynamically added links
+        var observer = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            mutation.addedNodes.forEach(function(node) {
+              if (node.tagName === 'LINK') deferCSS(node);
+            });
+          });
+        });
+        
+        observer.observe(document.head, { childList: true });
+        
+        // Disconnect after page load
+        window.addEventListener('load', function() {
+          setTimeout(function() { observer.disconnect(); }, 1000);
         });
       })();
     </script>
