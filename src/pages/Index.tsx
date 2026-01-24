@@ -153,8 +153,8 @@ export default function Index() {
                         <ArrowRight className="ml-2 h-4 w-4" />
                       </Link>
                     </Button>
-                    <Button asChild variant="link" className="border-2 border-primary bg-transparent hover:bg-primary hover:text-white hover:border-primary font-medium">
-                      <Link to="/services" className="text-primary hover:text-white">
+                    <Button asChild variant="outline" className="border-2 border-primary bg-card text-foreground hover:bg-primary hover:text-white hover:border-primary font-medium">
+                      <Link to="/services">
                         Our Services
                       </Link>
                     </Button>
