@@ -7,18 +7,23 @@ import { LanguageProvider } from "./contexts/LanguageContext";
 import { ThemeProvider } from "./design-system/ThemeProvider";
 import { SecurityHeaders } from "@/components/SecurityHeaders";
 import { OptimizedSecurityProvider } from "@/components/OptimizedSecurityProvider";
-import CommandPalette from "@/components/CommandPalette";
 import OptimizedProtectedRoute from "@/components/OptimizedProtectedRoute";
 import OptimizedLayout from "@/components/OptimizedLayout";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { lazy, Suspense } from "react";
 
-// Eager load critical pages for first paint
+// Lazy load CommandPalette - not needed for initial page interaction
+const CommandPalette = lazy(() => import("@/components/CommandPalette"));
+
+// Eager load only the landing page for first paint - auth pages are lazy loaded
 import Index from "./pages/Index";
-import Auth from "./pages/Auth";
-import LoginBridge from "./pages/auth/LoginBridge";
-import AuthVerify from "./pages/auth/AuthVerify";
 import NotFound from "./pages/NotFound";
+
+// Lazy load auth pages - not needed on initial homepage render
+const Auth = lazy(() => import("./pages/Auth"));
+const LoginBridge = lazy(() => import("./pages/auth/LoginBridge"));
+const AuthVerify = lazy(() => import("./pages/auth/AuthVerify"));
+
 // AdminManagementSystem lazy-loaded to prevent eagerly bundling all admin components
 const AdminManagementSystem = lazy(() => import("./components/AdminManagementSystem"));
 
@@ -130,7 +135,9 @@ const App = () => (
             {/* AuthProvider is already in main.tsx - do not duplicate */}
             <Toaster />
             <BrowserRouter>
-              <CommandPalette />
+              <Suspense fallback={null}>
+                <CommandPalette />
+              </Suspense>
               <OptimizedLayout>
                 <Suspense fallback={<LoadingSpinner minimal />}>
                         <Routes>
