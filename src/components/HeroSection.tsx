@@ -68,9 +68,9 @@ export default function HeroSection() {
             alt="Monarch Property Management - Luxury apartment complex with pool and modern architecture" 
             className="w-full h-full object-cover"
             loading="eager" 
-            decoding="sync"
-            width="1920" 
-            height="1080"
+            decoding="async"
+            width="1280" 
+            height="720"
             // @ts-expect-error - fetchpriority is valid HTML attribute
             fetchpriority="high"
           />
