@@ -250,7 +250,17 @@
       }
     </style>
     
-    <!-- CSS is now handled by Vite - no hardcoded filenames -->
+    <!-- CSS deferral script - loads CSS asynchronously after critical content -->
+    <script>
+      // Defer non-critical CSS to eliminate render-blocking
+      (function() {
+        var links = document.querySelectorAll('link[rel="stylesheet"][href*="assets/index"]');
+        links.forEach(function(link) {
+          link.media = 'print';
+          link.onload = function() { this.media = 'all'; };
+        });
+      })();
+    </script>
     
     <!-- Optimized font loading with reduced weights for faster FCP -->
     <link 
