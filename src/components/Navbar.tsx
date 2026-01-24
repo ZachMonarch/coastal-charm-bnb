@@ -204,10 +204,9 @@ export default function Navbar() {
                 asChild
                 size="sm"
                 data-auth-button="sign-in"
-                className="h-10 px-4 text-sm font-bold bg-slate-800 hover:bg-slate-700 shadow-md border-2 border-slate-700"
-                style={{ color: '#ffffff' }}
+                className="h-10 px-5 text-sm font-bold bg-slate-900 hover:bg-slate-800 shadow-lg border-2 border-slate-600 text-white"
               >
-                <Link to="/auth" style={{ color: '#ffffff' }}>Sign In</Link>
+                <Link to="/auth" className="!text-white">Sign In</Link>
               </Button>
             )}
             {/* Join Now button - visible for guests on desktop */}
@@ -216,10 +215,9 @@ export default function Navbar() {
                 asChild
                 size="sm"
                 data-auth-button="join-now"
-                className="h-10 px-4 text-sm font-bold bg-primary hover:bg-primary/90 shadow-md border-2 border-primary"
-                style={{ color: '#ffffff' }}
+                className="h-10 px-5 text-sm font-bold bg-primary hover:bg-primary-dark shadow-lg border-2 border-primary text-white"
               >
-                <Link to="/auth?tab=register" style={{ color: '#ffffff' }}>Join Now</Link>
+                <Link to="/auth?tab=register" className="!text-white">Join Now</Link>
               </Button>
             )}
             {isAuthenticated && (
@@ -247,10 +245,9 @@ export default function Navbar() {
                 asChild
                 size="sm"
                 data-auth-button="sign-in-mobile"
-                className="h-9 px-3 text-xs font-bold bg-slate-800 hover:bg-slate-700 shadow-md border border-slate-700"
-                style={{ color: '#ffffff' }}
+                className="h-9 px-4 text-xs font-bold bg-slate-900 hover:bg-slate-800 shadow-lg border-2 border-slate-600 text-white"
               >
-                <Link to="/auth" style={{ color: '#ffffff' }}>Sign In</Link>
+                <Link to="/auth" className="!text-white">Sign In</Link>
               </Button>
             )}
             {isAuthenticated && (
