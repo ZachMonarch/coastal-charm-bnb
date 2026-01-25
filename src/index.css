@@ -696,6 +696,23 @@
   stroke: currentColor;
 }
 
+/* === AUTH BUTTON VISIBILITY - GUARANTEED WHITE TEXT === */
+/* These buttons must always show white text regardless of theme or navbar rules */
+[data-auth-button],
+[data-auth-button] a,
+[data-auth-button] span {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Ensure auth buttons in monarch header override any dark text rules */
+[data-monarch-header] [data-auth-button],
+[data-monarch-header] [data-auth-button] a,
+[data-monarch-header] [data-auth-button] span {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
 /* === CARD & BUTTON TEXT VISIBILITY (token-based) === */
 [class*="Card"] h1,
 [class*="Card"] h2,
