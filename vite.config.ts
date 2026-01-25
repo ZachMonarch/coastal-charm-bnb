@@ -153,7 +153,7 @@ export default defineConfig(({ mode }) => ({
         assetFileNames: 'assets/[name]-[hash].[ext]'
       }
     },
-    chunkSizeWarningLimit: 1500,
+    chunkSizeWarningLimit: 2000,
     // Enable source maps for Lighthouse best-practices and debugging
     // Note: This exposes source maps publicly - acceptable for this application
     sourcemap: true,

@@ -204,9 +204,10 @@ export default function Navbar() {
                 asChild
                 size="sm"
                 data-auth-button="sign-in"
-                className="h-10 px-5 text-sm font-bold bg-slate-900 hover:bg-slate-800 shadow-lg border-2 border-slate-600 text-white"
+                className="h-10 px-5 text-sm font-bold bg-slate-900 hover:bg-slate-800 shadow-lg border-2 border-slate-600"
+                style={{ color: '#ffffff', WebkitTextFillColor: '#ffffff' }}
               >
-                <Link to="/auth" className="!text-white">Sign In</Link>
+                <Link to="/auth" style={{ color: 'inherit' }}>Sign In</Link>
               </Button>
             )}
             {/* Join Now button - visible for guests on desktop */}
@@ -215,9 +216,10 @@ export default function Navbar() {
                 asChild
                 size="sm"
                 data-auth-button="join-now"
-                className="h-10 px-5 text-sm font-bold bg-primary hover:bg-primary-dark shadow-lg border-2 border-primary text-white"
+                className="h-10 px-5 text-sm font-bold bg-primary hover:bg-primary-dark shadow-lg border-2 border-primary"
+                style={{ color: '#ffffff', WebkitTextFillColor: '#ffffff' }}
               >
-                <Link to="/auth?tab=register" className="!text-white">Join Now</Link>
+                <Link to="/auth?tab=register" style={{ color: 'inherit' }}>Join Now</Link>
               </Button>
             )}
             {isAuthenticated && (
@@ -245,9 +247,10 @@ export default function Navbar() {
                 asChild
                 size="sm"
                 data-auth-button="sign-in-mobile"
-                className="h-9 px-4 text-xs font-bold bg-slate-900 hover:bg-slate-800 shadow-lg border-2 border-slate-600 text-white"
+                className="h-9 px-4 text-xs font-bold bg-slate-900 hover:bg-slate-800 shadow-lg border-2 border-slate-600"
+                style={{ color: '#ffffff', WebkitTextFillColor: '#ffffff' }}
               >
-                <Link to="/auth" className="!text-white">Sign In</Link>
+                <Link to="/auth" style={{ color: 'inherit' }}>Sign In</Link>
               </Button>
             )}
             {isAuthenticated && (
