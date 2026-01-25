@@ -8,6 +8,10 @@ export default {
 		"./index.html"
 	],
 	prefix: "",
+	// Disable :has() selector support to prevent PostCSS parsing errors
+	future: {
+		hoverOnlyWhenSupported: true,
+	},
 	safelist: [
 		// Only truly dynamic classes - animation utilities
 		'animate-pulse-glow',
