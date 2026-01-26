@@ -115,7 +115,9 @@ export default function Navbar() {
       <header
         data-monarch-header
         className={cn(
-          "monarch-header fixed top-0 left-0 right-0 z-[150] transition-all duration-500",
+          "monarch-header fixed top-0 left-0 right-0 transition-all duration-500",
+          // CRITICAL: Lower z-index when mobile menu is open to prevent overlap
+          mobileMenuOpen ? "z-[100]" : "z-[150]",
           scrolled
             ? "shadow-xl border-b-2 border-primary/30 py-3"
             : "backdrop-blur-md py-5 shadow-md border-b border-border",
