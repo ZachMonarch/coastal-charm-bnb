@@ -68,16 +68,14 @@ export default function HeroSection() {
             srcSet="/hero-mobile.webp" 
             media="(max-width: 767px)"
           />
-          {/* PERFORMANCE FIX: Explicit dimensions + aspect-ratio prevent CLS */}
           <img 
             src="/hero-optimized.webp" 
             alt="Monarch Property Management - Luxury apartment complex with pool and modern architecture" 
             className="w-full h-full object-cover"
-            style={{ aspectRatio: '16/9' }}
             loading="eager" 
             decoding="async"
-            width="1920" 
-            height="1080"
+            width="1280" 
+            height="720"
             // @ts-expect-error - fetchpriority is valid HTML attribute
             fetchpriority="high"
           />

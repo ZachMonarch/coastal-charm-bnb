@@ -95,36 +95,26 @@ export default function MobileDrawer({
       aria-modal="true"
       aria-label={title || "Mobile navigation"}
       className={cn(
-        "fixed inset-0 lg:hidden transition-all duration-300",
-        // CRITICAL: Use highest z-index to ensure drawer appears above everything
-        "z-[10000]",
+        "fixed inset-0 z-[9999] lg:hidden transition-all duration-300",
         isOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
       )}
-      style={{
-        // Ensure isolation context to prevent z-index conflicts
-        isolation: 'isolate',
-      }}
     >
-      {/* Backdrop - covers entire viewport including header */}
+      {/* Backdrop */}
       <div 
         className={cn(
-          "fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300",
+          "absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300",
           isOpen ? "opacity-100" : "opacity-0"
         )}
         onClick={onClose}
         aria-hidden="true"
-        style={{ zIndex: 1 }}
       />
       
       {/* Drawer Panel */}
-      <div 
-        className={cn(
-          "fixed inset-y-0 right-0 w-[85%] max-w-sm h-full bg-background border-l border-border shadow-2xl transition-transform duration-300 ease-out",
-          isOpen ? "translate-x-0" : "translate-x-full",
-          className
-        )}
-        style={{ zIndex: 2 }}
-      >
+      <div className={cn(
+        "fixed inset-y-0 right-0 w-[85%] max-w-sm h-full bg-background border-l border-border shadow-2xl transition-transform duration-300 ease-out",
+        isOpen ? "translate-x-0" : "translate-x-full",
+        className
+      )}>
         <div className="flex flex-col h-full overflow-hidden">
           {/* Header */}
           {(title || logo) && (
