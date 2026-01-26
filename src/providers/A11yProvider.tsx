@@ -1,4 +1,5 @@
-import { ReactNode, useEffect } from 'react';
+import React, { ReactNode, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 
 interface A11yProviderProps {
   children: ReactNode;
@@ -28,8 +29,7 @@ export default function A11yProvider({ children }: A11yProviderProps) {
     // Initialize axe-core in development for accessibility auditing
     if (import.meta.env.DEV) {
       import('@axe-core/react').then((axe) => {
-        const React = require('react');
-        const ReactDOM = require('react-dom');
+        // Use imported React/ReactDOM to avoid duplicate instances
         axe.default(React, ReactDOM, 1000, {
           rules: [
             { id: 'color-contrast', enabled: true },
