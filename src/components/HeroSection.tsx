@@ -26,12 +26,17 @@ export default function HeroSection() {
   }, []);
 
   const handleScrollDown = useCallback(() => {
-    const welcomeSection = document.getElementById('welcome');
-    if (welcomeSection) {
-      welcomeSection.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
-    }
+    // Batch DOM read/write in RAF to prevent forced reflow
+    requestAnimationFrame(() => {
+      const welcomeSection = document.getElementById('welcome');
+      if (welcomeSection) {
+        welcomeSection.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        // Read viewport height and scroll in same frame
+        const viewportHeight = window.innerHeight;
+        window.scrollTo({ top: viewportHeight, behavior: 'smooth' });
+      }
+    });
   }, []);
 
   return (

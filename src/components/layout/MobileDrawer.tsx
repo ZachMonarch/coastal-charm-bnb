@@ -44,33 +44,46 @@ export default function MobileDrawer({
     return () => document.removeEventListener("keydown", handleEscape);
   }, [isOpen, onClose]);
 
-  // Body scroll lock when drawer is open
+  // Body scroll lock when drawer is open - batched to prevent forced reflows
   useEffect(() => {
+    let scrollY = 0;
+    
     if (isOpen) {
-      const scrollY = window.scrollY;
-      document.body.style.position = 'fixed';
-      document.body.style.top = `-${scrollY}px`;
-      document.body.style.left = '0';
-      document.body.style.right = '0';
-      document.body.style.overflow = 'hidden';
+      // Batch READ in next frame to prevent forced reflow
+      requestAnimationFrame(() => {
+        scrollY = window.scrollY;
+        // Batch WRITE after read
+        requestAnimationFrame(() => {
+          document.body.style.position = 'fixed';
+          document.body.style.top = `-${scrollY}px`;
+          document.body.style.left = '0';
+          document.body.style.right = '0';
+          document.body.style.overflow = 'hidden';
+        });
+      });
     } else {
-      const scrollY = document.body.style.top;
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.left = '';
-      document.body.style.right = '';
-      document.body.style.overflow = '';
-      if (scrollY) {
-        window.scrollTo(0, parseInt(scrollY || '0') * -1);
-      }
+      const savedScrollY = document.body.style.top;
+      // Batch WRITE operations
+      requestAnimationFrame(() => {
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.left = '';
+        document.body.style.right = '';
+        document.body.style.overflow = '';
+        if (savedScrollY) {
+          window.scrollTo(0, parseInt(savedScrollY || '0') * -1);
+        }
+      });
     }
     
     return () => {
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.left = '';
-      document.body.style.right = '';
-      document.body.style.overflow = '';
+      requestAnimationFrame(() => {
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.left = '';
+        document.body.style.right = '';
+        document.body.style.overflow = '';
+      });
     };
   }, [isOpen]);
 

@@ -38,8 +38,10 @@ export default function Index() {
   useCanonicalUrl('https://monarchpropertymmgt.com/');
   
   useEffect(() => {
-    // Scroll to top when component mounts
-    window.scrollTo(0, 0);
+    // Scroll to top when component mounts - batched to prevent forced reflow
+    requestAnimationFrame(() => {
+      window.scrollTo(0, 0);
+    });
   }, []);
   
   return (
