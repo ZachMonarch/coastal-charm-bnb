@@ -47,8 +47,8 @@
     <link rel="apple-touch-icon" href="/favicon.png" />
     <link rel="shortcut icon" href="/favicon.png" />
     
-    <!-- Preload optimized hero images for LCP optimization -->
-    <link rel="preload" as="image" href="/hero-optimized.webp" type="image/webp" fetchpriority="high" media="(min-width: 768px)" />
+    <!-- Preload optimized hero images for LCP optimization - use smaller version by default -->
+    <link rel="preload" as="image" href="/hero-optimized-sm.webp" type="image/webp" fetchpriority="high" media="(min-width: 768px)" />
     <link rel="preload" as="image" href="/hero-mobile.webp" type="image/webp" fetchpriority="high" media="(max-width: 767px)" />
     
     <!-- NOTE: modulepreload hints are not added statically because Vite generates 
