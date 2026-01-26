@@ -6,10 +6,11 @@
     
     <!-- CRITICAL: Preconnect hints MUST be first for maximum effectiveness -->
     <!-- Establishes early connections before any other resources are requested -->
-    <link rel="preconnect" href="https://yhegaaqxmuhszesbjtdo.supabase.co" crossorigin="anonymous" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="anonymous" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-    <link rel="preconnect" href="https://images.unsplash.com" crossorigin="anonymous" />
+    <!-- Note: fonts.googleapis.com needs no crossorigin (stylesheet), fonts.gstatic.com needs crossorigin (font files) -->
+    <link rel="preconnect" href="https://yhegaaqxmuhszesbjtdo.supabase.co" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
     
     <!-- DNS prefetch as fallback for browsers that don't support preconnect -->
     <link rel="dns-prefetch" href="https://yhegaaqxmuhszesbjtdo.supabase.co" />

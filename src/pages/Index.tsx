@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef, useCallback } from "react";
 import Footer from "@/components/Footer";
 import HeroSection from "@/components/HeroSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
@@ -18,6 +18,7 @@ import { useCanonicalUrl } from "@/hooks/useCanonicalUrl";
 
 export default function Index() {
   const { t } = useLanguage();
+  const propertiesSectionRef = useRef<HTMLElement>(null);
   
   // Memoize filters for random properties - use random offset for variety
   const propertyFilters = useMemo(() => ({
@@ -25,7 +26,32 @@ export default function Index() {
     sortOrder: 'desc' as const
   }), []);
   
-  const { properties, loading } = useProperties(propertyFilters, 20);
+  // Defer property loading to break critical request chain
+  // Properties will only load when the section becomes visible
+  const { properties, loading, triggerFetch, hasFetched } = useProperties(
+    propertyFilters, 
+    20,
+    { defer: true }
+  );
+  
+  // Use IntersectionObserver to trigger property fetch when section is near viewport
+  useEffect(() => {
+    const section = propertiesSectionRef.current;
+    if (!section || hasFetched) return;
+    
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          triggerFetch();
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '200px' } // Start loading 200px before section enters viewport
+    );
+    
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, [triggerFetch, hasFetched]);
   
   // Randomize and pick 9 properties for display variety
   const randomProperties = useMemo(() => {
@@ -81,8 +107,12 @@ export default function Index() {
             <EnhancedBookingSection />
           </div>
           
-          {/* Featured Properties */}
-          <section className="section bg-gradient-to-br from-background via-accent/10 to-background full-width-section" aria-labelledby="featured-properties-heading">
+          {/* Featured Properties - Deferred loading to improve initial page load */}
+          <section 
+            ref={propertiesSectionRef}
+            className="section bg-gradient-to-br from-background via-accent/10 to-background full-width-section" 
+            aria-labelledby="featured-properties-heading"
+          >
             <div className="content-constrained">
               <div className="text-center max-w-3xl mx-auto mb-12 animate-fade-in">
                 <span className="text-sm text-primary font-medium uppercase tracking-wider">
@@ -96,7 +126,7 @@ export default function Index() {
                 </p>
               </div>
               
-              {loading ? (
+              {(loading || !hasFetched) ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {[...Array(9)].map((_, index) => (
                     <div key={index} className="neumorphic-card p-6 rounded-3xl animate-pulse">
