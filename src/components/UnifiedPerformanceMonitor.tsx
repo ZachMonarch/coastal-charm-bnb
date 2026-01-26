@@ -160,10 +160,14 @@ export default function UnifiedPerformanceMonitor() {
     }
   }, []);
 
-  // NOTE: Preconnect hints are in index.html (static HTML) for Lighthouse detection.
-  // Helmet-injected hints happen too late in the page lifecycle.
   return (
     <Helmet>
+      {/* DNS Prefetch and Preconnect for faster connections */}
+      <link rel="dns-prefetch" href="https://yhegaaqxmuhszesbjtdo.supabase.co" />
+      <link rel="preconnect" href="https://yhegaaqxmuhszesbjtdo.supabase.co" crossOrigin="anonymous" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      
       {/* Critical CSS optimization */}
       <style>{`
         /* Critical above-the-fold styles */

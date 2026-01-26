@@ -1,8 +1,12 @@
-import { useEffect, useState, useMemo, useRef, useCallback, lazy, Suspense } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Footer from "@/components/Footer";
 import HeroSection from "@/components/HeroSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
 import PropertyCard from "@/components/PropertyCard";
 import WelcomeSection from "@/components/WelcomeSection";
+import EnhancedBookingSection from "@/components/EnhancedBookingSection";
+import FeaturesShowcase from "@/components/FeaturesShowcase";
+import CTASection from "@/components/CTASection";
 import { EnhancedSEOLayout } from "@/components/EnhancedSEOLayout";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -10,52 +14,10 @@ import { ArrowRight, Building2 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useProperties } from "@/hooks/useProperties";
 import { useCanonicalUrl } from "@/hooks/useCanonicalUrl";
-import { Skeleton } from "@/components/ui/skeleton";
-
-// Lazy load heavy/below-fold components to improve TTI
-const EnhancedBookingSection = lazy(() => import("@/components/EnhancedBookingSection"));
-const TestimonialsSection = lazy(() => import("@/components/TestimonialsSection"));
-const FeaturesShowcase = lazy(() => import("@/components/FeaturesShowcase"));
-const CTASection = lazy(() => import("@/components/CTASection"));
-
-// Loading placeholder for booking section
-function BookingSectionSkeleton() {
-  return (
-    <section className="relative py-24 bg-gradient-to-br from-background via-primary/5 to-background">
-      <div className="container">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div className="space-y-8">
-            <Skeleton className="h-8 w-48" />
-            <Skeleton className="h-12 w-full max-w-md" />
-            <Skeleton className="h-24 w-full" />
-            <div className="space-y-3">
-              {[...Array(3)].map((_, i) => (
-                <Skeleton key={i} className="h-6 w-3/4" />
-              ))}
-            </div>
-          </div>
-          <div className="neumorphic-card p-8 rounded-3xl">
-            <Skeleton className="h-10 w-3/4 mx-auto mb-6" />
-            <div className="space-y-4">
-              <Skeleton className="h-12 w-full" />
-              <Skeleton className="h-12 w-full" />
-              <div className="grid grid-cols-2 gap-4">
-                <Skeleton className="h-12 w-full" />
-                <Skeleton className="h-12 w-full" />
-              </div>
-              <Skeleton className="h-14 w-full" />
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 
 export default function Index() {
   const { t } = useLanguage();
-  const propertiesSectionRef = useRef<HTMLElement>(null);
   
   // Memoize filters for random properties - use random offset for variety
   const propertyFilters = useMemo(() => ({
@@ -63,32 +25,7 @@ export default function Index() {
     sortOrder: 'desc' as const
   }), []);
   
-  // Defer property loading to break critical request chain
-  // Properties will only load when the section becomes visible
-  const { properties, loading, triggerFetch, hasFetched } = useProperties(
-    propertyFilters, 
-    20,
-    { defer: true }
-  );
-  
-  // Use IntersectionObserver to trigger property fetch when section is near viewport
-  useEffect(() => {
-    const section = propertiesSectionRef.current;
-    if (!section || hasFetched) return;
-    
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          triggerFetch();
-          observer.disconnect();
-        }
-      },
-      { rootMargin: '200px' } // Start loading 200px before section enters viewport
-    );
-    
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, [triggerFetch, hasFetched]);
+  const { properties, loading } = useProperties(propertyFilters, 20);
   
   // Randomize and pick 9 properties for display variety
   const randomProperties = useMemo(() => {
@@ -101,10 +38,8 @@ export default function Index() {
   useCanonicalUrl('https://monarchpropertymmgt.com/');
   
   useEffect(() => {
-    // Scroll to top when component mounts - batched to prevent forced reflow
-    requestAnimationFrame(() => {
-      window.scrollTo(0, 0);
-    });
+    // Scroll to top when component mounts
+    window.scrollTo(0, 0);
   }, []);
   
   return (
@@ -139,19 +74,13 @@ export default function Index() {
             <WelcomeSection />
           </div>
           
-          {/* Enhanced Booking Section - Lazy loaded to improve TTI */}
+          {/* Enhanced Booking Section */}
           <div className="content-constrained">
-            <Suspense fallback={<BookingSectionSkeleton />}>
-              <EnhancedBookingSection />
-            </Suspense>
+            <EnhancedBookingSection />
           </div>
           
-          {/* Featured Properties - Deferred loading to improve initial page load */}
-          <section 
-            ref={propertiesSectionRef}
-            className="section bg-gradient-to-br from-background via-accent/10 to-background full-width-section" 
-            aria-labelledby="featured-properties-heading"
-          >
+          {/* Featured Properties */}
+          <section className="section bg-gradient-to-br from-background via-accent/10 to-background full-width-section" aria-labelledby="featured-properties-heading">
             <div className="content-constrained">
               <div className="text-center max-w-3xl mx-auto mb-12 animate-fade-in">
                 <span className="text-sm text-primary font-medium uppercase tracking-wider">
@@ -165,7 +94,7 @@ export default function Index() {
                 </p>
               </div>
               
-              {(loading || !hasFetched) ? (
+              {loading ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {[...Array(9)].map((_, index) => (
                     <div key={index} className="neumorphic-card p-6 rounded-3xl animate-pulse">
@@ -253,25 +182,19 @@ export default function Index() {
             </div>
           </section>
 
-          {/* Testimonials - Lazy loaded */}
+          {/* Testimonials */}
           <div className="content-constrained">
-            <Suspense fallback={<div className="py-16"><Skeleton className="h-64 w-full" /></div>}>
-              <TestimonialsSection />
-            </Suspense>
+            <TestimonialsSection />
           </div>
 
-          {/* Features - Lazy loaded */}
+          {/* Features */}
           <div className="content-constrained">
-            <Suspense fallback={<div className="py-16"><Skeleton className="h-48 w-full" /></div>}>
-              <FeaturesShowcase />
-            </Suspense>
+            <FeaturesShowcase />
           </div>
 
-          {/* CTA Section - Lazy loaded */}
+          {/* CTA Section */}
           <div className="content-constrained">
-            <Suspense fallback={<div className="py-16"><Skeleton className="h-32 w-full" /></div>}>
-              <CTASection />
-            </Suspense>
+            <CTASection />
           </div>
         </main>
         <Footer />

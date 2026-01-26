@@ -26,17 +26,12 @@ export default function HeroSection() {
   }, []);
 
   const handleScrollDown = useCallback(() => {
-    // Batch DOM read/write in RAF to prevent forced reflow
-    requestAnimationFrame(() => {
-      const welcomeSection = document.getElementById('welcome');
-      if (welcomeSection) {
-        welcomeSection.scrollIntoView({ behavior: 'smooth' });
-      } else {
-        // Read viewport height and scroll in same frame
-        const viewportHeight = window.innerHeight;
-        window.scrollTo({ top: viewportHeight, behavior: 'smooth' });
-      }
-    });
+    const welcomeSection = document.getElementById('welcome');
+    if (welcomeSection) {
+      welcomeSection.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+    }
   }, []);
 
   return (
@@ -56,11 +51,10 @@ export default function HeroSection() {
         }}
       >
         <picture>
-          {/* Desktop: responsive srcset for different viewport widths - smaller displays get smaller images */}
+          {/* Desktop: optimized 16:9 hero image */}
           <source 
             type="image/webp" 
-            srcSet="/hero-optimized-sm.webp 1280w, /hero-optimized.webp 1920w"
-            sizes="100vw"
+            srcSet="/hero-optimized.webp" 
             media="(min-width: 768px)"
           />
           {/* Mobile: optimized 9:16 portrait hero image */}
@@ -69,13 +63,14 @@ export default function HeroSection() {
             srcSet="/hero-mobile.webp" 
             media="(max-width: 767px)"
           />
-          {/* CLS FIX: Use CSS aspect-ratio that matches viewport to prevent layout shift */}
           <img 
-            src="/hero-optimized-sm.webp" 
+            src="/hero-optimized.webp" 
             alt="Monarch Property Management - Luxury apartment complex with pool and modern architecture" 
-            className="w-full h-full object-cover aspect-[9/16] md:aspect-[16/9]"
+            className="w-full h-full object-cover"
             loading="eager" 
             decoding="async"
+            width="1280" 
+            height="720"
             // @ts-expect-error - fetchpriority is valid HTML attribute
             fetchpriority="high"
           />
@@ -156,7 +151,7 @@ export default function HeroSection() {
             </Button>
           </div>
 
-          {/* Stats section - WCAG AA: bg-black/60 provides 4.5:1+ contrast for white text */}
+          {/* Stats section */}
           <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto">
             {[
               { number: '500+', label: 'Properties' }, 
@@ -165,7 +160,7 @@ export default function HeroSection() {
             ].map((stat, index) => (
               <div 
                 key={index} 
-                className="bg-black/60 backdrop-blur-md border border-white/20 p-6 rounded-2xl animate-fade-in hover:bg-black/70 transition-all duration-300 border-l-4 border-l-primary" 
+                className="bg-black/40 backdrop-blur-md border border-white/20 p-6 rounded-2xl animate-fade-in hover:bg-black/50 transition-all duration-300 border-l-4 border-l-primary" 
                 style={{ animationDelay: `${index * 200}ms` }}
               >
                 <div className="text-2xl font-bold text-white mb-1 drop-shadow-md">{stat.number}</div>
