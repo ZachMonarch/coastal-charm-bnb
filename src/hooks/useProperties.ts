@@ -94,24 +94,12 @@ const getQualityImages = (imageUrls: string): string[] => {
   }
 };
 
-export interface UsePropertiesOptions {
-  /** Defer initial fetch until manually triggered via refetch() - helps break critical request chains */
-  defer?: boolean;
-}
-
-export const useProperties = (
-  filters: Partial<PropertyFilters> = {}, 
-  pageSize: number = DEFAULT_PAGE_SIZE,
-  options: UsePropertiesOptions = {}
-) => {
-  const { defer = false } = options;
+export const useProperties = (filters: Partial<PropertyFilters> = {}, pageSize: number = DEFAULT_PAGE_SIZE) => {
   const { user } = useAuth();
   const isAuthenticated = !!user;
   
   const [properties, setProperties] = useState<Property[]>([]);
-  // When deferred, start with loading=false since we haven't started yet
-  const [loading, setLoading] = useState(!defer);
-  const [hasFetched, setHasFetched] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [metadata, setMetadata] = useState({
@@ -220,22 +208,9 @@ export const useProperties = (
   };
 
   // Re-fetch when auth status changes to get appropriate data tier
-  // Skip initial fetch if defer=true (will be triggered manually via refetch)
   useEffect(() => {
-    if (defer && !hasFetched) {
-      // Don't auto-fetch when deferred - wait for manual trigger
-      return;
-    }
     fetchProperties();
-  }, [currentPage, pageSize, JSON.stringify(filters), isAuthenticated, hasFetched]);
-
-  // Manual trigger for deferred loading
-  const triggerFetch = () => {
-    if (!hasFetched) {
-      setHasFetched(true);
-      fetchProperties();
-    }
-  };
+  }, [currentPage, pageSize, JSON.stringify(filters), isAuthenticated]);
 
   const paginationInfo = useMemo(() => ({
     currentPage,
@@ -261,10 +236,8 @@ export const useProperties = (
     pagination: paginationInfo,
     setCurrentPage,
     refetch: fetchProperties,
-    triggerFetch, // Manual trigger for deferred loading
     retry,
     retryCount,
-    hasFetched,
     clearCache: () => {
       setCurrentPage(1);
       setRetryCount(0);

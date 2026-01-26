@@ -2,13 +2,7 @@
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
 
-# Cache hero images for 1 year (critical LCP assets)
-/hero-mobile.webp
-  Cache-Control: public, max-age=31536000, immutable
-/hero-optimized.webp
-  Cache-Control: public, max-age=31536000, immutable
-
-# Cache other images for 30 days
+# Cache images for 30 days
 /*.jpg
   Cache-Control: public, max-age=2592000
 /*.jpeg

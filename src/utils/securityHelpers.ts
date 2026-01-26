@@ -1,15 +1,9 @@
 // Security utility functions for data sanitization and validation
-// IMPORTANT: For HTML sanitization, use sanitizeHtml() from '@/lib/sanitize' (uses DOMPurify)
 export const securityHelpers = {
-  /**
-   * DEPRECATED: Use sanitizeHtml() from '@/lib/sanitize' for proper HTML sanitization.
-   * This function ONLY escapes HTML entities and does NOT prevent XSS attacks.
-   * It is kept for backwards compatibility but renamed to clarify its purpose.
-   * @deprecated Use sanitizeHtml from '@/lib/sanitize' instead
-   */
-  escapeHtmlEntities: (text: string): string => {
+  // Sanitize HTML content to prevent XSS
+  sanitizeHtml: (html: string): string => {
     const div = document.createElement('div');
-    div.textContent = text;
+    div.textContent = html;
     return div.innerHTML;
   },
 

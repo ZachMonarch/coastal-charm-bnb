@@ -123,7 +123,7 @@ const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
 TableRow.displayName = "TableRow"
 
 const tableHeadVariants = cva(
-  "h-12 px-4 text-left align-middle font-semibold",
+  "h-12 px-4 text-left align-middle font-semibold [&:has([role=checkbox])]:pr-0",
   {
     variants: {
       colorScheme: {
@@ -161,7 +161,7 @@ const TableCell = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <td
     ref={ref}
-    className={cn("p-4 align-middle", className)}
+    className={cn("p-4 align-middle [&:has([role=checkbox])]:pr-0", className)}
     {...props}
   />
 ))

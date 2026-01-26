@@ -12,7 +12,8 @@ import RealtimeNotifications from "./RealtimeNotifications";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/OptimizedAuthContext";
 import { rafBatch } from "@/utils/rafBatch";
-import OptimizedLogo from "@/components/ui/OptimizedLogo";
+// Optimized small logo for faster FCP - properly sized at 48x48 for reduced payload
+import logoOptimized from "@/assets/logo-48.webp";
 
 export default function Navbar() {
   const { t } = useLanguage();
@@ -21,7 +22,7 @@ export default function Navbar() {
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  
+  const [logoError, setLogoError] = useState(false);
 
   const propertiesDropdownItems = [
     {
@@ -115,9 +116,7 @@ export default function Navbar() {
       <header
         data-monarch-header
         className={cn(
-          "monarch-header fixed top-0 left-0 right-0 transition-all duration-500",
-          // CRITICAL: Lower z-index when mobile menu is open to prevent overlap
-          mobileMenuOpen ? "z-[100]" : "z-[150]",
+          "monarch-header fixed top-0 left-0 right-0 z-[150] transition-all duration-500",
           scrolled
             ? "shadow-xl border-b-2 border-primary/30 py-3"
             : "backdrop-blur-md py-5 shadow-md border-b border-border",
@@ -132,8 +131,23 @@ export default function Navbar() {
             to="/"
             className="flex items-center space-x-3 group hover:opacity-90 transition-opacity focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none rounded-lg"
           >
-            <div className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center">
-              <OptimizedLogo size="lg" />
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-primary/20 to-primary/5 dark:from-primary/30 dark:to-primary/10 border-2 border-primary/40 dark:border-primary/50 rounded-xl p-1.5 md:p-2 flex items-center justify-center shadow-md shadow-primary/10 dark:shadow-primary/30 transition-all duration-300">
+              {!logoError ? (
+                <img
+                  src={logoOptimized}
+                  alt="Monarch Property Management Logo"
+                  className="w-full h-full object-contain"
+                  width={48}
+                  height={48}
+                  onError={() => setLogoError(true)}
+                  loading="eager"
+                  decoding="async"
+                  // @ts-expect-error - fetchpriority is valid HTML attribute
+                  fetchpriority="high"
+                />
+              ) : (
+                <Crown className="h-5 w-5 md:h-6 md:w-6 text-primary" />
+              )}
             </div>
             <div className="hidden md:flex flex-col">
               <span className="text-lg font-semibold text-primary">Monarch Property</span>
@@ -189,83 +203,55 @@ export default function Navbar() {
 
           {/* Desktop Tools - lg:flex matches mobile lg:hidden breakpoint */}
           <div className="hidden lg:flex items-center space-x-2" data-header-controls>
-            <div className="rounded-lg border-2 border-primary/60 bg-white p-1.5 shadow-md hover:shadow-lg hover:border-primary transition-all" data-header-icon>
+            <div className="rounded-lg border-2 border-primary/60 bg-card p-1.5 shadow-md hover:shadow-lg hover:border-primary transition-all" data-header-icon>
               <LanguageSelector />
             </div>
-            <div className="rounded-lg border-2 border-primary/60 bg-white p-1.5 shadow-md hover:shadow-lg hover:border-primary transition-all" data-header-icon>
+            <div className="rounded-lg border-2 border-primary/60 bg-card p-1.5 shadow-md hover:shadow-lg hover:border-primary transition-all" data-header-icon>
               <ThemeToggle />
             </div>
             {isAuthenticated && (
-              <div className="rounded-lg border-2 border-primary/60 bg-white p-1.5 shadow-md hover:shadow-lg hover:border-primary transition-all" data-header-icon>
+              <div className="rounded-lg border-2 border-primary/60 bg-card p-1.5 shadow-md hover:shadow-lg hover:border-primary transition-all" data-header-icon>
                 <RealtimeNotifications />
               </div>
             )}
-            {/* Sign In button - visible for guests on desktop */}
-            {!isLoading && !isAuthenticated && (
-              <Button
-                asChild
-                size="sm"
-                data-auth-button="sign-in"
-                className="h-10 px-5 text-sm font-bold bg-slate-900 hover:bg-slate-800 shadow-lg border-2 border-slate-600"
-                style={{ color: '#ffffff', WebkitTextFillColor: '#ffffff' }}
-              >
-                <Link to="/auth" style={{ color: 'inherit' }}>Sign In</Link>
-              </Button>
-            )}
-            {/* Join Now button - visible for guests on desktop */}
-            {!isLoading && !isAuthenticated && (
-              <Button
-                asChild
-                size="sm"
-                data-auth-button="join-now"
-                className="h-10 px-5 text-sm font-bold bg-primary hover:bg-primary-dark shadow-lg border-2 border-primary"
-                style={{ color: '#ffffff', WebkitTextFillColor: '#ffffff' }}
-              >
-                <Link to="/auth?tab=register" style={{ color: 'inherit' }}>Join Now</Link>
-              </Button>
-            )}
-            {isAuthenticated && (
-              <div className="rounded-lg border-[3px] border-primary bg-white p-1.5 shadow-lg shadow-primary/15 hover:shadow-xl hover:border-primary transition-all" data-header-icon>
-                <OptimizedUserMenu />
-              </div>
-            )}
+            <div className="rounded-lg border-[3px] border-primary bg-card p-1.5 shadow-lg shadow-primary/15 hover:shadow-xl hover:border-primary transition-all" data-header-icon>
+              <OptimizedUserMenu />
+            </div>
           </div>
 
           {/* Mobile Navigation */}
           <div className="flex items-center space-x-1.5 md:space-x-2 lg:hidden" data-header-controls>
-            <div className="rounded-lg border-2 border-primary/40 bg-white p-0.5 md:p-1 shadow-sm" data-header-icon>
+            <div className="rounded-lg border-2 border-primary/40 bg-card p-0.5 md:p-1 shadow-sm" data-header-icon>
               <LanguageSelector />
             </div>
-            <div className="rounded-lg border-2 border-primary/40 bg-white p-0.5 md:p-1 shadow-sm" data-header-icon>
+            <div className="rounded-lg border-2 border-primary/40 bg-card p-0.5 md:p-1 shadow-sm" data-header-icon>
               <ThemeToggle />
             </div>
             {isAuthenticated && (
-              <div className="rounded-lg border-2 border-primary/40 bg-white p-0.5 md:p-1 shadow-sm" data-header-icon>
+              <div className="rounded-lg border-2 border-primary/40 bg-card p-0.5 md:p-1 shadow-sm" data-header-icon>
                 <RealtimeNotifications />
               </div>
             )}
             {!isLoading && !isAuthenticated && (
               <Button
                 asChild
+                variant="outline"
                 size="sm"
-                data-auth-button="sign-in-mobile"
-                className="h-9 px-4 text-xs font-bold bg-slate-900 hover:bg-slate-800 shadow-lg border-2 border-slate-600"
-                style={{ color: '#ffffff', WebkitTextFillColor: '#ffffff' }}
+                className="h-9 px-3 text-xs font-semibold border-primary/50 bg-white hover:bg-primary/10 hover:text-primary [&>a]:text-slate-800 [&>a]:dark:text-slate-800"
               >
-                <Link to="/auth" style={{ color: 'inherit' }}>Sign In</Link>
+                <Link to="/auth">Sign In</Link>
               </Button>
             )}
             {isAuthenticated && (
-              <div className="rounded-lg border-2 border-primary/40 bg-white p-1 shadow-sm">
+              <div className="rounded-lg border-2 border-primary/40 bg-card p-1 shadow-sm">
                 <OptimizedUserMenu />
               </div>
             )}
-            {/* ACCESSIBILITY FIX: Touch target increased to 44x44px minimum (WCAG 2.1) */}
             <Button
               variant="outline"
               size="icon"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="relative z-[160] border-2 border-primary bg-background/95 rounded-lg w-11 h-11 min-h-[44px] min-w-[44px] hover:bg-primary/10 hover:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 shadow-md"
+              className="relative z-[160] border-2 border-primary bg-background/95 rounded-lg w-10 h-10 min-h-[40px] min-w-[40px] hover:bg-primary/10 hover:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 shadow-md"
               aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-menu"
@@ -283,12 +269,27 @@ export default function Navbar() {
         title="Menu"
         logo={
           <div className="flex items-center space-x-3">
-            <OptimizedLogo size="lg" />
+            <div className="w-10 h-10 bg-gradient-to-br from-primary/20 to-primary/5 dark:from-primary/30 dark:to-primary/10 border-2 border-primary/40 dark:border-primary/50 rounded-xl p-2 flex items-center justify-center shadow-md shadow-primary/10 dark:shadow-primary/30">
+              {!logoError ? (
+                <img
+                  src={logoOptimized}
+                  alt="Monarch Logo"
+                  className="w-full h-full object-contain"
+                  width={32}
+                  height={32}
+                  onError={() => setLogoError(true)}
+                  loading="lazy"
+                  decoding="async"
+                />
+              ) : (
+                <Crown className="h-5 w-5 text-primary" />
+              )}
+            </div>
             <div className="flex flex-col">
-              <span className="text-lg font-bold text-primary">
+              <span className="text-lg font-bold bg-gradient-to-r from-primary via-primary to-primary/80 bg-clip-text text-transparent">
                 Monarch
               </span>
-              <span className="text-xs text-primary/70 -mt-1 font-semibold tracking-wide uppercase">
+              <span className="text-xs text-primary/70 dark:text-primary/60 -mt-1 font-semibold tracking-wide uppercase">
                 Property Mgmt
               </span>
             </div>
@@ -373,10 +374,10 @@ export default function Navbar() {
               </Link>
             </li>
 
-            {/* Properties Dropdown - ACCESSIBILITY FIX: Touch targets min 44px */}
+            {/* Properties Dropdown */}
             <li>
               <details className="group rounded bg-muted/30">
-                <summary className="cursor-pointer px-4 py-3 min-h-[44px] text-base font-semibold text-foreground bg-card rounded-lg flex items-center justify-between shadow-sm border border-border hover:bg-muted hover:text-foreground transition-colors duration-200">
+                <summary className="cursor-pointer px-4 py-3 text-base font-semibold text-foreground bg-card rounded-lg flex items-center justify-between shadow-sm border border-border hover:bg-muted hover:text-foreground transition-colors duration-200">
                   <span>Properties</span>
                   <X className="w-4 h-4 rotate-45 group-open:rotate-0 transition-transform text-muted-foreground" />
                 </summary>
@@ -385,7 +386,7 @@ export default function Navbar() {
                     <Link
                       key={idx}
                       to={item.href}
-                      className="flex items-center gap-2 px-4 py-2 min-h-[44px] text-sm text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors border-l-2 border-transparent hover:border-primary/80"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors border-l-2 border-transparent hover:border-primary/80"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       <span className="text-primary">{item.icon}</span>
@@ -396,10 +397,10 @@ export default function Navbar() {
               </details>
             </li>
 
-            {/* Services Dropdown - ACCESSIBILITY FIX: Touch targets min 44px */}
+            {/* Services Dropdown */}
             <li>
               <details className="group rounded bg-muted/30">
-                <summary className="cursor-pointer px-4 py-3 min-h-[44px] text-base font-semibold text-foreground bg-card rounded-lg flex items-center justify-between shadow-sm border border-border hover:bg-muted hover:text-foreground transition-colors duration-200">
+                <summary className="cursor-pointer px-4 py-3 text-base font-semibold text-foreground bg-card rounded-lg flex items-center justify-between shadow-sm border border-border hover:bg-muted hover:text-foreground transition-colors duration-200">
                   <span>Services</span>
                   <X className="w-4 h-4 rotate-45 group-open:rotate-0 transition-transform text-muted-foreground" />
                 </summary>
@@ -408,7 +409,7 @@ export default function Navbar() {
                     <Link
                       key={idx}
                       to={item.href}
-                      className="flex items-center gap-2 px-4 py-2 min-h-[44px] text-sm text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors border-l-2 border-transparent hover:border-primary/80"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors border-l-2 border-transparent hover:border-primary/80"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       <span className="text-primary">{item.icon}</span>
@@ -419,14 +420,13 @@ export default function Navbar() {
               </details>
             </li>
 
-            {/* ACCESSIBILITY FIX: Touch targets min 44px for all nav links */}
             {simpleNavLinks.slice(1).map((link) => (
               <li key={link.id}>
                 <Link
                   to={link.path}
                   onClick={() => setMobileMenuOpen(false)}
                   className={cn(
-                    "block px-4 py-3 min-h-[44px] text-base font-medium rounded-lg border-l-4 transition-all",
+                    "block px-4 py-3 text-base font-medium rounded-lg border-l-4 transition-all",
                     "text-foreground hover:border-primary/80 hover:bg-muted hover:text-foreground",
                     "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none",
                     location.pathname === link.path ? "border-primary/80 bg-muted text-foreground" : "border-transparent",

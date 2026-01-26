@@ -3,27 +3,22 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { LanguageProvider } from "./contexts/LanguageContext";
-// AuthProvider is already in main.tsx - do not duplicate
+import { AuthProvider } from "./contexts/OptimizedAuthContext";
 import { ThemeProvider } from "./design-system/ThemeProvider";
 import { SecurityHeaders } from "@/components/SecurityHeaders";
 import { OptimizedSecurityProvider } from "@/components/OptimizedSecurityProvider";
+import CommandPalette from "@/components/CommandPalette";
 import OptimizedProtectedRoute from "@/components/OptimizedProtectedRoute";
 import OptimizedLayout from "@/components/OptimizedLayout";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { lazy, Suspense } from "react";
 
-// Lazy load CommandPalette - not needed for initial page interaction
-const CommandPalette = lazy(() => import("@/components/CommandPalette"));
-
-// Eager load only the landing page for first paint - auth pages are lazy loaded
+// Eager load critical pages for first paint
 import Index from "./pages/Index";
+import Auth from "./pages/Auth";
+import LoginBridge from "./pages/auth/LoginBridge";
+import AuthVerify from "./pages/auth/AuthVerify";
 import NotFound from "./pages/NotFound";
-
-// Lazy load auth pages - not needed on initial homepage render
-const Auth = lazy(() => import("./pages/Auth"));
-const LoginBridge = lazy(() => import("./pages/auth/LoginBridge"));
-const AuthVerify = lazy(() => import("./pages/auth/AuthVerify"));
-
 // AdminManagementSystem lazy-loaded to prevent eagerly bundling all admin components
 const AdminManagementSystem = lazy(() => import("./components/AdminManagementSystem"));
 
@@ -42,7 +37,7 @@ const Bookmarks = lazy(() => import("./pages/Bookmarks"));
 const AuthDebug = lazy(() => import("./pages/AuthDebug"));
 const AuthTest = lazy(() => import("./pages/AuthTest"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
-// UserProfile consolidated into UnifiedSettings
+const UserProfile = lazy(() => import("./pages/UserProfile"));
 const UnifiedSettings = lazy(() => import("./pages/UnifiedSettings"));
 const BookingPage = lazy(() => import("./pages/BookingPage"));
 const ApartmentBookingPage = lazy(() => import("./pages/ApartmentBooking"));
@@ -51,7 +46,7 @@ const Privacy = lazy(() => import("./pages/Privacy"));
 const Sitemap = lazy(() => import("./pages/Sitemap"));
 const TenantManagement = lazy(() => import("./pages/TenantManagement"));
 const ProjectManagement = lazy(() => import("./pages/ProjectManagement"));
-// VendorManagement consolidated into AdminManagementSystem
+const VendorManagement = lazy(() => import("./pages/VendorManagement"));
 const VendorSubscription = lazy(() => import("./pages/VendorSubscription"));
 const VendorPayments = lazy(() => import("./pages/VendorPayments"));
 const JoinAsVendor = lazy(() => import("./pages/JoinAsVendor"));
@@ -69,7 +64,9 @@ const CapabilitiesStep = lazy(() => import("./pages/vendor-onboarding/Capabiliti
 const ComplianceStep = lazy(() => import("./pages/vendor-onboarding/ComplianceStep"));
 const ReviewStep = lazy(() => import("./pages/vendor-onboarding/ReviewStep"));
 const CompleteStep = lazy(() => import("./pages/vendor-onboarding/CompleteStep"));
-// VendorRFQSystem, VendorVerificationSystem, AdminRFQSystem consolidated into RFQSystem.tsx and AdminManagementSystem
+const VendorRFQSystem = lazy(() => import("@/components/VendorRFQSystem"));
+const VendorVerificationSystem = lazy(() => import("@/components/VendorVerificationSystem"));
+const AdminRFQSystem = lazy(() => import("./components/AdminRFQSystem"));
 const VendorReports = lazy(() => import("./pages/VendorReports"));
 const VendorProjects = lazy(() => import("./pages/VendorProjects"));
 const VendorProjectDetails = lazy(() => import("./pages/VendorProjectDetails"));
@@ -81,15 +78,19 @@ const VendorDocuments = lazy(() => import("./pages/VendorDocuments"));
 const VendorProfile = lazy(() => import("./pages/VendorProfile"));
 
 const UserManagement = lazy(() => import("./pages/UserManagement"));
-// Admin components consolidated into AdminManagementSystem
-// AdminDashboard, AdminUserManagement, AdminVendorManagement, AdminSecurity, 
-// AdminMonitoring, AdminProjectManagement all load inside AdminManagementSystem
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+const AdminUserManagement = lazy(() => import("./pages/AdminUserManagement"));
+const AdminVendorManagement = lazy(() => import("./pages/AdminVendorManagement"));
+const AdminSecurity = lazy(() => import("@/pages/AdminSecurity"));
+const AdminMonitoring = lazy(() => import("@/pages/AdminMonitoring"));
+const AdminProjectManagement = lazy(() => import("@/pages/AdminProjectManagement"));
 const AdminTesting = lazy(() => import("@/pages/AdminTesting"));
-// AdminPropertyManagement consolidated into AdminManagementSystem
+const AdminPropertyManagement = lazy(() => import("@/components/AdminPropertyManagement"));
 const ProjectDetails = lazy(() => import("./pages/ProjectDetails"));
-// RFQSystem redirects to /admin/rfq, AdminSecurityTesting redirects to /admin/testing
+const RFQSystem = lazy(() => import("./pages/RFQSystem"));
+const AdminSecurityTesting = lazy(() => import("./pages/AdminSecurityTesting"));
 const AdminTenants = lazy(() => import("./pages/AdminTenants"));
-// AdminInvoices redirects to /admin?tab=payments
+const AdminInvoices = lazy(() => import("./pages/AdminInvoices"));
 const AdminAuditLog = lazy(() => import("./pages/AdminAuditLog"));
 const AdminLabs = lazy(() => import("./pages/AdminLabs"));
 const AdminControlSuite = lazy(() => import("./pages/AdminControlSuite"));
@@ -135,9 +136,7 @@ const App = () => (
             {/* AuthProvider is already in main.tsx - do not duplicate */}
             <Toaster />
             <BrowserRouter>
-              <Suspense fallback={null}>
-                <CommandPalette />
-              </Suspense>
+              <CommandPalette />
               <OptimizedLayout>
                 <Suspense fallback={<LoadingSpinner minimal />}>
                         <Routes>

@@ -14,7 +14,6 @@ import { getRoleHomeRouteForRoles } from "@/lib/roleRoutes";
 import { AuthHeroSection } from "@/components/auth/AuthHeroSection";
 import { PasswordStrengthMeter } from "@/components/auth/PasswordStrengthMeter";
 import { getEmailRedirectUrl, getPasswordResetRedirectUrl, logAuthConfig } from "@/utils/authRedirects";
-import OptimizedLogo from "@/components/ui/OptimizedLogo";
 
 function useAuthParams() {
   const location = useLocation();
@@ -422,7 +421,15 @@ export default function Auth() {
           {/* Mobile logo - only show on small screens */}
           <div className="lg:hidden text-center mb-8">
             <div className="flex items-center justify-center gap-3 mb-4">
-              <OptimizedLogo size="xl" className="rounded-xl shadow-lg border border-border bg-card" />
+              <img 
+                src="/lovable-uploads/318cdd13-7256-4cfe-99e0-948e43902b7b.png" 
+                alt="Monarch Logo"
+                className="h-14 w-14 rounded-xl shadow-lg border border-border object-contain bg-card"
+                width={56}
+                height={56}
+                loading="lazy"
+                decoding="async"
+              />
               <div className="text-left">
                 <h1 className="text-2xl font-bold text-foreground">MONARCH</h1>
                 <p className="text-primary text-sm font-medium">Property Management</p>

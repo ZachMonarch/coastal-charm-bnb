@@ -11,7 +11,7 @@ import ThemeToggle from "./ThemeToggle";
 import LanguageSelector from "./LanguageSelector";
 import { useAuth } from "@/contexts/OptimizedAuthContext";
 import { cn } from "@/lib/utils";
-import OptimizedLogo from "@/components/ui/OptimizedLogo";
+import logo32 from "@/assets/cdn/ui/monarch-logo-32.webp";
 
 // Types for navigation structure
 interface NavigationItem {
@@ -347,8 +347,16 @@ export function AppSidebar() {
         {/* Header */}
         <div className="p-4 border-b-2 border-border bg-primary/5">
           <div className="flex items-center space-x-3">
-            <div className="p-1 rounded-lg bg-primary/15 border border-primary/30 flex items-center justify-center shadow-sm">
-              <OptimizedLogo size="md" />
+            <div className="p-2 rounded-lg bg-primary/15 border border-primary/30 flex items-center justify-center shadow-sm">
+              <img 
+                src={logo32}
+                alt="Monarch Property Management Logo"
+                className="object-contain h-8 w-8"
+                width="32"
+                height="32"
+                loading="lazy"
+                decoding="async"
+              />
             </div>
             {!isCollapsed && (
               <div>
