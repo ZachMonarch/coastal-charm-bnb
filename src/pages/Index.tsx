@@ -1,12 +1,8 @@
-import { useEffect, useState, useMemo, useRef, useCallback } from "react";
+import { useEffect, useState, useMemo, useRef, useCallback, lazy, Suspense } from "react";
 import Footer from "@/components/Footer";
 import HeroSection from "@/components/HeroSection";
-import TestimonialsSection from "@/components/TestimonialsSection";
 import PropertyCard from "@/components/PropertyCard";
 import WelcomeSection from "@/components/WelcomeSection";
-import EnhancedBookingSection from "@/components/EnhancedBookingSection";
-import FeaturesShowcase from "@/components/FeaturesShowcase";
-import CTASection from "@/components/CTASection";
 import { EnhancedSEOLayout } from "@/components/EnhancedSEOLayout";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -14,6 +10,47 @@ import { ArrowRight, Building2 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useProperties } from "@/hooks/useProperties";
 import { useCanonicalUrl } from "@/hooks/useCanonicalUrl";
+import { Skeleton } from "@/components/ui/skeleton";
+
+// Lazy load heavy/below-fold components to improve TTI
+const EnhancedBookingSection = lazy(() => import("@/components/EnhancedBookingSection"));
+const TestimonialsSection = lazy(() => import("@/components/TestimonialsSection"));
+const FeaturesShowcase = lazy(() => import("@/components/FeaturesShowcase"));
+const CTASection = lazy(() => import("@/components/CTASection"));
+
+// Loading placeholder for booking section
+function BookingSectionSkeleton() {
+  return (
+    <section className="relative py-24 bg-gradient-to-br from-background via-primary/5 to-background">
+      <div className="container">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div className="space-y-8">
+            <Skeleton className="h-8 w-48" />
+            <Skeleton className="h-12 w-full max-w-md" />
+            <Skeleton className="h-24 w-full" />
+            <div className="space-y-3">
+              {[...Array(3)].map((_, i) => (
+                <Skeleton key={i} className="h-6 w-3/4" />
+              ))}
+            </div>
+          </div>
+          <div className="neumorphic-card p-8 rounded-3xl">
+            <Skeleton className="h-10 w-3/4 mx-auto mb-6" />
+            <div className="space-y-4">
+              <Skeleton className="h-12 w-full" />
+              <Skeleton className="h-12 w-full" />
+              <div className="grid grid-cols-2 gap-4">
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
+              </div>
+              <Skeleton className="h-14 w-full" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 
 export default function Index() {
@@ -102,9 +139,11 @@ export default function Index() {
             <WelcomeSection />
           </div>
           
-          {/* Enhanced Booking Section */}
+          {/* Enhanced Booking Section - Lazy loaded to improve TTI */}
           <div className="content-constrained">
-            <EnhancedBookingSection />
+            <Suspense fallback={<BookingSectionSkeleton />}>
+              <EnhancedBookingSection />
+            </Suspense>
           </div>
           
           {/* Featured Properties - Deferred loading to improve initial page load */}
@@ -214,19 +253,25 @@ export default function Index() {
             </div>
           </section>
 
-          {/* Testimonials */}
+          {/* Testimonials - Lazy loaded */}
           <div className="content-constrained">
-            <TestimonialsSection />
+            <Suspense fallback={<div className="py-16"><Skeleton className="h-64 w-full" /></div>}>
+              <TestimonialsSection />
+            </Suspense>
           </div>
 
-          {/* Features */}
+          {/* Features - Lazy loaded */}
           <div className="content-constrained">
-            <FeaturesShowcase />
+            <Suspense fallback={<div className="py-16"><Skeleton className="h-48 w-full" /></div>}>
+              <FeaturesShowcase />
+            </Suspense>
           </div>
 
-          {/* CTA Section */}
+          {/* CTA Section - Lazy loaded */}
           <div className="content-constrained">
-            <CTASection />
+            <Suspense fallback={<div className="py-16"><Skeleton className="h-32 w-full" /></div>}>
+              <CTASection />
+            </Suspense>
           </div>
         </main>
         <Footer />
