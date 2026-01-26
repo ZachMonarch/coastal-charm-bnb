@@ -56,10 +56,11 @@ export default function HeroSection() {
         }}
       >
         <picture>
-          {/* Desktop: optimized 16:9 hero image */}
+          {/* Desktop: responsive srcset for different viewport widths - smaller displays get smaller images */}
           <source 
             type="image/webp" 
-            srcSet="/hero-optimized.webp" 
+            srcSet="/hero-optimized-sm.webp 1280w, /hero-optimized.webp 1920w"
+            sizes="100vw"
             media="(min-width: 768px)"
           />
           {/* Mobile: optimized 9:16 portrait hero image */}
@@ -68,10 +69,12 @@ export default function HeroSection() {
             srcSet="/hero-mobile.webp" 
             media="(max-width: 767px)"
           />
+          {/* PERFORMANCE FIX: Use smaller image as default, explicit dimensions prevent CLS */}
           <img 
-            src="/hero-optimized.webp" 
+            src="/hero-optimized-sm.webp" 
             alt="Monarch Property Management - Luxury apartment complex with pool and modern architecture" 
             className="w-full h-full object-cover"
+            style={{ aspectRatio: '16/9' }}
             loading="eager" 
             decoding="async"
             width="1280" 

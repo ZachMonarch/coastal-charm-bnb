@@ -39,6 +39,7 @@ type PaginationLinkProps = {
 } & Pick<ButtonProps, "size"> &
   React.ComponentProps<"a">
 
+// ACCESSIBILITY FIX: Touch target increased to 44x44px minimum (WCAG 2.1)
 const PaginationLink = ({
   className,
   isActive,
@@ -52,6 +53,7 @@ const PaginationLink = ({
         variant: isActive ? "outline" : "ghost",
         size,
       }),
+      "min-h-[44px] min-w-[44px]",
       className
     )}
     {...props}
@@ -91,13 +93,14 @@ const PaginationNext = ({
 )
 PaginationNext.displayName = "PaginationNext"
 
+// ACCESSIBILITY FIX: Touch target increased to 44x44px minimum (WCAG 2.1)
 const PaginationEllipsis = ({
   className,
   ...props
 }: React.ComponentProps<"span">) => (
   <span
     aria-hidden
-    className={cn("flex h-9 w-9 items-center justify-center", className)}
+    className={cn("flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center", className)}
     {...props}
   >
     <MoreHorizontal className="h-4 w-4" />

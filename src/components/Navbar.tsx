@@ -115,7 +115,9 @@ export default function Navbar() {
       <header
         data-monarch-header
         className={cn(
-          "monarch-header fixed top-0 left-0 right-0 z-[150] transition-all duration-500",
+          "monarch-header fixed top-0 left-0 right-0 transition-all duration-500",
+          // CRITICAL: Lower z-index when mobile menu is open to prevent overlap
+          mobileMenuOpen ? "z-[100]" : "z-[150]",
           scrolled
             ? "shadow-xl border-b-2 border-primary/30 py-3"
             : "backdrop-blur-md py-5 shadow-md border-b border-border",
@@ -258,11 +260,12 @@ export default function Navbar() {
                 <OptimizedUserMenu />
               </div>
             )}
+            {/* ACCESSIBILITY FIX: Touch target increased to 44x44px minimum (WCAG 2.1) */}
             <Button
               variant="outline"
               size="icon"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="relative z-[160] border-2 border-primary bg-background/95 rounded-lg w-10 h-10 min-h-[40px] min-w-[40px] hover:bg-primary/10 hover:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 shadow-md"
+              className="relative z-[160] border-2 border-primary bg-background/95 rounded-lg w-11 h-11 min-h-[44px] min-w-[44px] hover:bg-primary/10 hover:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 shadow-md"
               aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-menu"
@@ -370,10 +373,10 @@ export default function Navbar() {
               </Link>
             </li>
 
-            {/* Properties Dropdown */}
+            {/* Properties Dropdown - ACCESSIBILITY FIX: Touch targets min 44px */}
             <li>
               <details className="group rounded bg-muted/30">
-                <summary className="cursor-pointer px-4 py-3 text-base font-semibold text-foreground bg-card rounded-lg flex items-center justify-between shadow-sm border border-border hover:bg-muted hover:text-foreground transition-colors duration-200">
+                <summary className="cursor-pointer px-4 py-3 min-h-[44px] text-base font-semibold text-foreground bg-card rounded-lg flex items-center justify-between shadow-sm border border-border hover:bg-muted hover:text-foreground transition-colors duration-200">
                   <span>Properties</span>
                   <X className="w-4 h-4 rotate-45 group-open:rotate-0 transition-transform text-muted-foreground" />
                 </summary>
@@ -382,7 +385,7 @@ export default function Navbar() {
                     <Link
                       key={idx}
                       to={item.href}
-                      className="flex items-center gap-2 px-4 py-2 text-sm text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors border-l-2 border-transparent hover:border-primary/80"
+                      className="flex items-center gap-2 px-4 py-2 min-h-[44px] text-sm text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors border-l-2 border-transparent hover:border-primary/80"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       <span className="text-primary">{item.icon}</span>
@@ -393,10 +396,10 @@ export default function Navbar() {
               </details>
             </li>
 
-            {/* Services Dropdown */}
+            {/* Services Dropdown - ACCESSIBILITY FIX: Touch targets min 44px */}
             <li>
               <details className="group rounded bg-muted/30">
-                <summary className="cursor-pointer px-4 py-3 text-base font-semibold text-foreground bg-card rounded-lg flex items-center justify-between shadow-sm border border-border hover:bg-muted hover:text-foreground transition-colors duration-200">
+                <summary className="cursor-pointer px-4 py-3 min-h-[44px] text-base font-semibold text-foreground bg-card rounded-lg flex items-center justify-between shadow-sm border border-border hover:bg-muted hover:text-foreground transition-colors duration-200">
                   <span>Services</span>
                   <X className="w-4 h-4 rotate-45 group-open:rotate-0 transition-transform text-muted-foreground" />
                 </summary>
@@ -405,7 +408,7 @@ export default function Navbar() {
                     <Link
                       key={idx}
                       to={item.href}
-                      className="flex items-center gap-2 px-4 py-2 text-sm text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors border-l-2 border-transparent hover:border-primary/80"
+                      className="flex items-center gap-2 px-4 py-2 min-h-[44px] text-sm text-foreground font-medium hover:text-primary hover:bg-muted rounded-lg transition-colors border-l-2 border-transparent hover:border-primary/80"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       <span className="text-primary">{item.icon}</span>
@@ -416,13 +419,14 @@ export default function Navbar() {
               </details>
             </li>
 
+            {/* ACCESSIBILITY FIX: Touch targets min 44px for all nav links */}
             {simpleNavLinks.slice(1).map((link) => (
               <li key={link.id}>
                 <Link
                   to={link.path}
                   onClick={() => setMobileMenuOpen(false)}
                   className={cn(
-                    "block px-4 py-3 text-base font-medium rounded-lg border-l-4 transition-all",
+                    "block px-4 py-3 min-h-[44px] text-base font-medium rounded-lg border-l-4 transition-all",
                     "text-foreground hover:border-primary/80 hover:bg-muted hover:text-foreground",
                     "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none",
                     location.pathname === link.path ? "border-primary/80 bg-muted text-foreground" : "border-transparent",
