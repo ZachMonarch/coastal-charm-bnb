@@ -69,16 +69,13 @@ export default function HeroSection() {
             srcSet="/hero-mobile.webp" 
             media="(max-width: 767px)"
           />
-          {/* PERFORMANCE FIX: Use smaller image as default, explicit dimensions prevent CLS */}
+          {/* CLS FIX: Use CSS aspect-ratio that matches viewport to prevent layout shift */}
           <img 
             src="/hero-optimized-sm.webp" 
             alt="Monarch Property Management - Luxury apartment complex with pool and modern architecture" 
-            className="w-full h-full object-cover"
-            style={{ aspectRatio: '16/9' }}
+            className="w-full h-full object-cover aspect-[9/16] md:aspect-[16/9]"
             loading="eager" 
             decoding="async"
-            width="1280" 
-            height="720"
             // @ts-expect-error - fetchpriority is valid HTML attribute
             fetchpriority="high"
           />
