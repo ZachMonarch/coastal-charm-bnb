@@ -3637,15 +3637,16 @@ button[class*="shadow-primary"] a {
 }
 
 /* Ultra-high specificity fix for primary button text color */
+/* NOTE: Removed :is() and :has() selectors to fix CSS parser warnings */
 button.bg-primary,
 .btn.bg-primary,
 button[class*="bg-primary"],
-.bg-primary:is(button, a, [role="button"]) {
+a.bg-primary,
+[role="button"].bg-primary {
   color: white !important;
 }
 
 /* Fix for button text inside Link components with asChild */
-button:has(.bg-primary),
 [data-radix-collection-item].bg-primary,
 [class*="bg-primary"] > a,
 a[class*="bg-primary"] {
@@ -3676,6 +3677,33 @@ button[type="submit"] {
 }
 
 button[type="submit"] span {
+  color: white !important;
+  -webkit-text-fill-color: white !important;
+}
+
+/* === AUTH BUTTONS IN HEADER - PRESERVE WHITE TEXT === */
+/* These buttons have explicit dark backgrounds and need white text */
+[data-monarch-header] [data-auth-button],
+[data-monarch-header] [data-auth-button] *,
+[data-monarch-header] button.bg-slate-800,
+[data-monarch-header] button.bg-slate-800 *,
+[data-monarch-header] a.bg-slate-800,
+[data-monarch-header] a.bg-slate-800 *,
+.monarch-header [data-auth-button],
+.monarch-header [data-auth-button] *,
+.monarch-header button.bg-slate-800,
+.monarch-header button.bg-slate-800 * {
+  color: white !important;
+  -webkit-text-fill-color: white !important;
+}
+
+/* Primary button in header - ensure white text */
+[data-monarch-header] button.bg-primary,
+[data-monarch-header] button.bg-primary *,
+[data-monarch-header] a.bg-primary,
+[data-monarch-header] a.bg-primary *,
+.monarch-header button.bg-primary,
+.monarch-header button.bg-primary * {
   color: white !important;
   -webkit-text-fill-color: white !important;
 }

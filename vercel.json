@@ -61,7 +61,7 @@
       ]
     },
     {
-      "source": "/(.*)\\.(?:jpg|jpeg|png|webp|svg|gif|ico)$",
+      "source": "/images/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
@@ -70,7 +70,7 @@
       ]
     },
     {
-      "source": "/(.*)\\.(?:woff|woff2|ttf|eot)$",
+      "source": "/fonts/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
