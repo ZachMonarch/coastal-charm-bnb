@@ -159,7 +159,7 @@ export default function HeroSection() {
             </Button>
           </div>
 
-          {/* Stats section */}
+          {/* Stats section - WCAG AA: bg-black/60 provides 4.5:1+ contrast for white text */}
           <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto">
             {[
               { number: '500+', label: 'Properties' }, 
@@ -168,7 +168,7 @@ export default function HeroSection() {
             ].map((stat, index) => (
               <div 
                 key={index} 
-                className="bg-black/40 backdrop-blur-md border border-white/20 p-6 rounded-2xl animate-fade-in hover:bg-black/50 transition-all duration-300 border-l-4 border-l-primary" 
+                className="bg-black/60 backdrop-blur-md border border-white/20 p-6 rounded-2xl animate-fade-in hover:bg-black/70 transition-all duration-300 border-l-4 border-l-primary" 
                 style={{ animationDelay: `${index * 200}ms` }}
               >
                 <div className="text-2xl font-bold text-white mb-1 drop-shadow-md">{stat.number}</div>
