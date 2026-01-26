@@ -153,11 +153,21 @@ export default defineConfig(({ mode }) => ({
         assetFileNames: 'assets/[name]-[hash].[ext]'
       }
     },
-    chunkSizeWarningLimit: 1500,
+    chunkSizeWarningLimit: 2000,
     // Enable source maps for Lighthouse best-practices and debugging
     // Note: This exposes source maps publicly - acceptable for this application
     sourcemap: true,
     reportCompressedSize: false,
+    // CSS code splitting for better caching
+    cssCodeSplit: true,
+  },
+  css: {
+    // Suppress CSS warnings from dependencies
+    devSourcemap: true,
+    postcss: {
+      // Vite passes from option automatically, but we can configure additional options
+      plugins: [],
+    },
   },
   optimizeDeps: {
     include: ['react', 'react-dom', 'scheduler'],

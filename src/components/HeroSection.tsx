@@ -26,12 +26,17 @@ export default function HeroSection() {
   }, []);
 
   const handleScrollDown = useCallback(() => {
-    const welcomeSection = document.getElementById('welcome');
-    if (welcomeSection) {
-      welcomeSection.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
-    }
+    // Batch DOM read/write in RAF to prevent forced reflow
+    requestAnimationFrame(() => {
+      const welcomeSection = document.getElementById('welcome');
+      if (welcomeSection) {
+        welcomeSection.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        // Read viewport height and scroll in same frame
+        const viewportHeight = window.innerHeight;
+        window.scrollTo({ top: viewportHeight, behavior: 'smooth' });
+      }
+    });
   }, []);
 
   return (
@@ -63,12 +68,14 @@ export default function HeroSection() {
             srcSet="/hero-mobile.webp" 
             media="(max-width: 767px)"
           />
+          {/* PERFORMANCE FIX: Explicit dimensions + aspect-ratio prevent CLS */}
           <img 
             src="/hero-optimized.webp" 
             alt="Monarch Property Management - Luxury apartment complex with pool and modern architecture" 
             className="w-full h-full object-cover"
+            style={{ aspectRatio: '16/9' }}
             loading="eager" 
-            decoding="sync"
+            decoding="async"
             width="1920" 
             height="1080"
             // @ts-expect-error - fetchpriority is valid HTML attribute

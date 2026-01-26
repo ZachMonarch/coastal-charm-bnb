@@ -115,7 +115,9 @@ export default function Navbar() {
       <header
         data-monarch-header
         className={cn(
-          "monarch-header fixed top-0 left-0 right-0 z-[150] transition-all duration-500",
+          "monarch-header fixed top-0 left-0 right-0 transition-all duration-500",
+          // CRITICAL: Lower z-index when mobile menu is open to prevent overlap
+          mobileMenuOpen ? "z-[100]" : "z-[150]",
           scrolled
             ? "shadow-xl border-b-2 border-primary/30 py-3"
             : "backdrop-blur-md py-5 shadow-md border-b border-border",
@@ -204,9 +206,10 @@ export default function Navbar() {
                 asChild
                 size="sm"
                 data-auth-button="sign-in"
-                className="h-10 px-4 text-sm font-bold bg-slate-800 text-white hover:bg-slate-700 shadow-md border-2 border-slate-700 [&>a]:text-white [&>a]:!text-white"
+                className="h-10 px-5 text-sm font-bold bg-slate-900 hover:bg-slate-800 shadow-lg border-2 border-slate-600"
+                style={{ color: '#ffffff', WebkitTextFillColor: '#ffffff' }}
               >
-                <Link to="/auth" className="!text-white">Sign In</Link>
+                <Link to="/auth" style={{ color: 'inherit' }}>Sign In</Link>
               </Button>
             )}
             {/* Join Now button - visible for guests on desktop */}
@@ -215,9 +218,10 @@ export default function Navbar() {
                 asChild
                 size="sm"
                 data-auth-button="join-now"
-                className="h-10 px-4 text-sm font-bold bg-primary text-white hover:bg-primary/90 shadow-md border-2 border-primary [&>a]:text-white [&>a]:!text-white"
+                className="h-10 px-5 text-sm font-bold bg-primary hover:bg-primary-dark shadow-lg border-2 border-primary"
+                style={{ color: '#ffffff', WebkitTextFillColor: '#ffffff' }}
               >
-                <Link to="/auth?tab=register" className="!text-white">Join Now</Link>
+                <Link to="/auth?tab=register" style={{ color: 'inherit' }}>Join Now</Link>
               </Button>
             )}
             {isAuthenticated && (
@@ -245,9 +249,10 @@ export default function Navbar() {
                 asChild
                 size="sm"
                 data-auth-button="sign-in-mobile"
-                className="h-9 px-3 text-xs font-bold bg-slate-800 text-white hover:bg-slate-700 shadow-md border border-slate-700 [&>a]:text-white [&>a]:!text-white"
+                className="h-9 px-4 text-xs font-bold bg-slate-900 hover:bg-slate-800 shadow-lg border-2 border-slate-600"
+                style={{ color: '#ffffff', WebkitTextFillColor: '#ffffff' }}
               >
-                <Link to="/auth" className="!text-white">Sign In</Link>
+                <Link to="/auth" style={{ color: 'inherit' }}>Sign In</Link>
               </Button>
             )}
             {isAuthenticated && (
@@ -255,11 +260,12 @@ export default function Navbar() {
                 <OptimizedUserMenu />
               </div>
             )}
+            {/* ACCESSIBILITY FIX: Touch target increased to 44x44px minimum (WCAG 2.1) */}
             <Button
               variant="outline"
               size="icon"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="relative z-[160] border-2 border-primary bg-background/95 rounded-lg w-10 h-10 min-h-[40px] min-w-[40px] hover:bg-primary/10 hover:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 shadow-md"
+              className="relative z-[160] border-2 border-primary bg-background/95 rounded-lg w-11 h-11 min-h-[44px] min-w-[44px] hover:bg-primary/10 hover:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 shadow-md"
               aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-menu"

@@ -1,8 +1,9 @@
 import { Crown } from 'lucide-react';
 import { useState, memo } from 'react';
 // Brand logos - optimized for different display sizes
+// Use WebP for small sizes (better compression), PNG for larger sizes
 import brandLogo from '@/assets/brand/monarch-logo.png';
-import brandLogoSm from '@/assets/brand/monarch-logo-sm.png';
+import brandLogoSmWebp from '@/assets/brand/monarch-logo-sm.webp';
 
 interface OptimizedLogoProps {
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
@@ -34,8 +35,8 @@ const OptimizedLogo = memo(function OptimizedLogo({
 
   const { container, image, icon, useSmall } = sizeMap[size];
   
-  // Use smaller optimized logo for sizes <= 80px display
-  const logoSrc = useSmall ? brandLogoSm : brandLogo;
+  // Use smaller optimized WebP logo for sizes <= 80px display (better compression)
+  const logoSrc = useSmall ? brandLogoSmWebp : brandLogo;
 
   if (logoError && showFallback) {
     return (

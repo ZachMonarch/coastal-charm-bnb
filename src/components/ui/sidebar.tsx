@@ -139,7 +139,7 @@ const SidebarProvider = React.forwardRef<
               } as React.CSSProperties
             }
             className={cn(
-              "group/sidebar-wrapper flex min-h-svh w-full has-[[data-variant=inset]]:bg-sidebar",
+              "group/sidebar-wrapper flex min-h-svh w-full",
               className
             )}
             ref={ref}
@@ -263,13 +263,14 @@ const SidebarTrigger = React.forwardRef<
 >(({ className, onClick, ...props }, ref) => {
   const { toggleSidebar } = useSidebar()
 
+  // ACCESSIBILITY FIX: Touch target increased to 44x44px minimum (WCAG 2.1)
   return (
     <Button
       ref={ref}
       data-sidebar="trigger"
       variant="ghost"
       size="icon"
-      className={cn("h-7 w-7", className)}
+      className={cn("h-11 w-11 min-h-[44px] min-w-[44px]", className)}
       onClick={(event) => {
         onClick?.(event)
         toggleSidebar()
@@ -510,7 +511,7 @@ const SidebarMenuItem = React.forwardRef<
 SidebarMenuItem.displayName = "SidebarMenuItem"
 
 const sidebarMenuButtonVariants = cva(
-  "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-none ring-sidebar-ring transition-[width,height,padding] hover:bg-muted/50 hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-muted/60 active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-primary/10 data-[active=true]:border-l-2 data-[active=true]:border-primary/60 data-[active=true]:font-medium data-[active=true]:text-foreground data-[state=open]:hover:bg-muted/50 data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
+  "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-none ring-sidebar-ring transition-[width,height,padding] hover:bg-muted/50 hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-muted/60 active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-primary/10 data-[active=true]:border-l-2 data-[active=true]:border-primary/60 data-[active=true]:font-medium data-[active=true]:text-foreground data-[state=open]:hover:bg-muted/50 data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
   {
     variants: {
       variant: {

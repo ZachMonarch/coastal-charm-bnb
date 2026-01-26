@@ -696,6 +696,23 @@
   stroke: currentColor;
 }
 
+/* === AUTH BUTTON VISIBILITY - GUARANTEED WHITE TEXT === */
+/* These buttons must always show white text regardless of theme or navbar rules */
+[data-auth-button],
+[data-auth-button] a,
+[data-auth-button] span {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Ensure auth buttons in monarch header override any dark text rules */
+[data-monarch-header] [data-auth-button],
+[data-monarch-header] [data-auth-button] a,
+[data-monarch-header] [data-auth-button] span {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
 /* === CARD & BUTTON TEXT VISIBILITY (token-based) === */
 [class*="Card"] h1,
 [class*="Card"] h2,
@@ -961,9 +978,11 @@ table td {
 
 /* === WCAG AA BUTTON TEXT CONTRAST FIX === */
 /* Ensures white text on primary background buttons for 4.5:1 contrast ratio */
+/* NOTE: Replaced :is(button, a) with separate selectors to fix PostCSS parsing warnings */
 button.bg-primary,
 a.bg-primary,
-[class*="bg-primary"]:is(button, a),
+button[class*="bg-primary"],
+a[class*="bg-primary"],
 button[class*="default"],
 a[class*="variant"][href] {
   color: white !important;
@@ -3683,18 +3702,25 @@ button[type="submit"] span {
 
 /* === AUTH BUTTONS IN HEADER - PRESERVE WHITE TEXT === */
 /* These buttons have explicit dark backgrounds and need white text */
+/* Updated to use bg-slate-900 and stronger visibility rules */
 [data-monarch-header] [data-auth-button],
 [data-monarch-header] [data-auth-button] *,
+[data-monarch-header] [data-auth-button] a,
+[data-monarch-header] button.bg-slate-900,
+[data-monarch-header] button.bg-slate-900 *,
+[data-monarch-header] a.bg-slate-900,
+[data-monarch-header] a.bg-slate-900 *,
 [data-monarch-header] button.bg-slate-800,
 [data-monarch-header] button.bg-slate-800 *,
-[data-monarch-header] a.bg-slate-800,
-[data-monarch-header] a.bg-slate-800 *,
 .monarch-header [data-auth-button],
 .monarch-header [data-auth-button] *,
-.monarch-header button.bg-slate-800,
-.monarch-header button.bg-slate-800 * {
-  color: white !important;
-  -webkit-text-fill-color: white !important;
+.monarch-header [data-auth-button] a,
+.monarch-header button.bg-slate-900,
+.monarch-header button.bg-slate-900 *,
+header [data-auth-button],
+header [data-auth-button] * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
 }
 
 /* Primary button in header - ensure white text */
@@ -3703,9 +3729,34 @@ button[type="submit"] span {
 [data-monarch-header] a.bg-primary,
 [data-monarch-header] a.bg-primary *,
 .monarch-header button.bg-primary,
-.monarch-header button.bg-primary * {
-  color: white !important;
-  -webkit-text-fill-color: white !important;
+.monarch-header button.bg-primary *,
+header button.bg-primary,
+header button.bg-primary * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Auth buttons visibility for both light and dark mode */
+[data-auth-button="sign-in"],
+[data-auth-button="sign-in"] *,
+[data-auth-button="sign-in-mobile"],
+[data-auth-button="sign-in-mobile"] *,
+[data-auth-button="join-now"],
+[data-auth-button="join-now"] * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Force high contrast border on auth buttons */
+.dark [data-auth-button="sign-in"],
+.dark [data-auth-button="sign-in-mobile"] {
+  border-color: hsl(0 0% 50%) !important;
+  background-color: hsl(0 0% 10%) !important;
+}
+
+[data-auth-button="join-now"] {
+  background-color: hsl(var(--primary)) !important;
+  border-color: hsl(var(--primary)) !important;
 }
 
 /* === SIDEBAR FOOTER VISIBILITY ENHANCEMENT === */

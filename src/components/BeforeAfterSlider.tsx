@@ -32,18 +32,23 @@ export default function BeforeAfterSlider({
     return () => clearTimeout(timer);
   }, []);
 
-  // Cache-based position update to prevent forced reflows
+  // Cache-based position update to prevent forced reflows - batched with RAF
   const updatePosition = useCallback((clientX: number) => {
     if (!containerRef.current) return;
     
-    // Use cached rect during drag to prevent layout thrashing
-    if (!rectRef.current) {
-      rectRef.current = containerRef.current.getBoundingClientRect();
-    }
-    
-    const x = clientX - rectRef.current.left;
-    const percentage = Math.max(0, Math.min(100, (x / rectRef.current.width) * 100));
-    setPosition(percentage);
+    // Batch DOM read in RAF to prevent forced reflow
+    requestAnimationFrame(() => {
+      if (!containerRef.current) return;
+      
+      // Use cached rect during drag to prevent layout thrashing
+      if (!rectRef.current) {
+        rectRef.current = containerRef.current.getBoundingClientRect();
+      }
+      
+      const x = clientX - rectRef.current.left;
+      const percentage = Math.max(0, Math.min(100, (x / rectRef.current.width) * 100));
+      setPosition(percentage);
+    });
   }, []);
 
   const handleMouseDown = (e: React.MouseEvent) => {
