@@ -260,11 +260,12 @@ export default function Navbar() {
                 <OptimizedUserMenu />
               </div>
             )}
+            {/* ACCESSIBILITY FIX: Touch target increased to 44x44px minimum (WCAG 2.1) */}
             <Button
               variant="outline"
               size="icon"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="relative z-[160] border-2 border-primary bg-background/95 rounded-lg w-10 h-10 min-h-[40px] min-w-[40px] hover:bg-primary/10 hover:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 shadow-md"
+              className="relative z-[160] border-2 border-primary bg-background/95 rounded-lg w-11 h-11 min-h-[44px] min-w-[44px] hover:bg-primary/10 hover:border-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 shadow-md"
               aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-menu"
