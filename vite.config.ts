@@ -130,6 +130,9 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       output: {
         // Manual chunking for optimal code splitting and caching
+        // NOTE: recharts is intentionally NOT in manualChunks - letting Vite's
+        // automatic code splitting handle it ensures it only loads when 
+        // lazy-loaded dashboard pages need it, not on the homepage.
         manualChunks: {
           'vendor-react': ['react', 'react-dom', 'scheduler'],
           'vendor-router': ['react-router-dom'],
@@ -144,7 +147,7 @@ export default defineConfig(({ mode }) => ({
           ],
           'vendor-query': ['@tanstack/react-query'],
           'vendor-supabase': ['@supabase/supabase-js'],
-          'vendor-charts': ['recharts'],
+          // 'vendor-charts' removed - recharts should only load with lazy dashboard pages
           'vendor-pdf': ['@react-pdf/renderer'],
           'vendor-utils': ['lodash-es', 'date-fns', 'zod'],
         },
