@@ -51,7 +51,10 @@
     <link rel="preload" as="image" href="/hero-optimized.webp" type="image/webp" fetchpriority="high" media="(min-width: 768px)" />
     <link rel="preload" as="image" href="/hero-mobile.webp" type="image/webp" fetchpriority="high" media="(max-width: 767px)" />
     
-    <!-- 4. Remove unnecessary preloads that cause warnings (resources load naturally) -->
+    <!-- NOTE: modulepreload hints are not added statically because Vite generates 
+         dynamic chunk filenames with hashes. The browser will discover chunks 
+         through the main.tsx module script. The preconnect hints above help 
+         establish early connections to reduce chain latency. -->
     
     <!-- 5. Inline critical CSS to eliminate render-blocking CSS -->
     <style id="critical-css">
