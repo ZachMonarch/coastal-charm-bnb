@@ -1,259 +1,804 @@
 
-PLAN
 
-A) Findings Report (Root Causes Confirmed From Code + Screenshots)
-1) “Scattered / destroyed” layout + “links feel like pictures / unclickable”
-- Root cause: index.html “critical CSS” applies to ALL <nav> elements globally:
-  - index.html (inline critical CSS): `nav, header nav { position: fixed; top:0; left:0; right:0; width:100%; z-index:50; ... }`
-  - This unintentionally forces every <nav> in the app (mobile drawer nav, dropdown navs, admin navs, etc.) to detach from layout, stack on top of content, and intercept clicks. This matches the screenshots showing stacked bars and overlapping UI.
-- Secondary contributor: several “global override” CSS blocks in src/index.css are very broad (lots of `!important` targeting navbar, buttons, spans). They can create layout/visual regressions when combined with the global nav fix.
+# COMPREHENSIVE REMEDIATION PLAN - Monarch Property Management Web App
 
-2) Console warning: cdn.tailwindcss.com
-- Root cause: injected by Lovable preview helper script (https://cdn.gpteng.co/gptengineer.js), not by your app code. We cannot fully remove this warning from preview without removing that script (which is not allowed). We can ensure production build does not rely on CDN Tailwind (it doesn’t).
+## EXECUTIVE SUMMARY
 
-3) Security scan (current status)
-- Supabase linter: WARN — Leaked Password Protection Disabled (manual dashboard action required).
-- Automated security scan shows ERROR-level items (profiles exposure, audit_logs sensitivity, invoices vendor access model, etc.). Some are true issues (policy scope too broad / role=public) and some are architectural warnings; we will harden what is actionable without weakening RLS.
+**Current State**: The web application is experiencing critical UI/UX failures causing a "scattered" layout, unclickable links/buttons, and incomplete admin functionality. Additionally, security scans reveal 1 manual action required and several admin workflow features are incomplete.
 
-4) Admin functional gaps reported
-- RFQ categories missing (Painting/Flooring/Installations/etc.) due to inconsistent hardcoded category lists across:
-  - src/components/AdminRFQSystem.tsx
-  - src/pages/admin/RFQEdit.tsx
-  - other RFQ creation UI components
-- Property select shows only first 100 properties because of `.limit(100)` in src/components/rfq/PropertySelect.tsx.
-- Vendor invite lookup uses profiles.role in some flows (example: VendorInviteDialog), which is non-authoritative and violates the “roles must be in user_roles” doctrine.
+**Root Causes Identified**:
+1. **Global CSS Overlay Blocking**: The `#radix-portal-root` element is globally positioned `fixed inset-0 z-500` with `pointer-events: none`, but child portaled elements can capture pointer events and block the entire screen if they fail to close properly.
+2. **Persistent Security Overlays**: `AccessGateOverlay` and `PendingApprovalView` use `fixed inset-0 z-50` and can render invisibly or get stuck in loading states, covering all interactive elements.
+3. **Z-Index and Layout Wars**: Multiple high z-index layers (100-10000) with `forceMount` attributes create stacking conflicts and layout instability.
+4. **Admin Role Verification**: Current user (admin@monarchpropertymmgt.com) may be experiencing approval flow conflicts if their role is not correctly synced between `user_roles` table and auth context.
+5. **Missing WhatsApp Integration**: No floating contact widget exists for customer support.
 
-B) Implementation Plan (Combined: UI stability + security + admin + painting RFQ)
+---
 
-Phase 1 — Emergency UI Stabilization (Stop “scattered UI” + restore clickability)
-Goal: Make the UI render correctly and all links clickable, first.
+## PHASE 1: EMERGENCY UI STABILIZATION (IMMEDIATE - 30 MIN)
 
-1) Fix index.html critical CSS scope (highest priority)
-Files:
-- index.html
+### Goal
+Restore full page interactivity and eliminate invisible click-blocking overlays.
 
-Actions:
-- Replace the global selector `nav, header nav { position: fixed; ... }` with a scoped selector that ONLY targets the public header wrapper, not all navs.
-  - Preferred: style the header container only:
-    - `[data-monarch-header] { position: fixed; top:0; left:0; right:0; ... }`
-    - Remove any `nav { position: fixed; ... }` rules entirely.
-- Keep “critical CSS” minimal: only the smallest set for body typography + above-the-fold skeleton styles. Avoid global element rules that fight Tailwind (e.g., global button styling), because Tailwind will handle component styling and this reduces layout thrash.
+### 1.1 Remove Global Radix Portal Overlay Lock
 
-2) Re-check layout wrapper behavior for public pages
-Files:
-- src/components/OptimizedLayout.tsx
-- src/pages/Index.tsx
+**Problem**: `#radix-portal-root` is globally fixed at `inset-0` with z-index 500, creating a full-screen layer that intercepts all clicks if a child portal element doesn't close properly.
 
-Actions:
-- Ensure there is only ONE `#main-content` on any route (currently OptimizedLayout and Index both define it). Duplicate IDs can cause focus/skip-link issues.
-  - Keep `id="main-content"` in OptimizedLayout (layout-level), remove from Index page’s inner main.
+**Solution**: Add explicit overflow and pointer-event guards to prevent global blocking.
 
-3) Reduce global CSS “layering wars”
-Files:
-- src/index.css
+**File**: `src/index.css` (lines 1014-1023)
 
-Actions:
-- Audit and tighten the most aggressive selectors that apply `!important` to broad patterns like `[data-monarch-header] nav ...` and general `section span/p` overrides.
-- Specifically ensure we do not globally force layout-affecting properties on common tags (`nav`, `button`, `a`, `section`, `main`) beyond safe defaults.
-- Keep dropdown styling high z-index, but avoid global pointer-event hacks that can make nested portaled components unreliable.
+```css
+#radix-portal-root {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-select-dropdown);
+  pointer-events: none; /* KEEP THIS - prevents global blocking */
+  overflow: hidden; /* ADD: prevent scrollbar issues */
+  /* DO NOT change this z-index - dropdowns need to be above modals */
+}
 
-Acceptance Proof (Phase 1)
-- Homepage renders with correct structure: navbar at top, hero below, no duplicated nav blocks.
-- All visible links/buttons clickable (Properties, Services dropdown, Join Now, Sign In, hero CTAs).
-- Mobile drawer contents stay inside drawer (no “fixed” nav blocks pinned to page).
+#radix-portal-root > * {
+  pointer-events: auto; /* Restore for actual portal content */
+  /* Portal children inherit high z-index from parent; no need to override */
+}
 
-Phase 2 — Console Errors/Warnings Triage (Actionable only)
-Goal: eliminate app-owned errors/warnings; document platform-owned warnings.
+/* CRITICAL FIX: Ensure closed Radix components are FULLY removed from layout */
+[data-state="closed"][role="dialog"],
+[data-state="closed"][role="menu"],
+[data-state="closed"][role="alertdialog"] {
+  display: none !important; /* Force removal when closed */
+  pointer-events: none !important;
+}
+```
 
-1) Remove app-owned console errors/warnings
-Files:
-- src/** (targeted by observed logs)
+### 1.2 Fix Access Gate Overlay Conditional Rendering
 
-Actions:
-- Remove/guard any remaining debug console logs in production builds.
-- Ensure no runtime errors on mount due to null refs / hooks misuse.
+**Problem**: `AccessGateOverlay` and `PendingApprovalView` are rendering full-screen based on role checks that may be stale or incorrect, blocking the entire UI.
 
-2) Document unfixable preview-only Tailwind CDN warning
-- Add a short internal note (and optionally code comment) that this warning comes from the preview helper script and is not used in production.
+**Solution**: Add defensive checks and explicit unmounting logic.
 
-Acceptance Proof (Phase 2)
-- Browser console free of application-generated errors on /, /properties, /auth, /admin (as admin).
-- Only remaining known warning is the preview helper CDN Tailwind warning (documented).
+**File**: `src/pages/Dashboard.tsx`
 
-Phase 3 — Security Hardening Loop (Supabase linter + security scan)
-Goal: decrease security scan findings without weakening RLS; eliminate true exposures.
+Wrap the access gate logic with a loading state guard and add explicit debug logging:
 
-0) Manual required action (cannot be automated)
-- Enable Supabase “Leaked Password Protection” (Block)
-  - Supabase Dashboard → Authentication → Settings → Password Security
+```tsx
+// After line 19
+import { useEffect, useState } from 'react';
 
-1) Fix policy role scope (public → authenticated) where appropriate
-Rationale: Policies currently use roles={public} on sensitive tables (profiles, invoices, vendor_payment_methods). Even if qual denies anon, scanners flag “publicly readable.” We’ll tighten to authenticated.
+// After line 48, before the final return statements
+const [accessCheckComplete, setAccessCheckComplete] = useState(false);
 
-DB changes (migration):
-- Update SELECT policies to apply to authenticated, not public, for:
-  - public.profiles (PII)
-  - public.invoices (financial)
-  - public.vendor_payment_methods (banking)
-  - Any other sensitive table currently using roles public
+useEffect(() => {
+  // Force a fresh access check on mount
+  const checkAccess = async () => {
+    await refreshUser(); // Ensure latest roles from server
+    await fetchExistingRequest(); // Ensure latest approval status
+    setAccessCheckComplete(true);
+  };
+  checkAccess();
+}, [refreshUser, fetchExistingRequest]);
 
-2) Fix invoices vendor access model (critical)
-Problem: Policy currently compares `invoices.vendor_id = auth.uid()`, but schema and other tables suggest vendor identity may be vendor_profiles.id in parts of the app. We must make this consistent and verifiable.
+// Add loading gate BEFORE access checks
+if (!accessCheckComplete || isLoading) {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" />
+    </div>
+  );
+}
 
-DB changes (migration):
-- Confirm what invoices.vendor_id represents:
-  Option A (preferred): vendor_id stores vendor_profiles.id
-    - Update RLS to check:
-      `vendor_id in (select id from vendor_profiles where user_id = auth.uid())`
-  Option B: vendor_id stores auth user id
-    - Keep `vendor_id = auth.uid()` but ensure all inserts set vendor_id to auth.uid() and tenant_id matches.
-- Add/adjust indexes if needed for the RLS subquery pattern (CREATE INDEX IF NOT EXISTS).
+// EXISTING CHECKS REMAIN BELOW (lines 56-78)
+```
 
-3) Reduce exposure of audit logs (without breaking admin tooling)
-- Keep strict access (protected_admins only) but:
-  - Provide a redacted view (security_invoker=on) used by UI so admins see necessary metadata without IP/user-agent if not needed.
-  - Update admin audit UI to query the view (explicit columns, no SELECT *).
+**Critical Addition**: Add a bypass for admin users to prevent accidental lockouts.
 
-4) Enforce “roles only in user_roles” (stop relying on profiles.role)
-This is a large but necessary stability/security refactor; do it in controlled steps:
-- UI authorization: already uses OptimizedAuthContext hasRole(). Keep that as authoritative.
-- Remove/replace role checks that query `profiles.role`:
-  - Example: VendorInviteDialog currently does `.eq('role','vendor')` → replace with a server-side RPC that resolves vendor by email via user_roles, returning the vendor user_id and/or vendor_profile id.
-- Stop updating profiles.role as part of approval/assignment workflows; keep column for legacy display only (or plan deprecation later).
+```tsx
+// After line 48, add admin bypass FIRST
+if (hasRole('admin')) {
+  console.log('[Dashboard] Admin user detected, bypassing access gates');
+  return <AdminDashboard />;
+}
+```
 
-Acceptance Proof (Phase 3)
-- Supabase linter: 0 findings (once leaked password protection enabled).
-- Security scan: reduce ERROR count (profiles, invoices, vendor banking access). Any remaining items documented with rationale (e.g., “admin can view banking data by business requirement; access logged; minimized columns”).
+### 1.3 Fix Mobile Drawer State Leak
 
-Phase 4 — Admin System “No Surprises” Verification + Fixes
-Goal: ensure admin can do the required operations reliably and securely.
+**Problem**: `MobileDrawer` uses `z-[9999]` and if `isOpen` gets stuck at `true`, it blocks the entire screen.
 
-1) Subscription plan upgrade/downgrade anytime
-Files:
-- src/components/AdminVendorManagement.tsx / AdminSubscriptionManagement.tsx (where the UI lives)
-- supabase/functions/admin-update-vendor-subscription (edge function)
+**Solution**: Add forced cleanup on unmount and route changes.
 
-Actions:
-- Verify UI allows selecting any plan any time (free ↔ paid).
-- Ensure edge function:
-  - Validates admin role server-side (user_roles)
-  - Validates plan enum whitelist
-  - Logs to audit_logs/sent_emails as appropriate
-- Ensure UI refreshes state after mutation (react-query invalidate + optimistic UI).
+**File**: `src/components/layout/MobileDrawer.tsx`
 
-2) Admin can modify projects, add photos/docs, assign to single/multiple vendors
-Files:
-- src/components/admin/EnhancedAdminProjectManagement.tsx (or equivalent)
-- src/components/DocumentManagement.tsx
-- src/components/ProjectAssignmentDialog.tsx
-- src/components/MultiVendorRFQAssignment.tsx
+Add cleanup effect after line 54:
 
-Actions:
-- Verify document uploads write canonical storage path + DB record, then refresh immediately.
-- Verify assignment flows:
-  - single assignment updates project + creates project_assignments
-  - multi-vendor invites create invitation records and vendor notifications
-- Ensure “notify vendors” triggers:
-  - in-app notifications insert
-  - (optional) email via existing Resend edge function if configured
+```tsx
+// Add after existing useEffect blocks (around line 80)
+useEffect(() => {
+  // Force close drawer on route changes to prevent state leaks
+  return () => {
+    if (isOpen) {
+      onClose();
+    }
+  };
+}, [location.pathname]); // Add react-router's useLocation
+```
 
-3) Admin can view vendor data/payment methods/documents for payout processing
-Actions:
-- Ensure admin accesses vendor payment data via secure RPC or edge function (with audit logging), not by broad client-side SELECT on sensitive tables.
+Also add import at top:
+```tsx
+import { useLocation } from 'react-router-dom';
+```
 
-Acceptance Proof (Phase 4)
-- Admin smoke test checklist:
-  - Change vendor plan free → premium → free
-  - Upload doc/photo to a project; appears immediately
-  - Assign project to vendor A; vendor sees it
-  - Assign project to vendors A+B; both notified
-  - Admin can view vendor payout/payment methods (through approved path) and process payout workflow
+### 1.4 Remove forceMount from UserMenu Dropdown
 
-Phase 5 — RFQ System Completeness (Categories, Properties list, and Painting RFQ creation)
-Goal: remove RFQ creation friction; add the requested Painting RFQ based on the doc.
+**Problem**: `OptimizedUserMenu.tsx:72` uses `forceMount` which keeps the dropdown in the DOM permanently. If the open state is confused, it can block clicks.
 
-1) Unify RFQ categories across the app
-Files:
-- Create a single source-of-truth constant (e.g., src/lib/rfqCategories.ts) and use it in:
-  - src/components/AdminRFQSystem.tsx (project category dropdown)
-  - src/pages/admin/RFQEdit.tsx (RFQ category select)
-  - src/pages/RequestQuote.tsx (public categories)
-  - Any other RFQ/project creation forms
-Categories to include (baseline):
-- Plumbing, Electrical, HVAC, Painting, Flooring, Carpentry, Roofing, Landscaping, Cleaning, General Contracting, Renovation, Installations, Appliance Repair, Pest Control, Security, Moving, General Maintenance
+**Solution**: Remove `forceMount` attribute - Radix handles mounting/unmounting automatically for smooth animations.
 
-2) Fix “admin can’t see all properties” in RFQ creation
-Files:
-- src/components/rfq/PropertySelect.tsx
+**File**: `src/components/OptimizedUserMenu.tsx` (line 72)
 
-Actions:
-- Replace `.limit(100)` with:
-  - server-side search + pagination (explicit select columns; no unbounded queries)
-  - UI: search input inside select/combobox; fetch top N matching results
-- Keep using safe_property_listings (non-PII).
+```tsx
+// BEFORE:
+<DropdownMenuContent className="w-64 sm:w-56 bg-popover border border-border shadow-2xl z-[200]" align="end" forceMount>
 
-3) Create the Painting RFQ in the new RFQ system (rfqs + rfq_lots + optional docs)
-Inputs (from PAINT_RFQ_DOC_ROUGH.docx):
-- Title: “Painting Services — The Broadwin Condominium (MPM/26-PAINT)”
-- Address: 1312 East Broad Street, Columbus, OH 43203
-- Building: 42 units (27×1BR, 9×2BR, 6×3BR); common areas
-- Key constraints: prep cap 25% per unit; owner-furnished paint; duration 6–10 weeks; recurring maintenance term 12 months; emergency on-call
-- Payment milestones: 70% mobilization, 30% completion; recurring Net 30; emergency Net 15
-- Budget guidance: initial $150k–$280k; recurring/emergency ranges per doc
-- Lots: Materials & consumables, Labor & installation, Surface prep, Maintenance program (12 months), Emergency response allowance
+// AFTER:
+<DropdownMenuContent className="w-64 sm:w-56 bg-popover border border-border shadow-2xl z-[200]" align="end">
+```
 
-DB operations (data, not schema):
-- Ensure the property record exists (match by address/title). If missing:
-  - Insert a property with safe required fields.
-- Insert rfqs row with category “painting” and populate JSONB sections matching RFQEdit schema:
-  - document_control, executive_summary, building_details, system_strategy, unit_configuration, technical_specs, commercial_framework, codes_compliance, staffing_requirements, budget_guidance
-- Insert rfq_lots entries based on “BID LOTS” table above.
-- Optionally upload the docx to the RFQ documents bucket and create rfq_documents row.
+**Validation**: Verify dropdown opens/closes smoothly without layout blocking.
 
-Acceptance Proof (Phase 5)
-- Admin sees the Painting RFQ in the RFQ list next to HVAC RFQ
-- Admin can open details, edit fields, upload documents, and invite/assign vendors
-- Vendors can be invited and can submit bids (where permitted by RLS)
+---
 
-Phase 6 — Performance + Accessibility “Scan & Fix” (Mobile/Desktop + Light/Dark)
-Goal: meet Lighthouse thresholds and ensure stable UX.
+## PHASE 2: ADMIN ROLE PERMANENCE & SECURITY (HIGH PRIORITY - 45 MIN)
 
-1) Performance
-- Validate layout stability (CLS) after removing global fixed nav CSS.
-- Ensure hero images remain optimized; verify no render-blocking regressions after critical CSS adjustments.
+### Goal
+Ensure the admin user (admin@monarchpropertymmgt.com) is permanently recognized as admin without vendor role confusion.
 
-2) Accessibility
-- Run axe in DEV mode (already wired via A11yProvider) and fix:
-  - duplicate IDs (main-content)
-  - focus order in menus/drawers
-  - aria-label consistency for dropdown triggers
+### 2.1 Verify Admin Role in Database
 
-VALIDATION (What I will provide after implementation)
-1) UI/UX
-- Before/after screenshots of / (desktop + mobile)
-- Confirm all primary links clickable (navbar dropdowns, hero CTAs, footer links)
+**Manual Query** (Run via Supabase SQL Editor):
 
-2) Console
-- Console logs snapshot showing no app errors; note on unavoidable preview helper warning
+```sql
+-- Check current roles for admin user
+SELECT 
+  ur.user_id,
+  ur.role,
+  ur.created_at,
+  p.email,
+  p.full_name
+FROM user_roles ur
+JOIN profiles p ON ur.user_id = p.id
+WHERE p.email = 'admin@monarchpropertymmgt.com'
+ORDER BY ur.created_at DESC;
 
-3) Security
-- Supabase linter before/after (expect 0 after manual leaked password protection enable)
-- Security scan before/after with delta table + explanations for any remaining non-actionable warnings
+-- Expected result: Should show role = 'admin'
+-- If missing or incorrect, run this fix:
+INSERT INTO user_roles (user_id, role)
+SELECT id, 'admin'::app_role
+FROM profiles
+WHERE email = 'admin@monarchpropertymmgt.com'
+ON CONFLICT (user_id, role) DO NOTHING;
 
-4) Admin
-- Step-by-step verification checklist with results:
-  - subscription change both directions
-  - doc upload
-  - assignment single/multi
-  - vendor notification path
-  - RFQ category creation includes Painting/Flooring/Installations
+-- Remove any conflicting vendor role for this user
+DELETE FROM user_roles
+WHERE user_id IN (
+  SELECT id FROM profiles WHERE email = 'admin@monarchpropertymmgt.com'
+)
+AND role = 'vendor';
+```
 
-RESULT (Expected Outcomes)
-- The app no longer looks “scattered”; layout is stable; navigation and links are fully interactive.
-- Security posture improves measurably (RLS scope tightened; invoice/vendor access model consistent; reduced “publicly readable” flags; password protection enabled).
-- Admin system supports full operational workflow: subscription changes, project management, documents/photos, vendor assignment (single/multi), vendor communications.
-- New “Painting Services — The Broadwin Condominium (MPM/26-PAINT)” RFQ created, visible, editable, and vendor-invitable.
+### 2.2 Add Admin Dashboard Bypass
 
-Notes / Constraints
-- I will not remove or weaken RLS; any DB changes will be minimal, idempotent, and auditable.
-- The “cdn.tailwindcss.com” warning is produced by the preview helper script, not app code; I will ensure your app itself is not using CDN Tailwind.
+Ensure admin users NEVER see access gates or approval flows.
+
+**File**: `src/pages/Dashboard.tsx`
+
+Add this check IMMEDIATELY after loading check (line 50):
+
+```tsx
+// CRITICAL: Admin bypass - admins never see access gates
+if (hasRole('admin')) {
+  console.log('[Dashboard] Admin user detected, full access granted');
+  return <AdminDashboard />;
+}
+```
+
+### 2.3 Enable Leaked Password Protection (MANUAL ACTION)
+
+**Status**: Current Supabase linter shows WARNING.
+
+**Action Required** (User must do this manually):
+1. Go to [Supabase Dashboard - Authentication Settings](https://supabase.com/dashboard/project/yhegaaqxmuhszesbjtdo/auth/settings)
+2. Navigate to "Password Security" section
+3. Enable "Leaked Password Protection"
+4. Set to "Block" mode
+5. Save changes
+
+**Documentation**: Add note to README.md:
+
+```markdown
+## Security Configuration Required
+
+### Manual Supabase Dashboard Settings
+1. **Leaked Password Protection** (CRITICAL)
+   - Navigate to: Authentication → Settings → Password Security
+   - Enable: Leaked Password Protection
+   - Mode: Block
+   - This prevents users from using compromised passwords.
+```
+
+---
+
+## PHASE 3: ADMIN FUNCTIONALITY COMPLETENESS (HIGH PRIORITY - 2 HOURS)
+
+### Goal
+Ensure all admin operations are fully functional: subscription management, vendor editing, notifications, payment/payout visibility.
+
+### 3.1 Subscription Plan Management (Already Implemented - Verify)
+
+**Status**: Code review confirms functionality exists in:
+- `src/components/admin/AdminSubscriptionManagement.tsx`
+- Edge Function: `supabase/functions/admin-update-vendor-subscription`
+
+**Validation Steps**:
+1. Navigate to `/admin?tab=vendors`
+2. Select "Subscriptions" sub-tab
+3. Use "All Vendors" view to find any vendor
+4. Click "Change Plan" button
+5. Select new plan (free, basic, premium, enterprise)
+6. Confirm update
+
+**Expected Behavior**: Plan changes bidirectionally (free ↔ paid) with audit logging.
+
+**If Broken**: Check Edge Function logs for authorization errors.
+
+### 3.2 Vendor Profile Editing & Notifications
+
+**Current Gap**: Admin cannot send custom notifications to vendors for missing profile data.
+
+**Solution**: Add notification dialog to vendor management panel.
+
+**File**: `src/components/admin/AdminVendorManagement.tsx`
+
+Add new component after existing imports:
+
+```tsx
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
+import { Bell, Mail } from "lucide-react";
+import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
+```
+
+Add notification dialog button in vendor row actions (around line 200, in the table cells):
+
+```tsx
+{/* Add after Edit/Delete buttons */}
+<Dialog>
+  <DialogTrigger asChild>
+    <Button variant="outline" size="sm" className="gap-2">
+      <Bell className="h-4 w-4" />
+      Notify
+    </Button>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Send Notification to {vendor.company_name}</DialogTitle>
+    </DialogHeader>
+    <form onSubmit={async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.currentTarget);
+      const message = formData.get('message') as string;
+      
+      // Create in-app notification
+      const { error: notifError } = await supabase
+        .from('notifications')
+        .insert({
+          user_id: vendor.user_id,
+          title: 'Profile Update Required',
+          message: message,
+          type: 'info',
+          read: false
+        });
+      
+      // Send email notification
+      const { error: emailError } = await supabase.functions.invoke('send-email', {
+        body: {
+          emailType: 'general',
+          recipientEmail: vendor.contact_email,
+          recipientName: vendor.company_name,
+          subject: 'Profile Update Required - Monarch Property Management',
+          message: message
+        }
+      });
+      
+      if (!notifError && !emailError) {
+        toast.success('Notification sent successfully');
+      } else {
+        toast.error('Failed to send notification');
+      }
+    }}>
+      <div className="space-y-4">
+        <div>
+          <label className="text-sm font-medium">Message</label>
+          <Textarea 
+            name="message" 
+            placeholder="e.g., Please complete your insurance documentation..."
+            className="mt-2"
+            rows={4}
+            required
+          />
+        </div>
+        <Button type="submit" className="w-full">
+          <Mail className="mr-2 h-4 w-4" />
+          Send Notification
+        </Button>
+      </div>
+    </form>
+  </DialogContent>
+</Dialog>
+```
+
+### 3.3 Vendor Payment/Payout Details Visibility
+
+**Current Gap**: Admin needs to view vendor payment methods for payout processing.
+
+**Solution**: Payment details are already accessible via the `admin_get_vendor_payment_methods` RPC with audit logging.
+
+**Implementation**: Add "View Payment Details" button in vendor row.
+
+**File**: `src/components/admin/AdminVendorManagement.tsx`
+
+```tsx
+{/* Add in vendor row actions */}
+<Dialog>
+  <DialogTrigger asChild>
+    <Button variant="outline" size="sm" className="gap-2">
+      <DollarSign className="h-4 w-4" />
+      Payment Info
+    </Button>
+  </DialogTrigger>
+  <DialogContent className="max-w-2xl">
+    <DialogHeader>
+      <DialogTitle>Payment Methods - {vendor.company_name}</DialogTitle>
+    </DialogHeader>
+    <PaymentMethodsViewer vendorId={vendor.id} />
+  </DialogContent>
+</Dialog>
+```
+
+Create new component file: `src/components/admin/PaymentMethodsViewer.tsx`
+
+```tsx
+import { useEffect, useState } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import { Loader2, CreditCard, Building2 } from 'lucide-react';
+
+interface PaymentMethod {
+  id: string;
+  type: string;
+  account_holder: string;
+  last_four: string;
+  is_default: boolean;
+}
+
+export function PaymentMethodsViewer({ vendorId }: { vendorId: string }) {
+  const [methods, setMethods] = useState<PaymentMethod[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchMethods = async () => {
+      const { data, error } = await supabase.rpc('admin_get_vendor_payment_methods', {
+        p_vendor_id: vendorId
+      });
+      
+      if (!error && data) {
+        setMethods(data);
+      }
+      setLoading(false);
+    };
+    fetchMethods();
+  }, [vendorId]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center py-8">
+        <Loader2 className="h-6 w-6 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (methods.length === 0) {
+    return (
+      <div className="text-center py-8 text-muted-foreground">
+        No payment methods on file
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-3">
+      {methods.map(method => (
+        <div key={method.id} className="flex items-center gap-3 p-4 border rounded-lg">
+          {method.type === 'bank_account' ? (
+            <Building2 className="h-5 w-5 text-primary" />
+          ) : (
+            <CreditCard className="h-5 w-5 text-primary" />
+          )}
+          <div className="flex-1">
+            <p className="font-medium">{method.account_holder}</p>
+            <p className="text-sm text-muted-foreground">
+              {method.type === 'bank_account' ? 'Bank' : 'Card'} ••••{method.last_four}
+            </p>
+          </div>
+          {method.is_default && (
+            <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
+              Default
+            </span>
+          )}
+        </div>
+      ))}
+      <p className="text-xs text-muted-foreground mt-4">
+        Access logged for audit purposes
+      </p>
+    </div>
+  );
+}
+```
+
+### 3.4 View All Properties in RFQ Creation (Already Fixed - Verify)
+
+**Status**: PropertySelect component was updated in previous plan to use searchable combobox and remove `.limit(100)`.
+
+**Validation**: 
+1. Navigate to `/admin?tab=rfqs`
+2. Click "Create RFQ"
+3. Use property selector - should show search input
+4. Verify all 1803 properties are searchable
+
+**File**: `src/components/rfq/PropertySelect.tsx` (already updated)
+
+### 3.5 RFQ Categories Completeness (Already Fixed - Verify)
+
+**Status**: Unified RFQ categories were created in `src/lib/rfqCategories.ts` including Painting, Installations, Plumbing, Flooring, etc.
+
+**Validation**:
+1. Navigate to `/admin?tab=rfqs`
+2. Click "Create RFQ"
+3. Verify category dropdown includes all 18 services
+
+---
+
+## PHASE 4: WHATSAPP FLOATING WIDGET (MEDIUM PRIORITY - 1 HOUR)
+
+### Goal
+Add a persistent WhatsApp contact widget at bottom-right of all pages linking to +13043658349.
+
+### 4.1 Create WhatsApp Floating Component
+
+**File**: `src/components/WhatsAppFloatingButton.tsx` (NEW FILE)
+
+```tsx
+import { MessageCircle } from 'lucide-react';
+import { cn } from '@/lib/utils';
+
+export default function WhatsAppFloatingButton() {
+  const phoneNumber = '13043658349'; // +1 (304) 365-8349
+  const message = encodeURIComponent(
+    'Hello Monarch Property Management! I need assistance with...'
+  );
+  
+  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+  
+  return (
+    <a
+      href={whatsappUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={cn(
+        "fixed bottom-6 right-6 z-[700]",
+        "flex items-center justify-center",
+        "w-14 h-14 md:w-16 md:h-16",
+        "bg-[#25D366] hover:bg-[#20bd5a]",
+        "rounded-full shadow-2xl",
+        "transition-all duration-300 ease-out",
+        "hover:scale-110 hover:shadow-[0_8px_30px_rgba(37,211,102,0.4)]",
+        "active:scale-95",
+        "focus-visible:ring-4 focus-visible:ring-[#25D366]/30 focus-visible:outline-none",
+        "group",
+        // Ensure it's above modals but below toasts
+        "pointer-events-auto"
+      )}
+      aria-label="Contact us on WhatsApp"
+      title="Chat with us on WhatsApp"
+    >
+      <MessageCircle className="h-7 w-7 md:h-8 md:h-8 text-white group-hover:animate-pulse" strokeWidth={2} />
+      
+      {/* Tooltip on hover */}
+      <span className={cn(
+        "absolute right-full mr-3 px-3 py-2 rounded-lg",
+        "bg-gray-900 dark:bg-gray-800 text-white text-sm font-medium whitespace-nowrap",
+        "opacity-0 group-hover:opacity-100",
+        "transition-opacity duration-200",
+        "pointer-events-none",
+        "shadow-xl"
+      )}>
+        Chat with us on WhatsApp
+      </span>
+      
+      {/* Pulse ring animation */}
+      <span className={cn(
+        "absolute inset-0 rounded-full",
+        "bg-[#25D366] opacity-75",
+        "animate-ping",
+        "pointer-events-none"
+      )} />
+    </a>
+  );
+}
+```
+
+### 4.2 Add Widget to App Root
+
+**File**: `src/App.tsx`
+
+Add import:
+```tsx
+import WhatsAppFloatingButton from '@/components/WhatsAppFloatingButton';
+```
+
+Add component before closing `</Router>` tag (around line 200):
+
+```tsx
+        {/* WhatsApp Floating Button - Global */}
+        <WhatsAppFloatingButton />
+      </Router>
+```
+
+**Alternative Placement** (if App.tsx is complex): Add to `src/components/OptimizedLayout.tsx` in both sidebar and public layouts.
+
+### 4.3 Exclude from Print/Screenshot
+
+Add to `src/index.css`:
+
+```css
+@media print {
+  /* Hide WhatsApp button in print mode */
+  a[href*="wa.me"] {
+    display: none !important;
+  }
+}
+```
+
+---
+
+## PHASE 5: TESTING & VALIDATION (CRITICAL - 1 HOUR)
+
+### 5.1 UI Interaction Tests
+
+**Test Checklist** (Run on `/` homepage):
+- [ ] All navbar links clickable (Home, Properties dropdown, Services dropdown, Gallery, News, Contact)
+- [ ] "Sign In" and "Join Now" buttons functional
+- [ ] Mobile menu opens/closes without blocking clicks
+- [ ] No invisible overlays blocking hero CTAs
+- [ ] Property cards clickable
+- [ ] Footer links functional
+- [ ] WhatsApp button opens correct URL with pre-filled message
+
+### 5.2 Admin Dashboard Tests
+
+**Test Checklist** (Run as admin@monarchpropertymmgt.com):
+- [ ] Navigate to `/admin` - loads without access gate
+- [ ] Dashboard shows "Admin Dashboard" title (not "Vendor Portal")
+- [ ] All admin tabs accessible (Users, Vendors, Projects, RFQs, Payments, etc.)
+- [ ] Subscription management:
+  - [ ] Can view all vendors in Subscriptions tab
+  - [ ] Can change plan from free → premium
+  - [ ] Can change plan from premium → free
+  - [ ] UI shows success toast after change
+- [ ] Vendor notifications:
+  - [ ] "Notify" button visible in vendor row
+  - [ ] Can compose and send notification
+  - [ ] In-app notification created
+  - [ ] Email sent (check vendor inbox or sent_emails table)
+- [ ] Payment methods:
+  - [ ] "Payment Info" button visible
+  - [ ] Can view vendor payment methods
+  - [ ] Audit log created (check audit_logs table)
+- [ ] RFQ creation:
+  - [ ] Category dropdown shows all 18 categories including Painting, Plumbing, Installations, Flooring
+  - [ ] Property selector is searchable
+  - [ ] Can find properties from full list (1803 total)
+
+### 5.3 Security Validation
+
+**Manual Actions**:
+- [ ] Enable "Leaked Password Protection" in Supabase Dashboard
+- [ ] Verify admin role in database:
+  ```sql
+  SELECT role FROM user_roles ur
+  JOIN profiles p ON ur.user_id = p.id
+  WHERE p.email = 'admin@monarchpropertymmgt.com';
+  -- Should return: 'admin'
+  ```
+
+**Automated Checks**:
+- [ ] Run Supabase linter: Should show 0 warnings after password protection enabled
+- [ ] Security scan: ERROR count should not increase
+
+### 5.4 Performance Validation
+
+**Metrics to Check** (Lighthouse):
+- [ ] Layout Cumulative Shift (CLS) < 0.1
+- [ ] First Contentful Paint (FCP) < 1.8s
+- [ ] Largest Contentful Paint (LCP) < 2.5s
+- [ ] No forced reflows in Performance tab
+- [ ] No console errors on homepage
+
+### 5.5 Mobile Responsiveness
+
+**Test on mobile viewport** (375px width):
+- [ ] Navbar mobile menu opens/closes cleanly
+- [ ] WhatsApp button visible and tappable (44px+ touch target)
+- [ ] No horizontal scroll
+- [ ] All touch targets ≥ 44px
+- [ ] Access gates (if shown) render correctly
+
+---
+
+## EXPECTED OUTCOMES
+
+### UI/UX Restoration
+- ✅ All links and buttons clickable across entire site
+- ✅ No invisible overlays blocking interactions
+- ✅ Layout stable - no "scattered" elements
+- ✅ Mobile drawer closes properly without state leaks
+- ✅ Navbar and dropdowns function correctly in all themes
+
+### Admin Functionality Completeness
+- ✅ Admin user permanently recognized without vendor role confusion
+- ✅ Subscription plan changes work bidirectionally (free ↔ paid)
+- ✅ Admin can send notifications to vendors for missing profile data
+- ✅ Admin can view vendor payment methods with audit logging
+- ✅ All 1803 properties searchable in RFQ creation
+- ✅ All 18 service categories available (Painting, Plumbing, Installations, Flooring, etc.)
+
+### Security Posture
+- ✅ Leaked Password Protection enabled (manual action completed)
+- ✅ Admin role verified in database
+- ✅ RLS policies enforced (no regressions)
+- ✅ Audit logs capture admin access to sensitive data
+
+### User Experience Enhancements
+- ✅ WhatsApp floating button visible on all pages
+- ✅ One-click contact with pre-filled message template
+- ✅ Branded green (#25D366) with pulse animation
+- ✅ Tooltip on hover explaining purpose
+
+---
+
+## TECHNICAL DEBT & FUTURE IMPROVEMENTS
+
+### Recommended Follow-Ups (Not Blocking)
+1. **Automated E2E Tests**: Add Playwright tests for admin workflows (subscription changes, notifications)
+2. **Error Boundary**: Wrap access gates in ErrorBoundary to prevent full-app crashes
+3. **Role Sync Monitor**: Add background task to detect/fix role mismatches between user_roles and auth context
+4. **WhatsApp Analytics**: Track click events for WhatsApp button to measure engagement
+5. **Admin Notification Templates**: Create pre-defined templates for common vendor requests (insurance docs, W9, etc.)
+
+### Known Limitations
+- **WhatsApp Web Requirement**: Users on desktop without WhatsApp desktop app will be prompted to install
+- **Payment Method Security**: Admin access to banking details is logged but not encrypted in transit (uses HTTPS only)
+- **Leaked Password Protection**: Requires manual Supabase dashboard configuration (cannot be automated via migration)
+
+---
+
+## DEPLOYMENT CHECKLIST
+
+### Pre-Deployment
+- [ ] Review all code changes in staging/preview environment
+- [ ] Run full test suite (Unit + Integration + E2E)
+- [ ] Verify database migrations run cleanly
+- [ ] Check for TypeScript errors (`npm run type-check`)
+- [ ] Verify build succeeds (`npm run build`)
+- [ ] Test on Chrome, Firefox, Safari, Edge (latest versions)
+- [ ] Test on iOS Safari and Android Chrome
+
+### Deployment
+- [ ] Merge changes to main branch
+- [ ] Trigger production deployment
+- [ ] Monitor deployment logs for errors
+- [ ] Verify no regression in Sentry/error tracking
+
+### Post-Deployment
+- [ ] Enable Leaked Password Protection in Supabase Dashboard (CRITICAL)
+- [ ] Verify admin role in production database
+- [ ] Test critical admin workflows live:
+  - Subscription management
+  - Vendor notifications
+  - Payment method viewing
+  - RFQ creation with all categories
+- [ ] Test WhatsApp button on production URL
+- [ ] Monitor Supabase logs for errors
+- [ ] Check security scan results
+
+### Rollback Plan
+If critical issues arise:
+1. Revert to previous deployment via Vercel/Netlify dashboard
+2. Investigate errors in staging
+3. Apply hotfix and redeploy
+
+---
+
+## SUPPORT DOCUMENTATION
+
+### For Admin Users
+**Q: How do I change a vendor's subscription plan?**
+A: Navigate to Admin → Vendors → Subscriptions tab. Find the vendor using "All Vendors" view. Click "Change Plan", select the new plan (free/basic/premium/enterprise), and confirm.
+
+**Q: How do I notify a vendor about missing profile information?**
+A: In the Vendors tab, find the vendor and click the "Notify" button. Compose your message explaining what's missing and click "Send Notification". The vendor will receive both an in-app notification and an email.
+
+**Q: How do I view a vendor's payment methods for payout processing?**
+A: In the Vendors tab, click "Payment Info" next to the vendor's name. You'll see all their payment methods with masked account numbers. Note: This access is logged for audit purposes.
+
+**Q: I can't find a property when creating an RFQ**
+A: The property selector is searchable. Start typing the address, property name, or city to filter the full list of 1803 properties.
+
+**Q: I don't see all RFQ service categories**
+A: Ensure you're on the latest version. The system now supports 18 categories including Painting, Plumbing, Installations, Flooring, HVAC, Electrical, and more.
+
+### For End Users
+**Q: How do I contact Monarch Property Management via WhatsApp?**
+A: Look for the green WhatsApp icon at the bottom-right of any page. Clicking it will open WhatsApp with a pre-filled message to +1 (304) 365-8349.
+
+**Q: Why can't I click on links/buttons?**
+A: If you're experiencing this issue, try:
+1. Refreshing the page (Ctrl+R or Cmd+R)
+2. Clearing your browser cache
+3. Checking if you're logged in (some features require authentication)
+4. Contacting support if the issue persists
+
+---
+
+## FILES MODIFIED SUMMARY
+
+| File | Changes | Priority |
+|------|---------|----------|
+| `src/index.css` | Add closed state forcing, overflow hidden for portal root | CRITICAL |
+| `src/pages/Dashboard.tsx` | Add access check completion state, admin bypass, role refresh | CRITICAL |
+| `src/components/layout/MobileDrawer.tsx` | Add cleanup on unmount/route change | CRITICAL |
+| `src/components/OptimizedUserMenu.tsx` | Remove forceMount attribute | HIGH |
+| `src/components/admin/AdminVendorManagement.tsx` | Add notification dialog and payment viewer button | HIGH |
+| `src/components/admin/PaymentMethodsViewer.tsx` | NEW - Admin payment method viewer component | HIGH |
+| `src/components/WhatsAppFloatingButton.tsx` | NEW - WhatsApp contact widget | MEDIUM |
+| `src/App.tsx` | Add WhatsApp floating button globally | MEDIUM |
+| `README.md` | Add manual security configuration note | LOW |
+
+### Database Changes
+**None required** - All functionality uses existing tables and RPCs.
+
+### Manual Actions Required
+1. **Enable Leaked Password Protection** in Supabase Dashboard (CRITICAL)
+2. **Verify Admin Role** via SQL query (one-time check)
+
+---
+
+## CONCLUSION
+
+This comprehensive plan addresses all reported issues systematically:
+- **UI Blocking**: Removes invisible overlays and fixes layout wars
+- **Admin Functionality**: Completes subscription management, notifications, and payment visibility
+- **Security**: Ensures admin role permanence and requires password protection enablement
+- **UX Enhancement**: Adds WhatsApp contact widget for instant customer support
+
+**Implementation Time**: ~5 hours total
+**Risk Level**: LOW (all changes are additive or defensive)
+**Testing Required**: HIGH (critical workflows must be validated)
+
+**Success Metrics**:
+- Zero unclickable links or buttons
+- 100% admin workflow completion rate
+- Supabase linter: 0 warnings
+- Security scan: No new ERROR-level findings
+- WhatsApp button: Visible and functional on all pages
+
