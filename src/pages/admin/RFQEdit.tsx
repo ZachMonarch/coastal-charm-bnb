@@ -19,6 +19,7 @@ import { ArrowLeft, Save, Upload, FileText, Users, Plus, Trash2, Send, Calendar,
 import OptimizedProtectedRoute from '@/components/OptimizedProtectedRoute';
 import EnhancedPageBackground from '@/components/shared/EnhancedPageBackground';
 import logger from '@/utils/logger';
+import { RFQ_CATEGORIES } from '@/lib/rfqCategories';
 
 interface UnitConfig {
   unit_type: string;
@@ -593,12 +594,9 @@ export default function RFQEdit() {
                           <SelectValue placeholder="Select category" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="hvac">HVAC</SelectItem>
-                          <SelectItem value="plumbing">Plumbing</SelectItem>
-                          <SelectItem value="electrical">Electrical</SelectItem>
-                          <SelectItem value="general">General Contracting</SelectItem>
-                          <SelectItem value="landscaping">Landscaping</SelectItem>
-                          <SelectItem value="roofing">Roofing</SelectItem>
+                          {RFQ_CATEGORIES.map((cat) => (
+                            <SelectItem key={cat.id} value={cat.id}>{cat.label}</SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                     </div>
