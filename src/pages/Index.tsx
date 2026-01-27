@@ -63,7 +63,7 @@ export default function Index() {
       schemaType="LocalBusiness"
     >
       <div className="min-h-screen flex flex-col">
-        <main id="main-content" className="flex-1">
+        <main className="flex-1">
           {/* Hero Section - Full Width */}
           <div className="breakout-full-width">
             <HeroSection />

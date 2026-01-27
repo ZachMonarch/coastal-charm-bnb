@@ -28,16 +28,39 @@ export function VendorInviteDialog({ open, onOpenChange, rfqId, rfqTitle }: Vend
 
     setLoading(true);
     try {
-      // Find vendor by email
+      const normalizedEmail = email.toLowerCase().trim();
+      
+      // Find vendor by email using user_roles table (not profiles.role)
+      // This follows the doctrine: "roles must be in user_roles"
       const { data: profile, error: profileError } = await supabase
         .from('profiles')
         .select('id, full_name, email')
-        .eq('email', email.toLowerCase().trim())
-        .eq('role', 'vendor')
+        .eq('email', normalizedEmail)
         .single();
 
       if (profileError || !profile) {
-        toast.error('Vendor not found with this email');
+        toast.error('User not found with this email');
+        setLoading(false);
+        return;
+      }
+
+      // Verify they have vendor role using user_roles table
+      const { data: roleData, error: roleError } = await supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', profile.id)
+        .eq('role', 'vendor')
+        .maybeSingle();
+
+      if (roleError) {
+        console.error('Role check error:', roleError);
+        toast.error('Error verifying vendor status');
+        setLoading(false);
+        return;
+      }
+
+      if (!roleData) {
+        toast.error('This user is not registered as a vendor');
         setLoading(false);
         return;
       }
@@ -107,6 +130,9 @@ export function VendorInviteDialog({ open, onOpenChange, rfqId, rfqTitle }: Vend
               onChange={(e) => setEmail(e.target.value)}
               disabled={loading}
             />
+            <p className="text-xs text-muted-foreground">
+              Enter the email of a registered vendor
+            </p>
           </div>
 
           <div className="space-y-2">

@@ -16,25 +16,15 @@ import { useAuth } from "@/contexts/OptimizedAuthContext";
 import { toast } from "sonner";
 import { projectSchema } from "@/lib/validation/adminSchemas";
 import { ZodError } from "zod";
+import { SERVICE_CATEGORY_LABELS } from "@/lib/rfqCategories";
 
 interface AdminProjectCreationFormProps {
   onClose?: () => void;
   onSuccess?: () => void;
 }
 
-const projectTypes = [
-  "Plumbing",
-  "Electrical", 
-  "HVAC",
-  "Roofing",
-  "Painting",
-  "Flooring",
-  "Carpentry",
-  "Appliance Repair",
-  "Landscaping",
-  "General Maintenance",
-  "Emergency Repair"
-];
+// Use unified categories from rfqCategories.ts
+const projectTypes = SERVICE_CATEGORY_LABELS;
 
 const priorities = [
   { value: "low", label: "Low" },
