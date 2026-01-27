@@ -7,9 +7,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { 
   Users, UserPlus, CheckCircle, XCircle, Mail, Phone, Star, 
-  Settings, Edit, Shield, Crown, DollarSign, Calendar, Building, Search, CreditCard
+  Settings, Edit, Shield, Crown, DollarSign, Calendar, Building, Search, CreditCard, Bell, Send
 } from 'lucide-react';
 import { useVendorProfiles } from '@/hooks/useVendors';
 import { useProjects } from '@/hooks/useProjects';
@@ -22,6 +23,7 @@ import VerifiedBadge from './VerifiedBadge';
 import { logger } from '@/utils/logger';
 import AdminSubscriptionManagement from './admin/AdminSubscriptionManagement';
 import AdminEmailCenter from './admin/AdminEmailCenter';
+import PaymentMethodsViewer from './admin/PaymentMethodsViewer';
 
 export default function AdminVendorManagement() {
   const { vendors, loading, refetch } = useVendorProfiles();
@@ -286,6 +288,82 @@ export default function AdminVendorManagement() {
                           <SelectItem value="inactive">Inactive</SelectItem>
                         </SelectContent>
                       </Select>
+                      
+                      {/* Vendor Action Buttons */}
+                      <div className="flex gap-1">
+                        {/* Notify Vendor Dialog */}
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button variant="outline" size="sm" className="gap-1 h-8">
+                              <Bell className="h-3 w-3" />
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent>
+                            <DialogHeader>
+                              <DialogTitle>Notify {vendor.company_name}</DialogTitle>
+                            </DialogHeader>
+                            <form onSubmit={async (e) => {
+                              e.preventDefault();
+                              const formData = new FormData(e.currentTarget);
+                              const message = formData.get('message') as string;
+                              
+                              try {
+                                // Create in-app notification
+                                const { error: notifError } = await supabase
+                                  .from('notifications')
+                                  .insert({
+                                    user_id: vendor.user_id,
+                                    title: 'Profile Update Required',
+                                    message: message,
+                                    type: 'info',
+                                    read: false
+                                  });
+                                
+                                if (notifError) throw notifError;
+                                
+                                toast.success('Notification sent successfully');
+                                (e.target as HTMLFormElement).reset();
+                              } catch (error: any) {
+                                logger.error('Error sending notification:', error);
+                                toast.error('Failed to send notification');
+                              }
+                            }}>
+                              <div className="space-y-4">
+                                <div>
+                                  <Label className="text-sm font-medium">Message</Label>
+                                  <Textarea 
+                                    name="message" 
+                                    placeholder="e.g., Please complete your insurance documentation..."
+                                    className="mt-2"
+                                    rows={4}
+                                    required
+                                  />
+                                </div>
+                                <Button type="submit" className="w-full !text-white">
+                                  <Send className="mr-2 h-4 w-4" />
+                                  Send Notification
+                                </Button>
+                              </div>
+                            </form>
+                          </DialogContent>
+                        </Dialog>
+
+                        {/* Payment Methods Dialog */}
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button variant="outline" size="sm" className="gap-1 h-8">
+                              <DollarSign className="h-3 w-3" />
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent className="max-w-md">
+                            <DialogHeader>
+                              <DialogTitle>Payment Methods - {vendor.company_name}</DialogTitle>
+                            </DialogHeader>
+                            <PaymentMethodsViewer vendorId={vendor.id} />
+                          </DialogContent>
+                        </Dialog>
+                      </div>
+                      
                       {selectedVendor?.id === vendor.id && (
                         <Badge className="bg-primary text-primary-foreground text-center">
                           Selected
