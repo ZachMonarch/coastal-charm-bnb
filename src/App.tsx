@@ -11,6 +11,7 @@ import OptimizedProtectedRoute from "@/components/OptimizedProtectedRoute";
 import OptimizedLayout from "@/components/OptimizedLayout";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { lazy, Suspense } from "react";
+import WhatsAppFloatingButton from "@/components/WhatsAppFloatingButton";
 
 // Lazy load CommandPalette - not needed for initial page interaction
 const CommandPalette = lazy(() => import("@/components/CommandPalette"));
@@ -535,6 +536,9 @@ const App = () => (
                 </Routes>
               </Suspense>
             </OptimizedLayout>
+            
+            {/* WhatsApp Floating Button - Global */}
+            <WhatsAppFloatingButton />
           </BrowserRouter>
         </OptimizedSecurityProvider>
       </TooltipProvider>

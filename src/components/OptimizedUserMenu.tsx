@@ -69,7 +69,7 @@ export default function OptimizedUserMenu() {
           />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-64 sm:w-56 bg-popover border border-border shadow-2xl z-[200]" align="end" forceMount>
+      <DropdownMenuContent className="w-64 sm:w-56 bg-popover border border-border shadow-2xl z-[200]" align="end">
         <div className="flex flex-col space-y-1 p-3">
           <div className="flex items-center gap-3">
             <ReusableAvatar 

@@ -1016,10 +1016,20 @@ a[style*="color: white"] {
     inset: 0;
     z-index: var(--z-select-dropdown);
     pointer-events: none;
+    overflow: hidden;
   }
 
   #radix-portal-root > * {
     pointer-events: auto;
+  }
+
+  /* CRITICAL FIX: Force closed Radix components to be fully removed from layout */
+  [data-state="closed"][role="dialog"],
+  [data-state="closed"][role="menu"],
+  [data-state="closed"][role="alertdialog"],
+  [data-state="closed"][role="listbox"] {
+    display: none !important;
+    pointer-events: none !important;
   }
 
   .app-shell {

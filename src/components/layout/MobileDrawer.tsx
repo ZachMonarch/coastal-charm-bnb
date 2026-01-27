@@ -1,5 +1,6 @@
 import { ReactNode, useEffect } from "react";
 import { createPortal } from "react-dom";
+import { useLocation } from "react-router-dom";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -23,6 +24,7 @@ export interface MobileDrawerProps {
  * - Click outside to close
  * - Body scroll lock when open
  * - ARIA attributes for accessibility
+ * - Auto-close on route changes to prevent state leaks
  */
 export default function MobileDrawer({ 
   isOpen, 
@@ -32,6 +34,16 @@ export default function MobileDrawer({
   logo,
   className 
 }: MobileDrawerProps) {
+  const location = useLocation();
+
+  // Force close drawer on route changes to prevent state leaks
+  useEffect(() => {
+    if (isOpen) {
+      onClose();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname]);
+
   // Escape key handler
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
