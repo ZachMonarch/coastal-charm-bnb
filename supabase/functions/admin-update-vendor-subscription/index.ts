@@ -43,23 +43,27 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    // Get user from auth header
+    // Get user from auth header - extract Bearer token explicitly
     const authHeader = req.headers.get("Authorization");
     console.log('[admin-update-vendor-subscription] Auth header present:', !!authHeader);
     
-    if (!authHeader) {
-      console.error('[admin-update-vendor-subscription] No authorization header');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      console.error('[admin-update-vendor-subscription] No or invalid authorization header');
       return new Response(
         JSON.stringify({ error: "Unauthorized - No authorization header" }),
         { status: 401, headers: { "Content-Type": "application/json", ...corsHeaders } }
       );
     }
 
+    // Extract the JWT token from Bearer header
+    const token = authHeader.replace('Bearer ', '');
+    
     const supabaseClient = createClient(supabaseUrl, supabaseAnonKey, {
       global: { headers: { Authorization: authHeader } }
     });
 
-    const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
+    // Pass the token explicitly to getUser() for edge function context
+    const { data: { user }, error: userError } = await supabaseClient.auth.getUser(token);
     
     console.log('[admin-update-vendor-subscription] User check:', {
       hasUser: !!user,
