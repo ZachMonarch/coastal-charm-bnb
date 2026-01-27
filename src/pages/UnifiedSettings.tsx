@@ -183,7 +183,8 @@ export default function UnifiedSettings() {
                     </div>
                     <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50 border border-border/50">
                       <span className="text-sm font-medium text-muted-foreground">Role:</span>
-                      {hasPendingRequest && existingRequest ? (
+                      {/* Only show pending if user doesn't already have the role or admin role */}
+                      {hasPendingRequest && existingRequest && !hasRole(existingRequest.role_requested as any) && !hasRole('admin') ? (
                         <>
                           <span className="text-sm font-semibold capitalize text-primary">
                             {existingRequest.role_requested}
