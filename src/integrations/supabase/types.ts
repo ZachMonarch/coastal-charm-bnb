@@ -4602,8 +4602,8 @@ export type Database = {
         Returns: {
           created_at: string
           id: string
-          is_primary: boolean
-          payment_type: string
+          is_default: boolean
+          type: string
           vendor_id: string
         }[]
       }

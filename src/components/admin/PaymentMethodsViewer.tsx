@@ -5,8 +5,8 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 
 interface PaymentMethod {
   id: string;
-  payment_type: string;
-  is_primary: boolean;
+  type: string;
+  is_default: boolean;
   created_at: string;
   vendor_id: string;
 }
@@ -43,7 +43,15 @@ export function PaymentMethodsViewer({ vendorId }: PaymentMethodsViewerProps) {
             throw rpcError;
           }
         } else if (data) {
-          setMethods(data as PaymentMethod[]);
+          // Map RPC response to our interface (handles both old and new column names)
+          const mappedData = (data as any[]).map((item: any) => ({
+            id: item.id,
+            vendor_id: item.vendor_id,
+            type: item.type || item.payment_type || 'unknown',
+            is_default: item.is_default ?? item.is_primary ?? false,
+            created_at: item.created_at,
+          }));
+          setMethods(mappedData);
         }
       } catch (err) {
         console.error('Error fetching payment methods:', err);
@@ -85,22 +93,22 @@ export function PaymentMethodsViewer({ vendorId }: PaymentMethodsViewerProps) {
     <div className="space-y-3">
       {methods.map(method => (
         <div key={method.id} className="flex items-center gap-3 p-4 border rounded-lg bg-card">
-          {method.payment_type === 'bank_account' ? (
+          {method.type === 'bank_account' ? (
             <Building2 className="h-5 w-5 text-primary" />
           ) : (
             <CreditCard className="h-5 w-5 text-primary" />
           )}
           <div className="flex-1">
             <p className="font-medium text-foreground capitalize">
-              {method.payment_type?.replace('_', ' ') || 'Payment Method'}
+              {method.type?.replace('_', ' ') || 'Payment Method'}
             </p>
             <p className="text-sm text-muted-foreground">
               Added: {new Date(method.created_at).toLocaleDateString()}
             </p>
           </div>
-          {method.is_primary && (
+          {method.is_default && (
             <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
-              Primary
+              Default
             </span>
           )}
         </div>

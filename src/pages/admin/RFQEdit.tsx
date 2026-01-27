@@ -214,7 +214,7 @@ export default function RFQEdit() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('vendor_profiles')
-        .select('user_id, company_name, service_categories, rating')
+        .select('user_id, company_name, specialties, rating')
         .eq('is_verified', true)
         .order('rating', { ascending: false });
       if (error) throw error;
@@ -508,7 +508,7 @@ export default function RFQEdit() {
                           <div key={vendor.user_id} className="flex items-center justify-between p-3 border-b">
                             <div>
                               <p className="font-medium">{vendor.company_name}</p>
-                              <p className="text-sm text-muted-foreground">{Array.isArray(vendor.service_categories) ? vendor.service_categories.join(', ') : 'General'}</p>
+                              <p className="text-sm text-muted-foreground">{Array.isArray(vendor.specialties) ? vendor.specialties.join(', ') : 'General'}</p>
                             </div>
                             <Checkbox
                               checked={selectedVendors.includes(vendor.user_id)}
