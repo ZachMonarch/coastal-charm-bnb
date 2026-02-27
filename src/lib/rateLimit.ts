@@ -1,6 +1,12 @@
 /**
  * Application-level rate limiting wrapper
- * Uses the existing check_rate_limit database function
+ *
+ * CANONICAL RATE-LIMIT PATHS (do not delete unused DB functions):
+ *   - Client app → this file → `check_rate_limit` RPC
+ *   - Edge middleware → `optimized_rate_limit_check` RPC
+ *
+ * Other DB functions (enhanced_rate_limit_check, enhanced_auth_rate_limit_check,
+ * check_auth_rate_limit) are unused but retained for safety.
  */
 
 import { supabase } from '@/integrations/supabase/client';
@@ -111,12 +117,12 @@ export async function checkRateLimit(
   
   // Fallback to client-side rate limiting
   if (config.failOpen) {
-    // For non-critical endpoints, allow on failure but still track client-side
+    console.warn('[RateLimit] DB check failed, falling back to client-side', { endpoint, identifier: id });
     return checkClientRateLimit(id, endpoint, config);
   }
   
   // For critical endpoints, deny on rate limit check failure
-  console.error(`Rate limit check failed for critical endpoint: ${endpoint}`);
+  console.error('[RateLimit] DB check failed for critical endpoint, denying request', { endpoint, identifier: id });
   return { allowed: false, remaining: 0 };
 }
 
