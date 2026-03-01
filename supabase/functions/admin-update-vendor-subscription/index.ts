@@ -1,10 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.3";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
+import { getCorsHeaders, handleCorsPreflightRequest } from '../_shared/cors.ts';
 
 interface UpdateSubscriptionRequest {
   vendorId: string;
@@ -18,11 +15,9 @@ const handler = async (req: Request): Promise<Response> => {
   console.log('[admin-update-vendor-subscription] Function invoked at:', new Date().toISOString());
   console.log('[admin-update-vendor-subscription] Method:', req.method);
   
-  // Handle CORS preflight
-  if (req.method === "OPTIONS") {
-    console.log('[admin-update-vendor-subscription] CORS preflight request');
-    return new Response(null, { headers: corsHeaders });
-  }
+  const corsResponse = handleCorsPreflightRequest(req);
+  if (corsResponse) return corsResponse;
+  const corsHeaders = getCorsHeaders(req);
 
   try {
     const supabaseUrl = Deno.env.get("SUPABASE_URL");
