@@ -2,7 +2,7 @@ import { Crown } from 'lucide-react';
 import { useState, memo } from 'react';
 // Brand logos - optimized for different display sizes
 import brandLogo from '@/assets/brand/monarch-logo.png';
-import brandLogoSm from '@/assets/brand/monarch-logo-sm.png';
+import brandLogoSm from '@/assets/brand/monarch-logo-sm.webp';
 
 interface OptimizedLogoProps {
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
