@@ -218,9 +218,7 @@ export const EnhancedSEOLayout: React.FC<EnhancedSEOLayoutProps> = ({
 
         {/* Performance optimizations - fonts loaded via Google Fonts in index.html */}
         
-        {/* Resource hints - fonts already optimized in SEOHead */}
-        <link rel="dns-prefetch" href="//api.stripe.com" />
-        <link rel="preconnect" href="https://yhegaaqxmuhszesbjtdo.supabase.co" />
+        {/* Resource hints centralized in index.html - no duplicates here */}
         
         {/* Critical CSS inlining hint */}
         <style>{`

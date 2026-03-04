@@ -162,11 +162,7 @@ export default function UnifiedPerformanceMonitor() {
 
   return (
     <Helmet>
-      {/* DNS Prefetch and Preconnect for faster connections */}
-      <link rel="dns-prefetch" href="https://yhegaaqxmuhszesbjtdo.supabase.co" />
-      <link rel="preconnect" href="https://yhegaaqxmuhszesbjtdo.supabase.co" crossOrigin="anonymous" />
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      {/* Preconnect hints are centralized in index.html - no duplicates here */}
       
       {/* Critical CSS optimization */}
       <style>{`
