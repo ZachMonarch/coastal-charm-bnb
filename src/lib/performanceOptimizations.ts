@@ -77,16 +77,5 @@ export const setupAutoOptimizations = () => {
     (font as HTMLLinkElement).crossOrigin = 'anonymous';
   });
 
-  // Preconnect to critical domains
-  const criticalDomains = [
-    'https://yhegaaqxmuhszesbjtdo.supabase.co',
-  ];
-
-  criticalDomains.forEach(domain => {
-    const link = document.createElement('link');
-    link.rel = 'preconnect';
-    link.href = domain;
-    link.crossOrigin = 'anonymous';
-    document.head.appendChild(link);
-  });
+  // Preconnect hints are centralized in index.html - no runtime duplicates
 };

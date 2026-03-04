@@ -172,11 +172,8 @@ export const SEOHead: React.FC<SEOProps> = ({
       <meta name="msapplication-TileColor" content="#D97743" />
       <meta name="msapplication-config" content="/browserconfig.xml" />
       
-      {/* Performance & Loading */}
+      {/* Performance & Loading - preconnect hints are in index.html, no duplicates here */}
       <meta httpEquiv="x-dns-prefetch-control" content="on" />
-      <link rel="dns-prefetch" href="//fonts.googleapis.com" />
-      <link rel="dns-prefetch" href="//fonts.gstatic.com" />
-      <link rel="preconnect" href="https://yhegaaqxmuhszesbjtdo.supabase.co" crossOrigin="anonymous" />
       
       {/* Open Graph / Facebook */}
       <meta property="og:type" content={type} />
@@ -219,27 +216,7 @@ export const SEOHead: React.FC<SEOProps> = ({
       <meta name="apple-mobile-web-app-title" content={siteName} />
       <meta name="format-detection" content="telephone=no" />
       
-      {/* Critical font preload for performance */}
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      <link 
-        rel="preload" 
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" 
-        as="style"
-      />
-      <link 
-        rel="stylesheet" 
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" 
-        media="print" 
-        onLoad={(e) => {
-          const target = e.target as HTMLLinkElement;
-          if (target.media !== 'all') target.media = 'all';
-        }}
-      />
-      <noscript>
-        {`<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />`}
-      </noscript>
-      <link rel="preconnect" href="https://api.stripe.com" />
+      {/* Font loading handled in index.html to avoid duplicate preconnects */}
       
       {/* Structured Data */}
       <script type="application/ld+json">
