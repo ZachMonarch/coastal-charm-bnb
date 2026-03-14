@@ -76,7 +76,7 @@ const handler = async (req: Request): Promise<Response> => {
         Authorization: `Bearer ${resendApiKey}`,
       },
       body: JSON.stringify({
-        from: "Monarch Property Management <projects@monarchpropertymmgt.com>",
+        from: "Monarch Property Management <projects@monarchpropertymmgt.online>",
         to: [vendorProfile.email],
         subject: `Bid Update: ${rfq.title}`,
         html: `
@@ -136,7 +136,7 @@ const handler = async (req: Request): Promise<Response> => {
                 <p>We encourage you to continue bidding on future opportunities. New RFQs are posted regularly.</p>
                 
                 <center style="margin: 30px 0;">
-                  <a href="https://monarchpropertymmgt.com/vendor/rfq/dashboard" class="btn">View Available RFQs →</a>
+                  <a href="https://monarchpropertymmgt.online/vendor/rfq/dashboard" class="btn">View Available RFQs →</a>
                 </center>
                 
                 <p>If you have any questions about this decision or feedback on your bid, please don't hesitate to reach out.</p>
@@ -147,7 +147,7 @@ const handler = async (req: Request): Promise<Response> => {
               </div>
               <div class="footer">
                 <p>© ${new Date().getFullYear()} Monarch Property Management</p>
-                <p>www.monarchpropertymmgt.com | projects@monarchpropertymmgt.com</p>
+                <p>www.monarchpropertymmgt.online | projects@monarchpropertymmgt.online</p>
               </div>
             </div>
           </body>

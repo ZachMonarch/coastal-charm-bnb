@@ -50,7 +50,7 @@ export default function VendorInvitesHistory() {
 
   const resendMutation = useMutation({
     mutationFn: async (invitation: VendorInvitation) => {
-      const mainDomain = 'https://monarchpropertymmgt.com';
+      const mainDomain = 'https://monarchpropertymmgt.online';
       const signupUrl = `${mainDomain}/auth?email=${encodeURIComponent(invitation.email)}&role=vendor&company=${encodeURIComponent(invitation.company_name || '')}&invite=true`;
 
       const { error } = await supabase.functions.invoke('send-email', {
@@ -62,7 +62,7 @@ export default function VendorInvitesHistory() {
             companyName: invitation.company_name,
             specialties: invitation.specialties,
             signupUrl,
-            adminEmail: 'admin@monarchpropertymmgt.com',
+            adminEmail: 'admin@monarchpropertymmgt.online',
             isReminder: true
           }
         }

@@ -42,7 +42,7 @@ export default function BulkContactImport({ existingEmails, onImport }: BulkCont
 
   const validatePhone = (phone: string): boolean => {
     if (!phone) return true; // Phone is optional
-    const phoneRegex = /^[\d\s\-\+\(\)]{7,20}$/;
+    const phoneRegex = /^[\d\s\-+()]{7,20}$/;
     return phoneRegex.test(phone);
   };
 
@@ -229,9 +229,10 @@ export default function BulkContactImport({ existingEmails, onImport }: BulkCont
       toast.success(`Successfully imported ${validContacts.length} contacts`);
       setShowDialog(false);
       setParsedContacts([]);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Import error:', error);
-      toast.error(error.message || 'Failed to import contacts');
+      const message = error instanceof Error ? error.message : String(error);
+      toast.error(message || 'Failed to import contacts');
     } finally {
       setImporting(false);
       setProgress(0);

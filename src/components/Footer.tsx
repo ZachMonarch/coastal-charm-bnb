@@ -218,7 +218,7 @@ United States</p>
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Email</p>
-                    <p className="font-medium">support@monarchpropertymmgt.com</p>
+                    <p className="font-medium">support@monarchpropertymmgt.online</p>
                   </div>
                 </li>
               </ul>
@@ -229,7 +229,7 @@ United States</p>
         <div className="pt-8 border-t border-border/30">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex flex-col md:flex-row items-center gap-4 text-sm text-muted-foreground">
-              <p>© 2025 Monarch Property Management. All rights reserved.</p>
+              <p>© {new Date().getFullYear()} Monarch Property Management. All rights reserved.</p>
               <div className="flex items-center gap-4">
                 <Link to="/privacy" className="hover:text-primary transition-colors">
                   Privacy Policy

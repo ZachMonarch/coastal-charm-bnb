@@ -53,7 +53,7 @@ serve(async (req) => {
     }
 
     // Validate resetUrl is from our domain (prevent phishing)
-    if (!resetUrl || !resetUrl.startsWith('https://monarchpropertymmgt.com')) {
+    if (!resetUrl || !resetUrl.startsWith('https://monarchpropertymmgt.online')) {
       return new Response(
         JSON.stringify({ error: 'Invalid reset URL' }),
         { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } }

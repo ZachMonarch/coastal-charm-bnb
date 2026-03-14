@@ -93,9 +93,9 @@ EXECUTE FUNCTION public.update_updated_at_column();
 
 -- Insert some sample projects for testing
 INSERT INTO public.projects (title, description, status, priority, category, skills_required, budget_min, budget_max, location, created_by) VALUES
-('Kitchen Renovation - Downtown Apartment', 'Complete kitchen renovation including new cabinets, countertops, and appliances', 'open', 'high', 'Renovation', ARRAY['Carpentry', 'Plumbing', 'Electrical'], 8000.00, 12000.00, 'Downtown District', (SELECT id FROM auth.users WHERE email = 'admin@monarchpropertymmgt.com' LIMIT 1)),
-('HVAC Maintenance - Office Complex', 'Quarterly HVAC system maintenance and inspection', 'in_progress', 'medium', 'Maintenance', ARRAY['HVAC', 'General Maintenance'], 500.00, 800.00, 'Business District', (SELECT id FROM auth.users WHERE email = 'admin@monarchpropertymmgt.com' LIMIT 1)),
-('Painting - Residential Property', 'Interior and exterior painting for 3-bedroom house', 'open', 'low', 'Maintenance', ARRAY['Painting', 'General Maintenance'], 2000.00, 3500.00, 'Residential Area', (SELECT id FROM auth.users WHERE email = 'admin@monarchpropertymmgt.com' LIMIT 1));
+('Kitchen Renovation - Downtown Apartment', 'Complete kitchen renovation including new cabinets, countertops, and appliances', 'open', 'high', 'Renovation', ARRAY['Carpentry', 'Plumbing', 'Electrical'], 8000.00, 12000.00, 'Downtown District', (SELECT id FROM auth.users WHERE email = 'admin@monarchpropertymmgt.online' LIMIT 1)),
+('HVAC Maintenance - Office Complex', 'Quarterly HVAC system maintenance and inspection', 'in_progress', 'medium', 'Maintenance', ARRAY['HVAC', 'General Maintenance'], 500.00, 800.00, 'Business District', (SELECT id FROM auth.users WHERE email = 'admin@monarchpropertymmgt.online' LIMIT 1)),
+('Painting - Residential Property', 'Interior and exterior painting for 3-bedroom house', 'open', 'low', 'Maintenance', ARRAY['Painting', 'General Maintenance'], 2000.00, 3500.00, 'Residential Area', (SELECT id FROM auth.users WHERE email = 'admin@monarchpropertymmgt.online' LIMIT 1));
 
 -- Create function to get project statistics
 CREATE OR REPLACE FUNCTION get_project_stats()

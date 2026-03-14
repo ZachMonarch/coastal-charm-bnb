@@ -21,7 +21,7 @@ export default function SecureInviteSystem() {
   const [invite, setInvite] = useState<SecureInvite>({
     email: '',
     companyName: '',
-    message: 'Join our professional vendor network on monarchpropertymmgt.com and access exclusive project opportunities.',
+    message: 'Join our professional vendor network on monarchpropertymmgt.online and access exclusive project opportunities.',
     expiresInDays: 7
   });
   const [sending, setSending] = useState(false);
@@ -33,7 +33,7 @@ export default function SecureInviteSystem() {
       timestamp: Date.now(),
       expires: Date.now() + (invite.expiresInDays * 24 * 60 * 60 * 1000)
     }));
-    return `https://monarchpropertymmgt.com/auth?invite=${token}`;
+    return `https://monarchpropertymmgt.online/auth?invite=${token}`;
   };
 
   const sendSecureInvite = async () => {
@@ -71,7 +71,7 @@ export default function SecureInviteSystem() {
             inviteMessage: invite.message,
             signupUrl: secureLink,
             expiresIn: `${invite.expiresInDays} days`,
-            adminEmail: 'admin@monarchpropertymmgt.com'
+            adminEmail: 'admin@monarchpropertymmgt.online'
           }
         }
       });
@@ -84,7 +84,7 @@ export default function SecureInviteSystem() {
       setInvite({
         email: '',
         companyName: '',
-        message: 'Join our professional vendor network on monarchpropertymmgt.com and access exclusive project opportunities.',
+        message: 'Join our professional vendor network on monarchpropertymmgt.online and access exclusive project opportunities.',
         expiresInDays: 7
       });
     } catch (error) {
@@ -103,7 +103,7 @@ export default function SecureInviteSystem() {
           Secure Vendor Invitations
         </CardTitle>
         <CardDescription>
-          Send secure, expiring invitations to monarchpropertymmgt.com
+          Send secure, expiring invitations to monarchpropertymmgt.online
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -162,7 +162,7 @@ export default function SecureInviteSystem() {
           </h4>
           <ul className="text-sm space-y-1 text-muted-foreground">
             <li>• Links expire after {invite.expiresInDays} days</li>
-            <li>• Direct signup to monarchpropertymmgt.com</li>
+            <li>• Direct signup to monarchpropertymmgt.online</li>
             <li>• Encrypted invitation tokens</li>
             <li>• Email delivery tracking</li>
           </ul>

@@ -9,9 +9,9 @@ max_rows = 1000
 
 [auth]
 enabled = true
-site_url = "https://monarchpropertymmgt.com"
+site_url = "https://monarchpropertymmgt.online"
 additional_redirect_urls = [
-  "https://monarchpropertymmgt.com/*",
+  "https://monarchpropertymmgt.online/*",
   "https://*.lovableproject.com/*",
   "https://lovable.dev/*",
   "http://localhost:3000/*",

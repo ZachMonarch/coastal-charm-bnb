@@ -7,34 +7,34 @@
 
 export const EMAIL_CONFIG = {
   // Production domain - verified in Resend
-  domain: "monarchpropertymmgt.com",
+  domain: "monarchpropertymmgt.online",
   
   // Sender addresses by purpose
   senders: {
-    noreply: "Monarch Property Management <noreply@monarchpropertymmgt.com>",
-    welcome: "Monarch Property Management <welcome@monarchpropertymmgt.com>",
-    newsletter: "Monarch Property News <newsletter@monarchpropertymmgt.com>",
-    notifications: "Monarch Property Management <notifications@monarchpropertymmgt.com>",
-    invoices: "Monarch Invoicing <invoices@monarchpropertymmgt.com>",
-    payouts: "Monarch Property Management <payouts@monarchpropertymmgt.com>",
-    support: "Monarch Support <support@monarchpropertymmgt.com>",
+    noreply: "Monarch Property Management <noreply@monarchpropertymmgt.online>",
+    welcome: "Monarch Property Management <welcome@monarchpropertymmgt.online>",
+    newsletter: "Monarch Property News <newsletter@monarchpropertymmgt.online>",
+    notifications: "Monarch Property Management <notifications@monarchpropertymmgt.online>",
+    invoices: "Monarch Invoicing <invoices@monarchpropertymmgt.online>",
+    payouts: "Monarch Property Management <payouts@monarchpropertymmgt.online>",
+    support: "Monarch Support <support@monarchpropertymmgt.online>",
   },
   
   // Reply-to address for user responses
-  replyTo: "support@monarchpropertymmgt.com",
+  replyTo: "support@monarchpropertymmgt.online",
   
   // URLs
-  siteUrl: "https://monarchpropertymmgt.com",
-  unsubscribeUrl: "https://monarchpropertymmgt.com/settings/notifications",
-  privacyUrl: "https://monarchpropertymmgt.com/privacy",
-  termsUrl: "https://monarchpropertymmgt.com/terms",
+  siteUrl: "https://monarchpropertymmgt.online",
+  unsubscribeUrl: "https://monarchpropertymmgt.online/settings/notifications",
+  privacyUrl: "https://monarchpropertymmgt.online/privacy",
+  termsUrl: "https://monarchpropertymmgt.online/terms",
   
   // Company info for footers
   company: {
     name: "Monarch Property Management",
     phone1: "(304) 365-8349",
     phone2: "(614) 427-8576",
-    email: "support@monarchpropertymmgt.com",
+    email: "support@monarchpropertymmgt.online",
     address: "United States",
   }
 };

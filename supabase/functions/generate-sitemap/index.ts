@@ -82,7 +82,7 @@ serve(async (req) => {
     }
 
     // Base URL
-    const baseUrl = 'https://monarchpropertymmgt.com';
+    const baseUrl = 'https://monarchpropertymmgt.online';
     const now = new Date().toISOString().split('T')[0];
 
     // Static pages

@@ -41,9 +41,9 @@ SET
     "project_name": "The Broadwin Condominium",
     "project_address": "1312 East Broad Street, Columbus, OH 43203",
     "issuer": "Monarch Property Management",
-    "website": "www.monarchpropertymmgt.com",
-    "project_email": "projects@monarchpropertymmgt.com",
-    "support_email": "support@monarchpropertymmgt.com",
+    "website": "www.monarchpropertymmgt.online",
+    "project_email": "projects@monarchpropertymmgt.online",
+    "support_email": "support@monarchpropertymmgt.online",
     "issue_purpose": "Vendor understanding, technical clarity, scope confirmation, and risk elimination prior to pricing submission.",
     "document_status": "Issued for Quotation (IFQ) – Design, quantities, and system strategy are final."
   }'::jsonb,

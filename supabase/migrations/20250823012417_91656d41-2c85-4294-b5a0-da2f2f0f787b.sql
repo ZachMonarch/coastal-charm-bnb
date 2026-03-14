@@ -10,7 +10,7 @@ INSERT INTO public.profiles (
     updated_at
 ) VALUES (
     'ad1e1234-5678-90ab-cdef-123456789000'::uuid,
-    'admin@monarchpropertymmgt.com',
+    'admin@monarchpropertymmgt.online',
     'System Administrator',
     'admin',
     'active',

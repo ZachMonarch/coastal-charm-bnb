@@ -3,14 +3,18 @@
  * 
  * Provides unified interface for tracking events across the application.
  * Vercel Analytics is enabled via @vercel/analytics package (see main.tsx).
- * This module provides additional custom event tracking with console logging in dev.
+ * This module provides additional tracking options for PostHog (recommended)
+ * or GA4 and includes a safe no-op fallback in case no provider is configured.
  * 
  * PRODUCTION STATUS: Active
  * - Vercel Analytics: Enabled (automatic page views and web vitals)
- * - Custom events: Logged to console in dev, ready for PostHog/GA4 integration
+ * - PostHog: Optional (configured via VITE_POSTHOG_API_KEY)
+ * - Custom events: Logged to console in dev
  * 
  * @see Phase 3 Documentation: docs/design-system/PHASE_3_COMPLETION.md
  */
+
+import posthog from 'posthog-js';
 
 export type AnalyticsEvent =
   | "page_view"
@@ -53,7 +57,21 @@ class Analytics {
    */
   init(config: Partial<AnalyticsConfig>) {
     this.config = { ...this.config, ...config };
-    
+
+    // If PostHog is configured, initialize it once on the client
+    if (typeof window !== "undefined" && import.meta.env.VITE_POSTHOG_API_KEY) {
+      const posthogHost = import.meta.env.VITE_POSTHOG_HOST || 'https://app.posthog.com';
+      posthog.init(import.meta.env.VITE_POSTHOG_API_KEY, {
+        api_host: posthogHost,
+        loaded: (ph) => {
+          if (this.config.debug) {
+            console.log('[Analytics] PostHog initialized', ph);
+          }
+        },
+      });
+      this.config.provider = 'posthog';
+    }
+
     if (this.config.debug) {
       console.log("[Analytics] Initialized with config:", this.config);
     }
@@ -73,8 +91,8 @@ class Analytics {
       properties: {
         ...properties,
         timestamp: Date.now(),
-        url: window.location.href,
-        referrer: document.referrer,
+        url: typeof window !== 'undefined' ? window.location.href : undefined,
+        referrer: typeof document !== 'undefined' ? document.referrer : undefined,
       },
     };
 
@@ -82,16 +100,11 @@ class Analytics {
       console.log("[Analytics] Event:", eventData);
     }
 
-    // TODO: Phase 3 - Implement actual analytics provider integration
-    // Example for PostHog:
-    // if (typeof window !== 'undefined' && window.posthog) {
-    //   window.posthog.capture(event, eventData.properties);
-    // }
+    if (this.config.provider === 'posthog' && typeof window !== 'undefined') {
+      posthog.capture(event, eventData.properties);
+    }
 
-    // Example for GA4:
-    // if (typeof window !== 'undefined' && window.gtag) {
-    //   window.gtag('event', event, eventData.properties);
-    // }
+    // If other providers are added later (GA4, custom), they can be implemented here.
   }
 
   /**
@@ -108,17 +121,16 @@ class Analytics {
   /**
    * Identify user (for authenticated tracking)
    */
-  identify(userId: string, traits?: Record<string, any>) {
+  identify(userId: string, traits?: Record<string, unknown>) {
     if (!this.config.enabled) return;
 
     if (this.config.debug) {
       console.log("[Analytics] Identify user:", userId, traits);
     }
 
-    // TODO: Phase 3 - Implement user identification
-    // if (typeof window !== 'undefined' && window.posthog) {
-    //   window.posthog.identify(userId, traits);
-    // }
+    if (this.config.provider === 'posthog' && typeof window !== 'undefined') {
+      posthog.identify(userId, traits);
+    }
   }
 
   /**
@@ -131,10 +143,9 @@ class Analytics {
       console.log("[Analytics] Reset user");
     }
 
-    // TODO: Phase 3 - Implement reset
-    // if (typeof window !== 'undefined' && window.posthog) {
-    //   window.posthog.reset();
-    // }
+    if (this.config.provider === 'posthog' && typeof window !== 'undefined') {
+      posthog.reset();
+    }
   }
 }
 

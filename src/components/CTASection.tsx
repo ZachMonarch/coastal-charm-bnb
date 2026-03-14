@@ -45,7 +45,7 @@ export default function CTASection() {
               <div className="glass-card p-6 rounded-2xl text-center">
                 <Mail className="h-8 w-8 text-primary mx-auto mb-3" />
                 <p className="text-sm text-muted-foreground">Email Us</p>
-                <p className="font-semibold">info@monarchpropertymmgt.com</p>
+                <p className="font-semibold">info@monarchpropertymmgt.online</p>
               </div>
               <div className="glass-card p-6 rounded-2xl text-center">
                 <MapPin className="h-8 w-8 text-primary mx-auto mb-3" />

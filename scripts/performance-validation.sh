@@ -11,7 +11,7 @@
 # Environments:
 #   - local (default): http://localhost:5173
 #   - preview: Vercel preview URL
-#   - production: https://monarchpropertymmgt.com
+#   - production: https://monarchpropertymmgt.online
 #
 # Requirements:
 #   - Node.js 18+
@@ -42,7 +42,7 @@ case $ENV in
     BASE_URL="https://$VERCEL_PREVIEW_URL"
     ;;
   production)
-    BASE_URL="https://monarchpropertymmgt.com"
+    BASE_URL="https://monarchpropertymmgt.online"
     ;;
   *)
     echo -e "${RED}Invalid environment: $ENV${NC}"

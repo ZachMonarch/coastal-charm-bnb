@@ -12,7 +12,7 @@ Allow: /vendor/projects
 Allow: /vendor-application
 
 # XML Sitemap (dynamic)
-Sitemap: https://monarchpropertymmgt.com/sitemap.xml
+Sitemap: https://monarchpropertymmgt.online/sitemap.xml
 Sitemap: https://yhegaaqxmuhszesbjtdo.supabase.co/functions/v1/generate-sitemap
 
 # Crawl delay (be respectful)

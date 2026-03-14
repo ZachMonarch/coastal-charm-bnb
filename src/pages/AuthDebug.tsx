@@ -54,11 +54,11 @@ export default function AuthDebug() {
   };
 
   const requiredRedirectUrls = [
-    'https://monarchpropertymmgt.com',
-    'https://monarchpropertymmgt.com/*',
-    'https://monarchpropertymmgt.com/auth/callback',
-    'https://monarchpropertymmgt.com/auth/verify',
-    'https://monarchpropertymmgt.com/login-bridge',
+    'https://monarchpropertymmgt.online',
+    'https://monarchpropertymmgt.online/*',
+    'https://monarchpropertymmgt.online/auth/callback',
+    'https://monarchpropertymmgt.online/auth/verify',
+    'https://monarchpropertymmgt.online/login-bridge',
   ];
 
   return (
@@ -144,7 +144,7 @@ export default function AuthDebug() {
           <CardContent className="space-y-4">
             <div>
               <p className="text-sm font-medium mb-2">Site URL:</p>
-              <code className="block bg-muted p-2 rounded text-sm">https://monarchpropertymmgt.com</code>
+              <code className="block bg-muted p-2 rounded text-sm">https://monarchpropertymmgt.online</code>
             </div>
             <div>
               <p className="text-sm font-medium mb-2">Redirect URLs (add all):</p>

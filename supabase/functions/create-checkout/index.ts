@@ -112,7 +112,7 @@ const handler = async (req: Request): Promise<Response> => {
       .eq('id', user.id)
       .single();
 
-    const baseUrl = req.headers.get('origin') || 'https://monarchpropertymmgt.com';
+    const baseUrl = req.headers.get('origin') || 'https://monarchpropertymmgt.online';
     
     // Configure session based on type
     const sessionConfig: any = {

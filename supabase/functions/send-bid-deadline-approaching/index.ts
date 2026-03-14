@@ -92,7 +92,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send emails to each vendor using fetch to Resend API
     const emailPromises = (profiles || []).map(async (profile) => {
-      const rfqUrl = `https://monarchpropertymmgt.com/vendor/rfq/${rfq_id}`;
+      const rfqUrl = `https://monarchpropertymmgt.online/vendor/rfq/${rfq_id}`;
 
       try {
         const response = await fetch("https://api.resend.com/emails", {
@@ -102,7 +102,7 @@ const handler = async (req: Request): Promise<Response> => {
             Authorization: `Bearer ${resendApiKey}`,
           },
           body: JSON.stringify({
-            from: "Monarch Property Management <projects@monarchpropertymmgt.com>",
+            from: "Monarch Property Management <projects@monarchpropertymmgt.online>",
             to: [profile.email],
             subject: `[${urgencyLevel}] ${reminderText} Left - ${rfq.title}`,
             html: `
@@ -163,11 +163,11 @@ const handler = async (req: Request): Promise<Response> => {
                     </div>
                     ` : ''}
                     
-                    <p>If you have any questions, please contact us at projects@monarchpropertymmgt.com</p>
+                    <p>If you have any questions, please contact us at projects@monarchpropertymmgt.online</p>
                   </div>
                   <div class="footer">
                     <p>© ${new Date().getFullYear()} Monarch Property Management</p>
-                    <p>www.monarchpropertymmgt.com</p>
+                    <p>www.monarchpropertymmgt.online</p>
                   </div>
                 </div>
               </body>

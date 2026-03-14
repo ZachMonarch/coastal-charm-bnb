@@ -43,8 +43,8 @@ export default function AdminVendorInvite() {
 
     setSending(true);
     try {
-      // Create secure signup link to monarchpropertymmgt.com
-      const mainDomain = 'https://monarchpropertymmgt.com';
+      // Create secure signup link to monarchpropertymmgt.online
+      const mainDomain = 'https://monarchpropertymmgt.online';
       const signupUrl = `${mainDomain}/auth?email=${encodeURIComponent(invite.email)}&role=vendor&company=${encodeURIComponent(invite.companyName)}&invite=true`;
       
       // Send email via edge function with proper structure and retry logic
@@ -58,7 +58,7 @@ export default function AdminVendorInvite() {
             specialties: invite.specialties,
             inviteMessage: invite.inviteMessage,
             signupUrl,
-            adminEmail: 'admin@monarchpropertymmgt.com',
+            adminEmail: 'admin@monarchpropertymmgt.online',
             expiresIn: '7 days' // Secure expiring link
           }
         }

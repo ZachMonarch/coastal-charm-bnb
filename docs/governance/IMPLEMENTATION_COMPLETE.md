@@ -276,9 +276,9 @@ Every admin action now leaves a fingerprint. Every decision is logged. Trust thr
 - Monitoring: `/admin/monitoring`
 
 ### Contact
-- Security Team: security@monarchpropertymmgt.com
-- Incident Reports: incidents@monarchpropertymmgt.com
-- Technical Support: support@monarchpropertymmgt.com
+- Security Team: security@monarchpropertymmgt.online
+- Incident Reports: incidents@monarchpropertymmgt.online
+- Technical Support: support@monarchpropertymmgt.online
 
 ---
 

@@ -2,8 +2,8 @@
 // Production domains only - NO wildcard in production
 
 const ALLOWED_ORIGINS = [
-  'https://monarchpropertymmgt.com',
-  'https://www.monarchpropertymmgt.com',
+  'https://monarchpropertymmgt.online',
+  'https://www.monarchpropertymmgt.online',
   // Add Vercel preview domains pattern
   'https://monarch-property-management.lovable.app',
   // Local development

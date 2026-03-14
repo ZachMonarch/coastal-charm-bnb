@@ -59,7 +59,7 @@ export function PropertySEOHead({ property }: PropertySEOHeadProps) {
   ];
 
   // Canonical URL
-  const canonicalUrl = `https://monarchpropertymmgt.com/properties/${property.id}`;
+  const canonicalUrl = `https://monarchpropertymmgt.online/properties/${property.id}`;
 
   return (
     <SEOHead

@@ -169,12 +169,13 @@ export default function VendorQuickSignup({ open, onOpenChange }: VendorQuickSig
         setShowSuccess(true);
       }
       
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Signup error:', error);
-      if (error.message?.includes('already registered')) {
+      const message = error instanceof Error ? error.message : String(error);
+      if (typeof message === 'string' && message.includes('already registered')) {
         toast.error("This email is already registered. Please sign in instead.");
       } else {
-        toast.error(error.message || "Failed to create account. Please try again.");
+        toast.error(message || "Failed to create account. Please try again.");
       }
     } finally {
       setLoading(false);

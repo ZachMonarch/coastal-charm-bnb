@@ -136,7 +136,7 @@ const handler = async (req: Request): Promise<Response> => {
               <p style="margin: 0 0 10px 0; font-size: 14px; color: #666;">
                 You're receiving this because you subscribed to ${frequencyLabel.toLowerCase()} updates.
               </p>
-              <a href="https://monarchpropertymmgt.com/news" style="display: inline-block; padding: 10px 20px; background-color: #d4af37; color: #1a1a1a; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 14px;">
+              <a href="https://monarchpropertymmgt.online/news" style="display: inline-block; padding: 10px 20px; background-color: #d4af37; color: #1a1a1a; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 14px;">
                 Read More News
               </a>
             </td>

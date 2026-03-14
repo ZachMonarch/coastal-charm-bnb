@@ -233,7 +233,7 @@ import { tokens, hslToColor, getSemanticColor } from "@/lib/theme";
 1. **Visual Regression Testing** — Integrate Chromatic for snapshot testing
 2. **Additional Component Stories** — Add stories for remaining components (Select, Dialog, Toast, etc.)
 3. **Interaction Testing** — Add `@storybook/test` for component behavior tests
-4. **Deployment** — Deploy Storybook to `design.monarchpropertymmgt.com`
+4. **Deployment** — Deploy Storybook to `design.monarchpropertymmgt.online`
 
 ### Long-term
 1. **Component Composition Examples** — Show complex page layouts using multiple components

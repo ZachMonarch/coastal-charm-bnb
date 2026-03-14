@@ -82,7 +82,7 @@ Zero lines of business logic change. Only CORS header generation is affected.
 
 - **Proven pattern**: 12 functions already use this exact module in production without issues
 - **No behavior change**: All request handling, auth, validation, and business logic remain untouched
-- **Allowed origins include**: monarchpropertymmgt.com, www.monarchpropertymmgt.com, *.vercel.app, *.lovable.app, *.lovableproject.com, localhost:3000/5173/8080
+- **Allowed origins include**: monarchpropertymmgt.online, www.monarchpropertymmgt.online, *.vercel.app, *.lovable.app, *.lovableproject.com, localhost:3000/5173/8080
 - **Reversible**: Each function can be individually reverted by restoring its local corsHeaders declaration
 
 ## Deployment

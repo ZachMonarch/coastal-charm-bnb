@@ -57,7 +57,7 @@ serve(async (req) => {
       logStep("Found existing Stripe customer", { customerId });
     }
 
-    const origin = req.headers.get("origin") || "https://monarchpropertymmgt.com";
+    const origin = req.headers.get("origin") || "https://monarchpropertymmgt.online";
     const portalSession = await stripe.billingPortal.sessions.create({
       customer: customerId,
       return_url: `${origin}/settings`,

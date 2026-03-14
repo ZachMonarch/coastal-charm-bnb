@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createContext, useContext, useCallback, useRef } from 'react';
-import { User as SupabaseUser, Session } from '@supabase/supabase-js';
+import { AuthError, User as SupabaseUser, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { logger } from '@/utils/logger';
@@ -15,7 +15,7 @@ export interface User extends SupabaseUser {
   role?: UserRole;
   avatar_url?: string;
   lastLogin?: string;
-  
+
   vendor?: {
     isVerified: boolean;
     companyName?: string;
@@ -28,16 +28,32 @@ export interface User extends SupabaseUser {
     insurance: boolean;
     backgroundCheck: boolean;
   };
-  
+
   subscription?: {
     plan: 'free' | 'basic' | 'premium' | 'enterprise';
     status: 'active' | 'inactive' | 'trial' | 'expired';
     expiresAt?: string;
     features: string[];
   };
-  
+
   properties?: string[];
   permissions?: string[];
+}
+
+interface UserProfileWithRoles {
+  profile?: {
+    full_name?: string;
+    phone?: string;
+    avatar_url?: string;
+  };
+  roles?: string[] | string;
+  vendor_profile?: {
+    is_verified?: boolean;
+    company_name?: string;
+    avatar_url?: string;
+    rating?: number;
+    subscription_plan?: 'free' | 'basic' | 'premium' | 'enterprise' | string;
+  };
 }
 
 interface AuthContextType {
@@ -45,14 +61,33 @@ interface AuthContextType {
   session: Session | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  signUp: (email: string, password: string, userData?: any) => Promise<{ error: any }>;
-  signIn: (email: string, password: string) => Promise<{ error: any }>;
+  signUp: (email: string, password: string, userData?: Record<string, unknown>) => Promise<{ error: AuthError | null }>;
+  signIn: (email: string, password: string) => Promise<{ error: AuthError | null }>;
   signOut: () => Promise<void>;
   logout: () => Promise<void>;
   hasRole: (role: UserRole | UserRole[]) => boolean;
   hasPermission: (permission: string) => boolean;
   isSubscribed: (tier: string) => boolean;
-  updateProfile: (updates: any) => Promise<{ error: any }>;
+  updateProfile: (updates: Record<string, unknown>) => Promise<{ error: AuthError | null }>;
+  updateUser: (userData: Partial<User>) => Promise<void>;
+  refreshUser: () => Promise<void>;
+  userRoles: string[];
+  getUserRole: () => UserRole;
+}
+
+interface AuthContextType {
+  user: User | null;
+  session: Session | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  signUp: (email: string, password: string, userData?: Record<string, unknown>) => Promise<{ error: AuthError | null }>;
+  signIn: (email: string, password: string) => Promise<{ error: AuthError | null }>;
+  signOut: () => Promise<void>;
+  logout: () => Promise<void>;
+  hasRole: (role: UserRole | UserRole[]) => boolean;
+  hasPermission: (permission: string) => boolean;
+  isSubscribed: (tier: string) => boolean;
+  updateProfile: (updates: Record<string, unknown>) => Promise<{ error: AuthError | null }>;
   updateUser: (userData: Partial<User>) => Promise<void>;
   refreshUser: () => Promise<void>;
   userRoles: string[];
@@ -71,7 +106,7 @@ export const useAuth = () => {
 
 // Cache for user profile data
 interface ProfileCache {
-  data: any;
+  data: UserProfileWithRoles | null;
   timestamp: number;
 }
 
@@ -93,7 +128,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [userRoles]);
 
   // Fetch user profile with roles using optimized RPC (single query)
-  const fetchUserProfileWithRoles = useCallback(async (userId: string) => {
+  const fetchUserProfileWithRoles = useCallback(async (userId: string): Promise<UserProfileWithRoles | null> => {
     // Check cache first
     const cached = profileCache.get(userId);
     if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
@@ -123,7 +158,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   // Create enhanced user from profile data
-  const createEnhancedUser = useCallback((supabaseUser: SupabaseUser, profileData: any): User => {
+  const createEnhancedUser = useCallback((supabaseUser: SupabaseUser, profileData: UserProfileWithRoles): User => {
     const profile = profileData?.profile;
     const roles = profileData?.roles || ['tenant'];
     const vendorProfile = profileData?.vendor_profile;
@@ -145,10 +180,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         backgroundCheck: false
       };
       
-      if (vendorProfile.subscription_plan) {
+      if (typeof vendorProfile.subscription_plan === 'string') {
         const allowedPlans = ['free', 'basic', 'premium', 'enterprise'] as const;
-        if (allowedPlans.includes(vendorProfile.subscription_plan as any)) {
-          subscriptionPlan = vendorProfile.subscription_plan as typeof subscriptionPlan;
+        const plan = vendorProfile.subscription_plan;
+        if ((allowedPlans as readonly string[]).includes(plan)) {
+          subscriptionPlan = plan as typeof subscriptionPlan;
         }
       }
       
@@ -269,8 +305,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
   }, [fetchUserProfileWithRoles, createEnhancedUser]);
 
-  const signUp = async (email: string, password: string, userData: any = {}) => {
-    try {
+  const signUp = async (email: string, password: string, userData: Record<string, unknown> = {}) => {    try {
       setIsLoading(true);
       const redirectUrl = `${window.location.origin}/`;
       
@@ -308,9 +343,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       toast.success('Account created! Please check your email for verification.');
       return { error: null };
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast.error('An unexpected error occurred during signup');
-      return { error };
+      return { error: error as AuthError };
     } finally {
       setIsLoading(false);
     }
@@ -347,9 +382,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       toast.success('Signed in successfully!');
       return { error: null };
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast.error('An unexpected error occurred during sign in');
-      return { error };
+      return { error: error as AuthError };
     } finally {
       setIsLoading(false);
     }
@@ -368,7 +403,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         profileCache.clear();
         toast.success('Signed out successfully');
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast.error('An unexpected error occurred during sign out');
     } finally {
       setIsLoading(false);
@@ -417,7 +452,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return false;
   }, [user, hasRole]);
 
-  const updateProfile = async (updates: any) => {
+  const updateProfile = async (updates: Record<string, unknown>) => {
     try {
       if (!user) throw new Error('No user found');
 
@@ -433,9 +468,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       toast.success('Profile updated successfully');
       return { error: null };
-    } catch (error) {
+    } catch (error: unknown) {
       toast.error('Failed to update profile');
-      return { error };
+      return { error: error as AuthError };
     }
   };
 

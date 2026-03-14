@@ -5,7 +5,7 @@ BEGIN
   INSERT INTO public.profiles (id, email, full_name, role)
   VALUES (
     '00000000-0000-0000-0000-000000000001'::uuid,
-    'admin@monarchpropertymmgt.com',
+    'admin@monarchpropertymmgt.online',
     'System Administrator',
     'admin'
   )

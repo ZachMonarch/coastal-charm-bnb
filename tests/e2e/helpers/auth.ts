@@ -11,17 +11,17 @@ export interface LoginCredentials {
 }
 
 export const DEFAULT_ADMIN_CREDENTIALS: LoginCredentials = {
-  email: process.env.ADMIN_TEST_EMAIL || 'admin@monarchpropertymmgt.com',
+  email: process.env.ADMIN_TEST_EMAIL || 'admin@monarchpropertymmgt.online',
   password: process.env.ADMIN_TEST_PASSWORD || 'TestAdmin123!',
 };
 
 export const DEFAULT_VENDOR_CREDENTIALS: LoginCredentials = {
-  email: process.env.VENDOR_TEST_EMAIL || 'vendor@monarchpropertymmgt.com',
+  email: process.env.VENDOR_TEST_EMAIL || 'vendor@monarchpropertymmgt.online',
   password: process.env.VENDOR_TEST_PASSWORD || 'TestVendor123!',
 };
 
 export const DEFAULT_USER_CREDENTIALS: LoginCredentials = {
-  email: process.env.USER_TEST_EMAIL || 'user@monarchpropertymmgt.com',
+  email: process.env.USER_TEST_EMAIL || 'user@monarchpropertymmgt.online',
   password: process.env.USER_TEST_PASSWORD || 'TestUser123!',
 };
 

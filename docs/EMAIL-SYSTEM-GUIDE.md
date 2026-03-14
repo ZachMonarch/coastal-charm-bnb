@@ -12,18 +12,18 @@ All email settings are defined in `supabase/functions/_shared/emailConfig.ts`:
 
 ```typescript
 export const EMAIL_CONFIG = {
-  domain: "monarchpropertymmgt.com",
+  domain: "monarchpropertymmgt.online",
   senders: {
-    noreply: "Monarch Property Management <noreply@monarchpropertymmgt.com>",
-    welcome: "Monarch Property Management <welcome@monarchpropertymmgt.com>",
-    newsletter: "Monarch Property News <newsletter@monarchpropertymmgt.com>",
-    notifications: "Monarch Property Management <notifications@monarchpropertymmgt.com>",
-    invoices: "Monarch Invoicing <invoices@monarchpropertymmgt.com>",
-    payouts: "Monarch Property Management <payouts@monarchpropertymmgt.com>",
-    support: "Monarch Support <support@monarchpropertymmgt.com>",
+    noreply: "Monarch Property Management <noreply@monarchpropertymmgt.online>",
+    welcome: "Monarch Property Management <welcome@monarchpropertymmgt.online>",
+    newsletter: "Monarch Property News <newsletter@monarchpropertymmgt.online>",
+    notifications: "Monarch Property Management <notifications@monarchpropertymmgt.online>",
+    invoices: "Monarch Invoicing <invoices@monarchpropertymmgt.online>",
+    payouts: "Monarch Property Management <payouts@monarchpropertymmgt.online>",
+    support: "Monarch Support <support@monarchpropertymmgt.online>",
   },
-  replyTo: "support@monarchpropertymmgt.com",
-  siteUrl: "https://monarchpropertymmgt.com",
+  replyTo: "support@monarchpropertymmgt.online",
+  siteUrl: "https://monarchpropertymmgt.online",
   // ... more configuration
 };
 ```
@@ -87,7 +87,7 @@ Typically 3 CNAME records pointing to Resend's DKIM servers.
 ```
 Type: TXT
 Name: _dmarc
-Value: v=DMARC1; p=none; rua=mailto:dmarc@monarchpropertymmgt.com
+Value: v=DMARC1; p=none; rua=mailto:dmarc@monarchpropertymmgt.online
 TTL: 3600
 ```
 
@@ -106,7 +106,7 @@ TTL: 3600
 ### Verification Steps
 
 1. Go to https://resend.com/domains
-2. Click on `monarchpropertymmgt.com`
+2. Click on `monarchpropertymmgt.online`
 3. Verify all records show ✓ green checkmarks
 4. Use external tools to verify:
    - https://mxtoolbox.com/SuperTool.aspx
@@ -122,7 +122,7 @@ TTL: 3600
 - Default Supabase emails come from `supabase.co` domain
 - This causes domain mismatch with your sending domain
 - Domain mismatch triggers spam filters
-- Custom SMTP ensures all emails come from `monarchpropertymmgt.com`
+- Custom SMTP ensures all emails come from `monarchpropertymmgt.online`
 
 Navigate to **Project Settings > Authentication > SMTP Settings**:
 
@@ -133,7 +133,7 @@ Navigate to **Project Settings > Authentication > SMTP Settings**:
 | Port | `465` (SSL) |
 | Username | `resend` |
 | Password | Your `RESEND_API_KEY` |
-| Sender email | `noreply@monarchpropertymmgt.com` |
+| Sender email | `noreply@monarchpropertymmgt.online` |
 | Sender name | `Monarch Property Management` |
 
 ### 2. Email Templates
@@ -169,11 +169,11 @@ Navigate to **Authentication > URL Configuration**:
 
 | Setting | Value |
 |---------|-------|
-| Site URL | `https://monarchpropertymmgt.com` |
+| Site URL | `https://monarchpropertymmgt.online` |
 | Redirect URLs | Add all of these: |
-| | `https://monarchpropertymmgt.com/**` |
-| | `https://monarchpropertymmgt.com/auth/verify` |
-| | `https://monarchpropertymmgt.com/auth/callback` |
+| | `https://monarchpropertymmgt.online/**` |
+| | `https://monarchpropertymmgt.online/auth/verify` |
+| | `https://monarchpropertymmgt.online/auth/callback` |
 | | `https://*.lovableproject.com/**` |
 
 ---
@@ -374,9 +374,9 @@ Both flows handle:
 ## Quick Reference
 
 ### Production URLs
-- Site URL: `https://monarchpropertymmgt.com`
-- Auth Verify: `https://monarchpropertymmgt.com/auth/verify`
-- Auth Callback: `https://monarchpropertymmgt.com/auth/callback`
+- Site URL: `https://monarchpropertymmgt.online`
+- Auth Verify: `https://monarchpropertymmgt.online/auth/verify`
+- Auth Callback: `https://monarchpropertymmgt.online/auth/callback`
 
 ### Resend Dashboard
 - Domains: https://resend.com/domains

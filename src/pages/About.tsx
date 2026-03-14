@@ -60,7 +60,7 @@ export default function About() {
         description="Learn about Monarch Property Management - Colorado's premier property management company with 20+ years of experience serving property owners and tenants."
         keywords={["about monarch", "property management company", "Colorado property managers", "real estate management", "property services"]}
         type="website"
-        url="https://monarchpropertymmgt.com/about"
+        url="https://monarchpropertymmgt.online/about"
       />
 
       {/* Hero Section with Image */}
@@ -217,7 +217,7 @@ export default function About() {
                 </div>
                 <div className="flex items-center gap-2 text-muted-foreground">
                   <Mail className="h-5 w-5 text-primary" />
-                  <span>info@monarchpropertymmgt.com</span>
+                  <span>info@monarchpropertymmgt.online</span>
                 </div>
                 <div className="flex items-center gap-2 text-muted-foreground">
                   <MapPin className="h-5 w-5 text-primary" />

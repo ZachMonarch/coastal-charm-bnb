@@ -395,4 +395,4 @@ Phase 3 successfully adds:
 **Implementation Team**: Lovable AI Agent  
 **Review Status**: ✅ Approved  
 **Deployment Status**: Production-Ready  
-**Next Steps**: Deploy to `design.monarchpropertymmgt.com` (optional)
+**Next Steps**: Deploy to `design.monarchpropertymmgt.online` (optional)

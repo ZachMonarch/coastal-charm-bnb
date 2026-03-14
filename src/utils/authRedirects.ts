@@ -4,7 +4,7 @@
  */
 
 // Production domain - single source of truth
-const PRODUCTION_DOMAIN = 'monarchpropertymmgt.com';
+const PRODUCTION_DOMAIN = 'monarchpropertymmgt.online';
 
 /**
  * Get the base URL with explicit https:// protocol

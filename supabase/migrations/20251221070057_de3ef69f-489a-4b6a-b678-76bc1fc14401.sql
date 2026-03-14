@@ -39,7 +39,7 @@ INSERT INTO rfqs (
     "revision": "Rev A",
     "status": "ISSUED FOR BID",
     "prepared_by": "Monarch Property Management",
-    "contact_email": "projects@monarchpropertymmgt.com",
+    "contact_email": "projects@monarchpropertymmgt.online",
     "contact_phone": "+1 (614) 555-0100"
   }'::jsonb,
   -- Executive Summary

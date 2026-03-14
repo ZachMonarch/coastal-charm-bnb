@@ -21,7 +21,7 @@ export interface CMSPage {
 
 export interface CMSSection {
   type: "hero" | "features" | "faq" | "testimonials" | "cta" | "content";
-  props: Record<string, any>;
+  props: Record<string, unknown>;
 }
 
 export interface CMSFAQItem {
@@ -51,7 +51,7 @@ export interface CMSService {
 class CMSClient {
   private baseUrl: string;
   private apiKey?: string;
-  private cache: Map<string, { data: any; timestamp: number }> = new Map();
+  private cache: Map<string, { data: unknown; timestamp: number }> = new Map();
   private cacheTTL = 5 * 60 * 1000; // 5 minutes
 
   constructor(config?: { baseUrl?: string; apiKey?: string }) {
@@ -251,7 +251,7 @@ class CMSClient {
   /**
    * Set data in cache
    */
-  private setCache(key: string, data: any) {
+  private setCache(key: string, data: unknown) {
     this.cache.set(key, {
       data,
       timestamp: Date.now(),

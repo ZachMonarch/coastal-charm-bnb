@@ -261,7 +261,7 @@ All notable changes to Monarch Property Management platform will be documented i
 - `docs/EMAIL-SYSTEM-GUIDE.md`
 
 ### Required Manual Configuration
-- DMARC DNS record: `_dmarc` TXT → `v=DMARC1; p=none; rua=mailto:dmarc@monarchpropertymmgt.com`
+- DMARC DNS record: `_dmarc` TXT → `v=DMARC1; p=none; rua=mailto:dmarc@monarchpropertymmgt.online`
 - Enable Custom SMTP in Supabase Dashboard with Resend credentials
 - Update email templates to use `{{ .SiteURL }}/auth/verify?token_hash={{ .TokenHash }}&type=...`
 
@@ -378,7 +378,7 @@ All 11 email edge functions now use centralized configuration and include anti-s
 ### Impact
 - ✅ **Improved Deliverability**: Anti-spam headers reduce spam folder placement
 - ✅ **Gmail/Yahoo Compliance**: List-Unsubscribe headers meet bulk sender requirements
-- ✅ **Consistent Branding**: All emails use verified `@monarchpropertymmgt.com` domain
+- ✅ **Consistent Branding**: All emails use verified `@monarchpropertymmgt.online` domain
 - ✅ **Maintainability**: Single source of truth for email configuration
 - ✅ **Audit Trail**: All emails include unique tracking IDs
 

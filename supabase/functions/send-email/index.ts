@@ -398,7 +398,7 @@ function generateVendorInviteEmail(data: any): string {
                 <div class="divider"></div>
                 
                 <p style="font-size: 14px; color: ${BRAND_COLORS.gray};">
-                    If you have any questions about joining our network, our team is ready to assist you. Simply reply to this email or contact us at support@monarchpropertymmgt.com.
+                    If you have any questions about joining our network, our team is ready to assist you. Simply reply to this email or contact us at support@monarchpropertymmgt.online.
                 </p>
                 
                 <p>We look forward to partnering with you!</p>

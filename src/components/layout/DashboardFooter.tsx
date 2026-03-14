@@ -164,8 +164,8 @@ export default function DashboardFooter() {
               </li>
               <li className="flex items-start gap-2 text-sm text-muted-foreground">
                 <Mail className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
-                <a href="mailto:info@monarchpropertymmgt.com" className="hover:text-primary transition-colors">
-                  info@monarchpropertymmgt.com
+                <a href="mailto:info@monarchpropertymmgt.online" className="hover:text-primary transition-colors">
+                  info@monarchpropertymmgt.online
                 </a>
               </li>
               <li className="flex items-start gap-2 text-sm text-muted-foreground">

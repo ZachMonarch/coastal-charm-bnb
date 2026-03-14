@@ -54,7 +54,7 @@ Value: whsec_xxxxxxxxxxxxx
 
 **Steps:**
 1. If not already added, click "Add Domain"
-2. Enter: `monarchpropertymmgt.com`
+2. Enter: `monarchpropertymmgt.online`
 3. Add the provided DNS records to your domain registrar
 4. Wait for verification (usually < 5 minutes)
 5. Test by sending a test email from Resend dashboard
@@ -119,7 +119,7 @@ SELECT * FROM cron.job;
 ### 5. Test Health Endpoint (30 seconds) ✅ VERIFICATION
 
 **Action:** Verify system health  
-**URL:** https://monarchpropertymmgt.com/api/health
+**URL:** https://monarchpropertymmgt.online/api/health
 
 **Expected Response:**
 ```json
@@ -189,7 +189,7 @@ Monitor security events at:
 ## 📞 Support
 
 **Need Help?**
-- Email: support@monarchpropertymmgt.com
+- Email: support@monarchpropertymmgt.online
 - Documentation: https://docs.lovable.dev
 - Supabase Dashboard: https://supabase.com/dashboard/project/yhegaaqxmuhszesbjtdo
 

@@ -38,7 +38,7 @@ export function EnhancedSEO({
   description,
   keywords,
   canonical,
-  ogImage = "https://monarchpropertymmgt.com/og-image.png",
+  ogImage = "https://monarchpropertymmgt.online/og-image.png",
   ogType = "website",
   twitterCard = "summary_large_image",
   noindex = false,
@@ -52,7 +52,7 @@ export function EnhancedSEO({
     : `${title} | Monarch Property Management`;
   
   const canonicalUrl =
-    canonical || `https://monarchpropertymmgt.com${window.location.pathname}`;
+    canonical || `https://monarchpropertymmgt.online${window.location.pathname}`;
 
   const robots = [];
   if (noindex) robots.push("noindex");
@@ -137,7 +137,7 @@ export function PropertiesPageSEO() {
       title="Properties for Rent & Sale"
       description="Browse our curated selection of luxury apartments, townhouses, and commercial properties. Professional management with 24/7 support."
       keywords="properties for rent, apartments for rent, colorado rentals, luxury apartments, townhouses"
-      canonical="https://monarchpropertymmgt.com/properties"
+      canonical="https://monarchpropertymmgt.online/properties"
     />
   );
 }
@@ -151,7 +151,7 @@ export function ServicesPageSEO() {
       title="Professional Property Management Services"
       description="Comprehensive property management services including tenant screening, maintenance, rent collection, and 24/7 support. Trusted by property owners."
       keywords="property management services, tenant screening, property maintenance, rent collection, property consultation"
-      canonical="https://monarchpropertymmgt.com/services"
+      canonical="https://monarchpropertymmgt.online/services"
     />
   );
 }

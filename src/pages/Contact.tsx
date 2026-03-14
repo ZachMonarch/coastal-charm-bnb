@@ -155,8 +155,8 @@ export default function Contact() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">
-                    info@monarchpropertymmgt.com<br />
-                    support@monarchpropertymmgt.com
+                    info@monarchpropertymmgt.online<br />
+                    support@monarchpropertymmgt.online
                   </p>
                 </CardContent>
               </Card>

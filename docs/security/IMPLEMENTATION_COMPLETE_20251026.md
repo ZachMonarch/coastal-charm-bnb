@@ -390,7 +390,7 @@ useEffect(() => {
 1. Check `profile_name_audit` table for recent changes
 2. Review Supabase logs for errors
 3. Verify RLS policies with linter
-4. Contact: security@monarchpropertymmgt.com
+4. Contact: security@monarchpropertymmgt.online
 
 ### For Questions
 1. Refer to `docs/security/HACKER_NAME_INCIDENT_FINAL_RESOLUTION.md`

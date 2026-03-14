@@ -19,7 +19,7 @@ export function useCanonicalUrl(customUrl?: string) {
     }
     
     // Set canonical URL
-    const baseUrl = 'https://monarchpropertymmgt.com';
+    const baseUrl = 'https://monarchpropertymmgt.online';
     const canonicalUrl = customUrl || `${baseUrl}${location.pathname}`;
     
     canonicalLink.href = canonicalUrl;

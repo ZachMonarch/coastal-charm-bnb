@@ -15,8 +15,8 @@ export const BRAND_COLORS = {
   info: '#3B82F6',
 };
 
-export const LOGO_URL = 'https://monarchpropertymmgt.com/lovable-uploads/318cdd13-7256-4cfe-99e0-948e43902b7b.png';
-export const SITE_URL = 'https://monarchpropertymmgt.com';
+export const LOGO_URL = 'https://monarchpropertymmgt.online/lovable-uploads/318cdd13-7256-4cfe-99e0-948e43902b7b.png';
+export const SITE_URL = 'https://monarchpropertymmgt.online';
 
 // Common email styles
 export const emailStyles = `

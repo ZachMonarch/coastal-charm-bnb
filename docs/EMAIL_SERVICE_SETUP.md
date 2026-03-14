@@ -71,7 +71,7 @@ The Monarch Property Management system uses **Resend.com** for transactional ema
 
 1. Go to Resend dashboard → **Domains**
 2. Click **Add Domain**
-3. Enter domain: `monarchpropertymmgt.com`
+3. Enter domain: `monarchpropertymmgt.online`
 4. Click **Add**
 
 You'll be presented with DNS records to add:
@@ -98,7 +98,7 @@ TTL: 3600
 ```
 Type: TXT
 Name: _dmarc
-Value: v=DMARC1; p=none; rua=mailto:admin@monarchpropertymmgt.com
+Value: v=DMARC1; p=none; rua=mailto:admin@monarchpropertymmgt.online
 TTL: 3600
 ```
 
@@ -120,13 +120,13 @@ TTL: 3600
 **Check DNS propagation:**
 ```bash
 # Check DKIM
-dig TXT resend._domainkey.monarchpropertymmgt.com
+dig TXT resend._domainkey.monarchpropertymmgt.online
 
 # Check SPF
-dig TXT monarchpropertymmgt.com
+dig TXT monarchpropertymmgt.online
 
 # Check DMARC
-dig TXT _dmarc.monarchpropertymmgt.com
+dig TXT _dmarc.monarchpropertymmgt.online
 ```
 
 ---
@@ -134,7 +134,7 @@ dig TXT _dmarc.monarchpropertymmgt.com
 ### Step 6: Verify Domain in Resend
 
 1. Return to Resend dashboard → **Domains**
-2. Find `monarchpropertymmgt.com`
+2. Find `monarchpropertymmgt.online`
 3. Click **Verify**
 4. If all DNS records are correct, status will change to **Verified** ✅
 
@@ -157,7 +157,7 @@ Once domain is verified:
 
 **Expected result:**
 - Email arrives within 10 seconds
-- From: `noreply@monarchpropertymmgt.com`
+- From: `noreply@monarchpropertymmgt.online`
 - Subject: `Test Email from Monarch`
 - No spam folder
 
@@ -334,7 +334,7 @@ const MAX_EMAILS_PER_HOUR_IP = 50;      // Change to 100
 2. Ensure SPF, DKIM, DMARC records are correct
 3. Check Resend deliverability score
 4. Warm up sending reputation (start with <50 emails/day)
-5. Ask recipients to whitelist `@monarchpropertymmgt.com`
+5. Ask recipients to whitelist `@monarchpropertymmgt.online`
 
 ### Problem: Rate limit errors
 

@@ -490,8 +490,8 @@ const { data, error } = await supabase.rpc('award_contract', {
 ## Support
 
 For technical issues or questions:
-- Email: support@monarchpropertymmgt.com
-- Documentation: https://docs.monarchpropertymmgt.com
+- Email: support@monarchpropertymmgt.online
+- Documentation: https://docs.monarchpropertymmgt.online
 - Issue Tracker: GitHub Issues
 
 ---

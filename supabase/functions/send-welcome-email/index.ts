@@ -53,10 +53,10 @@ serve(async (req) => {
     }
 
     const dashboardUrl = role === 'vendor' 
-      ? 'https://monarchpropertymmgt.com/vendor'
+      ? 'https://monarchpropertymmgt.online/vendor'
       : role === 'admin'
-      ? 'https://monarchpropertymmgt.com/admin'
-      : 'https://monarchpropertymmgt.com/dashboard';
+      ? 'https://monarchpropertymmgt.online/admin'
+      : 'https://monarchpropertymmgt.online/dashboard';
 
     // Sanitize name to prevent XSS in email
     const sanitizedName = (name || 'User').replace(/[<>]/g, '');
@@ -127,13 +127,13 @@ serve(async (req) => {
                 
                 <p style="margin-top: 30px;">Need help getting started? Our support team is here for you 24/7.</p>
                 
-                <p style="color: #6B7280; font-size: 14px;">If you have any questions, reply to this email or contact us at support@monarchpropertymmgt.com</p>
+                <p style="color: #6B7280; font-size: 14px;">If you have any questions, reply to this email or contact us at support@monarchpropertymmgt.online</p>
               </div>
               <div class="footer">
                 <p>© ${new Date().getFullYear()} Monarch Property Management. All rights reserved.</p>
                 <p style="margin-top: 10px;">
-                  <a href="https://monarchpropertymmgt.com/privacy" style="color: #6B7280; text-decoration: none;">Privacy Policy</a> | 
-                  <a href="https://monarchpropertymmgt.com/terms" style="color: #6B7280; text-decoration: none;">Terms of Service</a>
+                  <a href="https://monarchpropertymmgt.online/privacy" style="color: #6B7280; text-decoration: none;">Privacy Policy</a> | 
+                  <a href="https://monarchpropertymmgt.online/terms" style="color: #6B7280; text-decoration: none;">Terms of Service</a>
                 </p>
               </div>
             </div>

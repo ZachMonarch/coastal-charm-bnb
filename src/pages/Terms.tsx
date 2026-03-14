@@ -14,7 +14,7 @@ export default function Terms() {
         description="Read the Terms of Service for Monarch Property Management. Understand your rights and responsibilities when using our property management services."
         keywords={["terms of service", "legal terms", "property management terms", "user agreement"]}
         type="website"
-        url="https://monarchpropertymmgt.com/terms"
+        url="https://monarchpropertymmgt.online/terms"
       />
 
       {/* Hero Section with Image */}
@@ -98,7 +98,7 @@ export default function Terms() {
                   If you have any questions about these Terms of Service, please contact us:
                 </p>
                 <div className="space-y-2 text-sm text-muted-foreground">
-                  <p>Email: legal@monarchpropertymmgt.com</p>
+                  <p>Email: legal@monarchpropertymmgt.online</p>
                   <p>Phone: +1 (304) 365-8349 | +1 (614) 427-8576</p>
                   <p>Address: 2195 N. Highway 83 Suite 14B, Franktown, CO 80116</p>
                 </div>

@@ -118,8 +118,8 @@ const defaultFormData: RFQFormData = {
     issuer: 'Monarch Property Management',
     issue_date: new Date().toISOString().split('T')[0],
     document_status: 'Issued for Quotation (IFQ)',
-    project_email: 'projects@monarchpropertymmgt.com',
-    support_email: 'support@monarchpropertymmgt.com',
+    project_email: 'projects@monarchpropertymmgt.online',
+    support_email: 'support@monarchpropertymmgt.online',
   },
   executive_summary: {
     building_overview: '',

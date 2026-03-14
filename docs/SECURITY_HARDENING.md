@@ -213,7 +213,7 @@ app.current_tenant() -- Returns user's tenant_id
 
 ## Security Contacts
 
-- **Report vulnerability**: security@monarchpropertymmgt.com (TBD)
+- **Report vulnerability**: security@monarchpropertymmgt.online (TBD)
 - **Bug bounty**: Not yet established
 - **Responsible disclosure**: 90-day window
 

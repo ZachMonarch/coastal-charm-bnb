@@ -106,8 +106,8 @@ export default function LoginBridge() {
       const pathname = window.location.pathname;
       const fullUrl = window.location.href;
       
-      if (pathname.includes('monarchpropertymmgt.com') || 
-          fullUrl.includes('.supabase.co/monarchpropertymmgt.com')) {
+      if (pathname.includes('monarchpropertymmgt.online') || 
+          fullUrl.includes('.supabase.co/monarchpropertymmgt.online')) {
         debugLog('Malformed redirect detected', { pathname, fullUrl });
         console.error('[LoginBridge] Malformed Supabase redirect URL detected. Check Supabase Dashboard URL configuration.');
         toast.error("Authentication configuration error. Please contact support.");

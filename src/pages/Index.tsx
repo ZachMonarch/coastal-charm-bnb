@@ -35,7 +35,7 @@ export default function Index() {
   }, [properties]);
   
   // Set canonical URL for homepage
-  useCanonicalUrl('https://monarchpropertymmgt.com/');
+  useCanonicalUrl('https://monarchpropertymmgt.online/');
   
   useEffect(() => {
     // Scroll to top when component mounts

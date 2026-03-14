@@ -50,8 +50,8 @@ export function OrganizationSchema() {
         name: "Monarch Property Management",
         description:
           "Professional property management services with premium standards and personalized care for investment properties.",
-        url: "https://monarchpropertymmgt.com",
-        logo: "https://monarchpropertymmgt.com/og-image.png",
+        url: "https://monarchpropertymmgt.online",
+        logo: "https://monarchpropertymmgt.online/og-image.png",
         address: {
           "@type": "PostalAddress",
           streetAddress: "2195 N. Highway 83 Suite 14B",
@@ -87,9 +87,9 @@ export function LocalBusinessSchema() {
       type="LocalBusiness"
       data={{
         name: "Monarch Property Management",
-        image: "https://monarchpropertymmgt.com/og-image.png",
+        image: "https://monarchpropertymmgt.online/og-image.png",
         telephone: "+1-304-365-8349",
-        email: "support@monarchpropertymmgt.com",
+        email: "support@monarchpropertymmgt.online",
         address: {
           "@type": "PostalAddress",
           streetAddress: "2195 N. Highway 83 Suite 14B",
@@ -230,13 +230,13 @@ export function WebSiteSchema() {
       type="WebSite"
       data={{
         name: "Monarch Property Management",
-        url: "https://monarchpropertymmgt.com",
+        url: "https://monarchpropertymmgt.online",
         potentialAction: {
           "@type": "SearchAction",
           target: {
             "@type": "EntryPoint",
             urlTemplate:
-              "https://monarchpropertymmgt.com/properties?search={search_term_string}",
+              "https://monarchpropertymmgt.online/properties?search={search_term_string}",
           },
           "query-input": "required name=search_term_string",
         },
