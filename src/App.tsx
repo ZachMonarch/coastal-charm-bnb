@@ -485,11 +485,7 @@ const App = () => (
                   <RFQManagement />
                 </OptimizedProtectedRoute>
               } />
-              <Route path="/admin/rfq/create" element={
-                <OptimizedProtectedRoute requiredRole="admin">
-                  <RFQCreate />
-                </OptimizedProtectedRoute>
-              } />
+              <Route path="/admin/rfq/create" element={<Navigate to="/admin/rfq/create-detailed" replace />} />
               <Route path="/admin/rfq/:id" element={
                 <OptimizedProtectedRoute requiredRole="admin">
                   <RFQDetail />

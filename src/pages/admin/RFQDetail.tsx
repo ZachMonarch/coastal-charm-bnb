@@ -117,7 +117,29 @@ export default function RFQDetail() {
             {rfq.property?.title} - {rfq.property?.address}
           </p>
         </div>
-        <RFQStatusBadge status={rfq.status as any} />
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              const url = `${window.location.origin}/vendor/rfq/${id}/details`;
+              navigator.clipboard.writeText(url);
+              toast.success('Shareable vendor link copied to clipboard');
+            }}
+          >
+            <Share2 className="h-4 w-4 mr-2" />
+            Share Link
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => navigate(`/admin/rfq/${id}/edit`)}
+          >
+            <Pencil className="h-4 w-4 mr-2" />
+            Edit
+          </Button>
+          <RFQStatusBadge status={rfq.status as any} />
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
