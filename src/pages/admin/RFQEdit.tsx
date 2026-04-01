@@ -1308,20 +1308,33 @@ export default function RFQEdit() {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center justify-between">
-                    <span>Project Documents</span>
+                    <span>Project Documents, Floor Plans & Photos</span>
                     {!isNew && (
-                      <div>
+                      <div className="flex items-center gap-2">
+                        <Select value={uploadDocType} onValueChange={setUploadDocType}>
+                          <SelectTrigger className="w-40">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="specification">Specification</SelectItem>
+                            <SelectItem value="blueprint">Blueprint</SelectItem>
+                            <SelectItem value="floor_plan">Floor Plan</SelectItem>
+                            <SelectItem value="mep_design">MEP Design</SelectItem>
+                            <SelectItem value="property_photo">Property Photo</SelectItem>
+                            <SelectItem value="other">Other</SelectItem>
+                          </SelectContent>
+                        </Select>
                         <input
                           type="file"
                           id="doc-upload"
                           className="hidden"
                           multiple
-                          accept=".pdf,.doc,.docx,.dwg,.xlsx"
+                          accept=".pdf,.doc,.docx,.dwg,.xlsx,.jpg,.jpeg,.png,.gif,.webp,.svg,.tiff"
                           onChange={(e) => handleDocumentUpload(e.target.files)}
                         />
                         <Button size="sm" onClick={() => document.getElementById('doc-upload')?.click()}>
                           <Upload className="h-4 w-4 mr-2" />
-                          Upload Documents
+                          Upload
                         </Button>
                       </div>
                     )}
