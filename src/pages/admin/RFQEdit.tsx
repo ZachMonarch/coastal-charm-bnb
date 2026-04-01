@@ -736,6 +736,37 @@ export default function RFQEdit() {
                         </SelectContent>
                       </Select>
                     </div>
+                    <div className="space-y-2 md:col-span-2">
+                      <Label htmlFor="project_address">Project Address</Label>
+                      <Input
+                        id="project_address"
+                        value={formData.document_control.project_address}
+                        onChange={(e) => updateField('document_control', 'project_address', e.target.value)}
+                        placeholder="1312 East Broad Street, Columbus, OH 43203"
+                      />
+                      <p className="text-xs text-muted-foreground">Enter address manually — no property link required</p>
+                    </div>
+                  </div>
+                  {/* JSON Template Import/Export */}
+                  <div className="flex items-center gap-2 pt-2 border-t">
+                    <input
+                      type="file"
+                      id="json-import"
+                      className="hidden"
+                      accept=".json"
+                      onChange={(e) => {
+                        if (e.target.files?.[0]) handleImportTemplate(e.target.files[0]);
+                        e.target.value = '';
+                      }}
+                    />
+                    <Button variant="outline" size="sm" onClick={() => document.getElementById('json-import')?.click()}>
+                      <Upload className="h-4 w-4 mr-2" />
+                      Import JSON Template
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={handleExportTemplate}>
+                      <Download className="h-4 w-4 mr-2" />
+                      Export Template
+                    </Button>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="description">Description</Label>
