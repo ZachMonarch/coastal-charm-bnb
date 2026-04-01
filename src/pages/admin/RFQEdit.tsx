@@ -1349,7 +1349,11 @@ export default function RFQEdit() {
                       {uploadedDocs.map((doc) => (
                         <div key={doc.id} className="flex items-center justify-between p-3 border rounded-lg">
                           <div className="flex items-center gap-3">
-                            <FileText className="h-5 w-5 text-muted-foreground" />
+                            {doc.mime_type?.startsWith('image/') ? (
+                              <Image className="h-5 w-5 text-primary" />
+                            ) : (
+                              <FileText className="h-5 w-5 text-muted-foreground" />
+                            )}
                             <div>
                               <p className="font-medium">{doc.file_name}</p>
                               <p className="text-sm text-muted-foreground">
