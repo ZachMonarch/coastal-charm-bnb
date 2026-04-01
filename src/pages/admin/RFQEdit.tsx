@@ -558,8 +558,19 @@ export default function RFQEdit() {
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               {!isNew && (
+                <>
+                  <Button variant="outline" size="sm" onClick={handleCopyLink}>
+                    <Copy className="h-4 w-4 mr-2" />
+                    Copy Link
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={handleCopyVendorLink}>
+                    <Copy className="h-4 w-4 mr-2" />
+                    Share to Vendor
+                  </Button>
+                </>
+              )}
                 <Dialog open={inviteDialogOpen} onOpenChange={setInviteDialogOpen}>
                   <DialogTrigger asChild>
                     <Button variant="outline">
