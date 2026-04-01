@@ -366,6 +366,15 @@ export default function RFQEdit() {
           .from('rfq-documents')
           .createSignedUrl(filePath, 86400); // 24 hour expiry for display
 
+        const docTypeBadgeMap: Record<string, string> = {
+          specification: 'Specification',
+          blueprint: 'Blueprint',
+          floor_plan: 'Floor Plan',
+          mep_design: 'MEP Design',
+          property_photo: 'Property Photo',
+          other: 'Document',
+        };
+
         const { error: insertError } = await supabase.from('rfq_documents').insert({
           rfq_id: id,
           file_name: file.name,
@@ -373,8 +382,8 @@ export default function RFQEdit() {
           file_url: signedData?.signedUrl || null,
           file_size: file.size,
           mime_type: file.type,
-          document_type: 'specification',
-          category_badge: 'Document',
+          document_type: uploadDocType,
+          category_badge: docTypeBadgeMap[uploadDocType] || 'Document',
         });
 
         if (insertError) {
