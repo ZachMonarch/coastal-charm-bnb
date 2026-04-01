@@ -4,7 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useRFQListSubscription } from '@/hooks/useRFQSubscription';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Plus, FileText, Clock, CheckCircle2, Award } from 'lucide-react';
+import { Plus, FileText, Clock, CheckCircle2, Award, Pencil } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { RFQStatusBadge } from '@/components/rfq/shared/RFQStatusBadge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
