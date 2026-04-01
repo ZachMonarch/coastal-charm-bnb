@@ -61,8 +61,8 @@ export default function RFQManagement() {
           description="Create and manage Requests for Quotations for your properties and projects"
           icon={FileText}
           variant="gradient"
-          actions={[
-            { label: 'Create RFQ', href: '/admin/rfq/create' }
+         actions={[
+            { label: 'Create RFQ', href: '/admin/rfq/create-detailed' }
           ]}
         />
 
