@@ -45,13 +45,7 @@ export const usePhase9RFQ = () => {
 
   const createRFQ = async (params: CreateRFQParams) => {
     try {
-      const { data, error } = await supabase.rpc<unknown, {
-        p_property_id: number;
-        p_title: string;
-        p_description: string;
-        p_deadline: string;
-        p_lots: CreateRFQParams['lots'];
-      }>('create_rfq', {
+      const { data, error } = await (supabase.rpc as any)('create_rfq', {
         p_property_id: params.property_id,
         p_title: params.title,
         p_description: params.description,
@@ -73,10 +67,7 @@ export const usePhase9RFQ = () => {
 
   const inviteVendors = async (params: InviteVendorsParams) => {
     try {
-      const { data, error } = await supabase.rpc<unknown, {
-        p_rfq_id: string;
-        p_vendor_ids: string[];
-      }>('invite_vendors_to_rfq', {
+      const { data, error } = await (supabase.rpc as any)('invite_vendors_to_rfq', {
         p_rfq_id: params.rfq_id,
         p_vendor_ids: params.vendor_ids,
       });
@@ -96,12 +87,7 @@ export const usePhase9RFQ = () => {
 
   const submitBid = async (params: SubmitBidParams) => {
     try {
-      const { data, error } = await supabase.rpc<unknown, {
-        p_rfq_id: string;
-        p_vendor_id: string;
-        p_bid_lines: SubmitBidParams['bid_lines'];
-        p_notes: string | null;
-      }>('submit_bid', {
+      const { data, error } = await (supabase.rpc as any)('submit_bid', {
         p_rfq_id: params.rfq_id,
         p_vendor_id: user?.id || '',
         p_bid_lines: params.bid_lines,
@@ -147,13 +133,7 @@ export const usePhase9RFQ = () => {
 
   const awardContract = async (params: AwardContractParams) => {
     try {
-      const { data, error } = await supabase.rpc<unknown, {
-        p_rfq_id: string;
-        p_vendor_id: string;
-        p_contract_value: number;
-        p_start_date: string;
-        p_end_date: string;
-      }>('award_contract', {
+      const { data, error } = await (supabase.rpc as any)('award_contract', {
         p_rfq_id: params.rfq_id,
         p_vendor_id: params.vendor_id,
         p_contract_value: params.contract_value,
