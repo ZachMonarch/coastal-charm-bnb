@@ -15,7 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from '@/components/ui/dialog';
 import { toast } from 'sonner';
-import { ArrowLeft, Save, Upload, FileText, Users, Plus, Trash2, Send, Calendar, Building2, Loader2 } from 'lucide-react';
+import { ArrowLeft, Save, Upload, FileText, Users, Plus, Trash2, Send, Calendar, Building2, Loader2, Copy, Download, Image } from 'lucide-react';
 import OptimizedProtectedRoute from '@/components/OptimizedProtectedRoute';
 import EnhancedPageBackground from '@/components/shared/EnhancedPageBackground';
 import logger from '@/utils/logger';
