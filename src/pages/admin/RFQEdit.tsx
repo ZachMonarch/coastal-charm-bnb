@@ -569,58 +569,57 @@ export default function RFQEdit() {
                     <Copy className="h-4 w-4 mr-2" />
                     Share to Vendor
                   </Button>
-                </>
-              )}
-                <Dialog open={inviteDialogOpen} onOpenChange={setInviteDialogOpen}>
-                  <DialogTrigger asChild>
-                    <Button variant="outline">
-                      <Users className="h-4 w-4 mr-2" />
-                      Invite Vendors
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="max-w-2xl">
-                    <DialogHeader>
-                      <DialogTitle>Invite Vendors to RFQ</DialogTitle>
-                      <DialogDescription>
-                        Select verified vendors to invite to submit bids for this RFQ.
-                      </DialogDescription>
-                    </DialogHeader>
-                    <div className="space-y-4">
-                      <div className="max-h-96 overflow-y-auto">
-                        {vendors?.map((vendor: any) => (
-                          <div key={vendor.user_id} className="flex items-center justify-between p-3 border-b">
-                            <div>
-                              <p className="font-medium">{vendor.company_name}</p>
-                              <p className="text-sm text-muted-foreground">{Array.isArray(vendor.specialties) ? vendor.specialties.join(', ') : 'General'}</p>
-                            </div>
-                            <Checkbox
-                              checked={selectedVendors.includes(vendor.user_id)}
-                              onCheckedChange={(checked) => {
-                                setSelectedVendors(prev =>
-                                  checked === true
-                                    ? [...prev, vendor.user_id]
-                                    : prev.filter((vid: string) => vid !== vendor.user_id)
-                                );
-                              }}
-                            />
-                          </div>
-                        ))}
-                      </div>
-                      <Button
-                        className="w-full"
-                        disabled={selectedVendors.length === 0 || inviteVendorsMutation.isPending}
-                        onClick={() => inviteVendorsMutation.mutate(selectedVendors)}
-                      >
-                        {inviteVendorsMutation.isPending ? (
-                          <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                        ) : (
-                          <Send className="h-4 w-4 mr-2" />
-                        )}
-                        Send Invitations ({selectedVendors.length})
+                  <Dialog open={inviteDialogOpen} onOpenChange={setInviteDialogOpen}>
+                    <DialogTrigger asChild>
+                      <Button variant="outline">
+                        <Users className="h-4 w-4 mr-2" />
+                        Invite Vendors
                       </Button>
-                    </div>
-                  </DialogContent>
-                </Dialog>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-2xl">
+                      <DialogHeader>
+                        <DialogTitle>Invite Vendors to RFQ</DialogTitle>
+                        <DialogDescription>
+                          Select verified vendors to invite to submit bids for this RFQ.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <div className="max-h-96 overflow-y-auto">
+                          {vendors?.map((vendor: any) => (
+                            <div key={vendor.user_id} className="flex items-center justify-between p-3 border-b">
+                              <div>
+                                <p className="font-medium">{vendor.company_name}</p>
+                                <p className="text-sm text-muted-foreground">{Array.isArray(vendor.specialties) ? vendor.specialties.join(', ') : 'General'}</p>
+                              </div>
+                              <Checkbox
+                                checked={selectedVendors.includes(vendor.user_id)}
+                                onCheckedChange={(checked) => {
+                                  setSelectedVendors(prev =>
+                                    checked === true
+                                      ? [...prev, vendor.user_id]
+                                      : prev.filter((vid: string) => vid !== vendor.user_id)
+                                  );
+                                }}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                        <Button
+                          className="w-full"
+                          disabled={selectedVendors.length === 0 || inviteVendorsMutation.isPending}
+                          onClick={() => inviteVendorsMutation.mutate(selectedVendors)}
+                        >
+                          {inviteVendorsMutation.isPending ? (
+                            <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                          ) : (
+                            <Send className="h-4 w-4 mr-2" />
+                          )}
+                          Send Invitations ({selectedVendors.length})
+                        </Button>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </>
               )}
               <Button onClick={() => saveMutation.mutate(formData)} disabled={saveMutation.isPending}>
                 {saveMutation.isPending ? (
