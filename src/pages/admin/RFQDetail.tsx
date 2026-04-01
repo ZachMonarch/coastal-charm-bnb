@@ -4,7 +4,8 @@ import { supabase } from '@/integrations/supabase/client';
 import { useRFQSubscription } from '@/hooks/useRFQSubscription';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowLeft, Users, FileText } from 'lucide-react';
+import { ArrowLeft, Users, FileText, Pencil, Copy, Share2 } from 'lucide-react';
+import { toast } from 'sonner';
 import { RFQStatusBadge } from '@/components/rfq/shared/RFQStatusBadge';
 import { BidAmountDisplay } from '@/components/rfq/shared/BidAmountDisplay';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -116,7 +117,29 @@ export default function RFQDetail() {
             {rfq.property?.title} - {rfq.property?.address}
           </p>
         </div>
-        <RFQStatusBadge status={rfq.status as any} />
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              const url = `${window.location.origin}/vendor/rfq/${id}/details`;
+              navigator.clipboard.writeText(url);
+              toast.success('Shareable vendor link copied to clipboard');
+            }}
+          >
+            <Share2 className="h-4 w-4 mr-2" />
+            Share Link
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => navigate(`/admin/rfq/${id}/edit`)}
+          >
+            <Pencil className="h-4 w-4 mr-2" />
+            Edit
+          </Button>
+          <RFQStatusBadge status={rfq.status as any} />
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

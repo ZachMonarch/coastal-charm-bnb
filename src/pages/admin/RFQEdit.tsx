@@ -15,7 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from '@/components/ui/dialog';
 import { toast } from 'sonner';
-import { ArrowLeft, Save, Upload, FileText, Users, Plus, Trash2, Send, Calendar, Building2, Loader2 } from 'lucide-react';
+import { ArrowLeft, Save, Upload, FileText, Users, Plus, Trash2, Send, Calendar, Building2, Loader2, Copy, Download, Image } from 'lucide-react';
 import OptimizedProtectedRoute from '@/components/OptimizedProtectedRoute';
 import EnhancedPageBackground from '@/components/shared/EnhancedPageBackground';
 import logger from '@/utils/logger';
@@ -185,6 +185,7 @@ export default function RFQEdit() {
   const [uploadedDocs, setUploadedDocs] = useState<any[]>([]);
   const [inviteDialogOpen, setInviteDialogOpen] = useState(false);
   const [selectedVendors, setSelectedVendors] = useState<string[]>([]);
+  const [uploadDocType, setUploadDocType] = useState('specification');
 
   // Fetch existing RFQ if editing
   const { data: rfqData, isLoading: rfqLoading } = useQuery({
@@ -365,6 +366,15 @@ export default function RFQEdit() {
           .from('rfq-documents')
           .createSignedUrl(filePath, 86400); // 24 hour expiry for display
 
+        const docTypeBadgeMap: Record<string, string> = {
+          specification: 'Specification',
+          blueprint: 'Blueprint',
+          floor_plan: 'Floor Plan',
+          mep_design: 'MEP Design',
+          property_photo: 'Property Photo',
+          other: 'Document',
+        };
+
         const { error: insertError } = await supabase.from('rfq_documents').insert({
           rfq_id: id,
           file_name: file.name,
@@ -372,8 +382,8 @@ export default function RFQEdit() {
           file_url: signedData?.signedUrl || null,
           file_size: file.size,
           mime_type: file.type,
-          document_type: 'specification',
-          category_badge: 'Document',
+          document_type: uploadDocType,
+          category_badge: docTypeBadgeMap[uploadDocType] || 'Document',
         });
 
         if (insertError) {
@@ -460,6 +470,68 @@ export default function RFQEdit() {
     }));
   };
 
+  // JSON Template Export
+  const handleExportTemplate = () => {
+    const { title, description, category, deadline, expected_duration, status, property_id, ...templateFields } = formData;
+    const templateData = {
+      title, description, category, expected_duration,
+      ...templateFields,
+    };
+    const blob = new Blob([JSON.stringify(templateData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `rfq-template-${formData.document_control.rfq_reference || 'new'}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success('Template exported successfully');
+  };
+
+  // JSON Template Import
+  const handleImportTemplate = (file: File) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const imported = JSON.parse(e.target?.result as string);
+        setFormData(prev => ({
+          ...prev,
+          title: imported.title || prev.title,
+          description: imported.description || prev.description,
+          category: imported.category || prev.category,
+          expected_duration: imported.expected_duration || prev.expected_duration,
+          document_control: { ...prev.document_control, ...(imported.document_control || {}) },
+          executive_summary: { ...prev.executive_summary, ...(imported.executive_summary || {}) },
+          building_details: { ...prev.building_details, ...(imported.building_details || {}) },
+          system_strategy: { ...prev.system_strategy, ...(imported.system_strategy || {}) },
+          unit_configuration: imported.unit_configuration || prev.unit_configuration,
+          technical_specs: { ...prev.technical_specs, ...(imported.technical_specs || {}) },
+          commercial_framework: { ...prev.commercial_framework, ...(imported.commercial_framework || {}) },
+          codes_compliance: imported.codes_compliance || prev.codes_compliance,
+          staffing_requirements: { ...prev.staffing_requirements, ...(imported.staffing_requirements || {}) },
+          budget_guidance: { ...prev.budget_guidance, ...(imported.budget_guidance || {}) },
+        }));
+        toast.success('Template imported — review fields and save');
+      } catch {
+        toast.error('Invalid JSON template file');
+      }
+    };
+    reader.readAsText(file);
+  };
+
+  const handleCopyLink = () => {
+    if (!id || isNew) return;
+    const url = `${window.location.origin}/admin/rfq/${id}`;
+    navigator.clipboard.writeText(url);
+    toast.success('RFQ link copied to clipboard');
+  };
+
+  const handleCopyVendorLink = () => {
+    if (!id || isNew) return;
+    const url = `${window.location.origin}/vendor/rfq/${id}/details`;
+    navigator.clipboard.writeText(url);
+    toast.success('Shareable vendor link copied to clipboard');
+  };
+
   if (rfqLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -486,58 +558,68 @@ export default function RFQEdit() {
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               {!isNew && (
-                <Dialog open={inviteDialogOpen} onOpenChange={setInviteDialogOpen}>
-                  <DialogTrigger asChild>
-                    <Button variant="outline">
-                      <Users className="h-4 w-4 mr-2" />
-                      Invite Vendors
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="max-w-2xl">
-                    <DialogHeader>
-                      <DialogTitle>Invite Vendors to RFQ</DialogTitle>
-                      <DialogDescription>
-                        Select verified vendors to invite to submit bids for this RFQ.
-                      </DialogDescription>
-                    </DialogHeader>
-                    <div className="space-y-4">
-                      <div className="max-h-96 overflow-y-auto">
-                        {vendors?.map((vendor: any) => (
-                          <div key={vendor.user_id} className="flex items-center justify-between p-3 border-b">
-                            <div>
-                              <p className="font-medium">{vendor.company_name}</p>
-                              <p className="text-sm text-muted-foreground">{Array.isArray(vendor.specialties) ? vendor.specialties.join(', ') : 'General'}</p>
-                            </div>
-                            <Checkbox
-                              checked={selectedVendors.includes(vendor.user_id)}
-                              onCheckedChange={(checked) => {
-                                setSelectedVendors(prev =>
-                                  checked === true
-                                    ? [...prev, vendor.user_id]
-                                    : prev.filter((vid: string) => vid !== vendor.user_id)
-                                );
-                              }}
-                            />
-                          </div>
-                        ))}
-                      </div>
-                      <Button
-                        className="w-full"
-                        disabled={selectedVendors.length === 0 || inviteVendorsMutation.isPending}
-                        onClick={() => inviteVendorsMutation.mutate(selectedVendors)}
-                      >
-                        {inviteVendorsMutation.isPending ? (
-                          <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                        ) : (
-                          <Send className="h-4 w-4 mr-2" />
-                        )}
-                        Send Invitations ({selectedVendors.length})
+                <>
+                  <Button variant="outline" size="sm" onClick={handleCopyLink}>
+                    <Copy className="h-4 w-4 mr-2" />
+                    Copy Link
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={handleCopyVendorLink}>
+                    <Copy className="h-4 w-4 mr-2" />
+                    Share to Vendor
+                  </Button>
+                  <Dialog open={inviteDialogOpen} onOpenChange={setInviteDialogOpen}>
+                    <DialogTrigger asChild>
+                      <Button variant="outline">
+                        <Users className="h-4 w-4 mr-2" />
+                        Invite Vendors
                       </Button>
-                    </div>
-                  </DialogContent>
-                </Dialog>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-2xl">
+                      <DialogHeader>
+                        <DialogTitle>Invite Vendors to RFQ</DialogTitle>
+                        <DialogDescription>
+                          Select verified vendors to invite to submit bids for this RFQ.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <div className="max-h-96 overflow-y-auto">
+                          {vendors?.map((vendor: any) => (
+                            <div key={vendor.user_id} className="flex items-center justify-between p-3 border-b">
+                              <div>
+                                <p className="font-medium">{vendor.company_name}</p>
+                                <p className="text-sm text-muted-foreground">{Array.isArray(vendor.specialties) ? vendor.specialties.join(', ') : 'General'}</p>
+                              </div>
+                              <Checkbox
+                                checked={selectedVendors.includes(vendor.user_id)}
+                                onCheckedChange={(checked) => {
+                                  setSelectedVendors(prev =>
+                                    checked === true
+                                      ? [...prev, vendor.user_id]
+                                      : prev.filter((vid: string) => vid !== vendor.user_id)
+                                  );
+                                }}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                        <Button
+                          className="w-full"
+                          disabled={selectedVendors.length === 0 || inviteVendorsMutation.isPending}
+                          onClick={() => inviteVendorsMutation.mutate(selectedVendors)}
+                        >
+                          {inviteVendorsMutation.isPending ? (
+                            <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                          ) : (
+                            <Send className="h-4 w-4 mr-2" />
+                          )}
+                          Send Invitations ({selectedVendors.length})
+                        </Button>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </>
               )}
               <Button onClick={() => saveMutation.mutate(formData)} disabled={saveMutation.isPending}>
                 {saveMutation.isPending ? (
@@ -654,6 +736,37 @@ export default function RFQEdit() {
                         </SelectContent>
                       </Select>
                     </div>
+                    <div className="space-y-2 md:col-span-2">
+                      <Label htmlFor="project_address">Project Address</Label>
+                      <Input
+                        id="project_address"
+                        value={formData.document_control.project_address}
+                        onChange={(e) => updateField('document_control', 'project_address', e.target.value)}
+                        placeholder="1312 East Broad Street, Columbus, OH 43203"
+                      />
+                      <p className="text-xs text-muted-foreground">Enter address manually — no property link required</p>
+                    </div>
+                  </div>
+                  {/* JSON Template Import/Export */}
+                  <div className="flex items-center gap-2 pt-2 border-t">
+                    <input
+                      type="file"
+                      id="json-import"
+                      className="hidden"
+                      accept=".json"
+                      onChange={(e) => {
+                        if (e.target.files?.[0]) handleImportTemplate(e.target.files[0]);
+                        e.target.value = '';
+                      }}
+                    />
+                    <Button variant="outline" size="sm" onClick={() => document.getElementById('json-import')?.click()}>
+                      <Upload className="h-4 w-4 mr-2" />
+                      Import JSON Template
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={handleExportTemplate}>
+                      <Download className="h-4 w-4 mr-2" />
+                      Export Template
+                    </Button>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="description">Description</Label>
@@ -1195,20 +1308,33 @@ export default function RFQEdit() {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center justify-between">
-                    <span>Project Documents</span>
+                    <span>Project Documents, Floor Plans & Photos</span>
                     {!isNew && (
-                      <div>
+                      <div className="flex items-center gap-2">
+                        <Select value={uploadDocType} onValueChange={setUploadDocType}>
+                          <SelectTrigger className="w-40">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="specification">Specification</SelectItem>
+                            <SelectItem value="blueprint">Blueprint</SelectItem>
+                            <SelectItem value="floor_plan">Floor Plan</SelectItem>
+                            <SelectItem value="mep_design">MEP Design</SelectItem>
+                            <SelectItem value="property_photo">Property Photo</SelectItem>
+                            <SelectItem value="other">Other</SelectItem>
+                          </SelectContent>
+                        </Select>
                         <input
                           type="file"
                           id="doc-upload"
                           className="hidden"
                           multiple
-                          accept=".pdf,.doc,.docx,.dwg,.xlsx"
+                          accept=".pdf,.doc,.docx,.dwg,.xlsx,.jpg,.jpeg,.png,.gif,.webp,.svg,.tiff"
                           onChange={(e) => handleDocumentUpload(e.target.files)}
                         />
                         <Button size="sm" onClick={() => document.getElementById('doc-upload')?.click()}>
                           <Upload className="h-4 w-4 mr-2" />
-                          Upload Documents
+                          Upload
                         </Button>
                       </div>
                     )}
@@ -1223,7 +1349,11 @@ export default function RFQEdit() {
                       {uploadedDocs.map((doc) => (
                         <div key={doc.id} className="flex items-center justify-between p-3 border rounded-lg">
                           <div className="flex items-center gap-3">
-                            <FileText className="h-5 w-5 text-muted-foreground" />
+                            {doc.mime_type?.startsWith('image/') ? (
+                              <Image className="h-5 w-5 text-primary" />
+                            ) : (
+                              <FileText className="h-5 w-5 text-muted-foreground" />
+                            )}
                             <div>
                               <p className="font-medium">{doc.file_name}</p>
                               <p className="text-sm text-muted-foreground">

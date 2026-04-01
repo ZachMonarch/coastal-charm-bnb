@@ -4,7 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useRFQListSubscription } from '@/hooks/useRFQSubscription';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Plus, FileText, Clock, CheckCircle2, Award } from 'lucide-react';
+import { Plus, FileText, Clock, CheckCircle2, Award, Pencil } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { RFQStatusBadge } from '@/components/rfq/shared/RFQStatusBadge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -61,8 +61,8 @@ export default function RFQManagement() {
           description="Create and manage Requests for Quotations for your properties and projects"
           icon={FileText}
           variant="gradient"
-          actions={[
-            { label: 'Create RFQ', href: '/admin/rfq/create' }
+         actions={[
+            { label: 'Create RFQ', href: '/admin/rfq/create-detailed' }
           ]}
         />
 
@@ -149,16 +149,28 @@ export default function RFQManagement() {
                       {new Date(rfq.deadline).toLocaleDateString()}
                     </TableCell>
                     <TableCell>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          navigate(`/admin/rfq/${rfq.id}`);
-                        }}
-                      >
-                        View
-                      </Button>
+                      <div className="flex items-center gap-1">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/admin/rfq/${rfq.id}`);
+                          }}
+                        >
+                          View
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/admin/rfq/${rfq.id}/edit`);
+                          }}
+                        >
+                          <Pencil className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}
