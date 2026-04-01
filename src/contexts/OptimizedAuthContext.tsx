@@ -149,8 +149,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
 
       // Cache the result
-      profileCache.set(userId, { data, timestamp: Date.now() });
-      return data;
+      const typedData = data as unknown as UserProfileWithRoles;
+      profileCache.set(userId, { data: typedData, timestamp: Date.now() });
+      return typedData;
     } catch (err) {
       logger.error('Exception fetching user profile:', err);
       return null;

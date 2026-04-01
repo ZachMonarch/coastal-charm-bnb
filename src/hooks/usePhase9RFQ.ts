@@ -45,7 +45,7 @@ export const usePhase9RFQ = () => {
 
   const createRFQ = async (params: CreateRFQParams) => {
     try {
-      const { data, error } = await supabase.rpc<unknown, {
+      const { data, error } = await (supabase.rpc as any)('create_rfq', {
         p_property_id: number;
         p_title: string;
         p_description: string;
