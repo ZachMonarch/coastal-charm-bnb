@@ -98,7 +98,7 @@ const DesignSystemShowcase = lazy(() => import("./pages/DesignSystemShowcase"));
 
 // Phase 10 - RFQ Management Pages
 const RFQManagement = lazy(() => import("./pages/admin/UnifiedRFQManagement"));
-const RFQCreate = lazy(() => import("./pages/admin/RFQCreate"));
+// RFQCreate removed — /admin/rfq/create now redirects to create-detailed
 const RFQDetail = lazy(() => import("./pages/admin/ComprehensiveRFQDetail"));
 const WorkOrders = lazy(() => import("./pages/admin/WorkOrders"));
 const RFQEdit = lazy(() => import("./pages/admin/RFQEdit"));
