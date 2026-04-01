@@ -470,6 +470,68 @@ export default function RFQEdit() {
     }));
   };
 
+  // JSON Template Export
+  const handleExportTemplate = () => {
+    const { title, description, category, deadline, expected_duration, status, property_id, ...templateFields } = formData;
+    const templateData = {
+      title, description, category, expected_duration,
+      ...templateFields,
+    };
+    const blob = new Blob([JSON.stringify(templateData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `rfq-template-${formData.document_control.rfq_reference || 'new'}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success('Template exported successfully');
+  };
+
+  // JSON Template Import
+  const handleImportTemplate = (file: File) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const imported = JSON.parse(e.target?.result as string);
+        setFormData(prev => ({
+          ...prev,
+          title: imported.title || prev.title,
+          description: imported.description || prev.description,
+          category: imported.category || prev.category,
+          expected_duration: imported.expected_duration || prev.expected_duration,
+          document_control: { ...prev.document_control, ...(imported.document_control || {}) },
+          executive_summary: { ...prev.executive_summary, ...(imported.executive_summary || {}) },
+          building_details: { ...prev.building_details, ...(imported.building_details || {}) },
+          system_strategy: { ...prev.system_strategy, ...(imported.system_strategy || {}) },
+          unit_configuration: imported.unit_configuration || prev.unit_configuration,
+          technical_specs: { ...prev.technical_specs, ...(imported.technical_specs || {}) },
+          commercial_framework: { ...prev.commercial_framework, ...(imported.commercial_framework || {}) },
+          codes_compliance: imported.codes_compliance || prev.codes_compliance,
+          staffing_requirements: { ...prev.staffing_requirements, ...(imported.staffing_requirements || {}) },
+          budget_guidance: { ...prev.budget_guidance, ...(imported.budget_guidance || {}) },
+        }));
+        toast.success('Template imported — review fields and save');
+      } catch {
+        toast.error('Invalid JSON template file');
+      }
+    };
+    reader.readAsText(file);
+  };
+
+  const handleCopyLink = () => {
+    if (!id || isNew) return;
+    const url = `${window.location.origin}/admin/rfq/${id}`;
+    navigator.clipboard.writeText(url);
+    toast.success('RFQ link copied to clipboard');
+  };
+
+  const handleCopyVendorLink = () => {
+    if (!id || isNew) return;
+    const url = `${window.location.origin}/vendor/rfq/${id}/details`;
+    navigator.clipboard.writeText(url);
+    toast.success('Shareable vendor link copied to clipboard');
+  };
+
   if (rfqLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
