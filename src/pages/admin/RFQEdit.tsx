@@ -178,7 +178,7 @@ export default function RFQEdit() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const isNew = id === 'new';
+  const isNew = !id || id === 'new';
   
   const [formData, setFormData] = useState<RFQFormData>(defaultFormData);
   const [documents, setDocuments] = useState<File[]>([]);
@@ -206,7 +206,7 @@ export default function RFQEdit() {
       if (error) throw error;
       return data;
     },
-    enabled: !isNew,
+    enabled: !!id && id !== 'new',
   });
 
   // Fetch vendors for invitation

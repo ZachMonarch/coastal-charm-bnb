@@ -136,7 +136,7 @@ export default function UnifiedRFQManagement() {
           icon={FileText}
           variant="gradient"
           actions={[
-            { label: 'Create RFQ', href: '/admin/rfq/create' }
+            { label: 'Create RFQ', href: '/admin/rfq/create-detailed' }
           ]}
         />
 
@@ -251,16 +251,28 @@ export default function UnifiedRFQManagement() {
                           <TableCell>{rfq.rfq_invites?.length || 0}</TableCell>
                           <TableCell>{formatDate(rfq.deadline)}</TableCell>
                           <TableCell>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                navigate(`/admin/rfq/${rfq.id}`);
-                              }}
-                            >
-                              View
-                            </Button>
+                            <div className="flex gap-1">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  navigate(`/admin/rfq/${rfq.id}`);
+                                }}
+                              >
+                                View
+                              </Button>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  navigate(`/admin/rfq/${rfq.id}/edit`);
+                                }}
+                              >
+                                Edit
+                              </Button>
+                            </div>
                           </TableCell>
                         </TableRow>
                       ))}

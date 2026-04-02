@@ -17,8 +17,9 @@ import EnhancedPageBackground from '@/components/shared/EnhancedPageBackground';
 import { 
   ArrowLeft, FileText, Building, Calendar, Users, DollarSign, 
   Shield, Wrench, ClipboardList, BarChart3, Download, Clock,
-  Mail, Globe, MapPin, CheckCircle2, AlertTriangle, HardHat
+  Mail, Globe, MapPin, CheckCircle2, AlertTriangle, HardHat, Copy, Share2
 } from 'lucide-react';
+import { toast } from 'sonner';
 import { format } from 'date-fns';
 
 export default function ComprehensiveRFQDetail() {
@@ -181,8 +182,20 @@ export default function ComprehensiveRFQDetail() {
               </p>
             )}
           </div>
-          <div className="flex gap-2">
-            <Button variant="outline" onClick={() => navigate(`/admin/rfq/${id}/edit`)}>
+          <div className="flex gap-2 flex-wrap">
+            <Button variant="outline" size="sm" onClick={() => {
+              navigator.clipboard.writeText(`${window.location.origin}/admin/rfq/${id}`);
+              toast.success('Admin link copied to clipboard');
+            }}>
+              <Copy className="h-4 w-4 mr-1" /> Copy Link
+            </Button>
+            <Button variant="outline" size="sm" onClick={() => {
+              navigator.clipboard.writeText(`${window.location.origin}/vendor/rfq/${id}/details`);
+              toast.success('Vendor share link copied to clipboard');
+            }}>
+              <Share2 className="h-4 w-4 mr-1" /> Share to Vendor
+            </Button>
+            <Button variant="outline" size="sm" onClick={() => navigate(`/admin/rfq/${id}/edit`)}>
               Edit RFQ
             </Button>
           </div>
