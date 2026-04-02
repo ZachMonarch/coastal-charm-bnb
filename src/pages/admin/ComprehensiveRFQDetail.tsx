@@ -17,8 +17,9 @@ import EnhancedPageBackground from '@/components/shared/EnhancedPageBackground';
 import { 
   ArrowLeft, FileText, Building, Calendar, Users, DollarSign, 
   Shield, Wrench, ClipboardList, BarChart3, Download, Clock,
-  Mail, Globe, MapPin, CheckCircle2, AlertTriangle, HardHat
+  Mail, Globe, MapPin, CheckCircle2, AlertTriangle, HardHat, Copy, Share2
 } from 'lucide-react';
+import { toast } from 'sonner';
 import { format } from 'date-fns';
 
 export default function ComprehensiveRFQDetail() {
