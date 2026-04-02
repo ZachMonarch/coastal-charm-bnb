@@ -136,7 +136,7 @@ export default function UnifiedRFQManagement() {
           icon={FileText}
           variant="gradient"
           actions={[
-            { label: 'Create RFQ', href: '/admin/rfq/create' }
+            { label: 'Create RFQ', href: '/admin/rfq/create-detailed' }
           ]}
         />
 
