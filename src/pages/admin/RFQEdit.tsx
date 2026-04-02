@@ -206,7 +206,7 @@ export default function RFQEdit() {
       if (error) throw error;
       return data;
     },
-    enabled: !isNew,
+    enabled: !!id && id !== 'new',
   });
 
   // Fetch vendors for invitation

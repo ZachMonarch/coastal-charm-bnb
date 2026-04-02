@@ -404,9 +404,9 @@ const App = () => (
                     <VendorRFQDetail />
                   </OptimizedProtectedRoute>
                 } />
-                {/* Enhanced RFQ Detail and Bid Submission Routes */}
+                {/* Enhanced RFQ Detail - accessible to any authenticated user (shared links) */}
                 <Route path="/vendor/rfq/:id/details" element={
-                  <OptimizedProtectedRoute requiredRole="vendor">
+                  <OptimizedProtectedRoute>
                     <RFQProjectDetail />
                   </OptimizedProtectedRoute>
                 } />
