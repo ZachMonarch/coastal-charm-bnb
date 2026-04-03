@@ -246,7 +246,7 @@ export default function RFQEdit() {
       setFormData({
         title: rfqData.title || '',
         description: rfqData.description || '',
-        category: rfqData.category || 'hvac',
+        category: rfqData.category || '',
         deadline: rfqData.deadline?.split('T')[0] || '',
         expected_duration: rfqData.expected_duration || '8-12 months',
         status: rfqData.status || 'draft',
