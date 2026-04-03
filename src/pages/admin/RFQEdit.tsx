@@ -796,7 +796,7 @@ export default function RFQEdit() {
                         id="title"
                         value={formData.title}
                         onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                        placeholder="HVAC Technical, BOQ, Scope of Work..."
+                        placeholder="Project Title, Scope of Work..."
                       />
                     </div>
                     <div className="space-y-2">
