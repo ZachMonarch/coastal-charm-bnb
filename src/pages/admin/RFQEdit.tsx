@@ -1206,10 +1206,10 @@ export default function RFQEdit() {
                           </TableCell>
                           <TableCell>
                             <Input
-                              value={unit.hvac_capacity}
+                              value={unit.capacity}
                               onChange={(e) => {
                                 const updated = [...formData.unit_configuration];
-                                updated[index].hvac_capacity = e.target.value;
+                                updated[index].capacity = e.target.value;
                                 setFormData(prev => ({ ...prev, unit_configuration: updated }));
                               }}
                               placeholder="1.5 tons"
