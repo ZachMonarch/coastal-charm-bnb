@@ -524,6 +524,133 @@ export default function RFQEdit() {
     reader.readAsText(file);
   };
 
+  // CSV/XLSX Template Import
+  const handleImportCSV = (file: File) => {
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      complete: (results) => {
+        try {
+          const rows = results.data as Array<Record<string, string>>;
+          // Support two formats:
+          // 1) Key-value: columns "field_name" and "value"
+          // 2) Flat columns matching form fields directly
+          const hasKeyValue = rows.length > 0 && 'field_name' in rows[0] && 'value' in rows[0];
+
+          if (hasKeyValue) {
+            const mapped: Record<string, string> = {};
+            rows.forEach(row => {
+              if (row.field_name && row.value) mapped[row.field_name.trim()] = row.value.trim();
+            });
+            setFormData(prev => ({
+              ...prev,
+              title: mapped.title || prev.title,
+              description: mapped.description || prev.description,
+              category: mapped.category || prev.category,
+              expected_duration: mapped.expected_duration || prev.expected_duration,
+              document_control: {
+                ...prev.document_control,
+                rfq_reference: mapped.rfq_reference || prev.document_control.rfq_reference,
+                document_title: mapped.document_title || prev.document_control.document_title,
+                project_name: mapped.project_name || prev.document_control.project_name,
+                project_address: mapped.project_address || prev.document_control.project_address,
+              },
+              executive_summary: {
+                ...prev.executive_summary,
+                building_overview: mapped.building_overview || prev.executive_summary.building_overview,
+                project_scope: mapped.project_scope || prev.executive_summary.project_scope,
+              },
+              building_details: {
+                ...prev.building_details,
+                building_type: mapped.building_type || prev.building_details.building_type,
+                floors: mapped.floors ? parseInt(mapped.floors) : prev.building_details.floors,
+                total_area: mapped.total_area || prev.building_details.total_area,
+                residential_units: mapped.residential_units ? parseInt(mapped.residential_units) : prev.building_details.residential_units,
+              },
+              codes_compliance: mapped.codes_compliance
+                ? mapped.codes_compliance.split(',').map(s => s.trim()).filter(Boolean)
+                : prev.codes_compliance,
+            }));
+          } else {
+            // Flat format: try to use as unit_configuration rows
+            const units: UnitConfig[] = rows
+              .filter(r => r.unit_type)
+              .map(r => ({
+                unit_type: r.unit_type || '',
+                quantity: parseInt(r.quantity) || 0,
+                typical_size: r.typical_size || '',
+                capacity: r.capacity || '',
+              }));
+            if (units.length > 0) {
+              setFormData(prev => ({ ...prev, unit_configuration: units }));
+              toast.success(`Imported ${units.length} unit configuration rows`);
+              return;
+            }
+          }
+          toast.success('CSV template imported — review fields and save');
+        } catch {
+          toast.error('Failed to parse CSV file');
+        }
+      },
+      error: () => toast.error('Failed to read CSV file'),
+    });
+  };
+
+  // Export CSV template
+  const handleExportCSVTemplate = () => {
+    const fields = [
+      ['field_name', 'value', 'description'],
+      ['title', '', 'RFQ project title'],
+      ['description', '', 'Detailed project description'],
+      ['category', '', 'Service category (e.g. hvac, painting, plumbing, electrical)'],
+      ['expected_duration', '', 'e.g. 8-12 months'],
+      ['rfq_reference', '', 'Reference number e.g. MPM-2025-01'],
+      ['document_title', '', 'Document title'],
+      ['project_name', '', 'Project name'],
+      ['project_address', '', 'Full project address'],
+      ['building_overview', '', 'Building overview description'],
+      ['project_scope', '', 'Scope of work description'],
+      ['building_type', '', 'e.g. Residential Condominium'],
+      ['floors', '', 'Number of floors'],
+      ['total_area', '', 'Total area in SF'],
+      ['residential_units', '', 'Number of units'],
+      ['codes_compliance', '', 'Comma-separated compliance codes'],
+    ];
+    const csv = fields.map(r => r.map(c => `"${c}"`).join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'rfq-template.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success('CSV template downloaded');
+  };
+
+  // Track unsaved changes
+  useEffect(() => {
+    const currentData = JSON.stringify(formData);
+    if (lastSavedData && currentData !== lastSavedData) {
+      setHasUnsavedChanges(true);
+    }
+  }, [formData, lastSavedData]);
+
+  // Auto-save draft after 30s of inactivity
+  useEffect(() => {
+    if (!hasUnsavedChanges || isNew || formData.status !== 'draft') return;
+    const timer = setTimeout(() => {
+      saveMutation.mutate(formData);
+    }, 30000);
+    return () => clearTimeout(timer);
+  }, [formData, hasUnsavedChanges, isNew]);
+
+  // Set initial saved data snapshot
+  useEffect(() => {
+    if (rfqData) {
+      setLastSavedData(JSON.stringify(formData));
+    }
+  }, [rfqData]);
+
   const handleCopyLink = () => {
     if (!id || isNew) return;
     const url = `${window.location.origin}/admin/rfq/${id}`;
