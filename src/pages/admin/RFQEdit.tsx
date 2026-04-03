@@ -1111,7 +1111,7 @@ export default function RFQEdit() {
                     <Input
                       value={formData.system_strategy.system_type}
                       onChange={(e) => updateField('system_strategy', 'system_type', e.target.value)}
-                      placeholder="Dedicated Split HVAC Systems for each residential unit"
+                      placeholder="Dedicated systems for each unit"
                     />
                   </div>
                   <div className="space-y-2">
