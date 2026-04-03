@@ -1014,7 +1014,7 @@ export default function RFQEdit() {
                     <RichTextEditor
                       value={formData.executive_summary.project_scope}
                       onChange={(value) => updateField('executive_summary', 'project_scope', value)}
-                      placeholder="Turnkey HVAC system installation, commissioning, maintenance..."
+                      placeholder="Full-scope installation, commissioning, maintenance..."
                       minHeight="120px"
                     />
                   </div>
