@@ -465,7 +465,7 @@ export default function RFQEdit() {
   const addUnitConfig = () => {
     setFormData(prev => ({
       ...prev,
-      unit_configuration: [...prev.unit_configuration, { unit_type: '', quantity: 0, typical_size: '', hvac_capacity: '' }],
+      unit_configuration: [...prev.unit_configuration, { unit_type: '', quantity: 0, typical_size: '', capacity: '' }],
     }));
   };
 
