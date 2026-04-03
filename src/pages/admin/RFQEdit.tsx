@@ -953,7 +953,7 @@ export default function RFQEdit() {
                       <Input
                         value={formData.document_control.document_title}
                         onChange={(e) => updateField('document_control', 'document_title', e.target.value)}
-                        placeholder="HVAC Master Information Package"
+                        placeholder="Master Information Package"
                       />
                     </div>
                     <div className="space-y-2">
