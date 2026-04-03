@@ -1137,7 +1137,7 @@ export default function RFQEdit() {
                     <RichTextEditor
                       value={formData.system_strategy.design_finality}
                       onChange={(value) => updateField('system_strategy', 'design_finality', value)}
-                      placeholder="HVAC design basis, system configuration, and quantities are final and authoritative..."
+                      placeholder="Design basis, system configuration, and quantities are final..."
                       minHeight="100px"
                     />
                   </div>
