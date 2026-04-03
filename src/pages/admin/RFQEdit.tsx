@@ -322,7 +322,9 @@ export default function RFQEdit() {
       }
     },
     onSuccess: (data) => {
-      toast.success(isNew ? 'RFQ created successfully' : 'RFQ updated successfully');
+      toast.success(isNew ? 'RFQ created successfully' : 'RFQ saved');
+      setHasUnsavedChanges(false);
+      setLastSavedData(JSON.stringify(formData));
       queryClient.invalidateQueries({ queryKey: ['rfqs'] });
       if (isNew) {
         navigate(`/admin/rfq/${data.id}/edit`);
