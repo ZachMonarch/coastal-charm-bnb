@@ -1356,7 +1356,7 @@ export default function RFQEdit() {
                         ...prev,
                         codes_compliance: e.target.value.split(',').map(s => s.trim()).filter(Boolean),
                       }))}
-                      placeholder="ASHRAE 62.1/90.1, International Mechanical Code, SMACNA standards..."
+                      placeholder="Add applicable codes, e.g. OSHA, NFPA, local building codes..."
                       rows={4}
                     />
                   </div>
