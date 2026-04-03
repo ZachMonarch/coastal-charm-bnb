@@ -1164,7 +1164,7 @@ export default function RFQEdit() {
                         <TableHead>Unit Type</TableHead>
                         <TableHead>Quantity</TableHead>
                         <TableHead>Typical Size (SF)</TableHead>
-                        <TableHead>HVAC Capacity</TableHead>
+                        <TableHead>System Capacity</TableHead>
                         <TableHead className="w-16"></TableHead>
                       </TableRow>
                     </TableHeader>
