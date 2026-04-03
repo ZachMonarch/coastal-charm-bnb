@@ -187,6 +187,9 @@ export default function RFQEdit() {
   const [inviteDialogOpen, setInviteDialogOpen] = useState(false);
   const [selectedVendors, setSelectedVendors] = useState<string[]>([]);
   const [uploadDocType, setUploadDocType] = useState('specification');
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [lastSavedData, setLastSavedData] = useState<string>('');
+  const autoSaveTimerRef = useState<ReturnType<typeof setTimeout> | null>(null);
 
   // Fetch existing RFQ if editing
   const { data: rfqData, isLoading: rfqLoading } = useQuery({
