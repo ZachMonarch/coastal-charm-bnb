@@ -110,7 +110,7 @@ interface ProfileCache {
   timestamp: number;
 }
 
-const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+const CACHE_TTL = 2 * 60 * 1000; // 2 minutes
 const profileCache = new Map<string, ProfileCache>();
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
