@@ -892,13 +892,31 @@ export default function RFQEdit() {
                         e.target.value = '';
                       }}
                     />
+                    <input
+                      type="file"
+                      id="csv-import"
+                      className="hidden"
+                      accept=".csv,.xlsx,.xls"
+                      onChange={(e) => {
+                        if (e.target.files?.[0]) handleImportCSV(e.target.files[0]);
+                        e.target.value = '';
+                      }}
+                    />
                     <Button variant="outline" size="sm" onClick={() => document.getElementById('json-import')?.click()}>
                       <Upload className="h-4 w-4 mr-2" />
-                      Import JSON Template
+                      Import JSON
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={() => document.getElementById('csv-import')?.click()}>
+                      <Upload className="h-4 w-4 mr-2" />
+                      Import CSV
                     </Button>
                     <Button variant="outline" size="sm" onClick={handleExportTemplate}>
                       <Download className="h-4 w-4 mr-2" />
-                      Export Template
+                      Export JSON
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={handleExportCSVTemplate}>
+                      <Download className="h-4 w-4 mr-2" />
+                      Export CSV Template
                     </Button>
                   </div>
                   <div className="space-y-2">
