@@ -15,7 +15,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from '@/components/ui/dialog';
 import { toast } from 'sonner';
-import { ArrowLeft, Save, Upload, FileText, Users, Plus, Trash2, Send, Calendar, Building2, Loader2, Copy, Download, Image } from 'lucide-react';
+import { ArrowLeft, Save, Upload, FileText, Users, Plus, Trash2, Send, Calendar, Building2, Loader2, Copy, Download, Image, AlertCircle } from 'lucide-react';
+import Papa from 'papaparse';
 import OptimizedProtectedRoute from '@/components/OptimizedProtectedRoute';
 import EnhancedPageBackground from '@/components/shared/EnhancedPageBackground';
 import logger from '@/utils/logger';
@@ -25,7 +26,7 @@ interface UnitConfig {
   unit_type: string;
   quantity: number;
   typical_size: string;
-  hvac_capacity: string;
+  capacity: string;
 }
 
 interface PaymentMilestone {
@@ -105,7 +106,7 @@ interface RFQFormData {
 const defaultFormData: RFQFormData = {
   title: '',
   description: '',
-  category: 'hvac',
+  category: '',
   deadline: '',
   expected_duration: '8-12 months',
   status: 'draft',
@@ -157,10 +158,10 @@ const defaultFormData: RFQFormData = {
     maintenance_terms: '',
     emergency_terms: '',
   },
-  codes_compliance: ['ASHRAE 62.1/90.1', 'International Mechanical Code', 'SMACNA standards', 'NFPA standards'],
+  codes_compliance: [],
   staffing_requirements: {
-    team_size: '8-15 personnel',
-    certifications: ['EPA Section 608', 'OSHA 30', 'NEBB', 'NATE'],
+    team_size: '',
+    certifications: [],
     suggested_roles: [],
   },
   budget_guidance: {
@@ -186,6 +187,9 @@ export default function RFQEdit() {
   const [inviteDialogOpen, setInviteDialogOpen] = useState(false);
   const [selectedVendors, setSelectedVendors] = useState<string[]>([]);
   const [uploadDocType, setUploadDocType] = useState('specification');
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [lastSavedData, setLastSavedData] = useState<string>('');
+  const autoSaveTimerRef = useState<ReturnType<typeof setTimeout> | null>(null);
 
   // Fetch existing RFQ if editing
   const { data: rfqData, isLoading: rfqLoading } = useQuery({
@@ -242,7 +246,7 @@ export default function RFQEdit() {
       setFormData({
         title: rfqData.title || '',
         description: rfqData.description || '',
-        category: rfqData.category || 'hvac',
+        category: rfqData.category || '',
         deadline: rfqData.deadline?.split('T')[0] || '',
         expected_duration: rfqData.expected_duration || '8-12 months',
         status: rfqData.status || 'draft',
@@ -318,7 +322,9 @@ export default function RFQEdit() {
       }
     },
     onSuccess: (data) => {
-      toast.success(isNew ? 'RFQ created successfully' : 'RFQ updated successfully');
+      toast.success(isNew ? 'RFQ created successfully' : 'RFQ saved');
+      setHasUnsavedChanges(false);
+      setLastSavedData(JSON.stringify(formData));
       queryClient.invalidateQueries({ queryKey: ['rfqs'] });
       if (isNew) {
         navigate(`/admin/rfq/${data.id}/edit`);
@@ -459,7 +465,7 @@ export default function RFQEdit() {
   const addUnitConfig = () => {
     setFormData(prev => ({
       ...prev,
-      unit_configuration: [...prev.unit_configuration, { unit_type: '', quantity: 0, typical_size: '', hvac_capacity: '' }],
+      unit_configuration: [...prev.unit_configuration, { unit_type: '', quantity: 0, typical_size: '', capacity: '' }],
     }));
   };
 
@@ -518,6 +524,133 @@ export default function RFQEdit() {
     reader.readAsText(file);
   };
 
+  // CSV/XLSX Template Import
+  const handleImportCSV = (file: File) => {
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      complete: (results) => {
+        try {
+          const rows = results.data as Array<Record<string, string>>;
+          // Support two formats:
+          // 1) Key-value: columns "field_name" and "value"
+          // 2) Flat columns matching form fields directly
+          const hasKeyValue = rows.length > 0 && 'field_name' in rows[0] && 'value' in rows[0];
+
+          if (hasKeyValue) {
+            const mapped: Record<string, string> = {};
+            rows.forEach(row => {
+              if (row.field_name && row.value) mapped[row.field_name.trim()] = row.value.trim();
+            });
+            setFormData(prev => ({
+              ...prev,
+              title: mapped.title || prev.title,
+              description: mapped.description || prev.description,
+              category: mapped.category || prev.category,
+              expected_duration: mapped.expected_duration || prev.expected_duration,
+              document_control: {
+                ...prev.document_control,
+                rfq_reference: mapped.rfq_reference || prev.document_control.rfq_reference,
+                document_title: mapped.document_title || prev.document_control.document_title,
+                project_name: mapped.project_name || prev.document_control.project_name,
+                project_address: mapped.project_address || prev.document_control.project_address,
+              },
+              executive_summary: {
+                ...prev.executive_summary,
+                building_overview: mapped.building_overview || prev.executive_summary.building_overview,
+                project_scope: mapped.project_scope || prev.executive_summary.project_scope,
+              },
+              building_details: {
+                ...prev.building_details,
+                building_type: mapped.building_type || prev.building_details.building_type,
+                floors: mapped.floors ? parseInt(mapped.floors) : prev.building_details.floors,
+                total_area: mapped.total_area || prev.building_details.total_area,
+                residential_units: mapped.residential_units ? parseInt(mapped.residential_units) : prev.building_details.residential_units,
+              },
+              codes_compliance: mapped.codes_compliance
+                ? mapped.codes_compliance.split(',').map(s => s.trim()).filter(Boolean)
+                : prev.codes_compliance,
+            }));
+          } else {
+            // Flat format: try to use as unit_configuration rows
+            const units: UnitConfig[] = rows
+              .filter(r => r.unit_type)
+              .map(r => ({
+                unit_type: r.unit_type || '',
+                quantity: parseInt(r.quantity) || 0,
+                typical_size: r.typical_size || '',
+                capacity: r.capacity || '',
+              }));
+            if (units.length > 0) {
+              setFormData(prev => ({ ...prev, unit_configuration: units }));
+              toast.success(`Imported ${units.length} unit configuration rows`);
+              return;
+            }
+          }
+          toast.success('CSV template imported — review fields and save');
+        } catch {
+          toast.error('Failed to parse CSV file');
+        }
+      },
+      error: () => toast.error('Failed to read CSV file'),
+    });
+  };
+
+  // Export CSV template
+  const handleExportCSVTemplate = () => {
+    const fields = [
+      ['field_name', 'value', 'description'],
+      ['title', '', 'RFQ project title'],
+      ['description', '', 'Detailed project description'],
+      ['category', '', 'Service category (e.g. hvac, painting, plumbing, electrical)'],
+      ['expected_duration', '', 'e.g. 8-12 months'],
+      ['rfq_reference', '', 'Reference number e.g. MPM-2025-01'],
+      ['document_title', '', 'Document title'],
+      ['project_name', '', 'Project name'],
+      ['project_address', '', 'Full project address'],
+      ['building_overview', '', 'Building overview description'],
+      ['project_scope', '', 'Scope of work description'],
+      ['building_type', '', 'e.g. Residential Condominium'],
+      ['floors', '', 'Number of floors'],
+      ['total_area', '', 'Total area in SF'],
+      ['residential_units', '', 'Number of units'],
+      ['codes_compliance', '', 'Comma-separated compliance codes'],
+    ];
+    const csv = fields.map(r => r.map(c => `"${c}"`).join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'rfq-template.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success('CSV template downloaded');
+  };
+
+  // Track unsaved changes
+  useEffect(() => {
+    const currentData = JSON.stringify(formData);
+    if (lastSavedData && currentData !== lastSavedData) {
+      setHasUnsavedChanges(true);
+    }
+  }, [formData, lastSavedData]);
+
+  // Auto-save draft after 30s of inactivity
+  useEffect(() => {
+    if (!hasUnsavedChanges || isNew || formData.status !== 'draft') return;
+    const timer = setTimeout(() => {
+      saveMutation.mutate(formData);
+    }, 30000);
+    return () => clearTimeout(timer);
+  }, [formData, hasUnsavedChanges, isNew]);
+
+  // Set initial saved data snapshot
+  useEffect(() => {
+    if (rfqData) {
+      setLastSavedData(JSON.stringify(formData));
+    }
+  }, [rfqData]);
+
   const handleCopyLink = () => {
     if (!id || isNew) return;
     const url = `${window.location.origin}/admin/rfq/${id}`;
@@ -559,6 +692,12 @@ export default function RFQEdit() {
               </div>
             </div>
             <div className="flex items-center gap-2 flex-wrap">
+              {hasUnsavedChanges && (
+                <Badge variant="outline" className="text-amber-600 border-amber-400">
+                  <AlertCircle className="h-3 w-3 mr-1" />
+                  Unsaved changes
+                </Badge>
+              )}
               {!isNew && (
                 <>
                   <Button variant="outline" size="sm" onClick={handleCopyLink}>
@@ -663,7 +802,7 @@ export default function RFQEdit() {
                         id="title"
                         value={formData.title}
                         onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                        placeholder="HVAC Technical, BOQ, Scope of Work..."
+                        placeholder="Project Title, Scope of Work..."
                       />
                     </div>
                     <div className="space-y-2">
@@ -759,13 +898,31 @@ export default function RFQEdit() {
                         e.target.value = '';
                       }}
                     />
+                    <input
+                      type="file"
+                      id="csv-import"
+                      className="hidden"
+                      accept=".csv,.xlsx,.xls"
+                      onChange={(e) => {
+                        if (e.target.files?.[0]) handleImportCSV(e.target.files[0]);
+                        e.target.value = '';
+                      }}
+                    />
                     <Button variant="outline" size="sm" onClick={() => document.getElementById('json-import')?.click()}>
                       <Upload className="h-4 w-4 mr-2" />
-                      Import JSON Template
+                      Import JSON
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={() => document.getElementById('csv-import')?.click()}>
+                      <Upload className="h-4 w-4 mr-2" />
+                      Import CSV
                     </Button>
                     <Button variant="outline" size="sm" onClick={handleExportTemplate}>
                       <Download className="h-4 w-4 mr-2" />
-                      Export Template
+                      Export JSON
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={handleExportCSVTemplate}>
+                      <Download className="h-4 w-4 mr-2" />
+                      Export CSV Template
                     </Button>
                   </div>
                   <div className="space-y-2">
@@ -794,7 +951,7 @@ export default function RFQEdit() {
                       <Input
                         value={formData.document_control.rfq_reference}
                         onChange={(e) => updateField('document_control', 'rfq_reference', e.target.value)}
-                        placeholder="MPM-HVAC-2025-01"
+                        placeholder="MPM-2025-01"
                       />
                     </div>
                     <div className="space-y-2">
@@ -802,7 +959,7 @@ export default function RFQEdit() {
                       <Input
                         value={formData.document_control.document_title}
                         onChange={(e) => updateField('document_control', 'document_title', e.target.value)}
-                        placeholder="HVAC Master Information Package"
+                        placeholder="Master Information Package"
                       />
                     </div>
                     <div className="space-y-2">
@@ -863,7 +1020,7 @@ export default function RFQEdit() {
                     <RichTextEditor
                       value={formData.executive_summary.project_scope}
                       onChange={(value) => updateField('executive_summary', 'project_scope', value)}
-                      placeholder="Turnkey HVAC system installation, commissioning, maintenance..."
+                      placeholder="Full-scope installation, commissioning, maintenance..."
                       minHeight="120px"
                     />
                   </div>
@@ -960,7 +1117,7 @@ export default function RFQEdit() {
                     <Input
                       value={formData.system_strategy.system_type}
                       onChange={(e) => updateField('system_strategy', 'system_type', e.target.value)}
-                      placeholder="Dedicated Split HVAC Systems for each residential unit"
+                      placeholder="Dedicated systems for each unit"
                     />
                   </div>
                   <div className="space-y-2">
@@ -986,7 +1143,7 @@ export default function RFQEdit() {
                     <RichTextEditor
                       value={formData.system_strategy.design_finality}
                       onChange={(value) => updateField('system_strategy', 'design_finality', value)}
-                      placeholder="HVAC design basis, system configuration, and quantities are final and authoritative..."
+                      placeholder="Design basis, system configuration, and quantities are final..."
                       minHeight="100px"
                     />
                   </div>
@@ -1013,7 +1170,7 @@ export default function RFQEdit() {
                         <TableHead>Unit Type</TableHead>
                         <TableHead>Quantity</TableHead>
                         <TableHead>Typical Size (SF)</TableHead>
-                        <TableHead>HVAC Capacity</TableHead>
+                        <TableHead>System Capacity</TableHead>
                         <TableHead className="w-16"></TableHead>
                       </TableRow>
                     </TableHeader>
@@ -1055,10 +1212,10 @@ export default function RFQEdit() {
                           </TableCell>
                           <TableCell>
                             <Input
-                              value={unit.hvac_capacity}
+                              value={unit.capacity}
                               onChange={(e) => {
                                 const updated = [...formData.unit_configuration];
-                                updated[index].hvac_capacity = e.target.value;
+                                updated[index].capacity = e.target.value;
                                 setFormData(prev => ({ ...prev, unit_configuration: updated }));
                               }}
                               placeholder="1.5 tons"
@@ -1205,7 +1362,7 @@ export default function RFQEdit() {
                         ...prev,
                         codes_compliance: e.target.value.split(',').map(s => s.trim()).filter(Boolean),
                       }))}
-                      placeholder="ASHRAE 62.1/90.1, International Mechanical Code, SMACNA standards..."
+                      placeholder="Add applicable codes, e.g. OSHA, NFPA, local building codes..."
                       rows={4}
                     />
                   </div>
