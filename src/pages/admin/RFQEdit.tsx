@@ -158,10 +158,10 @@ const defaultFormData: RFQFormData = {
     maintenance_terms: '',
     emergency_terms: '',
   },
-  codes_compliance: ['ASHRAE 62.1/90.1', 'International Mechanical Code', 'SMACNA standards', 'NFPA standards'],
+  codes_compliance: [],
   staffing_requirements: {
-    team_size: '8-15 personnel',
-    certifications: ['EPA Section 608', 'OSHA 30', 'NEBB', 'NATE'],
+    team_size: '',
+    certifications: [],
     suggested_roles: [],
   },
   budget_guidance: {
