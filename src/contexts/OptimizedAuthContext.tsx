@@ -75,24 +75,6 @@ interface AuthContextType {
   getUserRole: () => UserRole;
 }
 
-interface AuthContextType {
-  user: User | null;
-  session: Session | null;
-  isAuthenticated: boolean;
-  isLoading: boolean;
-  signUp: (email: string, password: string, userData?: Record<string, unknown>) => Promise<{ error: AuthError | null }>;
-  signIn: (email: string, password: string) => Promise<{ error: AuthError | null }>;
-  signOut: () => Promise<void>;
-  logout: () => Promise<void>;
-  hasRole: (role: UserRole | UserRole[]) => boolean;
-  hasPermission: (permission: string) => boolean;
-  isSubscribed: (tier: string) => boolean;
-  updateProfile: (updates: Record<string, unknown>) => Promise<{ error: AuthError | null }>;
-  updateUser: (userData: Partial<User>) => Promise<void>;
-  refreshUser: () => Promise<void>;
-  userRoles: string[];
-  getUserRole: () => UserRole;
-}
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
