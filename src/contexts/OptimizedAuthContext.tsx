@@ -281,8 +281,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
 
       if (newSession?.user && initialLoadDone.current) {
-        // Invalidate cache on sign in
-        if (event === 'SIGNED_IN') {
+        // Invalidate cache on sign in or token refresh
+        if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
           profileCache.delete(newSession.user.id);
         }
 

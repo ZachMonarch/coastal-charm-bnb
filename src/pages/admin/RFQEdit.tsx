@@ -692,6 +692,12 @@ export default function RFQEdit() {
               </div>
             </div>
             <div className="flex items-center gap-2 flex-wrap">
+              {hasUnsavedChanges && (
+                <Badge variant="outline" className="text-amber-600 border-amber-400">
+                  <AlertCircle className="h-3 w-3 mr-1" />
+                  Unsaved changes
+                </Badge>
+              )}
               {!isNew && (
                 <>
                   <Button variant="outline" size="sm" onClick={handleCopyLink}>
