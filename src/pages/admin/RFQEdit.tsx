@@ -26,7 +26,7 @@ interface UnitConfig {
   unit_type: string;
   quantity: number;
   typical_size: string;
-  hvac_capacity: string;
+  capacity: string;
 }
 
 interface PaymentMilestone {
