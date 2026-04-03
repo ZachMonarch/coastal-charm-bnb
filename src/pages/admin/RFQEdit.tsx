@@ -945,7 +945,7 @@ export default function RFQEdit() {
                       <Input
                         value={formData.document_control.rfq_reference}
                         onChange={(e) => updateField('document_control', 'rfq_reference', e.target.value)}
-                        placeholder="MPM-HVAC-2025-01"
+                        placeholder="MPM-2025-01"
                       />
                     </div>
                     <div className="space-y-2">
