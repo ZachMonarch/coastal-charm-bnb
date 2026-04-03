@@ -106,7 +106,7 @@ interface RFQFormData {
 const defaultFormData: RFQFormData = {
   title: '',
   description: '',
-  category: 'hvac',
+  category: '',
   deadline: '',
   expected_duration: '8-12 months',
   status: 'draft',
