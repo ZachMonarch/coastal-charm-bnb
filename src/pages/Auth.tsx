@@ -249,7 +249,9 @@ export default function Auth() {
               ['admin', 'property_manager', 'vendor', 'tenant'].includes(role)
             );
           
-          const homeRoute = roles.length > 0 ? getRoleHomeRouteForRoles(roles) : '/dashboard';
+          // Redirect to the page they originally tried to visit (shared link), or role-based home
+          const from = (location.state as { from?: { pathname: string } })?.from?.pathname;
+          const homeRoute = from && from !== '/auth' ? from : (roles.length > 0 ? getRoleHomeRouteForRoles(roles) : '/dashboard');
           navigate(homeRoute, { replace: true });
         } catch {
           navigate("/dashboard", { replace: true });
