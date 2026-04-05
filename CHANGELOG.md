@@ -2,6 +2,16 @@
 
 All notable changes to Monarch Property Management platform will be documented in this file.
 
+## [2.10.1] - 2026-04-05 🔗 Shared Link Routing + Loading Stability
+
+### Shared Link Routing
+- **Return-to-page after login**: Shared links now preserve the intended destination; after sign-in, users are redirected back to the page they originally tried to visit
+- **Role-based redirect for authenticated users**: Auth page now redirects already-signed-in users to their role-based home (admin→/admin, vendor→/vendor, etc.) instead of always `/dashboard`
+
+### Loading Stability
+- **Auth safety timeout**: 10-second timeout prevents infinite loading spinner if profile fetch hangs
+- **Toast anti-pattern fix**: `OptimizedProtectedRoute` now fires toasts via `useEffect` instead of during render, eliminating duplicate toasts and React warnings
+
 ## [2.10.0] - 2026-04-05 🔒 RFQ Fixes + Security Hardening + Session Stability
 
 ### RFQ System

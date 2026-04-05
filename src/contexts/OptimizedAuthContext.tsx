@@ -249,6 +249,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     initializeAuth();
 
+    // Safety timeout: if auth is still loading after 10s, stop loading to unfreeze UI
+    const safetyTimeout = setTimeout(() => {
+      if (!initialLoadDone.current && isMounted) {
+        logger.warn('Auth initialization timed out after 10s — unblocking UI');
+        setIsLoading(false);
+        initialLoadDone.current = true;
+      }
+    }, 10000);
+
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, newSession) => {
       if (!isMounted) return;
@@ -284,6 +293,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     return () => {
       isMounted = false;
+      clearTimeout(safetyTimeout);
       subscription.unsubscribe();
     };
   }, [fetchUserProfileWithRoles, createEnhancedUser]);
