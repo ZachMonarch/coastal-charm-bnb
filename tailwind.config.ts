@@ -293,24 +293,6 @@ export default {
     				'Courier New',
     				'monospace'
     			]
-    		},
-    		colors: {
-    			teal: {
-    				DEFAULT: 'hsl(175 35% 35%)',
-    				light: 'hsl(175 35% 45%)',
-    				dark: 'hsl(175 35% 25%)',
-    				foreground: 'hsl(0 0% 98%)'
-    			},
-    			sky: {
-    				DEFAULT: 'hsl(200 60% 60%)',
-    				light: 'hsl(200 60% 70%)',
-    				dark: 'hsl(200 60% 50%)'
-    			},
-    			earth: {
-    				DEFAULT: 'hsl(25 50% 50%)',
-    				light: 'hsl(25 50% 60%)',
-    				dark: 'hsl(25 50% 40%)'
-    			}
     		}
     	}
     },
