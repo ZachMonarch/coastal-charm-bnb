@@ -144,9 +144,32 @@ export default function Auth() {
 
   useEffect(() => {
     if (!authLoading && isAuthenticated && user && !isResettingPassword && !processingRedirect) {
-      navigate("/dashboard", { replace: true });
+      // Redirect to the page they originally tried to visit (shared link), or role-based home
+      const from = (location.state as { from?: { pathname: string } })?.from?.pathname;
+      if (from && from !== '/auth') {
+        navigate(from, { replace: true });
+      } else {
+        // Use role-based routing for returning users
+        const fetchAndRedirect = async () => {
+          try {
+            const { data: rolesData } = await supabase
+              .from('user_roles')
+              .select('role')
+              .eq('user_id', user.id);
+            const roles = (rolesData || [])
+              .map(r => r.role)
+              .filter((r): r is 'admin' | 'property_manager' | 'vendor' | 'tenant' =>
+                ['admin', 'property_manager', 'vendor', 'tenant'].includes(r)
+              );
+            navigate(roles.length > 0 ? getRoleHomeRouteForRoles(roles) : '/dashboard', { replace: true });
+          } catch {
+            navigate('/dashboard', { replace: true });
+          }
+        };
+        fetchAndRedirect();
+      }
     }
-  }, [isAuthenticated, user, authLoading, isResettingPassword, processingRedirect, navigate]);
+  }, [isAuthenticated, user, authLoading, isResettingPassword, processingRedirect, navigate, location.state]);
 
   const handlePasswordReset = async (e: React.FormEvent) => {
     e.preventDefault();
