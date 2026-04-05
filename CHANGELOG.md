@@ -2,6 +2,28 @@
 
 All notable changes to Monarch Property Management platform will be documented in this file.
 
+## [2.10.0] - 2026-04-05 🔒 RFQ Fixes + Security Hardening + Session Stability
+
+### RFQ System
+- **Category-Agnostic Templates**: Removed all HVAC-specific defaults; `capacity` replaces `hvac_capacity`; generic placeholders for all service categories
+- **CSV/XLSX Import**: RFQ fields can now be populated via CSV file upload (papaparse); downloadable CSV template added
+- **Progressive Auto-Save**: Drafts auto-save after 30s of inactivity; "Unsaved changes" indicator in header
+
+### Session & Auth
+- **Cache TTL Reduced**: Profile cache from 5min → 2min to prevent stale role data
+- **TOKEN_REFRESHED Handling**: Auth context now invalidates cache on token rotation, fixing "pages fail except after reload"
+
+### Security Hardening
+- **Realtime Publication**: Removed `projects` and `notifications` from `supabase_realtime` to prevent unauthorized channel subscriptions
+- **sent_emails**: Dropped overly permissive INSERT policies; only `sent_by = auth.uid()` allowed
+- **Project Documents Storage**: Vendors can only view documents for projects they are assigned to or invited to bid on
+- **Tailwind Config**: Merged duplicate `colors` key eliminating build warning
+
+### Remaining Manual Action
+- **Leaked Password Protection**: Must be manually enabled in Supabase Dashboard → Auth Settings → Password Protection → Block mode
+
+---
+
 ## [2.9.4] - 2026-01-14 🚀 Deployment Cache Fix
 
 ### Deployment
