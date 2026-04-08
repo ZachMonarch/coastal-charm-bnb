@@ -16,7 +16,6 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from '@/components/ui/dialog';
 import { toast } from 'sonner';
 import { ArrowLeft, Save, Upload, FileText, Users, Plus, Trash2, Send, Calendar, Building2, Loader2, Copy, Download, Image, AlertCircle } from 'lucide-react';
-import Papa from 'papaparse';
 import OptimizedProtectedRoute from '@/components/OptimizedProtectedRoute';
 import EnhancedPageBackground from '@/components/shared/EnhancedPageBackground';
 import logger from '@/utils/logger';
@@ -227,8 +226,6 @@ const mergeImportedData = (prev: RFQFormData, imported: ImportedRfqTemplateData)
   commercial_framework: {
     ...prev.commercial_framework,
     ...(imported.commercial_framework ?? {}),
-    payment_milestones:
-      imported.commercial_framework?.payment_milestones ?? prev.commercial_framework.payment_milestones,
   },
   codes_compliance: imported.codes_compliance?.length ? imported.codes_compliance : prev.codes_compliance,
   staffing_requirements: {
