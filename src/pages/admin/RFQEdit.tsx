@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -20,7 +20,10 @@ import Papa from 'papaparse';
 import OptimizedProtectedRoute from '@/components/OptimizedProtectedRoute';
 import EnhancedPageBackground from '@/components/shared/EnhancedPageBackground';
 import logger from '@/utils/logger';
+import { useAutosave } from '@/hooks/useAutosave';
 import { RFQ_CATEGORIES } from '@/lib/rfqCategories';
+import { parseRfqImportFile, type ImportedRfqTemplateData } from '@/lib/rfqImport';
+import RFQStepNavigation from '@/components/rfq/RFQStepNavigation';
 
 interface UnitConfig {
   unit_type: string;
@@ -175,9 +178,77 @@ const defaultFormData: RFQFormData = {
   },
 };
 
+const RFQ_TABS = [
+  { value: 'basic', label: 'Basic Info' },
+  { value: 'document-control', label: 'Document Control' },
+  { value: 'executive', label: 'Executive Summary' },
+  { value: 'building', label: 'Building Details' },
+  { value: 'system', label: 'System Strategy' },
+  { value: 'units', label: 'Unit Configuration' },
+  { value: 'technical', label: 'Technical Specs' },
+  { value: 'commercial', label: 'Commercial Framework' },
+  { value: 'compliance', label: 'Codes & Compliance' },
+  { value: 'budget', label: 'Budget Guidance' },
+  { value: 'documents', label: 'Documents' },
+] as const;
+
+const NEW_RFQ_DRAFT_STORAGE_KEY = 'rfq-create-detailed-draft';
+
+const mergeImportedData = (prev: RFQFormData, imported: ImportedRfqTemplateData): RFQFormData => ({
+  ...prev,
+  title: imported.title ?? prev.title,
+  description: imported.description ?? prev.description,
+  category: imported.category ?? prev.category,
+  deadline: imported.deadline ?? prev.deadline,
+  expected_duration: imported.expected_duration ?? prev.expected_duration,
+  document_control: {
+    ...prev.document_control,
+    ...(imported.document_control ?? {}),
+  },
+  executive_summary: {
+    ...prev.executive_summary,
+    ...(imported.executive_summary ?? {}),
+  },
+  building_details: {
+    ...prev.building_details,
+    ...(imported.building_details ?? {}),
+  },
+  system_strategy: {
+    ...prev.system_strategy,
+    ...(imported.system_strategy ?? {}),
+  },
+  unit_configuration: imported.unit_configuration?.length
+    ? imported.unit_configuration
+    : prev.unit_configuration,
+  technical_specs: {
+    ...prev.technical_specs,
+    ...(imported.technical_specs ?? {}),
+  },
+  commercial_framework: {
+    ...prev.commercial_framework,
+    ...(imported.commercial_framework ?? {}),
+    payment_milestones:
+      imported.commercial_framework?.payment_milestones ?? prev.commercial_framework.payment_milestones,
+  },
+  codes_compliance: imported.codes_compliance?.length ? imported.codes_compliance : prev.codes_compliance,
+  staffing_requirements: {
+    ...prev.staffing_requirements,
+    ...(imported.staffing_requirements ?? {}),
+    certifications:
+      imported.staffing_requirements?.certifications ?? prev.staffing_requirements.certifications,
+    suggested_roles:
+      imported.staffing_requirements?.suggested_roles ?? prev.staffing_requirements.suggested_roles,
+  },
+  budget_guidance: {
+    ...prev.budget_guidance,
+    ...(imported.budget_guidance ?? {}),
+  },
+});
+
 export default function RFQEdit() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
   const queryClient = useQueryClient();
   const isNew = !id || id === 'new';
   
@@ -187,9 +258,18 @@ export default function RFQEdit() {
   const [inviteDialogOpen, setInviteDialogOpen] = useState(false);
   const [selectedVendors, setSelectedVendors] = useState<string[]>([]);
   const [uploadDocType, setUploadDocType] = useState('specification');
+  const [activeTab, setActiveTab] = useState<(typeof RFQ_TABS)[number]['value']>('basic');
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [lastSavedData, setLastSavedData] = useState<string>('');
-  const autoSaveTimerRef = useState<ReturnType<typeof setTimeout> | null>(null);
+  const [isImportingTemplate, setIsImportingTemplate] = useState(false);
+  const hasLoadedLocalDraftRef = useRef(false);
+
+  const { loadSaved, clearSaved, saveNow } = useAutosave({
+    key: NEW_RFQ_DRAFT_STORAGE_KEY,
+    data: formData,
+    delay: 1500,
+    enabled: isNew,
+  });
 
   // Fetch existing RFQ if editing
   const { data: rfqData, isLoading: rfqLoading } = useQuery({
@@ -243,7 +323,7 @@ export default function RFQEdit() {
   // Load RFQ data into form
   useEffect(() => {
     if (rfqData) {
-      setFormData({
+      const hydratedFormData: RFQFormData = {
         title: rfqData.title || '',
         description: rfqData.description || '',
         category: rfqData.category || '',
@@ -261,10 +341,33 @@ export default function RFQEdit() {
         codes_compliance: (rfqData.codes_compliance as any) || defaultFormData.codes_compliance,
         staffing_requirements: (rfqData.staffing_requirements as any) || defaultFormData.staffing_requirements,
         budget_guidance: (rfqData.budget_guidance as any) || defaultFormData.budget_guidance,
-      });
+      };
+
+      setFormData(hydratedFormData);
+      setLastSavedData(JSON.stringify(hydratedFormData));
+      setHasUnsavedChanges(false);
       setUploadedDocs(rfqData.rfq_documents || []);
     }
   }, [rfqData]);
+
+  useEffect(() => {
+    const requestedTab = location.state?.tab;
+    if (!requestedTab || !RFQ_TABS.some((tab) => tab.value === requestedTab)) return;
+
+    setActiveTab(requestedTab);
+    navigate(location.pathname, { replace: true, state: null });
+  }, [location.pathname, location.state, navigate]);
+
+  useEffect(() => {
+    if (!isNew || rfqData || hasLoadedLocalDraftRef.current) return;
+
+    hasLoadedLocalDraftRef.current = true;
+    const savedDraft = loadSaved();
+    if (!savedDraft) return;
+
+    setFormData(savedDraft);
+    toast.success('Recovered your unsaved RFQ draft.');
+  }, [isNew, loadSaved, rfqData]);
 
   // Save RFQ mutation
   const saveMutation = useMutation({
@@ -320,19 +423,6 @@ export default function RFQEdit() {
         if (error) throw error;
         return updatedRfq;
       }
-    },
-    onSuccess: (data) => {
-      toast.success(isNew ? 'RFQ created successfully' : 'RFQ saved');
-      setHasUnsavedChanges(false);
-      setLastSavedData(JSON.stringify(formData));
-      queryClient.invalidateQueries({ queryKey: ['rfqs'] });
-      if (isNew) {
-        navigate(`/admin/rfq/${data.id}/edit`);
-      }
-    },
-    onError: (error: any) => {
-      logger.error('Error saving RFQ:', error);
-      toast.error(error?.message || 'Failed to save RFQ');
     },
   });
 
@@ -499,23 +589,7 @@ export default function RFQEdit() {
     reader.onload = (e) => {
       try {
         const imported = JSON.parse(e.target?.result as string);
-        setFormData(prev => ({
-          ...prev,
-          title: imported.title || prev.title,
-          description: imported.description || prev.description,
-          category: imported.category || prev.category,
-          expected_duration: imported.expected_duration || prev.expected_duration,
-          document_control: { ...prev.document_control, ...(imported.document_control || {}) },
-          executive_summary: { ...prev.executive_summary, ...(imported.executive_summary || {}) },
-          building_details: { ...prev.building_details, ...(imported.building_details || {}) },
-          system_strategy: { ...prev.system_strategy, ...(imported.system_strategy || {}) },
-          unit_configuration: imported.unit_configuration || prev.unit_configuration,
-          technical_specs: { ...prev.technical_specs, ...(imported.technical_specs || {}) },
-          commercial_framework: { ...prev.commercial_framework, ...(imported.commercial_framework || {}) },
-          codes_compliance: imported.codes_compliance || prev.codes_compliance,
-          staffing_requirements: { ...prev.staffing_requirements, ...(imported.staffing_requirements || {}) },
-          budget_guidance: { ...prev.budget_guidance, ...(imported.budget_guidance || {}) },
-        }));
+        setFormData(prev => mergeImportedData(prev, imported));
         toast.success('Template imported — review fields and save');
       } catch {
         toast.error('Invalid JSON template file');
@@ -525,75 +599,25 @@ export default function RFQEdit() {
   };
 
   // CSV/XLSX Template Import
-  const handleImportCSV = (file: File) => {
-    Papa.parse(file, {
-      header: true,
-      skipEmptyLines: true,
-      complete: (results) => {
-        try {
-          const rows = results.data as Array<Record<string, string>>;
-          // Support two formats:
-          // 1) Key-value: columns "field_name" and "value"
-          // 2) Flat columns matching form fields directly
-          const hasKeyValue = rows.length > 0 && 'field_name' in rows[0] && 'value' in rows[0];
+  const handleImportCSV = async (file: File) => {
+    setIsImportingTemplate(true);
 
-          if (hasKeyValue) {
-            const mapped: Record<string, string> = {};
-            rows.forEach(row => {
-              if (row.field_name && row.value) mapped[row.field_name.trim()] = row.value.trim();
-            });
-            setFormData(prev => ({
-              ...prev,
-              title: mapped.title || prev.title,
-              description: mapped.description || prev.description,
-              category: mapped.category || prev.category,
-              expected_duration: mapped.expected_duration || prev.expected_duration,
-              document_control: {
-                ...prev.document_control,
-                rfq_reference: mapped.rfq_reference || prev.document_control.rfq_reference,
-                document_title: mapped.document_title || prev.document_control.document_title,
-                project_name: mapped.project_name || prev.document_control.project_name,
-                project_address: mapped.project_address || prev.document_control.project_address,
-              },
-              executive_summary: {
-                ...prev.executive_summary,
-                building_overview: mapped.building_overview || prev.executive_summary.building_overview,
-                project_scope: mapped.project_scope || prev.executive_summary.project_scope,
-              },
-              building_details: {
-                ...prev.building_details,
-                building_type: mapped.building_type || prev.building_details.building_type,
-                floors: mapped.floors ? parseInt(mapped.floors) : prev.building_details.floors,
-                total_area: mapped.total_area || prev.building_details.total_area,
-                residential_units: mapped.residential_units ? parseInt(mapped.residential_units) : prev.building_details.residential_units,
-              },
-              codes_compliance: mapped.codes_compliance
-                ? mapped.codes_compliance.split(',').map(s => s.trim()).filter(Boolean)
-                : prev.codes_compliance,
-            }));
-          } else {
-            // Flat format: try to use as unit_configuration rows
-            const units: UnitConfig[] = rows
-              .filter(r => r.unit_type)
-              .map(r => ({
-                unit_type: r.unit_type || '',
-                quantity: parseInt(r.quantity) || 0,
-                typical_size: r.typical_size || '',
-                capacity: r.capacity || '',
-              }));
-            if (units.length > 0) {
-              setFormData(prev => ({ ...prev, unit_configuration: units }));
-              toast.success(`Imported ${units.length} unit configuration rows`);
-              return;
-            }
-          }
-          toast.success('CSV template imported — review fields and save');
-        } catch {
-          toast.error('Failed to parse CSV file');
-        }
-      },
-      error: () => toast.error('Failed to read CSV file'),
-    });
+    try {
+      const result = await parseRfqImportFile(file);
+
+      setFormData(prev => mergeImportedData(prev, result.data));
+      toast.success(
+        result.mode === 'unit_configuration' && result.unitCount
+          ? `Imported ${result.unitCount} unit configuration row(s)`
+          : `${file.name} imported — review fields and save`
+      );
+      setActiveTab('basic');
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to import the selected file';
+      toast.error(message);
+    } finally {
+      setIsImportingTemplate(false);
+    }
   };
 
   // Export CSV template
@@ -630,26 +654,141 @@ export default function RFQEdit() {
   // Track unsaved changes
   useEffect(() => {
     const currentData = JSON.stringify(formData);
-    if (lastSavedData && currentData !== lastSavedData) {
-      setHasUnsavedChanges(true);
-    }
+    const baseline = lastSavedData || JSON.stringify(defaultFormData);
+    setHasUnsavedChanges(currentData !== baseline);
   }, [formData, lastSavedData]);
+
+  const currentTabIndex = RFQ_TABS.findIndex((tab) => tab.value === activeTab);
+  const previousTab = currentTabIndex > 0 ? RFQ_TABS[currentTabIndex - 1]?.value : null;
+  const nextTab = currentTabIndex < RFQ_TABS.length - 1 ? RFQ_TABS[currentTabIndex + 1]?.value : null;
+
+  const canPersistToDatabase = !isNew || Boolean(formData.title.trim() && formData.deadline);
+
+  const finalizeSuccessfulSave = async (savedSnapshot: RFQFormData, savedId?: string | null) => {
+    setLastSavedData(JSON.stringify(savedSnapshot));
+    setHasUnsavedChanges(false);
+
+    await Promise.all([
+      queryClient.invalidateQueries({ queryKey: ['rfqs'] }),
+      savedId ? queryClient.invalidateQueries({ queryKey: ['rfq-edit', savedId] }) : Promise.resolve(),
+    ]);
+
+    if (isNew) {
+      clearSaved();
+    }
+  };
+
+  const persistRFQ = async ({
+    silent = false,
+    targetTab,
+  }: {
+    silent?: boolean;
+    targetTab?: (typeof RFQ_TABS)[number]['value'];
+  } = {}) => {
+    const snapshot = structuredClone(formData);
+
+    try {
+      const saved = await saveMutation.mutateAsync(snapshot);
+      await finalizeSuccessfulSave(snapshot, saved?.id);
+
+      if (!silent) {
+        toast.success(isNew ? 'RFQ created successfully' : 'RFQ saved successfully');
+      }
+
+      if (targetTab) {
+        if (isNew) {
+          navigate(`/admin/rfq/${saved.id}/edit`, { state: { tab: targetTab } });
+        } else {
+          setActiveTab(targetTab);
+        }
+      } else if (isNew) {
+        navigate(`/admin/rfq/${saved.id}/edit`);
+      }
+
+      return saved;
+    } catch (error: any) {
+      logger.error('Error saving RFQ:', error);
+      if (!silent) {
+        toast.error(error?.message || 'Failed to save RFQ');
+      }
+      return null;
+    }
+  };
+
+  const persistLocalDraft = async ({
+    silent = false,
+    targetTab,
+  }: {
+    silent?: boolean;
+    targetTab?: (typeof RFQ_TABS)[number]['value'];
+  } = {}) => {
+    await saveNow();
+    if (!silent) {
+      toast.success('Draft saved locally. Add a title and deadline to create the RFQ record.');
+    }
+    if (targetTab) {
+      setActiveTab(targetTab);
+    }
+  };
+
+  const handleSaveDraft = async () => {
+    if (!canPersistToDatabase) {
+      await persistLocalDraft();
+      return;
+    }
+
+    await persistRFQ();
+  };
+
+  const handleSaveAndContinue = async () => {
+    if (!nextTab) {
+      await handleSaveDraft();
+      return;
+    }
+
+    if (!canPersistToDatabase) {
+      await persistLocalDraft({ targetTab: nextTab });
+      return;
+    }
+
+    await persistRFQ({ targetTab: nextTab });
+  };
+
+  const handleTabChange = async (nextValue: string) => {
+    const nextTabValue = nextValue as (typeof RFQ_TABS)[number]['value'];
+    if (nextTabValue === activeTab || saveMutation.isPending) return;
+
+    if (!hasUnsavedChanges) {
+      setActiveTab(nextTabValue);
+      return;
+    }
+
+    if (!canPersistToDatabase) {
+      await persistLocalDraft({ targetTab: nextTabValue, silent: true });
+      return;
+    }
+
+    await persistRFQ({ targetTab: nextTabValue, silent: true });
+  };
 
   // Auto-save draft after 30s of inactivity
   useEffect(() => {
-    if (!hasUnsavedChanges || isNew || formData.status !== 'draft') return;
-    const timer = setTimeout(() => {
-      saveMutation.mutate(formData);
-    }, 30000);
-    return () => clearTimeout(timer);
-  }, [formData, hasUnsavedChanges, isNew]);
+    if (!hasUnsavedChanges || isNew || formData.status !== 'draft' || saveMutation.isPending) return;
 
-  // Set initial saved data snapshot
-  useEffect(() => {
-    if (rfqData) {
-      setLastSavedData(JSON.stringify(formData));
-    }
-  }, [rfqData]);
+    const snapshot = structuredClone(formData);
+    const timer = setTimeout(() => {
+      void (async () => {
+        try {
+          const saved = await saveMutation.mutateAsync(snapshot);
+          await finalizeSuccessfulSave(snapshot, saved?.id);
+        } catch (error) {
+          logger.error('RFQ auto-save failed:', error);
+        }
+      })();
+    }, 30000);
+
+    return () => clearTimeout(timer);
+  }, [formData, hasUnsavedChanges, isNew, saveMutation, queryClient]);
 
   const handleCopyLink = () => {
     if (!id || isNew) return;
@@ -760,19 +899,19 @@ export default function RFQEdit() {
                   </Dialog>
                 </>
               )}
-              <Button onClick={() => saveMutation.mutate(formData)} disabled={saveMutation.isPending}>
+              <Button onClick={handleSaveDraft} disabled={saveMutation.isPending}>
                 {saveMutation.isPending ? (
                   <Loader2 className="h-4 w-4 animate-spin mr-2" />
                 ) : (
                   <Save className="h-4 w-4 mr-2" />
                 )}
-                Save RFQ
+                {formData.status === 'draft' ? 'Save Draft' : 'Save RFQ'}
               </Button>
             </div>
           </div>
 
           {/* Main Form */}
-          <Tabs defaultValue="basic" className="space-y-6">
+          <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-6">
             <TabsList className="flex-wrap h-auto gap-1">
               <TabsTrigger value="basic">Basic Info</TabsTrigger>
               <TabsTrigger value="document-control">Document Control</TabsTrigger>
@@ -786,6 +925,18 @@ export default function RFQEdit() {
               <TabsTrigger value="budget">Budget Guidance</TabsTrigger>
               <TabsTrigger value="documents">Documents</TabsTrigger>
             </TabsList>
+
+            <RFQStepNavigation
+              canGoBack={Boolean(previousTab)}
+              canGoForward={Boolean(nextTab)}
+              currentLabel={RFQ_TABS[currentTabIndex]?.label || 'RFQ Step'}
+              currentStep={currentTabIndex + 1}
+              isSaving={saveMutation.isPending}
+              onNext={() => void handleSaveAndContinue()}
+              onPrevious={() => previousTab && setActiveTab(previousTab)}
+              onSave={() => void handleSaveDraft()}
+              totalSteps={RFQ_TABS.length}
+            />
 
             {/* Basic Info Tab */}
             <TabsContent value="basic">
@@ -912,9 +1063,14 @@ export default function RFQEdit() {
                       <Upload className="h-4 w-4 mr-2" />
                       Import JSON
                     </Button>
-                    <Button variant="outline" size="sm" onClick={() => document.getElementById('csv-import')?.click()}>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => document.getElementById('csv-import')?.click()}
+                      disabled={isImportingTemplate}
+                    >
                       <Upload className="h-4 w-4 mr-2" />
-                      Import CSV
+                      {isImportingTemplate ? 'Importing...' : 'Import CSV/XLSX'}
                     </Button>
                     <Button variant="outline" size="sm" onClick={handleExportTemplate}>
                       <Download className="h-4 w-4 mr-2" />

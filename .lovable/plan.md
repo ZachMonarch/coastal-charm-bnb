@@ -83,3 +83,8 @@
 - Leaked Password Protection — manual Supabase Dashboard action (documented)
 - Views with `security_invoker = true` — already applied in existing migrations
 
+## Follow-up Completion Notes
+- RFQ detailed creation now supports step-by-step draft persistence with Save Draft and Save & Continue navigation between tabs.
+- CSV import handling was hardened to accept populated key-value files where content is stored in either the `value` or `description` column.
+- Spreadsheet import support now truly includes `.xlsx` and `.xls`, not just `.csv`.
+

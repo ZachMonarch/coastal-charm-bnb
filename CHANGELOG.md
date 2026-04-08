@@ -12,6 +12,21 @@ All notable changes to Monarch Property Management platform will be documented i
 - **Auth safety timeout**: 10-second timeout prevents infinite loading spinner if profile fetch hangs
 - **Toast anti-pattern fix**: `OptimizedProtectedRoute` now fires toasts via `useEffect` instead of during render, eliminating duplicate toasts and React warnings
 
+## [2.10.2] - 2026-04-08 🧾 RFQ Save Flow + Import Reliability
+
+### RFQ Creation Flow
+- **Step-by-step draft saving**: Detailed RFQ creation now supports Save Draft and Save & Continue between tabs, so users can persist progress before moving to the next section
+- **Local draft recovery for new RFQs**: Unsaved new RFQs are stored locally and restored automatically if the user leaves or refreshes before the first database save
+- **Correct saved-state tracking**: RFQ edit pages now snapshot loaded data correctly, preventing false unsaved-change states
+
+### RFQ CSV/XLSX Import
+- **Real-world CSV compatibility**: Key-value imports now accept populated values from either the `value` or `description` column, fixing imports like uploaded vendor/client RFQ sheets
+- **XLSX/XLS support completed**: Spreadsheet imports now work for `.csv`, `.xlsx`, and `.xls` instead of advertising spreadsheet support without parsing it
+- **Category normalization**: Imported labels such as `Painting Service` now map cleanly to supported RFQ category IDs
+
+### Validation
+- **Targeted parser tests added**: Added unit coverage for key-value RFQ imports and legacy unit configuration spreadsheet columns
+
 ## [2.10.0] - 2026-04-05 🔒 RFQ Fixes + Security Hardening + Session Stability
 
 ### RFQ System
