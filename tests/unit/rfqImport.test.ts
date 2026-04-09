@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { parseImportedRfqRows } from './rfqImport';
+import { parseImportedRfqRows } from '@/lib/rfqImport';
 
 describe('parseImportedRfqRows', () => {
   it('imports key-value rows even when populated values are stored in the description column', () => {
