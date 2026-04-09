@@ -617,32 +617,45 @@ export default function RFQEdit() {
     }
   };
 
-  // Export CSV template
+  // Export CSV template (complete with all supported fields)
   const handleExportCSVTemplate = () => {
-    const fields = [
+    const fields: [string, string, string][] = [
       ['field_name', 'value', 'description'],
-      ['title', '', 'RFQ project title'],
-      ['description', '', 'Detailed project description'],
-      ['category', '', 'Service category (e.g. hvac, painting, plumbing, electrical)'],
-      ['expected_duration', '', 'e.g. 8-12 months'],
-      ['rfq_reference', '', 'Reference number e.g. MPM-2025-01'],
-      ['document_title', '', 'Document title'],
-      ['project_name', '', 'Project name'],
-      ['project_address', '', 'Full project address'],
-      ['building_overview', '', 'Building overview description'],
-      ['project_scope', '', 'Scope of work description'],
-      ['building_type', '', 'e.g. Residential Condominium'],
-      ['floors', '', 'Number of floors'],
-      ['total_area', '', 'Total area in SF'],
-      ['residential_units', '', 'Number of units'],
-      ['codes_compliance', '', 'Comma-separated compliance codes'],
+      ['title', formData.title || '', 'RFQ project title'],
+      ['description', formData.description || '', 'Detailed project description'],
+      ['category', formData.category || '', 'Service category (e.g. hvac, painting, plumbing, electrical)'],
+      ['expected_duration', formData.expected_duration || '', 'e.g. 8-12 months'],
+      ['rfq_reference', formData.document_control.rfq_reference || '', 'Reference number e.g. MPM-2025-01'],
+      ['document_title', formData.document_control.document_title || '', 'Document title'],
+      ['project_name', formData.document_control.project_name || '', 'Project name'],
+      ['project_address', formData.document_control.project_address || '', 'Full project address'],
+      ['issue_date', formData.document_control.issue_date || '', 'Document issue date (YYYY-MM-DD)'],
+      ['document_status', formData.document_control.document_status || '', 'e.g. Issued for Quotation (IFQ)'],
+      ['building_overview', formData.executive_summary.building_overview || '', 'Building overview description'],
+      ['project_scope', formData.executive_summary.project_scope || '', 'Scope of work description'],
+      ['design_intent', formData.executive_summary.design_intent || '', 'Design intent description'],
+      ['building_type', formData.building_details.building_type || '', 'e.g. Residential Condominium'],
+      ['floors', formData.building_details.floors ? String(formData.building_details.floors) : '', 'Number of floors'],
+      ['total_area', formData.building_details.total_area || '', 'Total area in SF'],
+      ['residential_units', formData.building_details.residential_units ? String(formData.building_details.residential_units) : '', 'Number of units'],
+      ['common_areas', formData.building_details.common_areas || '', 'Common areas description'],
+      ['parking_spaces', formData.building_details.parking_spaces || '', 'Parking spaces info'],
+      ['system_type', formData.system_strategy.system_type || '', 'System type'],
+      ['rationale', formData.system_strategy.rationale || '', 'System rationale'],
+      ['maintenance_terms', formData.commercial_framework.maintenance_terms || '', 'Maintenance terms'],
+      ['emergency_terms', formData.commercial_framework.emergency_terms || '', 'Emergency terms'],
+      ['codes_compliance', formData.codes_compliance.join(', ') || '', 'Comma-separated compliance codes'],
+      ['team_size', formData.staffing_requirements.team_size || '', 'Required team size'],
+      ['certifications', formData.staffing_requirements.certifications.join(', ') || '', 'Comma-separated certifications'],
+      ['contingency_percent', formData.budget_guidance.contingency_percent || '', 'e.g. 10-15%'],
     ];
-    const csv = fields.map(r => r.map(c => `"${c}"`).join(',')).join('\n');
-    const blob = new Blob([csv], { type: 'text/csv' });
+    const escapeCsvField = (v: string) => `"${v.replace(/"/g, '""')}"`;
+    const csv = fields.map(r => r.map(escapeCsvField).join(',')).join('\n');
+    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'rfq-template.csv';
+    a.download = `rfq-template${formData.document_control.rfq_reference ? '-' + formData.document_control.rfq_reference : ''}.csv`;
     a.click();
     URL.revokeObjectURL(url);
     toast.success('CSV template downloaded');
