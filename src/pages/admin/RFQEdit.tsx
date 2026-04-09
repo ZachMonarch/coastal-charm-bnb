@@ -401,7 +401,7 @@ export default function RFQEdit() {
           .single();
 
         rfqPayload.created_by = user.id;
-        rfqPayload.tenant_id = tenantData?.tenant_id || user.id;
+        rfqPayload.tenant_id = tenantData?.tenant_id || '00000000-0000-0000-0000-000000000001';
 
         const { data: newRfq, error } = await supabase
           .from('rfqs')
