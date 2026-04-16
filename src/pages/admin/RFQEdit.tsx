@@ -23,6 +23,7 @@ import { useAutosave } from '@/hooks/useAutosave';
 import { RFQ_CATEGORIES } from '@/lib/rfqCategories';
 import { parseRfqImportFile, type ImportedRfqTemplateData } from '@/lib/rfqImport';
 import RFQStepNavigation from '@/components/rfq/RFQStepNavigation';
+import PropertyServiceSelector, { type PropertyServiceLink } from '@/components/rfq/PropertyServiceSelector';
 
 interface UnitConfig {
   unit_type: string;
