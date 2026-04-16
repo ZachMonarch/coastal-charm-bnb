@@ -23,6 +23,7 @@ import { useAutosave } from '@/hooks/useAutosave';
 import { RFQ_CATEGORIES } from '@/lib/rfqCategories';
 import { parseRfqImportFile, type ImportedRfqTemplateData } from '@/lib/rfqImport';
 import RFQStepNavigation from '@/components/rfq/RFQStepNavigation';
+import PropertyServiceSelector, { type PropertyServiceLink } from '@/components/rfq/PropertyServiceSelector';
 
 interface UnitConfig {
   unit_type: string;
@@ -179,6 +180,7 @@ const defaultFormData: RFQFormData = {
 
 const RFQ_TABS = [
   { value: 'basic', label: 'Basic Info' },
+  { value: 'properties-services', label: 'Properties & Services' },
   { value: 'document-control', label: 'Document Control' },
   { value: 'executive', label: 'Executive Summary' },
   { value: 'building', label: 'Building Details' },
@@ -259,6 +261,7 @@ export default function RFQEdit() {
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [lastSavedData, setLastSavedData] = useState<string>('');
   const [isImportingTemplate, setIsImportingTemplate] = useState(false);
+  const [linkedProperties, setLinkedProperties] = useState<PropertyServiceLink[]>([]);
   const hasLoadedLocalDraftRef = useRef(false);
 
   const { loadSaved, clearSaved, saveNow } = useAutosave({
@@ -317,8 +320,41 @@ export default function RFQEdit() {
     },
   });
 
+  // Fetch linked rfq_properties for editing
+  const { data: rfqPropertiesData } = useQuery({
+    queryKey: ['rfq-properties', id],
+    queryFn: async () => {
+      if (isNew || !id) return [];
+      const { data, error } = await supabase
+        .from('rfq_properties')
+        .select('id, property_id, service_types, notes')
+        .eq('rfq_id', id);
+      if (error) throw error;
+      return data || [];
+    },
+    enabled: !!id && id !== 'new',
+  });
+
+  // Hydrate linked properties when data loads
+  useEffect(() => {
+    if (rfqPropertiesData && properties) {
+      const links: PropertyServiceLink[] = rfqPropertiesData.map((rp: any) => {
+        const prop = properties.find((p: any) => p.id === rp.property_id);
+        return {
+          property_id: rp.property_id,
+          property_title: prop?.title || 'Unknown Property',
+          property_address: [prop?.address, prop?.city, prop?.state].filter(Boolean).join(', '),
+          service_types: rp.service_types || [],
+          notes: rp.notes || '',
+        };
+      });
+      setLinkedProperties(links);
+    }
+  }, [rfqPropertiesData, properties]);
+
   // Load RFQ data into form
   useEffect(() => {
+
     if (rfqData) {
       const hydratedFormData: RFQFormData = {
         title: rfqData.title || '',
@@ -674,13 +710,36 @@ export default function RFQEdit() {
 
   const canPersistToDatabase = !isNew || Boolean(formData.title.trim() && formData.deadline);
 
+  const saveLinkedProperties = async (rfqId: string) => {
+    // Delete existing links and re-insert
+    await supabase.from('rfq_properties').delete().eq('rfq_id', rfqId);
+    if (linkedProperties.length > 0) {
+      const rows = linkedProperties.map((lp) => ({
+        rfq_id: rfqId,
+        property_id: lp.property_id,
+        service_types: lp.service_types,
+        notes: lp.notes || null,
+      }));
+      const { error } = await supabase.from('rfq_properties').insert(rows);
+      if (error) {
+        logger.error('Failed to save rfq_properties:', error);
+        toast.error('Failed to save property-service links');
+      }
+    }
+  };
+
   const finalizeSuccessfulSave = async (savedSnapshot: RFQFormData, savedId?: string | null) => {
     setLastSavedData(JSON.stringify(savedSnapshot));
     setHasUnsavedChanges(false);
 
+    if (savedId) {
+      await saveLinkedProperties(savedId);
+    }
+
     await Promise.all([
       queryClient.invalidateQueries({ queryKey: ['rfqs'] }),
       savedId ? queryClient.invalidateQueries({ queryKey: ['rfq-edit', savedId] }) : Promise.resolve(),
+      savedId ? queryClient.invalidateQueries({ queryKey: ['rfq-properties', savedId] }) : Promise.resolve(),
     ]);
 
     if (isNew) {
@@ -924,6 +983,7 @@ export default function RFQEdit() {
           <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-6">
             <TabsList className="flex-wrap h-auto gap-1">
               <TabsTrigger value="basic">Basic Info</TabsTrigger>
+              <TabsTrigger value="properties-services">Properties & Services</TabsTrigger>
               <TabsTrigger value="document-control">Document Control</TabsTrigger>
               <TabsTrigger value="executive">Executive Summary</TabsTrigger>
               <TabsTrigger value="building">Building Details</TabsTrigger>
@@ -1102,6 +1162,15 @@ export default function RFQEdit() {
                   </div>
                 </CardContent>
               </Card>
+            </TabsContent>
+
+            {/* Properties & Services Tab */}
+            <TabsContent value="properties-services">
+              <PropertyServiceSelector
+                linkedProperties={linkedProperties}
+                onChange={setLinkedProperties}
+                properties={properties || []}
+              />
             </TabsContent>
 
             {/* Document Control Tab */}
