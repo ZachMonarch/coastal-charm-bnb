@@ -46,7 +46,6 @@ export async function GET() {
         status: 'error',
         timestamp,
         version: '1.0.0',
-        error: error instanceof Error ? error.message : 'Unknown error',
       }),
       {
         status: 500,
