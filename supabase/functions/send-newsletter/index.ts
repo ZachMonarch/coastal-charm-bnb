@@ -17,6 +17,17 @@ const handler = async (req: Request): Promise<Response> => {
   console.log("Newsletter function invoked");
 
   try {
+    // Verify cron secret to prevent unauthorized triggering
+    const cronSecret = Deno.env.get('INTERNAL_CRON_SECRET');
+    const providedSecret = req.headers.get('X-Cron-Secret') || req.headers.get('Authorization')?.replace('Bearer ', '');
+    
+    if (!cronSecret || providedSecret !== cronSecret) {
+      console.warn('Unauthorized newsletter trigger attempt');
+      return new Response(
+        JSON.stringify({ error: 'Unauthorized' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
     const resendKey = Deno.env.get("RESEND_API_KEY");
     if (!resendKey) {
       console.error("RESEND_API_KEY not configured");

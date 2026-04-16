@@ -14,6 +14,18 @@ const handler = async (req: Request): Promise<Response> => {
   const corsHeaders = getCorsHeaders(req);
 
   try {
+    // Verify cron secret to prevent unauthorized triggering
+    const cronSecret = Deno.env.get('INTERNAL_CRON_SECRET');
+    const providedSecret = req.headers.get('X-Cron-Secret') || req.headers.get('Authorization')?.replace('Bearer ', '');
+    
+    if (!cronSecret || providedSecret !== cronSecret) {
+      console.warn('Unauthorized bid deadline reminder attempt');
+      return new Response(
+        JSON.stringify({ error: 'Unauthorized' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const resendApiKey = Deno.env.get("RESEND_API_KEY");
