@@ -261,6 +261,7 @@ export default function RFQEdit() {
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [lastSavedData, setLastSavedData] = useState<string>('');
   const [isImportingTemplate, setIsImportingTemplate] = useState(false);
+  const [linkedProperties, setLinkedProperties] = useState<PropertyServiceLink[]>([]);
   const hasLoadedLocalDraftRef = useRef(false);
 
   const { loadSaved, clearSaved, saveNow } = useAutosave({
