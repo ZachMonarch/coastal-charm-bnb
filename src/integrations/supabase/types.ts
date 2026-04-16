@@ -1610,7 +1610,7 @@ export type Database = {
           bedrooms?: number | null
           city?: string | null
           description?: string | null
-          id?: never
+          id?: number
           image_urls?: string | null
           latitude?: number | null
           longitude?: number | null
@@ -1631,7 +1631,7 @@ export type Database = {
           bedrooms?: number | null
           city?: string | null
           description?: string | null
-          id?: never
+          id?: number
           image_urls?: string | null
           latitude?: number | null
           longitude?: number | null
@@ -1972,6 +1972,62 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "rfq_lots_rfq_id_fkey"
+            columns: ["rfq_id"]
+            isOneToOne: false
+            referencedRelation: "rfqs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rfq_properties: {
+        Row: {
+          created_at: string
+          id: string
+          notes: string | null
+          property_id: number
+          rfq_id: string
+          service_types: string[]
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          notes?: string | null
+          property_id: number
+          rfq_id: string
+          service_types?: string[]
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          notes?: string | null
+          property_id?: number
+          rfq_id?: string
+          service_types?: string[]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rfq_properties_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rfq_properties_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_property_listings_masked"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rfq_properties_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "safe_property_listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rfq_properties_rfq_id_fkey"
             columns: ["rfq_id"]
             isOneToOne: false
             referencedRelation: "rfqs"
