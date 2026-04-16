@@ -1164,6 +1164,15 @@ export default function RFQEdit() {
               </Card>
             </TabsContent>
 
+            {/* Properties & Services Tab */}
+            <TabsContent value="properties-services">
+              <PropertyServiceSelector
+                linkedProperties={linkedProperties}
+                onChange={setLinkedProperties}
+                properties={properties || []}
+              />
+            </TabsContent>
+
             {/* Document Control Tab */}
             <TabsContent value="document-control">
               <Card>
