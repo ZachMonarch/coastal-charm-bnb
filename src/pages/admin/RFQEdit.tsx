@@ -710,13 +710,36 @@ export default function RFQEdit() {
 
   const canPersistToDatabase = !isNew || Boolean(formData.title.trim() && formData.deadline);
 
+  const saveLinkedProperties = async (rfqId: string) => {
+    // Delete existing links and re-insert
+    await supabase.from('rfq_properties').delete().eq('rfq_id', rfqId);
+    if (linkedProperties.length > 0) {
+      const rows = linkedProperties.map((lp) => ({
+        rfq_id: rfqId,
+        property_id: lp.property_id,
+        service_types: lp.service_types,
+        notes: lp.notes || null,
+      }));
+      const { error } = await supabase.from('rfq_properties').insert(rows);
+      if (error) {
+        logger.error('Failed to save rfq_properties:', error);
+        toast.error('Failed to save property-service links');
+      }
+    }
+  };
+
   const finalizeSuccessfulSave = async (savedSnapshot: RFQFormData, savedId?: string | null) => {
     setLastSavedData(JSON.stringify(savedSnapshot));
     setHasUnsavedChanges(false);
 
+    if (savedId) {
+      await saveLinkedProperties(savedId);
+    }
+
     await Promise.all([
       queryClient.invalidateQueries({ queryKey: ['rfqs'] }),
       savedId ? queryClient.invalidateQueries({ queryKey: ['rfq-edit', savedId] }) : Promise.resolve(),
+      savedId ? queryClient.invalidateQueries({ queryKey: ['rfq-properties', savedId] }) : Promise.resolve(),
     ]);
 
     if (isNew) {
