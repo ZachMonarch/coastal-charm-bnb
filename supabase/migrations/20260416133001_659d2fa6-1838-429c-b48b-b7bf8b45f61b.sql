@@ -1,0 +1,1 @@
+DROP POLICY IF EXISTS "Verified vendors can view project documents" ON storage.objects;

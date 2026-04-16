@@ -7,8 +7,8 @@ import { getCorsHeaders, handleCorsPreflightRequest } from "../_shared/cors.ts";
 
 // Simple in-memory rate limiter (per-instance)
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
-const RATE_LIMIT_WINDOW_MS = 60000; // 1 minute
-const MAX_REQUESTS_PER_WINDOW = 30; // 30 requests per minute
+const RATE_LIMIT_WINDOW_MS = 60000;
+const MAX_REQUESTS_PER_WINDOW = 30;
 
 function checkRateLimit(identifier: string): { allowed: boolean; remaining: number } {
   const now = Date.now();
@@ -27,38 +27,12 @@ function checkRateLimit(identifier: string): { allowed: boolean; remaining: numb
   return { allowed: true, remaining: MAX_REQUESTS_PER_WINDOW - record.count };
 }
 
-interface HealthCheck {
-  timestamp: string;
-  status: 'healthy' | 'degraded' | 'unhealthy';
-  version: string;
-  uptime: number;
-  checks: {
-    database: boolean;
-    storage: boolean;
-    auth: boolean;
-    functions: boolean;
-  };
-  metrics?: {
-    database?: {
-      connections: number;
-      responseTime: number;
-    };
-    storage?: {
-      buckets: number;
-      responseTime: number;
-    };
-  };
-  errors?: string[];
-}
-
 serve(async (req) => {
-  // Handle CORS preflight
   const preflightResponse = handleCorsPreflightRequest(req);
   if (preflightResponse) return preflightResponse;
 
   const corsHeaders = getCorsHeaders(req);
 
-  // Rate limiting based on IP or a generic identifier
   const clientIP = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
                    req.headers.get('cf-connecting-ip') || 
                    'unknown';
@@ -80,104 +54,47 @@ serve(async (req) => {
     );
   }
 
-  const startTime = Date.now();
-  
   const supabase = createClient(
     Deno.env.get('SUPABASE_URL') ?? '',
     Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
   );
 
-  const healthCheck: HealthCheck = {
-    timestamp: new Date().toISOString(),
-    status: 'healthy',
-    version: '1.0.1',
-    uptime: Date.now() - startTime,
-    checks: {
-      database: false,
-      storage: false,
-      auth: false,
-      functions: false,
-    },
-    metrics: {},
-    errors: [],
+  const checks = {
+    database: false,
+    storage: false,
+    auth: false,
+    functions: true,
   };
 
   try {
-    // ========================================
-    // 1. Database Health Check
-    // ========================================
-    const dbStart = Date.now();
-    const { data: dbData, error: dbError } = await supabase
+    // Database check
+    const { error: dbError } = await supabase
       .from('system_health')
       .select('id')
       .limit(1);
-    
-    healthCheck.checks.database = !dbError;
-    healthCheck.metrics!.database = {
-      connections: 0,
-      responseTime: Date.now() - dbStart,
-    };
+    checks.database = !dbError;
 
-    if (dbError) {
-      healthCheck.errors!.push(`Database: ${dbError.message}`);
-    }
+    // Storage check
+    const { error: storageError } = await supabase.storage.listBuckets();
+    checks.storage = !storageError;
 
-    // ========================================
-    // 2. Storage Health Check
-    // ========================================
-    const storageStart = Date.now();
-    const { data: buckets, error: storageError } = await supabase
-      .storage
-      .listBuckets();
-    
-    healthCheck.checks.storage = !storageError;
-    healthCheck.metrics!.storage = {
-      buckets: buckets?.length || 0,
-      responseTime: Date.now() - storageStart,
-    };
+    // Auth check
+    const { error: authError } = await supabase.auth.admin.listUsers({ page: 1, perPage: 1 });
+    checks.auth = !authError;
 
-    if (storageError) {
-      healthCheck.errors!.push(`Storage: ${storageError.message}`);
-    }
+    const allHealthy = Object.values(checks).every(v => v);
+    const criticalDown = !checks.database || !checks.auth;
 
-    // ========================================
-    // 3. Auth Health Check
-    // ========================================
-    const { error: authError } = await supabase.auth.admin.listUsers({
-      page: 1,
-      perPage: 1,
-    });
-    
-    healthCheck.checks.auth = !authError;
-
-    if (authError) {
-      healthCheck.errors!.push(`Auth: ${authError.message}`);
-    }
-
-    // ========================================
-    // 4. Edge Functions Health Check
-    // ========================================
-    healthCheck.checks.functions = true;
-
-    // ========================================
-    // Determine Overall Status
-    // ========================================
-    const allHealthy = Object.values(healthCheck.checks).every(v => v === true);
-    const criticalUnhealthy = !healthCheck.checks.database || !healthCheck.checks.auth;
-
-    if (criticalUnhealthy) {
-      healthCheck.status = 'unhealthy';
-    } else if (!allHealthy) {
-      healthCheck.status = 'degraded';
-    } else {
-      healthCheck.status = 'healthy';
-    }
-
-    const statusCode = healthCheck.status === 'healthy' ? 200 : 
-                      healthCheck.status === 'degraded' ? 207 : 503;
+    const status = criticalDown ? 'unhealthy' : allHealthy ? 'healthy' : 'degraded';
+    const statusCode = status === 'healthy' ? 200 : status === 'degraded' ? 207 : 503;
 
     return new Response(
-      JSON.stringify(healthCheck, null, 2),
+      JSON.stringify({
+        timestamp: new Date().toISOString(),
+        status,
+        version: '1.0.1',
+        checks,
+      }),
       { 
         status: statusCode,
         headers: { 
@@ -188,12 +105,13 @@ serve(async (req) => {
         }
       }
     );
-  } catch (error) {
-    healthCheck.status = 'unhealthy';
-    healthCheck.errors!.push(`Critical: ${error instanceof Error ? error.message : 'Unknown error'}`);
-
+  } catch (_error) {
     return new Response(
-      JSON.stringify(healthCheck, null, 2),
+      JSON.stringify({
+        timestamp: new Date().toISOString(),
+        status: 'unhealthy',
+        checks,
+      }),
       { 
         status: 500, 
         headers: { 
