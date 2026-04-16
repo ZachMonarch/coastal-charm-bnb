@@ -983,6 +983,7 @@ export default function RFQEdit() {
           <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-6">
             <TabsList className="flex-wrap h-auto gap-1">
               <TabsTrigger value="basic">Basic Info</TabsTrigger>
+              <TabsTrigger value="properties-services">Properties & Services</TabsTrigger>
               <TabsTrigger value="document-control">Document Control</TabsTrigger>
               <TabsTrigger value="executive">Executive Summary</TabsTrigger>
               <TabsTrigger value="building">Building Details</TabsTrigger>
