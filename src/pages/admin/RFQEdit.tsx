@@ -320,8 +320,41 @@ export default function RFQEdit() {
     },
   });
 
+  // Fetch linked rfq_properties for editing
+  const { data: rfqPropertiesData } = useQuery({
+    queryKey: ['rfq-properties', id],
+    queryFn: async () => {
+      if (isNew || !id) return [];
+      const { data, error } = await supabase
+        .from('rfq_properties')
+        .select('id, property_id, service_types, notes')
+        .eq('rfq_id', id);
+      if (error) throw error;
+      return data || [];
+    },
+    enabled: !!id && id !== 'new',
+  });
+
+  // Hydrate linked properties when data loads
+  useEffect(() => {
+    if (rfqPropertiesData && properties) {
+      const links: PropertyServiceLink[] = rfqPropertiesData.map((rp: any) => {
+        const prop = properties.find((p: any) => p.id === rp.property_id);
+        return {
+          property_id: rp.property_id,
+          property_title: prop?.title || 'Unknown Property',
+          property_address: [prop?.address, prop?.city, prop?.state].filter(Boolean).join(', '),
+          service_types: rp.service_types || [],
+          notes: rp.notes || '',
+        };
+      });
+      setLinkedProperties(links);
+    }
+  }, [rfqPropertiesData, properties]);
+
   // Load RFQ data into form
   useEffect(() => {
+
     if (rfqData) {
       const hydratedFormData: RFQFormData = {
         title: rfqData.title || '',
