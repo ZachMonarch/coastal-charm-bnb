@@ -1,90 +1,84 @@
 
 
-# Plan: RFQ Fixes + Security Hardening + Session Stability
+# Plan: Fix Property Creation + RFQ Multi-Property Hierarchy
 
 ## Findings
 
-### RFQ Issues
-1. **HVAC-only template**: Default category is hardcoded to `'hvac'`, all placeholders reference HVAC (e.g., "HVAC Technical, BOQ...", "Dedicated Split HVAC Systems", "MPM-HVAC-2025-01"), unit config uses `hvac_capacity` field name. This makes the template confusing for non-HVAC categories like Painting, Plumbing, etc.
-2. **No CSV/XLS import**: Only JSON template import exists. Users expect to upload spreadsheet files (CSV/XLSX) to populate RFQ fields.
-3. **Progressive save not working**: RFQ creation requires filling all tabs before saving — no auto-save or "Save Draft" behavior. Documents can't be uploaded until first save.
-4. **Default codes/compliance HVAC-specific**: `codes_compliance` defaults include ASHRAE, SMACNA — only relevant to HVAC.
+### Issue 1: Property Creation Fails
+**Root cause**: The `properties.id` column (bigint) has a sequence (`properties_id_seq`) but the column default is NOT set. Inserts without an explicit `id` fail with a null violation. The sequence exists but was never wired as the column default.
 
-### Session/Page Access Issues
-5. **Profile cache TTL too long**: 5-minute cache (`CACHE_TTL = 5 * 60 * 1000`) in `OptimizedAuthContext.tsx` means auth state can go stale. When the Supabase token refreshes, the profile cache doesn't invalidate, causing role checks to fail until the next cache miss — hence "pages fail to work except after reload."
-6. **TOKEN_REFRESHED event not handled**: The `onAuthStateChange` listener processes `SIGNED_IN` and `SIGNED_OUT` but doesn't invalidate cache on `TOKEN_REFRESHED`, causing stale auth after token rotation.
+**Fix**: Migration to set `ALTER TABLE properties ALTER COLUMN id SET DEFAULT nextval('properties_id_seq')`.
 
-### Security Issues (from scan)
-7. **Realtime channels unprotected**: `projects` and `notifications` tables published to Realtime with no RLS on `realtime.messages`. Any authenticated user can subscribe to any channel.
-8. **Views may still bypass RLS**: Scanner flags `bookings_staff_view`, `vendor_documents_safe`, `vendor_invoice_summary` — however, migrations already add `security_invoker = true`. This may be a stale scan result, but we'll verify and re-apply if needed.
-9. **`sent_emails` INSERT too permissive**: `sent_emails_system_insert` allows ANY user (including `public` role) to insert rows.
-10. **Leaked Password Protection**: Manual Supabase Dashboard action required.
+### Issue 2: RFQ → Property is 1:1 Only
+Currently `rfqs.property_id` is a single bigint FK. The user needs:
+- **One RFQ Project** → **2-5 Properties** (different locations under one contract)
+- **Each Property** → **5-8 Service RFQs** (painting, cleaning, plumbing, etc.)
 
----
+This requires a junction table: `rfq_properties` linking rfqs to multiple properties, plus a `service_type` field so each property-service pair is a distinct bid target.
 
-## Plan (6 Steps)
-
-### Step 1: Make RFQ Template Category-Agnostic
-**File: `src/pages/admin/RFQEdit.tsx`**
-- Change default `category` from `'hvac'` to `''` (empty, force selection)
-- Rename `hvac_capacity` field to `capacity` in `UnitConfig` interface and all references
-- Change table header from "HVAC Capacity" to "System Capacity"
-- Update placeholder text throughout to be generic:
-  - Title: "Project Title, Scope of Work..." (not "HVAC Technical")
-  - RFQ Reference: "MPM-2025-01" (not "MPM-HVAC-2025-01")
-  - Document Title: "Master Information Package" (not "HVAC Master Information Package")
-  - Project Scope: "Full-scope installation, commissioning, maintenance..." 
-  - System Type: "Dedicated systems for each unit"
-  - Design Finality: "Design basis, system configuration, and quantities are final..."
-- Change default `codes_compliance` to empty array `[]` (let user add relevant codes per category)
-- Remove HVAC-specific default certifications from `staffing_requirements`
-
-### Step 2: Add CSV/XLSX Template Import
-**File: `src/pages/admin/RFQEdit.tsx`**
-- Add a `handleImportCSV` function that reads CSV/XLSX files using Papa Parse (CSV) or SheetJS (XLSX)
-- Map spreadsheet columns to RFQ form fields using a predefined column mapping
-- Update the import button area to accept `.csv,.xlsx,.xls` in addition to `.json`
-- Add a downloadable CSV template file export alongside JSON export
-- The CSV template will have columns: `field_name`, `value` — a simple key-value format any user can fill in Excel
-
-### Step 3: Enable Progressive Save (Auto-Save Draft)
-**File: `src/pages/admin/RFQEdit.tsx`**
-- After first save (create), redirect to `/admin/rfq/{id}/edit` (already done)
-- Add a debounced auto-save: after 30s of inactivity with changes, auto-save as draft
-- Show "Unsaved changes" indicator in header
-- Allow document uploads immediately after first save by using the returned `id`
-
-### Step 4: Fix Session/Auth Cache Staleness
-**File: `src/contexts/OptimizedAuthContext.tsx`**
-- Reduce `CACHE_TTL` from 5 minutes to 2 minutes
-- Handle `TOKEN_REFRESHED` event in `onAuthStateChange`: invalidate profile cache and re-fetch
-- This fixes pages becoming inaccessible without reload after token rotation
-
-### Step 5: Fix Realtime Security
-**Migration SQL:**
-- Remove `projects` and `notifications` from `supabase_realtime` publication
-- This eliminates unauthorized channel subscriptions entirely
-- App uses direct queries (not realtime subscriptions) for these tables in practice
-
-### Step 6: Tighten `sent_emails` INSERT Policy
-**Migration SQL:**
-- Drop `sent_emails_system_insert` (allows `public` role)
-- Replace with policy restricted to `authenticated` role with `sent_by = auth.uid()` check
-- Keep admin full-access policy unchanged
+### Issue 3: No UI to Link Properties to RFQ
+The RFQ editor has a single property dropdown. Needs a multi-property selector with per-property service assignments.
 
 ---
 
-## Files to Modify
-1. `src/pages/admin/RFQEdit.tsx` — Category-agnostic template, CSV/XLSX import, progressive save
-2. `src/contexts/OptimizedAuthContext.tsx` — Reduce cache TTL, handle TOKEN_REFRESHED
-3. **Migration SQL** — Remove tables from realtime publication, tighten sent_emails INSERT
+## Implementation Steps
+
+### Step 1 — Migration: Fix properties.id default + Create rfq_properties table
+
+```sql
+-- Fix property creation
+ALTER TABLE properties ALTER COLUMN id SET DEFAULT nextval('properties_id_seq');
+
+-- Junction table: RFQ ↔ Properties with service types
+CREATE TABLE IF NOT EXISTS public.rfq_properties (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  rfq_id uuid NOT NULL REFERENCES rfqs(id) ON DELETE CASCADE,
+  property_id bigint NOT NULL REFERENCES properties(id) ON DELETE CASCADE,
+  service_types text[] NOT NULL DEFAULT '{}',
+  notes text,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  UNIQUE(rfq_id, property_id)
+);
+
+ALTER TABLE rfq_properties ENABLE ROW LEVEL SECURITY;
+
+-- RLS: same access as rfqs (admin + property_manager)
+CREATE POLICY "rfq_properties_select" ON rfq_properties FOR SELECT TO authenticated
+  USING (EXISTS (SELECT 1 FROM rfqs WHERE rfqs.id = rfq_id AND (
+    rfqs.created_by = auth.uid() OR is_admin_user(auth.uid())
+  )));
+CREATE POLICY "rfq_properties_insert" ON rfq_properties FOR INSERT TO authenticated
+  WITH CHECK (is_admin_user(auth.uid()) OR EXISTS (
+    SELECT 1 FROM user_roles WHERE user_id = auth.uid() AND role = 'property_manager'
+  ));
+CREATE POLICY "rfq_properties_update" ON rfq_properties FOR UPDATE TO authenticated
+  USING (is_admin_user(auth.uid()));
+CREATE POLICY "rfq_properties_delete" ON rfq_properties FOR DELETE TO authenticated
+  USING (is_admin_user(auth.uid()));
+```
+
+### Step 2 — Fix AdminPropertyManagement.tsx
+- No code change needed — the insert already omits `id`, so fixing the column default resolves the creation failure.
+
+### Step 3 — Update RFQEdit.tsx: Multi-Property + Service Assignment UI
+- Replace single property dropdown with a multi-property selector panel
+- For each linked property, show checkboxes for service types (painting, cleaning, landscaping, plumbing, electrical, HVAC, roofing, general)
+- On save, upsert `rfq_properties` rows alongside the RFQ save
+- Keep legacy `rfqs.property_id` as nullable (backward compat); new flow uses `rfq_properties`
+- Add a "Properties & Services" tab to RFQ_TABS
+
+### Step 4 — Update RFQ Management/List views
+- Show linked property count and service breakdown in the RFQ list table
+- Query `rfq_properties` with property details when viewing an RFQ
+
+---
+
+## Files Changed
+1. **New migration** — Fix `properties.id` default + create `rfq_properties` table with RLS
+2. `src/pages/admin/RFQEdit.tsx` — Multi-property selector UI, save logic for `rfq_properties`
+3. `src/components/rfq/PropertyServiceSelector.tsx` — New component: searchable property picker with per-property service checkboxes
 
 ## Not Changed
-- Leaked Password Protection — manual Supabase Dashboard action (documented)
-- Views with `security_invoker = true` — already applied in existing migrations
-
-## Follow-up Completion Notes
-- RFQ detailed creation now supports step-by-step draft persistence with Save Draft and Save & Continue navigation between tabs.
-- CSV import handling was hardened to accept populated key-value files where content is stored in either the `value` or `description` column.
-- Spreadsheet import support now truly includes `.xlsx` and `.xls`, not just `.csv`.
+- `AdminPropertyManagement.tsx` — insert code is already correct; only the DB default was missing
+- Existing `rfqs.property_id` — kept for backward compatibility with existing RFQs
 
