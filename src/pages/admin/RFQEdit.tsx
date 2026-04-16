@@ -180,6 +180,7 @@ const defaultFormData: RFQFormData = {
 
 const RFQ_TABS = [
   { value: 'basic', label: 'Basic Info' },
+  { value: 'properties-services', label: 'Properties & Services' },
   { value: 'document-control', label: 'Document Control' },
   { value: 'executive', label: 'Executive Summary' },
   { value: 'building', label: 'Building Details' },
