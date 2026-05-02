@@ -427,13 +427,6 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "contracts_rfq_id_fkey"
-            columns: ["rfq_id"]
-            isOneToOne: false
-            referencedRelation: "rfqs_public_masked"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "contracts_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
@@ -1896,13 +1889,6 @@ export type Database = {
             referencedRelation: "rfqs"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "rfq_access_grants_rfq_id_fkey"
-            columns: ["rfq_id"]
-            isOneToOne: false
-            referencedRelation: "rfqs_public_masked"
-            referencedColumns: ["id"]
-          },
         ]
       }
       rfq_access_requests: {
@@ -1963,13 +1949,6 @@ export type Database = {
             columns: ["rfq_id"]
             isOneToOne: false
             referencedRelation: "rfqs"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "rfq_access_requests_rfq_id_fkey"
-            columns: ["rfq_id"]
-            isOneToOne: false
-            referencedRelation: "rfqs_public_masked"
             referencedColumns: ["id"]
           },
         ]
@@ -2061,13 +2040,6 @@ export type Database = {
             referencedRelation: "rfqs"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "rfq_documents_rfq_id_fkey"
-            columns: ["rfq_id"]
-            isOneToOne: false
-            referencedRelation: "rfqs_public_masked"
-            referencedColumns: ["id"]
-          },
         ]
       }
       rfq_invites: {
@@ -2101,13 +2073,6 @@ export type Database = {
             columns: ["rfq_id"]
             isOneToOne: false
             referencedRelation: "rfqs"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "rfq_invites_rfq_id_fkey"
-            columns: ["rfq_id"]
-            isOneToOne: false
-            referencedRelation: "rfqs_public_masked"
             referencedColumns: ["id"]
           },
         ]
@@ -2146,13 +2111,6 @@ export type Database = {
             columns: ["rfq_id"]
             isOneToOne: false
             referencedRelation: "rfqs"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "rfq_lots_rfq_id_fkey"
-            columns: ["rfq_id"]
-            isOneToOne: false
-            referencedRelation: "rfqs_public_masked"
             referencedColumns: ["id"]
           },
         ]
@@ -2209,13 +2167,6 @@ export type Database = {
             columns: ["rfq_id"]
             isOneToOne: false
             referencedRelation: "rfqs"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "rfq_properties_rfq_id_fkey"
-            columns: ["rfq_id"]
-            isOneToOne: false
-            referencedRelation: "rfqs_public_masked"
             referencedColumns: ["id"]
           },
         ]
@@ -3272,13 +3223,6 @@ export type Database = {
             columns: ["rfq_id"]
             isOneToOne: false
             referencedRelation: "rfqs"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "vendor_bids_rfq_id_fkey"
-            columns: ["rfq_id"]
-            isOneToOne: false
-            referencedRelation: "rfqs_public_masked"
             referencedColumns: ["id"]
           },
         ]
@@ -4510,42 +4454,6 @@ export type Database = {
         }
         Relationships: []
       }
-      rfqs_public_masked: {
-        Row: {
-          category: string | null
-          created_at: string | null
-          deadline: string | null
-          expected_duration: string | null
-          id: string | null
-          preview: string | null
-          project_address_summary: string | null
-          status: string | null
-          title: string | null
-        }
-        Insert: {
-          category?: string | null
-          created_at?: string | null
-          deadline?: string | null
-          expected_duration?: string | null
-          id?: string | null
-          preview?: never
-          project_address_summary?: never
-          status?: string | null
-          title?: string | null
-        }
-        Update: {
-          category?: string | null
-          created_at?: string | null
-          deadline?: string | null
-          expected_duration?: string | null
-          id?: string | null
-          preview?: never
-          project_address_summary?: never
-          status?: string | null
-          title?: string | null
-        }
-        Relationships: []
-      }
       safe_property_listings: {
         Row: {
           address: string | null
@@ -5086,6 +4994,34 @@ export type Database = {
           property_type: string
           square_feet: string
           state: string
+          status: string
+          title: string
+        }[]
+      }
+      get_public_rfq: {
+        Args: { _id: string }
+        Returns: {
+          category: string
+          created_at: string
+          deadline: string
+          expected_duration: string
+          id: string
+          preview: string
+          project_address_summary: string
+          status: string
+          title: string
+        }[]
+      }
+      get_public_rfqs: {
+        Args: { _limit?: number; _offset?: number }
+        Returns: {
+          category: string
+          created_at: string
+          deadline: string
+          expected_duration: string
+          id: string
+          preview: string
+          project_address_summary: string
           status: string
           title: string
         }[]
