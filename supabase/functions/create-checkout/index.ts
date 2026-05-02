@@ -200,12 +200,21 @@ const handler = async (req: Request): Promise<Response> => {
         }
 
         sessionConfig.mode = 'subscription';
+        // 7-day free trial — collect card up-front but do not charge until trial ends
+        sessionConfig.payment_method_collection = 'always';
+        sessionConfig.subscription_data = {
+          trial_period_days: 7,
+          trial_settings: {
+            end_behavior: { missing_payment_method: 'cancel' },
+          },
+          metadata: { userId: user.id, subscriptionTier },
+        };
         sessionConfig.line_items = [{
           price_data: {
             currency,
             product_data: {
               name: `${subscriptionTier.charAt(0).toUpperCase() + subscriptionTier.slice(1)} Subscription`,
-              description: `Monthly ${subscriptionTier} subscription to Monarch Property Management`,
+              description: `Monthly ${subscriptionTier} subscription to Monarch Property Management — 7-day free trial`,
             },
             unit_amount: Math.round(amount * 100),
             recurring: {
@@ -214,7 +223,7 @@ const handler = async (req: Request): Promise<Response> => {
           },
           quantity: 1,
         }];
-        
+
         sessionConfig.metadata.subscriptionTier = subscriptionTier;
         break;
 

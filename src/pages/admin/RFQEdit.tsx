@@ -24,6 +24,7 @@ import { RFQ_CATEGORIES } from '@/lib/rfqCategories';
 import { parseRfqImportFile, type ImportedRfqTemplateData } from '@/lib/rfqImport';
 import RFQStepNavigation from '@/components/rfq/RFQStepNavigation';
 import PropertyServiceSelector, { type PropertyServiceLink } from '@/components/rfq/PropertyServiceSelector';
+import RFQStatusSummary from '@/components/rfq/RFQStatusSummary';
 
 interface UnitConfig {
   unit_type: string;
@@ -191,6 +192,7 @@ const RFQ_TABS = [
   { value: 'compliance', label: 'Codes & Compliance' },
   { value: 'budget', label: 'Budget Guidance' },
   { value: 'documents', label: 'Documents' },
+  { value: 'status', label: 'Status & Audit' },
 ] as const;
 
 const NEW_RFQ_DRAFT_STORAGE_KEY = 'rfq-create-detailed-draft';
@@ -710,22 +712,43 @@ export default function RFQEdit() {
 
   const canPersistToDatabase = !isNew || Boolean(formData.title.trim() && formData.deadline);
 
-  const saveLinkedProperties = async (rfqId: string) => {
+  const saveLinkedProperties = async (rfqId: string): Promise<{ ok: boolean; failures: string[] }> => {
+    const failures: string[] = [];
+
     // Delete existing links and re-insert
-    await supabase.from('rfq_properties').delete().eq('rfq_id', rfqId);
-    if (linkedProperties.length > 0) {
-      const rows = linkedProperties.map((lp) => ({
-        rfq_id: rfqId,
-        property_id: lp.property_id,
-        service_types: lp.service_types,
-        notes: lp.notes || null,
-      }));
-      const { error } = await supabase.from('rfq_properties').insert(rows);
+    const { error: delErr } = await supabase.from('rfq_properties').delete().eq('rfq_id', rfqId);
+    if (delErr) {
+      failures.push(`Could not clear existing links: ${delErr.message}`);
+      logger.error('rfq_properties delete failed:', delErr);
+    }
+
+    if (linkedProperties.length === 0) {
+      return { ok: failures.length === 0, failures };
+    }
+
+    // Per-row upsert so partial failures are surfaced
+    for (const lp of linkedProperties) {
+      const { error } = await supabase.from('rfq_properties').upsert(
+        {
+          rfq_id: rfqId,
+          property_id: lp.property_id,
+          service_types: lp.service_types,
+          notes: lp.notes || null,
+        },
+        { onConflict: 'rfq_id,property_id' }
+      );
       if (error) {
-        logger.error('Failed to save rfq_properties:', error);
-        toast.error('Failed to save property-service links');
+        failures.push(`Property #${lp.property_id}: ${error.message}`);
+        logger.error('rfq_properties upsert failed:', error, lp);
       }
     }
+
+    if (failures.length > 0) {
+      toast.error(
+        `Saved RFQ, but ${failures.length} property link(s) failed: ${failures.slice(0, 3).join(' • ')}`
+      );
+    }
+    return { ok: failures.length === 0, failures };
   };
 
   const finalizeSuccessfulSave = async (savedSnapshot: RFQFormData, savedId?: string | null) => {
@@ -1770,6 +1793,16 @@ export default function RFQEdit() {
                   )}
                 </CardContent>
               </Card>
+            </TabsContent>
+
+            <TabsContent value="status">
+              {id && id !== 'new' ? (
+                <RFQStatusSummary rfqId={id} deadline={formData.deadline} />
+              ) : (
+                <p className="text-sm text-muted-foreground">
+                  Save the RFQ first to view status, linked-property summary, and audit history.
+                </p>
+              )}
             </TabsContent>
           </Tabs>
         </div>

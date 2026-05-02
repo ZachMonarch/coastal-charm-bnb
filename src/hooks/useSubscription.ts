@@ -7,6 +7,8 @@ interface SubscriptionData {
   subscribed: boolean;
   subscription_tier?: string;
   subscription_end?: string;
+  trialing?: boolean;
+  trial_end?: string;
 }
 
 export function useSubscription() {
@@ -87,6 +89,8 @@ export function useSubscription() {
     createCheckoutSession,
     openCustomerPortal,
     hasActiveSubscription: subscription?.subscribed || false,
+    isTrialing: subscription?.trialing || false,
+    trialEnd: subscription?.trial_end,
     subscriptionTier: subscription?.subscription_tier,
     subscriptionEnd: subscription?.subscription_end
   };
