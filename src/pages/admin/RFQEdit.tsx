@@ -191,6 +191,7 @@ const RFQ_TABS = [
   { value: 'compliance', label: 'Codes & Compliance' },
   { value: 'budget', label: 'Budget Guidance' },
   { value: 'documents', label: 'Documents' },
+  { value: 'status', label: 'Status & Audit' },
 ] as const;
 
 const NEW_RFQ_DRAFT_STORAGE_KEY = 'rfq-create-detailed-draft';
