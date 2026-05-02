@@ -427,6 +427,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "contracts_rfq_id_fkey"
+            columns: ["rfq_id"]
+            isOneToOne: false
+            referencedRelation: "rfqs_public_masked"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "contracts_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
@@ -1853,6 +1860,156 @@ export type Database = {
         }
         Relationships: []
       }
+      rfq_access_grants: {
+        Row: {
+          granted_at: string
+          granted_by: string | null
+          id: string
+          notes: string | null
+          revoked_at: string | null
+          rfq_id: string
+          user_id: string
+        }
+        Insert: {
+          granted_at?: string
+          granted_by?: string | null
+          id?: string
+          notes?: string | null
+          revoked_at?: string | null
+          rfq_id: string
+          user_id: string
+        }
+        Update: {
+          granted_at?: string
+          granted_by?: string | null
+          id?: string
+          notes?: string | null
+          revoked_at?: string | null
+          rfq_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rfq_access_grants_rfq_id_fkey"
+            columns: ["rfq_id"]
+            isOneToOne: false
+            referencedRelation: "rfqs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rfq_access_grants_rfq_id_fkey"
+            columns: ["rfq_id"]
+            isOneToOne: false
+            referencedRelation: "rfqs_public_masked"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rfq_access_requests: {
+        Row: {
+          admin_notes: string | null
+          company_name: string | null
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+          message: string | null
+          phone: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          rfi_answers: Json
+          rfq_id: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          company_name?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          message?: string | null
+          phone?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          rfi_answers?: Json
+          rfq_id: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          admin_notes?: string | null
+          company_name?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          message?: string | null
+          phone?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          rfi_answers?: Json
+          rfq_id?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rfq_access_requests_rfq_id_fkey"
+            columns: ["rfq_id"]
+            isOneToOne: false
+            referencedRelation: "rfqs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rfq_access_requests_rfq_id_fkey"
+            columns: ["rfq_id"]
+            isOneToOne: false
+            referencedRelation: "rfqs_public_masked"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rfq_audit_log: {
+        Row: {
+          action: string
+          actor_id: string | null
+          after_data: Json | null
+          before_data: Json | null
+          created_at: string
+          entity_id: string | null
+          entity_type: string
+          id: string
+          rfq_id: string | null
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          after_data?: Json | null
+          before_data?: Json | null
+          created_at?: string
+          entity_id?: string | null
+          entity_type: string
+          id?: string
+          rfq_id?: string | null
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          after_data?: Json | null
+          before_data?: Json | null
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string
+          id?: string
+          rfq_id?: string | null
+        }
+        Relationships: []
+      }
       rfq_documents: {
         Row: {
           category_badge: string | null
@@ -1904,6 +2061,13 @@ export type Database = {
             referencedRelation: "rfqs"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "rfq_documents_rfq_id_fkey"
+            columns: ["rfq_id"]
+            isOneToOne: false
+            referencedRelation: "rfqs_public_masked"
+            referencedColumns: ["id"]
+          },
         ]
       }
       rfq_invites: {
@@ -1937,6 +2101,13 @@ export type Database = {
             columns: ["rfq_id"]
             isOneToOne: false
             referencedRelation: "rfqs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rfq_invites_rfq_id_fkey"
+            columns: ["rfq_id"]
+            isOneToOne: false
+            referencedRelation: "rfqs_public_masked"
             referencedColumns: ["id"]
           },
         ]
@@ -1975,6 +2146,13 @@ export type Database = {
             columns: ["rfq_id"]
             isOneToOne: false
             referencedRelation: "rfqs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rfq_lots_rfq_id_fkey"
+            columns: ["rfq_id"]
+            isOneToOne: false
+            referencedRelation: "rfqs_public_masked"
             referencedColumns: ["id"]
           },
         ]
@@ -2031,6 +2209,13 @@ export type Database = {
             columns: ["rfq_id"]
             isOneToOne: false
             referencedRelation: "rfqs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rfq_properties_rfq_id_fkey"
+            columns: ["rfq_id"]
+            isOneToOne: false
+            referencedRelation: "rfqs_public_masked"
             referencedColumns: ["id"]
           },
         ]
@@ -3087,6 +3272,13 @@ export type Database = {
             columns: ["rfq_id"]
             isOneToOne: false
             referencedRelation: "rfqs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vendor_bids_rfq_id_fkey"
+            columns: ["rfq_id"]
+            isOneToOne: false
+            referencedRelation: "rfqs_public_masked"
             referencedColumns: ["id"]
           },
         ]
@@ -4318,6 +4510,42 @@ export type Database = {
         }
         Relationships: []
       }
+      rfqs_public_masked: {
+        Row: {
+          category: string | null
+          created_at: string | null
+          deadline: string | null
+          expected_duration: string | null
+          id: string | null
+          preview: string | null
+          project_address_summary: string | null
+          status: string | null
+          title: string | null
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string | null
+          deadline?: string | null
+          expected_duration?: string | null
+          id?: string | null
+          preview?: never
+          project_address_summary?: never
+          status?: string | null
+          title?: string | null
+        }
+        Update: {
+          category?: string | null
+          created_at?: string | null
+          deadline?: string | null
+          expected_duration?: string | null
+          id?: string | null
+          preview?: never
+          project_address_summary?: never
+          status?: string | null
+          title?: string | null
+        }
+        Relationships: []
+      }
       safe_property_listings: {
         Row: {
           address: string | null
@@ -4913,6 +5141,10 @@ export type Database = {
       }
       has_pending_access_request: {
         Args: { p_user_id: string }
+        Returns: boolean
+      }
+      has_rfq_access: {
+        Args: { _rfq: string; _user: string }
         Returns: boolean
       }
       has_role: { Args: { _role: string; _user_id: string }; Returns: boolean }
