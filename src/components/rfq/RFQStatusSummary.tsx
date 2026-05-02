@@ -44,7 +44,7 @@ export default function RFQStatusSummary({ rfqId, deadline }: Props) {
           .eq('rfq_id', rfqId)
           .is('revoked_at', null),
         supabase
-          .from('rfq_bids')
+          .from('vendor_bids')
           .select('id', { count: 'exact', head: true })
           .eq('rfq_id', rfqId),
       ]);
