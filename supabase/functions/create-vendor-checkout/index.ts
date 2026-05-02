@@ -66,14 +66,22 @@ serve(async (req) => {
     };
 
     if (type === 'subscription') {
-      // Subscription mode
+      // Subscription mode with 7-day free trial. Card is collected up-front but not charged.
       sessionConfig.mode = 'subscription';
+      sessionConfig.payment_method_collection = 'always';
+      sessionConfig.subscription_data = {
+        trial_period_days: 7,
+        trial_settings: {
+          end_behavior: { missing_payment_method: 'cancel' },
+        },
+        metadata: { user_id: user.id, subscription_tier },
+      };
       sessionConfig.line_items = [{
         price_data: {
           currency,
           product_data: {
             name: `${subscription_tier} Subscription`,
-            description: `Monthly ${subscription_tier} subscription to Monarch Property Management`,
+            description: `Monthly ${subscription_tier} subscription to Monarch Property Management — 7-day free trial`,
           },
           unit_amount: Math.round(amount * 100),
           recurring: {
