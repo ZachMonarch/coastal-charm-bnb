@@ -1793,6 +1793,16 @@ export default function RFQEdit() {
                 </CardContent>
               </Card>
             </TabsContent>
+
+            <TabsContent value="status">
+              {id && id !== 'new' ? (
+                <RFQStatusSummary rfqId={id} deadline={formData.deadline} />
+              ) : (
+                <p className="text-sm text-muted-foreground">
+                  Save the RFQ first to view status, linked-property summary, and audit history.
+                </p>
+              )}
+            </TabsContent>
           </Tabs>
         </div>
       </EnhancedPageBackground>
