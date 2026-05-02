@@ -117,6 +117,7 @@ const RFQBidSubmission = lazy(() => import("./pages/RFQBidSubmission"));
 // Public RFQ discovery (anonymous-safe, masked)
 const RFQDiscovery = lazy(() => import("./pages/public/RFQDiscovery"));
 const PublicRFQView = lazy(() => import("./pages/public/PublicRFQView"));
+const AdminRFQAccessRequests = lazy(() => import("./pages/admin/AdminRFQAccessRequests"));
 
 // Team Management & Vendor Showcase
 const TeamManagement = lazy(() => import("./pages/admin/TeamManagement"));
@@ -490,6 +491,11 @@ const App = () => (
 
               {/* Phase 10 - Admin RFQ Routes */}
               <Route path="/admin/rfq" element={
+                <OptimizedProtectedRoute requiredRole={['admin', 'property_manager']}>
+                  <RFQManagement />
+                </OptimizedProtectedRoute>
+              } />
+              <Route path="/admin/rfq-access" element={<AdminRFQAccessRequests />} />
                 <OptimizedProtectedRoute requiredRole="admin">
                   <RFQManagement />
                 </OptimizedProtectedRoute>
