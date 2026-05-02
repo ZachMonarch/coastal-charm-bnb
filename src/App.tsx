@@ -114,6 +114,10 @@ const VendorMessages = lazy(() => import("./pages/vendor/VendorMessages"));
 const RFQProjectDetail = lazy(() => import("./pages/RFQProjectDetail"));
 const RFQBidSubmission = lazy(() => import("./pages/RFQBidSubmission"));
 
+// Public RFQ discovery (anonymous-safe, masked)
+const RFQDiscovery = lazy(() => import("./pages/public/RFQDiscovery"));
+const PublicRFQView = lazy(() => import("./pages/public/PublicRFQView"));
+
 // Team Management & Vendor Showcase
 const TeamManagement = lazy(() => import("./pages/admin/TeamManagement"));
 const TeamMemberProfile = lazy(() => import("./pages/admin/TeamMemberProfile"));
@@ -175,6 +179,11 @@ const App = () => (
                 <Route path="/join-as-vendor" element={<JoinAsVendor />} />
                 {/* Vendor Marketplace route removed - access restricted */}
                 <Route path="/request-quote" element={<RequestQuote />} />
+
+                {/* Public RFQ discovery (masked) */}
+                <Route path="/rfq" element={<RFQDiscovery />} />
+                <Route path="/projects" element={<RFQDiscovery />} />
+                <Route path="/rfq/:id" element={<PublicRFQView />} />
                 
                 {/* Admin-only Sitemap - restricted access */}
                 <Route path="/sitemap" element={
