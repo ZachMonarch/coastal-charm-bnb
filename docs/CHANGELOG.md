@@ -2,6 +2,15 @@
 
 All notable changes to the Monarch Property Management application.
 
+## [2.2.0] - 2026-05-03
+### Added
+- Admin sidebar entry for "Project Access Requests" (`/admin/rfq-access`).
+- Footer link "Open Projects" surfacing public RFQ discovery (`/rfq`).
+### Changed
+- `useBidSubmission` now enforces three pre-submission gates: approved vendor profile (`verification_status`), active or trialing subscription, and an explicit `rfq_access_grants` row for the target RFQ. Drafts remain unrestricted.
+### Security
+- Hardened RFQ public surface via security_invoker RPCs (`get_public_rfqs`, `get_public_rfq`); SECURITY DEFINER helpers (`has_rfq_access`, `set_updated_at`) locked down with `REVOKE ... FROM PUBLIC`.
+
 ## [2.1.3] - 2026-01-24
 
 ### Fixed
