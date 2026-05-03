@@ -158,6 +158,7 @@ const adminNavigationConfig: NavigationGroup[] = [
     items: [
       { title: "RFQ Management", url: "/admin/rfq", icon: "ClipboardList", description: "Manage RFQ system" },
       { title: "Create RFQ", url: "/admin/rfq/create-detailed", icon: "Plus", description: "Create detailed RFQ project" },
+      { title: "Project Access Requests", url: "/admin/rfq-access", icon: "ShieldCheck", description: "Review per-project vendor access requests" },
       { title: "Bids", url: "/admin?tab=bids", icon: "Gavel", description: "Review and manage bids" }
     ]
   },
