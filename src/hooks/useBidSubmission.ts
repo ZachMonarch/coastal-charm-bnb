@@ -107,6 +107,34 @@ export function useBidSubmission(rfqId: string | undefined, projectId?: string) 
     mutationFn: async ({ formData, status }: { formData: BidFormData; status: 'draft' | 'submitted' }) => {
       if (!rfqId || !user?.id) throw new Error('Missing required data');
 
+      // Pre-submission gates (only for final submit, not drafts)
+      if (status === 'submitted') {
+        const { data: vp } = await supabase
+          .from('vendor_profiles')
+          .select('status, is_approved')
+          .eq('user_id', user.id)
+          .maybeSingle();
+        if (!vp || (vp.status !== 'approved' && vp.is_approved !== true)) {
+          throw new Error('Your vendor profile must be approved before you can submit bids.');
+        }
+
+        const { data: subData } = await supabase.functions.invoke('check-subscription');
+        if (!subData?.subscribed && !subData?.trialing) {
+          throw new Error('An active subscription (or 7-day trial) is required to submit bids.');
+        }
+
+        const { data: grant } = await supabase
+          .from('rfq_access_grants')
+          .select('id, revoked_at')
+          .eq('rfq_id', rfqId)
+          .eq('user_id', user.id)
+          .is('revoked_at', null)
+          .maybeSingle();
+        if (!grant) {
+          throw new Error('You need approved access to this project before bidding. Please request access first.');
+        }
+      }
+
       const bidData = {
         rfq_id: rfqId,
         project_id: projectId || null,
