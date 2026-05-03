@@ -111,10 +111,10 @@ export function useBidSubmission(rfqId: string | undefined, projectId?: string) 
       if (status === 'submitted') {
         const { data: vp } = await supabase
           .from('vendor_profiles')
-          .select('status, is_approved')
+          .select('verification_status')
           .eq('user_id', user.id)
           .maybeSingle();
-        if (!vp || (vp.status !== 'approved' && vp.is_approved !== true)) {
+        if (!vp || vp.verification_status !== true) {
           throw new Error('Your vendor profile must be approved before you can submit bids.');
         }
 
