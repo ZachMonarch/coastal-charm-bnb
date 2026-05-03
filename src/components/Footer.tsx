@@ -95,6 +95,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/rfq" className="footer-link">
+                  Open Projects
+                </Link>
+              </li>
+              <li>
                 <Link to="/contact" className="footer-link">
                   Contact
                 </Link>
