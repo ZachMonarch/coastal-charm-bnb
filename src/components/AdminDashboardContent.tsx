@@ -11,6 +11,7 @@ import { logger } from '@/utils/logger';
 import PageHero from './shared/PageHero';
 import StatsCard from './shared/StatsCard';
 import ColorfulIconBox from './shared/ColorfulIconBox';
+import TopVendorLeaderboard from './admin/TopVendorLeaderboard';
 
 interface DashboardStats {
   totalUsers: number;
@@ -269,6 +270,9 @@ export default function AdminDashboardContent() {
           </Card>
         </div>
       </div>
+
+      {/* Top Vendor Leaderboard */}
+      <TopVendorLeaderboard />
 
       {/* System Health Dashboard */}
       <SystemHealthDashboard />

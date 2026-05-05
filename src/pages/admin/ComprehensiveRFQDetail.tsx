@@ -12,6 +12,7 @@ import { RFQStatusBadge } from '@/components/rfq/shared/RFQStatusBadge';
 import { BidAmountDisplay } from '@/components/rfq/shared/BidAmountDisplay';
 import ContractAward from '@/components/contracts/ContractAward';
 import RFQDocumentList from '@/components/rfq/RFQDocumentList';
+import RFQScoringWeightsEditor from '@/components/rfq/RFQScoringWeightsEditor';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import EnhancedPageBackground from '@/components/shared/EnhancedPageBackground';
 import { 
@@ -686,6 +687,14 @@ export default function ComprehensiveRFQDetail() {
             <RFQDocumentList documents={rfq.documents} rfqTitle={rfq.title} />
           </RFQSectionCollapsible>
         )}
+
+        {/* Scoring Engine Weights */}
+        <RFQSectionCollapsible
+          title="Scoring Engine"
+          icon={<BarChart3 className="h-5 w-5" />}
+        >
+          <RFQScoringWeightsEditor rfqId={rfq.id} />
+        </RFQSectionCollapsible>
 
         {/* Lots */}
         <RFQSectionCollapsible

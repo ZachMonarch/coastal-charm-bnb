@@ -9,6 +9,7 @@ import { ArrowLeft } from 'lucide-react';
 import { RFQStatusBadge } from '@/components/rfq/shared/RFQStatusBadge';
 import VendorBidForm from '@/components/rfq/VendorBidForm';
 import { RFQTimeline } from '@/components/rfq/shared/RFQTimeline';
+import EMDPayToUnlockGate from '@/components/rfq/EMDPayToUnlockGate';
 
 export default function VendorRFQDetail() {
   const { id } = useParams<{ id: string }>();
@@ -29,6 +30,8 @@ export default function VendorRFQDetail() {
           status,
           deadline,
           created_at,
+          requires_emd,
+          emd_amount_cents,
           property:properties(id, title, address, city),
           rfq_lots(
             id,
@@ -149,11 +152,17 @@ export default function VendorRFQDetail() {
           </Card>
 
           {!myBid && rfq.status === 'open' ? (
-            <VendorBidForm
+            <EMDPayToUnlockGate
               rfqId={rfq.id}
-              lots={rfq.rfq_lots || []}
-              onSuccess={() => navigate('/vendor/rfqs')}
-            />
+              requiresEmd={!!(rfq as any).requires_emd}
+              emdAmountCents={Number((rfq as any).emd_amount_cents) || 0}
+            >
+              <VendorBidForm
+                rfqId={rfq.id}
+                lots={rfq.rfq_lots || []}
+                onSuccess={() => navigate('/vendor/rfqs')}
+              />
+            </EMDPayToUnlockGate>
           ) : myBid ? (
             <Card>
               <CardHeader>
