@@ -103,6 +103,19 @@ serve(async (req) => {
         const session = event.data.object as Stripe.Checkout.Session;
         console.log("Checkout completed:", session.id);
 
+        // EMD payments: mark held
+        if (session.mode === "payment" && session.metadata?.type === "emd" && session.metadata?.rfq_id && session.metadata?.vendor_id) {
+          await supabase
+            .from("emd_transactions")
+            .update({
+              status: "held",
+              stripe_payment_intent_id: session.payment_intent as string,
+              paid_at: new Date().toISOString(),
+            })
+            .eq("rfq_id", session.metadata.rfq_id)
+            .eq("vendor_id", session.metadata.vendor_id);
+        }
+
         // Record subscription if applicable
         if (session.mode === "subscription" && session.subscription) {
           const subscription = await stripe.subscriptions.retrieve(
