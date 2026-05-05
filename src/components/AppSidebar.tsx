@@ -159,13 +159,15 @@ const adminNavigationConfig: NavigationGroup[] = [
       { title: "RFQ Management", url: "/admin/rfq", icon: "ClipboardList", description: "Manage RFQ system" },
       { title: "Create RFQ", url: "/admin/rfq/create-detailed", icon: "Plus", description: "Create detailed RFQ project" },
       { title: "Project Access Requests", url: "/admin/rfq-access", icon: "ShieldCheck", description: "Review per-project vendor access requests" },
-      { title: "Bids", url: "/admin?tab=bids", icon: "Gavel", description: "Review and manage bids" }
+      { title: "Bids", url: "/admin?tab=bids", icon: "Gavel", description: "Review and manage bids" },
+      { title: "Cross-RFQ Bid Analysis", url: "/admin/bids", icon: "BarChart3", description: "Compare and shortlist vendors across RFQs" }
     ]
   },
   {
     title: "Finance",
     items: [
-      { title: "Payments & Invoices", url: "/admin?tab=payments", icon: "CreditCard", description: "Manage all payments and invoices" }
+      { title: "Payments & Invoices", url: "/admin?tab=payments", icon: "CreditCard", description: "Manage all payments and invoices" },
+      { title: "EMD Ledger", url: "/admin/emd", icon: "DollarSign", description: "Earnest Money Deposits — refund or forfeit" }
     ]
   },
   {
