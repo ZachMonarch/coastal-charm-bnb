@@ -152,11 +152,17 @@ export default function VendorRFQDetail() {
           </Card>
 
           {!myBid && rfq.status === 'open' ? (
-            <VendorBidForm
+            <EMDPayToUnlockGate
               rfqId={rfq.id}
-              lots={rfq.rfq_lots || []}
-              onSuccess={() => navigate('/vendor/rfqs')}
-            />
+              requiresEmd={!!(rfq as any).requires_emd}
+              emdAmountCents={Number((rfq as any).emd_amount_cents) || 0}
+            >
+              <VendorBidForm
+                rfqId={rfq.id}
+                lots={rfq.rfq_lots || []}
+                onSuccess={() => navigate('/vendor/rfqs')}
+              />
+            </EMDPayToUnlockGate>
           ) : myBid ? (
             <Card>
               <CardHeader>
