@@ -11,6 +11,7 @@ import { logger } from '@/utils/logger';
 import PageHero from './shared/PageHero';
 import StatsCard from './shared/StatsCard';
 import ColorfulIconBox from './shared/ColorfulIconBox';
+import TopVendorLeaderboard from './admin/TopVendorLeaderboard';
 
 interface DashboardStats {
   totalUsers: number;
