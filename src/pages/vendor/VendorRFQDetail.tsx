@@ -9,6 +9,7 @@ import { ArrowLeft } from 'lucide-react';
 import { RFQStatusBadge } from '@/components/rfq/shared/RFQStatusBadge';
 import VendorBidForm from '@/components/rfq/VendorBidForm';
 import { RFQTimeline } from '@/components/rfq/shared/RFQTimeline';
+import EMDPayToUnlockGate from '@/components/rfq/EMDPayToUnlockGate';
 
 export default function VendorRFQDetail() {
   const { id } = useParams<{ id: string }>();
