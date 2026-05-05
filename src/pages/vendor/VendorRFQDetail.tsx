@@ -30,6 +30,8 @@ export default function VendorRFQDetail() {
           status,
           deadline,
           created_at,
+          requires_emd,
+          emd_amount_cents,
           property:properties(id, title, address, city),
           rfq_lots(
             id,
