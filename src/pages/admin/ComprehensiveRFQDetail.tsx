@@ -688,6 +688,14 @@ export default function ComprehensiveRFQDetail() {
           </RFQSectionCollapsible>
         )}
 
+        {/* Scoring Engine Weights */}
+        <RFQSectionCollapsible
+          title="Scoring Engine"
+          icon={<BarChart3 className="h-5 w-5" />}
+        >
+          <RFQScoringWeightsEditor rfqId={rfq.id} />
+        </RFQSectionCollapsible>
+
         {/* Lots */}
         <RFQSectionCollapsible
           title={`Bid Lots (${lots.length})`}
