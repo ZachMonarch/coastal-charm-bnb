@@ -118,6 +118,9 @@ const RFQBidSubmission = lazy(() => import("./pages/RFQBidSubmission"));
 const RFQDiscovery = lazy(() => import("./pages/public/RFQDiscovery"));
 const PublicRFQView = lazy(() => import("./pages/public/PublicRFQView"));
 const AdminRFQAccessRequests = lazy(() => import("./pages/admin/AdminRFQAccessRequests"));
+const AdminEMDLedger = lazy(() => import("./pages/admin/AdminEMDLedger"));
+const AdminVendorDetail = lazy(() => import("./pages/admin/AdminVendorDetail"));
+const CrossRFQBidAnalysis = lazy(() => import("./pages/admin/CrossRFQBidAnalysis"));
 
 // Team Management & Vendor Showcase
 const TeamManagement = lazy(() => import("./pages/admin/TeamManagement"));
