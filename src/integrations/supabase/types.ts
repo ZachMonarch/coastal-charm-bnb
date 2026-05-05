@@ -226,6 +226,41 @@ export type Database = {
           },
         ]
       }
+      bid_shortlist: {
+        Row: {
+          created_at: string
+          id: string
+          notes: string | null
+          rfq_id: string
+          shortlisted_by: string
+          vendor_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          notes?: string | null
+          rfq_id: string
+          shortlisted_by: string
+          vendor_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          notes?: string | null
+          rfq_id?: string
+          shortlisted_by?: string
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bid_shortlist_rfq_id_fkey"
+            columns: ["rfq_id"]
+            isOneToOne: false
+            referencedRelation: "rfqs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       bookings: {
         Row: {
           check_in_date: string
@@ -520,6 +555,71 @@ export type Database = {
           variables?: Json | null
         }
         Relationships: []
+      }
+      emd_transactions: {
+        Row: {
+          amount_cents: number
+          created_at: string
+          currency: string
+          forfeited_at: string | null
+          id: string
+          notes: string | null
+          paid_at: string | null
+          released_at: string | null
+          rfq_id: string
+          status: string
+          stripe_charge_id: string | null
+          stripe_payment_intent_id: string | null
+          stripe_refund_id: string | null
+          stripe_session_id: string | null
+          updated_at: string
+          vendor_id: string
+        }
+        Insert: {
+          amount_cents: number
+          created_at?: string
+          currency?: string
+          forfeited_at?: string | null
+          id?: string
+          notes?: string | null
+          paid_at?: string | null
+          released_at?: string | null
+          rfq_id: string
+          status?: string
+          stripe_charge_id?: string | null
+          stripe_payment_intent_id?: string | null
+          stripe_refund_id?: string | null
+          stripe_session_id?: string | null
+          updated_at?: string
+          vendor_id: string
+        }
+        Update: {
+          amount_cents?: number
+          created_at?: string
+          currency?: string
+          forfeited_at?: string | null
+          id?: string
+          notes?: string | null
+          paid_at?: string | null
+          released_at?: string | null
+          rfq_id?: string
+          status?: string
+          stripe_charge_id?: string | null
+          stripe_payment_intent_id?: string | null
+          stripe_refund_id?: string | null
+          stripe_session_id?: string | null
+          updated_at?: string
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "emd_transactions_rfq_id_fkey"
+            columns: ["rfq_id"]
+            isOneToOne: false
+            referencedRelation: "rfqs"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       financial_reports: {
         Row: {
@@ -2171,6 +2271,47 @@ export type Database = {
           },
         ]
       }
+      rfq_scoring_weights: {
+        Row: {
+          compliance_weight: number
+          delivery_weight: number
+          experience_weight: number
+          price_weight: number
+          quality_weight: number
+          rfq_id: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          compliance_weight?: number
+          delivery_weight?: number
+          experience_weight?: number
+          price_weight?: number
+          quality_weight?: number
+          rfq_id: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          compliance_weight?: number
+          delivery_weight?: number
+          experience_weight?: number
+          price_weight?: number
+          quality_weight?: number
+          rfq_id?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rfq_scoring_weights_rfq_id_fkey"
+            columns: ["rfq_id"]
+            isOneToOne: true
+            referencedRelation: "rfqs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       rfq_templates: {
         Row: {
           category: string
@@ -2234,10 +2375,12 @@ export type Database = {
           deadline: string
           description: string | null
           document_control: Json | null
+          emd_amount_cents: number
           executive_summary: Json | null
           expected_duration: string | null
           id: string
           property_id: number | null
+          requires_emd: boolean
           staffing_requirements: Json | null
           status: string
           system_strategy: Json | null
@@ -2258,10 +2401,12 @@ export type Database = {
           deadline: string
           description?: string | null
           document_control?: Json | null
+          emd_amount_cents?: number
           executive_summary?: Json | null
           expected_duration?: string | null
           id?: string
           property_id?: number | null
+          requires_emd?: boolean
           staffing_requirements?: Json | null
           status?: string
           system_strategy?: Json | null
@@ -2282,10 +2427,12 @@ export type Database = {
           deadline?: string
           description?: string | null
           document_control?: Json | null
+          emd_amount_cents?: number
           executive_summary?: Json | null
           expected_duration?: string | null
           id?: string
           property_id?: number | null
+          requires_emd?: boolean
           staffing_requirements?: Json | null
           status?: string
           system_strategy?: Json | null
@@ -3972,6 +4119,8 @@ export type Database = {
           avatar_url: string | null
           average_rating: number | null
           background_check_verified: boolean | null
+          blacklist_reason: string | null
+          blacklisted_at: string | null
           business_license: string | null
           certifications: string[] | null
           company_name: string
@@ -3981,6 +4130,7 @@ export type Database = {
           email: string | null
           id: string
           insurance_verified: boolean | null
+          is_blacklisted: boolean
           is_verified: boolean | null
           last_active_at: string | null
           phone: string | null
@@ -4009,6 +4159,8 @@ export type Database = {
           avatar_url?: string | null
           average_rating?: number | null
           background_check_verified?: boolean | null
+          blacklist_reason?: string | null
+          blacklisted_at?: string | null
           business_license?: string | null
           certifications?: string[] | null
           company_name: string
@@ -4018,6 +4170,7 @@ export type Database = {
           email?: string | null
           id?: string
           insurance_verified?: boolean | null
+          is_blacklisted?: boolean
           is_verified?: boolean | null
           last_active_at?: string | null
           phone?: string | null
@@ -4046,6 +4199,8 @@ export type Database = {
           avatar_url?: string | null
           average_rating?: number | null
           background_check_verified?: boolean | null
+          blacklist_reason?: string | null
+          blacklisted_at?: string | null
           business_license?: string | null
           certifications?: string[] | null
           company_name?: string
@@ -4055,6 +4210,7 @@ export type Database = {
           email?: string | null
           id?: string
           insurance_verified?: boolean | null
+          is_blacklisted?: boolean
           is_verified?: boolean | null
           last_active_at?: string | null
           phone?: string | null
@@ -4874,6 +5030,7 @@ export type Database = {
         Returns: boolean
       }
       cleanup_rate_limits: { Args: never; Returns: number }
+      compute_bid_score: { Args: { _bid_id: string }; Returns: number }
       create_rfq: {
         Args: {
           p_deadline: string
@@ -4916,6 +5073,33 @@ export type Database = {
         }
         Returns: boolean
       }
+      forfeit_emd: {
+        Args: { _emd_id: string; _notes?: string }
+        Returns: {
+          amount_cents: number
+          created_at: string
+          currency: string
+          forfeited_at: string | null
+          id: string
+          notes: string | null
+          paid_at: string | null
+          released_at: string | null
+          rfq_id: string
+          status: string
+          stripe_charge_id: string | null
+          stripe_payment_intent_id: string | null
+          stripe_refund_id: string | null
+          stripe_session_id: string | null
+          updated_at: string
+          vendor_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "emd_transactions"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       get_admin_dashboard_stats: {
         Args: never
         Returns: {
@@ -4930,6 +5114,21 @@ export type Database = {
       }
       get_admin_dashboard_stats_optimized: { Args: never; Returns: Json }
       get_admin_testing_stats: { Args: never; Returns: Json }
+      get_admin_vendor_detail: { Args: { _vendor_id: string }; Returns: Json }
+      get_cross_rfq_bids: {
+        Args: { _status?: string }
+        Returns: {
+          bid_count: number
+          is_shortlisted: boolean
+          last_submitted_at: string
+          rfq_id: string
+          rfq_status: string
+          rfq_title: string
+          total_amount: number
+          vendor_id: string
+          vendor_name: string
+        }[]
+      }
       get_current_user_roles: {
         Args: never
         Returns: {
@@ -5036,6 +5235,17 @@ export type Database = {
           email: string
           full_name: string
           user_id: string
+        }[]
+      }
+      get_top_vendors: {
+        Args: { _limit?: number }
+        Returns: {
+          company_name: string
+          completed_jobs: number
+          contracts_awarded: number
+          rating: number
+          total_contract_value: number
+          vendor_id: string
         }[]
       }
       get_user_id: { Args: never; Returns: string }
@@ -5154,6 +5364,33 @@ export type Database = {
           p_window_minutes?: number
         }
         Returns: boolean
+      }
+      refund_emd: {
+        Args: { _emd_id: string; _notes?: string; _refund_id?: string }
+        Returns: {
+          amount_cents: number
+          created_at: string
+          currency: string
+          forfeited_at: string | null
+          id: string
+          notes: string | null
+          paid_at: string | null
+          released_at: string | null
+          rfq_id: string
+          status: string
+          stripe_charge_id: string | null
+          stripe_payment_intent_id: string | null
+          stripe_refund_id: string | null
+          stripe_session_id: string | null
+          updated_at: string
+          vendor_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "emd_transactions"
+          isOneToOne: true
+          isSetofReturn: false
+        }
       }
       room_id_from_topic: { Args: { topic: string }; Returns: string }
       search_vendors_public: {
