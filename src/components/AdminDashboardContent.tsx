@@ -271,6 +271,9 @@ export default function AdminDashboardContent() {
         </div>
       </div>
 
+      {/* Top Vendor Leaderboard */}
+      <TopVendorLeaderboard />
+
       {/* System Health Dashboard */}
       <SystemHealthDashboard />
     </div>
