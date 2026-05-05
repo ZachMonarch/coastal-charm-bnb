@@ -12,6 +12,7 @@ import { RFQStatusBadge } from '@/components/rfq/shared/RFQStatusBadge';
 import { BidAmountDisplay } from '@/components/rfq/shared/BidAmountDisplay';
 import ContractAward from '@/components/contracts/ContractAward';
 import RFQDocumentList from '@/components/rfq/RFQDocumentList';
+import RFQScoringWeightsEditor from '@/components/rfq/RFQScoringWeightsEditor';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import EnhancedPageBackground from '@/components/shared/EnhancedPageBackground';
 import { 
