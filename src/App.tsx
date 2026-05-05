@@ -499,6 +499,9 @@ const App = () => (
                 </OptimizedProtectedRoute>
               } />
               <Route path="/admin/rfq-access" element={<AdminRFQAccessRequests />} />
+              <Route path="/admin/emd" element={<AdminEMDLedger />} />
+              <Route path="/admin/bids" element={<CrossRFQBidAnalysis />} />
+              <Route path="/admin/vendors/:id" element={<AdminVendorDetail />} />
               <Route path="/admin/rfq/create" element={<Navigate to="/admin/rfq/create-detailed" replace />} />
               <Route path="/admin/rfq/:id" element={
                 <OptimizedProtectedRoute requiredRole="admin">
