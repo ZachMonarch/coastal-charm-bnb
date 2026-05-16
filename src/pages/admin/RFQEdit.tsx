@@ -896,6 +896,33 @@ export default function RFQEdit() {
     toast.success('Shareable vendor link copied to clipboard');
   };
 
+  const handleCopyPublicLink = async () => {
+    if (!id || isNew) return;
+    const url = `${window.location.origin}/rfq/${id}`;
+    try { await navigator.clipboard.writeText(url); } catch {}
+    toast.success('Public RFQ link copied');
+  };
+
+  const handlePublishAndShare = async () => {
+    if (isNew) {
+      toast.error('Save the RFQ first, then publish.');
+      return;
+    }
+    try {
+      if (formData.status !== 'open' && formData.status !== 'published') {
+        const next = { ...formData, status: 'open' };
+        setFormData(next);
+        await saveMutation.mutateAsync(next);
+        await finalizeSuccessfulSave(next, id);
+      }
+      const url = `${window.location.origin}/rfq/${id}`;
+      try { await navigator.clipboard.writeText(url); } catch {}
+      toast.success('RFQ published — public link copied');
+    } catch (e: any) {
+      toast.error(e?.message || 'Failed to publish RFQ');
+    }
+  };
+
   if (rfqLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -935,9 +962,22 @@ export default function RFQEdit() {
                     <Copy className="h-4 w-4 mr-2" />
                     Copy Link
                   </Button>
+                  <Button variant="outline" size="sm" onClick={handleCopyPublicLink}>
+                    <Copy className="h-4 w-4 mr-2" />
+                    Public Link
+                  </Button>
                   <Button variant="outline" size="sm" onClick={handleCopyVendorLink}>
                     <Copy className="h-4 w-4 mr-2" />
                     Share to Vendor
+                  </Button>
+                  <Button
+                    size="sm"
+                    onClick={handlePublishAndShare}
+                    disabled={saveMutation.isPending}
+                    className="bg-primary text-primary-foreground"
+                  >
+                    <Send className="h-4 w-4 mr-2" />
+                    {formData.status === 'open' || formData.status === 'published' ? 'Copy Public Link' : 'Publish & Share'}
                   </Button>
                   <Dialog open={inviteDialogOpen} onOpenChange={setInviteDialogOpen}>
                     <DialogTrigger asChild>
