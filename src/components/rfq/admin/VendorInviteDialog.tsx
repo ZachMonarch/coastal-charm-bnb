@@ -126,7 +126,7 @@ export function VendorInviteDialog({ open, onOpenChange, rfqId, rfqTitle }: Vend
               disabled={loading}
             />
             <p className="text-xs text-muted-foreground">
-              Enter the email of a registered vendor
+              Registered vendors get an in-app invite. Unknown emails receive an external invitation.
             </p>
           </div>
 
