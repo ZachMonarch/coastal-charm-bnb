@@ -29,71 +29,66 @@ export function VendorInviteDialog({ open, onOpenChange, rfqId, rfqTitle }: Vend
     setLoading(true);
     try {
       const normalizedEmail = email.toLowerCase().trim();
-      
-      // Find vendor by email using user_roles table (not profiles.role)
-      // This follows the doctrine: "roles must be in user_roles"
-      const { data: profile, error: profileError } = await supabase
+      const { data: { user } } = await supabase.auth.getUser();
+
+      // Try to find existing vendor profile (site user)
+      const { data: profile } = await supabase
         .from('profiles')
         .select('id, full_name, email')
         .eq('email', normalizedEmail)
-        .single();
-
-      if (profileError || !profile) {
-        toast.error('User not found with this email');
-        setLoading(false);
-        return;
-      }
-
-      // Verify they have vendor role using user_roles table
-      const { data: roleData, error: roleError } = await supabase
-        .from('user_roles')
-        .select('role')
-        .eq('user_id', profile.id)
-        .eq('role', 'vendor')
         .maybeSingle();
 
-      if (roleError) {
-        console.error('Role check error:', roleError);
-        toast.error('Error verifying vendor status');
-        setLoading(false);
-        return;
+      let vendorName = profile?.full_name || normalizedEmail;
+      let vendorIdToInvite: string | null = null;
+      let isSiteVendor = false;
+
+      if (profile) {
+        const { data: roleData } = await supabase
+          .from('user_roles')
+          .select('role')
+          .eq('user_id', profile.id)
+          .eq('role', 'vendor')
+          .maybeSingle();
+
+        if (roleData) {
+          vendorIdToInvite = profile.id;
+          isSiteVendor = true;
+        }
       }
 
-      if (!roleData) {
-        toast.error('This user is not registered as a vendor');
-        setLoading(false);
-        return;
-      }
-
-      // Create invite
-      const { data: { user } } = await supabase.auth.getUser();
+      // Create invite (site vendor → vendor_id; otherwise email-only)
       const { error: inviteError } = await supabase
         .from('rfq_invites')
         .insert({
           rfq_id: rfqId,
-          vendor_id: profile.id,
+          vendor_id: vendorIdToInvite,
+          invitee_email: isSiteVendor ? null : normalizedEmail,
           invited_by: user?.id,
-          status: 'invited'
+          status: 'invited',
         });
 
       if (inviteError) throw inviteError;
 
-      // Send invitation email
+      // Send invitation email (works for both registered and non-registered)
       const { error: emailError } = await supabase.functions.invoke('send-rfq-invitation', {
         body: {
           rfqId,
           rfqTitle,
-          vendorEmail: profile.email,
-          vendorName: profile.full_name,
-          message: message.trim() || undefined
-        }
+          vendorEmail: normalizedEmail,
+          vendorName,
+          message: message.trim() || undefined,
+        },
       });
 
       if (emailError) {
         console.error('Email send error:', emailError);
         toast.warning('Invite created but email failed to send');
       } else {
-        toast.success(`Invitation sent to ${profile.full_name}`);
+        toast.success(
+          isSiteVendor
+            ? `Invitation sent to ${vendorName}`
+            : `External invitation emailed to ${normalizedEmail}`
+        );
       }
 
       setEmail('');
