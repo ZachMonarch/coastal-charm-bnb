@@ -120,3 +120,10 @@ All notable changes to the Monarch Property Management application.
 - Email notifications via Resend
 - Role-based access control
 - 77 database tables with RLS
+
+## [2.3.1] - 2026-05-16 — RFQ Access & Invite Fixes
+
+### Fixed
+- **RFQ creation blocked for admins without tenant_id**: backfilled `profiles.tenant_id` for admin/property_manager users and made `app.current_tenant()` fall back to the default tenant for privileged roles.
+- **Shared RFQ URLs not accessible**: added public SELECT policies on `rfqs` and `rfq_lots` for `status IN ('open','published')`, allowing anonymous and authenticated visitors to view shared RFQ pages.
+- **Cannot invite non-site vendors**: `rfq_invites` now accepts email-only invites (`invitee_email`, nullable `vendor_id`, CHECK constraint, unique index). `VendorInviteDialog` no longer rejects unknown emails — it creates an external invite and sends the invitation email instead.

@@ -2147,25 +2147,28 @@ export type Database = {
           id: string
           invited_at: string
           invited_by: string
+          invitee_email: string | null
           rfq_id: string
           status: string
-          vendor_id: string
+          vendor_id: string | null
         }
         Insert: {
           id?: string
           invited_at?: string
           invited_by: string
+          invitee_email?: string | null
           rfq_id: string
           status?: string
-          vendor_id: string
+          vendor_id?: string | null
         }
         Update: {
           id?: string
           invited_at?: string
           invited_by?: string
+          invitee_email?: string | null
           rfq_id?: string
           status?: string
-          vendor_id?: string
+          vendor_id?: string | null
         }
         Relationships: [
           {
