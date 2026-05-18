@@ -538,7 +538,11 @@ const App = () => (
               {/* Redirect deprecated RFQ system route */}
               <Route path="/rfq-system" element={<Navigate to="/admin/rfq" replace />} />
               <Route path="/vendor/rfqs" element={<Navigate to="/vendor/rfq" replace />} />
-              <Route path="/vendor/rfqs/:id" element={<Navigate to="/vendor/rfq/:id" replace />} />
+              <Route path="/vendor/rfqs/:id" element={
+                <OptimizedProtectedRoute requiredRole="vendor">
+                  <VendorRFQDetail />
+                </OptimizedProtectedRoute>
+              } />
               
               {/* Design System Preview - Admin only */}
               <Route path="/theme-preview" element={
