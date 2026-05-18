@@ -171,7 +171,7 @@ export default function VendorRFQDashboard() {
                       <div className="text-sm text-muted-foreground">
                         Deadline: {new Date(invite.rfq?.deadline).toLocaleDateString()}
                       </div>
-                      <Button onClick={() => navigate(`/vendor/rfqs/${invite.rfq?.id}`)}>
+                      <Button onClick={() => navigate(`/vendor/rfq/${invite.rfq?.id}`)}>
                         Submit Bid
                       </Button>
                     </div>
