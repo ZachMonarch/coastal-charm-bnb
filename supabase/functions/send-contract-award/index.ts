@@ -30,6 +30,32 @@ const handler = async (req: Request): Promise<Response> => {
 
     const { contract_id, vendor_id }: ContractAwardRequest = await req.json();
 
+    const { data: { user }, error: authError } = await supabaseClient.auth.getUser();
+    if (authError || !user) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
+
+    const supabaseAdmin = createClient(
+      Deno.env.get("SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
+    );
+
+    const { data: roles } = await supabaseAdmin
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", user.id);
+
+    const canSendAward = roles?.some((r) => r.role === "admin" || r.role === "property_manager");
+    if (!canSendAward) {
+      return new Response(JSON.stringify({ error: "Forbidden" }), {
+        status: 403,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
+
     console.log(`Sending contract award notification for contract ${contract_id}`);
 
     // Fetch contract and vendor details
@@ -141,7 +167,7 @@ const handler = async (req: Request): Promise<Response> => {
   } catch (error: any) {
     console.error("Error in send-contract-award function:", error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: "Failed to send contract award", code: "INTERNAL_ERROR" }),
       {
         status: 500,
         headers: { "Content-Type": "application/json", ...corsHeaders },
