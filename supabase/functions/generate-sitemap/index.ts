@@ -82,7 +82,7 @@ serve(async (req) => {
     }
 
     // Base URL
-    const baseUrl = 'https://monarchpropertymmgt.online';
+    const baseUrl = 'https://coastal-charm-bnb.lovable.app';
     const now = new Date().toISOString().split('T')[0];
 
     // Static pages
@@ -91,7 +91,7 @@ serve(async (req) => {
       { loc: '/properties', changefreq: 'daily', priority: '0.9', lastmod: now },
       { loc: '/amenities', changefreq: 'weekly', priority: '0.8', lastmod: now },
       { loc: '/contact', changefreq: 'monthly', priority: '0.7', lastmod: now },
-      { loc: '/vendor-application', changefreq: 'monthly', priority: '0.6', lastmod: now },
+      { loc: '/join-as-vendor', changefreq: 'monthly', priority: '0.6', lastmod: now },
       { loc: '/services', changefreq: 'monthly', priority: '0.6', lastmod: now },
       { loc: '/gallery', changefreq: 'weekly', priority: '0.6', lastmod: now },
       { loc: '/sitemap', changefreq: 'monthly', priority: '0.4', lastmod: now },
