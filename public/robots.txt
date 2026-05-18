@@ -7,13 +7,12 @@ Disallow: /vendor/settings
 Disallow: /api/
 Disallow: /auth/
 
-# Allow specific vendor public pages
-Allow: /vendor/projects
-Allow: /vendor-application
+# Allow public discovery pages
+Allow: /rfq
+Allow: /projects
 
-# XML Sitemap (dynamic)
-Sitemap: https://monarchpropertymmgt.online/sitemap.xml
-Sitemap: https://yhegaaqxmuhszesbjtdo.supabase.co/functions/v1/generate-sitemap
+# XML Sitemap
+Sitemap: https://coastal-charm-bnb.lovable.app/sitemap.xml
 
 # Crawl delay (be respectful)
 Crawl-delay: 1

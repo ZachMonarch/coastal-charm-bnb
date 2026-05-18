@@ -23,14 +23,15 @@ export function NewsletterSubscription({ variant = "card", className }: Newslett
 
   const subscribeMutation = useMutation({
     mutationFn: async () => {
+      const isSignedIn = Boolean(user?.id);
       const { error } = await supabase
         .from("newsletter_subscriptions")
         .upsert({
           email: email.toLowerCase().trim(),
           user_id: user?.id || null,
           subscription_type: frequency,
-          is_active: true,
-          confirmed_at: new Date().toISOString()
+          is_active: isSignedIn,
+          confirmed_at: isSignedIn ? new Date().toISOString() : null
         }, {
           onConflict: "email"
         });
