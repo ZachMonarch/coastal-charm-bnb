@@ -1,0 +1,23 @@
+# Monarch Property Management
+
+> Property management, vendor RFQ discovery, apartment services, bookings, and support resources.
+
+Monarch Property Management provides public information about available properties, management services, amenities, gallery content, open RFQs, contact options, and vendor onboarding.
+
+## Pages
+
+- [Home](/): Company overview and primary navigation.
+- [Properties](/properties): Public property listings and availability.
+- [Services](/services): Property management and maintenance services.
+- [Property Management](/services/property-management): Management service details.
+- [Consultation](/services/consultation): Consultation service details.
+- [Amenities](/amenities): Community and property amenities.
+- [Gallery](/gallery): Property and community media.
+- [Open RFQs](/rfq): Public RFQ discovery with restricted project details.
+- [Join as Vendor](/join-as-vendor): Vendor onboarding entry point.
+- [Contact](/contact): Public contact and support information.
+
+## Optional
+
+- [Privacy](/privacy): Privacy policy.
+- [Terms](/terms): Website terms.
