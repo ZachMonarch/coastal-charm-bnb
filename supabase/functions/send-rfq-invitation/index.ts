@@ -10,6 +10,7 @@ import { getCorsHeaders, handleCorsPreflightRequest } from '../_shared/cors.ts';
 interface RFQInvitationRequest {
   rfq_id?: string;
   vendor_ids?: string[];
+  vendor_id?: string;
   rfqId?: string;
   rfqTitle?: string;
   vendorEmail?: string;
@@ -64,7 +65,7 @@ const handler = async (req: Request): Promise<Response> => {
     const directRecipient = body.vendorEmail
       ? [{ id: body.vendorEmail, email: body.vendorEmail, full_name: body.vendorName ?? body.vendorEmail }]
       : null;
-    const vendor_ids = body.vendor_ids ?? [];
+    const vendor_ids = body.vendor_ids ?? (body.vendor_id ? [body.vendor_id] : []);
 
     if (!rfq_id || (!directRecipient && vendor_ids.length === 0)) {
       return new Response(JSON.stringify({ error: "Invalid request" }), {
