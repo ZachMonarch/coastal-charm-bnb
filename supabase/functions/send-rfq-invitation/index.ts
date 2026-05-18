@@ -8,8 +8,13 @@ const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 import { getCorsHeaders, handleCorsPreflightRequest } from '../_shared/cors.ts';
 
 interface RFQInvitationRequest {
-  rfq_id: string;
-  vendor_ids: string[];
+  rfq_id?: string;
+  vendor_ids?: string[];
+  rfqId?: string;
+  rfqTitle?: string;
+  vendorEmail?: string;
+  vendorName?: string;
+  message?: string;
 }
 
 const handler = async (req: Request): Promise<Response> => {
@@ -28,9 +33,47 @@ const handler = async (req: Request): Promise<Response> => {
       }
     );
 
-    const { rfq_id, vendor_ids }: RFQInvitationRequest = await req.json();
+    const { data: { user }, error: authError } = await supabaseClient.auth.getUser();
+    if (authError || !user) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
 
-    console.log(`Sending RFQ invitations for RFQ ${rfq_id} to ${vendor_ids.length} vendors`);
+    const supabaseAdmin = createClient(
+      Deno.env.get("SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
+    );
+
+    const { data: roles } = await supabaseAdmin
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", user.id);
+
+    const canInvite = roles?.some((r) => r.role === "admin" || r.role === "property_manager");
+    if (!canInvite) {
+      return new Response(JSON.stringify({ error: "Forbidden" }), {
+        status: 403,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
+
+    const body: RFQInvitationRequest = await req.json();
+    const rfq_id = body.rfq_id ?? body.rfqId;
+    const directRecipient = body.vendorEmail
+      ? [{ id: body.vendorEmail, email: body.vendorEmail, full_name: body.vendorName ?? body.vendorEmail }]
+      : null;
+    const vendor_ids = body.vendor_ids ?? [];
+
+    if (!rfq_id || (!directRecipient && vendor_ids.length === 0)) {
+      return new Response(JSON.stringify({ error: "Invalid request" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
+
+    console.log(`Sending RFQ invitations for RFQ ${rfq_id}`);
 
     // Fetch RFQ details
     const { data: rfq, error: rfqError } = await supabaseClient
@@ -42,10 +85,12 @@ const handler = async (req: Request): Promise<Response> => {
     if (rfqError) throw rfqError;
 
     // Fetch vendor profiles
-    const { data: vendors, error: vendorsError } = await supabaseClient
-      .from("profiles")
-      .select("id, full_name, email")
-      .in("id", vendor_ids);
+    const { data: vendors, error: vendorsError } = directRecipient
+      ? { data: directRecipient, error: null }
+      : await supabaseAdmin
+          .from("profiles")
+          .select("id, full_name, email")
+          .in("id", vendor_ids);
 
     if (vendorsError) throw vendorsError;
 
@@ -101,7 +146,7 @@ const handler = async (req: Request): Promise<Response> => {
                   <p>This is an excellent opportunity to work with Monarch Property Management. Please review the RFQ details and submit your competitive bid.</p>
                   
                   <center>
-                    <a href="${EMAIL_CONFIG.siteUrl}/vendor/rfqs/${rfq_id}" class="button">View RFQ & Submit Bid</a>
+                    <a href="${EMAIL_CONFIG.siteUrl}/rfq/${rfq_id}" class="button">View RFQ & Request Access</a>
                   </center>
                   
                   <p style="color: #6B7280; font-size: 14px; margin-top: 30px;">If you have any questions, please contact our procurement team.</p>
@@ -137,7 +182,7 @@ const handler = async (req: Request): Promise<Response> => {
   } catch (error: any) {
     console.error("Error in send-rfq-invitation function:", error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: "Failed to send RFQ invitation", code: "INTERNAL_ERROR" }),
       {
         status: 500,
         headers: { "Content-Type": "application/json", ...corsHeaders },
