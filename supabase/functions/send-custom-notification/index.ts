@@ -234,7 +234,7 @@ serve(async (req) => {
   } catch (error: any) {
     console.error("send-custom-notification: Error", error);
     return new Response(
-      JSON.stringify({ error: "Failed to send notification", details: error.message }),
+      JSON.stringify({ error: "Failed to send notification", code: "INTERNAL_ERROR" }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 500 }
     );
   }

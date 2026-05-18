@@ -498,10 +498,26 @@ const App = () => (
                   <RFQManagement />
                 </OptimizedProtectedRoute>
               } />
-              <Route path="/admin/rfq-access" element={<AdminRFQAccessRequests />} />
-              <Route path="/admin/emd" element={<AdminEMDLedger />} />
-              <Route path="/admin/bids" element={<CrossRFQBidAnalysis />} />
-              <Route path="/admin/vendors/:id" element={<AdminVendorDetail />} />
+              <Route path="/admin/rfq-access" element={
+                <OptimizedProtectedRoute requiredRole={['admin', 'property_manager']}>
+                  <AdminRFQAccessRequests />
+                </OptimizedProtectedRoute>
+              } />
+              <Route path="/admin/emd" element={
+                <OptimizedProtectedRoute requiredRole="admin">
+                  <AdminEMDLedger />
+                </OptimizedProtectedRoute>
+              } />
+              <Route path="/admin/bids" element={
+                <OptimizedProtectedRoute requiredRole={['admin', 'property_manager']}>
+                  <CrossRFQBidAnalysis />
+                </OptimizedProtectedRoute>
+              } />
+              <Route path="/admin/vendors/:id" element={
+                <OptimizedProtectedRoute requiredRole={['admin', 'property_manager']}>
+                  <AdminVendorDetail />
+                </OptimizedProtectedRoute>
+              } />
               <Route path="/admin/rfq/create" element={<Navigate to="/admin/rfq/create-detailed" replace />} />
               <Route path="/admin/rfq/:id" element={
                 <OptimizedProtectedRoute requiredRole="admin">
@@ -521,6 +537,12 @@ const App = () => (
               
               {/* Redirect deprecated RFQ system route */}
               <Route path="/rfq-system" element={<Navigate to="/admin/rfq" replace />} />
+              <Route path="/vendor/rfqs" element={<Navigate to="/vendor/rfq" replace />} />
+              <Route path="/vendor/rfqs/:id" element={
+                <OptimizedProtectedRoute requiredRole="vendor">
+                  <VendorRFQDetail />
+                </OptimizedProtectedRoute>
+              } />
               
               {/* Design System Preview - Admin only */}
               <Route path="/theme-preview" element={
