@@ -10,6 +10,8 @@ import { RFQStatusBadge } from '@/components/rfq/shared/RFQStatusBadge';
 import VendorBidForm from '@/components/rfq/VendorBidForm';
 import { RFQTimeline } from '@/components/rfq/shared/RFQTimeline';
 import EMDPayToUnlockGate from '@/components/rfq/EMDPayToUnlockGate';
+import RFQDocumentList from '@/components/rfq/RFQDocumentList';
+import { useRFQDetail } from '@/hooks/useRFQDetail';
 
 export default function VendorRFQDetail() {
   const { id } = useParams<{ id: string }>();
@@ -17,6 +19,7 @@ export default function VendorRFQDetail() {
   const navigate = useNavigate();
 
   useRFQSubscription(id);
+  const { data: detail } = useRFQDetail(id);
 
   const { data: rfq, isLoading } = useQuery({
     queryKey: ['rfq', id],
@@ -150,6 +153,17 @@ export default function VendorRFQDetail() {
               </div>
             </CardContent>
           </Card>
+
+          {detail?.documents && detail.documents.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Documents</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <RFQDocumentList documents={detail.documents} rfqTitle={rfq.title} />
+              </CardContent>
+            </Card>
+          )}
 
           {!myBid && rfq.status === 'open' ? (
             <EMDPayToUnlockGate
