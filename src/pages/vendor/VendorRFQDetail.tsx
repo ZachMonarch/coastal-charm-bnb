@@ -19,6 +19,7 @@ export default function VendorRFQDetail() {
   const navigate = useNavigate();
 
   useRFQSubscription(id);
+  const { data: detail } = useRFQDetail(id);
 
   const { data: rfq, isLoading } = useQuery({
     queryKey: ['rfq', id],
