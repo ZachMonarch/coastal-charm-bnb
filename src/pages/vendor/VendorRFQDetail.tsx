@@ -154,6 +154,17 @@ export default function VendorRFQDetail() {
             </CardContent>
           </Card>
 
+          {detail?.documents && detail.documents.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Documents</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <RFQDocumentList documents={detail.documents} rfqTitle={rfq.title} />
+              </CardContent>
+            </Card>
+          )}
+
           {!myBid && rfq.status === 'open' ? (
             <EMDPayToUnlockGate
               rfqId={rfq.id}
