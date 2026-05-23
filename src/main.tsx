@@ -12,6 +12,7 @@ import QueryProvider from '@/providers/QueryProvider'
 import { HelmetProvider } from 'react-helmet-async'
 import { initializeCSRFProtection } from '@/utils/csrfProtection'
 import { inject } from '@vercel/analytics'
+import { SpeedInsights } from '@vercel/speed-insights/react'
 
 // Initialize Vercel Web Analytics only on Vercel-hosted domains
 // This prevents 404 errors on Lovable preview domains
@@ -66,6 +67,7 @@ createRoot(document.getElementById("root")!).render(
           <AuthProvider>
             <A11yProvider>
               <UnifiedPerformanceMonitor />
+              <SpeedInsights />
               <App />
             </A11yProvider>
           </AuthProvider>
