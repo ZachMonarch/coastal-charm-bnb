@@ -11,12 +11,12 @@ const BRAND_IMAGES = [
   {
     name: 'monarch-logo-dark-bg.png',
     description: 'Monarch Property Management logo on dark background',
-    sourceUrl: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_3376-2A5u92sOMLlH99v1dYSNpOKjncxXhe.png',
+    sourceUrl: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_3376-zNfno6S1KldKyUAizpA3pnRCrNyR9L.png',
   },
   {
     name: 'monarch-logo-light-bg.jpeg',
     description: 'Monarch Property Management logo on light/white background',
-    sourceUrl: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_3377-eAfalIWVuFmKd8M8dzmAsyrCkDE3CW.jpeg',
+    sourceUrl: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_3377-nW7LXNbZaDT0iTScv4KhGeKJog8rMt.jpeg',
   },
 ];
 
