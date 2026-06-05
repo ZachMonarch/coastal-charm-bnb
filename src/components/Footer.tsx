@@ -243,7 +243,7 @@ United States</p>
                 <Link to="/terms" className="hover:text-primary transition-colors">
                   Terms of Service
                 </Link>
-                <span className="text-muted-foreground/50">•</span>
+                <span className="text-muted-foreground" aria-hidden="true">•</span>
                 <Link to="/sitemap" className="hover:text-primary transition-colors">
                   Sitemap
                 </Link>
