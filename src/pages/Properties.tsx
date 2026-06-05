@@ -307,8 +307,10 @@ export default function Properties() {
                               size="sm"
                               onClick={() => setViewMode('grid')}
                               className="px-3"
+                              aria-label="Grid view"
+                              aria-pressed={viewMode === 'grid'}
                             >
-                              <div className="grid grid-cols-2 gap-1 w-4 h-4">
+                              <div className="grid grid-cols-2 gap-1 w-4 h-4" aria-hidden="true">
                                 <div className="bg-current rounded-sm"></div>
                                 <div className="bg-current rounded-sm"></div>
                                 <div className="bg-current rounded-sm"></div>
@@ -320,8 +322,10 @@ export default function Properties() {
                               size="sm"
                               onClick={() => setViewMode('list')}
                               className="px-3"
+                              aria-label="List view"
+                              aria-pressed={viewMode === 'list'}
                             >
-                              <div className="flex flex-col gap-1 w-4 h-4">
+                              <div className="flex flex-col gap-1 w-4 h-4" aria-hidden="true">
                                 <div className="bg-current h-1 rounded-sm"></div>
                                 <div className="bg-current h-1 rounded-sm"></div>
                                 <div className="bg-current h-1 rounded-sm"></div>
