@@ -45,8 +45,8 @@ export default function Index() {
   return (
     <>
       <EnhancedSEOLayout
-      title="Monarch Property Management - Premier Property & Vendor Services"
-      description="Transform your property investments with our comprehensive management platform. Connect with verified vendors, streamline operations, and maximize returns. Join thousands of satisfied property owners."
+      title="Monarch Property Management — Property & Vendor Services"
+      description="Manage your properties and connect with verified vendors. Streamline operations and maximize returns with our property management platform."
       keywords={[
         'property management software',
         'vendor management platform',

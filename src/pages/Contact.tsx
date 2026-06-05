@@ -77,7 +77,7 @@ export default function Contact() {
     <div className="min-h-screen">
       <SEOHead
         title="Contact Us - Get in Touch"
-        description="Contact Monarch Property Management for property inquiries, rental information, maintenance requests, or vendor services. Located in Franktown, CO. Call +1 (304) 365-8349."
+        description="Contact Monarch Property Management for rentals, maintenance, or vendor inquiries. Franktown, CO. Call +1 (304) 365-8349."
         keywords={["contact property management", "rental inquiries", "property maintenance", "vendor services", "Franktown CO"]}
         type="website"
         url="https://monarch-properties.com/contact"

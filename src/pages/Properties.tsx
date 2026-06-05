@@ -165,10 +165,10 @@ export default function Properties() {
     <EnhancedPageBackground gradient="linear" pattern="dots" primaryColor="primary">
       <SEOHead
         title="Properties & Vacation Rentals for Rent"
-        description="Browse our curated selection of long-term rental properties and vacation accommodations. Find your perfect home with premium amenities and flexible lease terms."
+        description="Browse our curated long-term rentals and vacation accommodations with premium amenities and flexible lease terms."
         keywords={["property rentals", "vacation rentals", "apartments for rent", "long-term rentals", "furnished apartments", "property management"]}
         type="website"
-        url="https://monarch-properties.com/properties"
+        url="https://monarchpropertymmgt.online/properties"
       />
       
       {/* Hero Section with Background Image */}
@@ -295,9 +295,9 @@ export default function Properties() {
                       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
                         <div className="flex items-center space-x-3">
                           <Building2 className="h-5 w-5 text-primary" />
-                          <h3 className="text-lg font-semibold">
+                          <h2 className="text-lg font-semibold">
                             {pagination.totalCount} Properties Found
-                          </h3>
+                          </h2>
                         </div>
                         
                         <div className="flex items-center gap-3">
@@ -307,8 +307,10 @@ export default function Properties() {
                               size="sm"
                               onClick={() => setViewMode('grid')}
                               className="px-3"
+                              aria-label="Grid view"
+                              aria-pressed={viewMode === 'grid'}
                             >
-                              <div className="grid grid-cols-2 gap-1 w-4 h-4">
+                              <div className="grid grid-cols-2 gap-1 w-4 h-4" aria-hidden="true">
                                 <div className="bg-current rounded-sm"></div>
                                 <div className="bg-current rounded-sm"></div>
                                 <div className="bg-current rounded-sm"></div>
@@ -320,8 +322,10 @@ export default function Properties() {
                               size="sm"
                               onClick={() => setViewMode('list')}
                               className="px-3"
+                              aria-label="List view"
+                              aria-pressed={viewMode === 'list'}
                             >
-                              <div className="flex flex-col gap-1 w-4 h-4">
+                              <div className="flex flex-col gap-1 w-4 h-4" aria-hidden="true">
                                 <div className="bg-current h-1 rounded-sm"></div>
                                 <div className="bg-current h-1 rounded-sm"></div>
                                 <div className="bg-current h-1 rounded-sm"></div>
@@ -371,7 +375,7 @@ export default function Properties() {
                     <div className="text-center py-12">
                       <div className="neumorphic-card p-12 rounded-3xl">
                         <Building2 className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-                        <h3 className="text-xl font-semibold mb-2">No Properties Found</h3>
+                        <h2 className="text-xl font-semibold mb-2">No Properties Found</h2>
                         <p className="text-muted-foreground mb-6">
                           Try adjusting your filters to see more results
                         </p>
@@ -390,10 +394,10 @@ export default function Properties() {
 
             <TabsContent value="apartments" className="space-y-8">
               <div className="neumorphic-card p-6 rounded-3xl">
-                <h3 className="text-lg font-semibold mb-4 flex items-center">
+                <h2 className="text-lg font-semibold mb-4 flex items-center">
                   <Filter className="h-5 w-5 mr-2 text-primary" />
                   Vacation Rentals & Short-term Stays
-                </h3>
+                </h2>
                 <p className="text-muted-foreground text-sm mb-4">
                   Discover fully furnished apartments and vacation homes perfect for short-term stays.
                 </p>
@@ -404,9 +408,9 @@ export default function Properties() {
 
               <div className="mb-6">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-semibold">
+                  <h2 className="text-lg font-semibold">
                     {filteredApartments.length} Vacation Rentals Available
-                  </h3>
+                  </h2>
                   <Badge variant="outline">Short-term Rentals</Badge>
                 </div>
               </div>
@@ -423,7 +427,7 @@ export default function Properties() {
                 <div className="text-center py-12">
                   <div className="neumorphic-card p-12 rounded-3xl">
                     <Building2 className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-                    <h3 className="text-xl font-semibold mb-2">No Vacation Rentals Found</h3>
+                    <h2 className="text-xl font-semibold mb-2">No Vacation Rentals Found</h2>
                     <p className="text-muted-foreground mb-6">
                       Try adjusting your filters to see more results
                     </p>
