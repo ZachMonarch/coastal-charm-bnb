@@ -172,8 +172,10 @@ export default function PropertyCard({ property, className }: PropertyCardProps)
             setIsFavorite(!isFavorite);
           }}
           title={isFavorite ? "Remove from favorites" : "Add to favorites"}
+          aria-label={isFavorite ? `Remove ${property.title} from favorites` : `Add ${property.title} to favorites`}
+          aria-pressed={isFavorite}
         >
-          <Heart className={cn("h-5 w-5", isFavorite && "fill-current text-destructive")} />
+          <Heart className={cn("h-5 w-5", isFavorite && "fill-current text-destructive")} aria-hidden="true" />
         </Button>
 
         {/* Price Overlay - Tiered display */}
