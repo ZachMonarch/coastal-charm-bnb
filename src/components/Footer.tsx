@@ -239,7 +239,7 @@ United States</p>
                 <Link to="/privacy" className="hover:text-primary transition-colors">
                   Privacy Policy
                 </Link>
-                <span className="text-muted-foreground/50">•</span>
+                <span className="text-muted-foreground" aria-hidden="true">•</span>
                 <Link to="/terms" className="hover:text-primary transition-colors">
                   Terms of Service
                 </Link>
