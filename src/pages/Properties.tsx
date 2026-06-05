@@ -297,7 +297,7 @@ export default function Properties() {
                           <Building2 className="h-5 w-5 text-primary" />
                           <h2 className="text-lg font-semibold">
                             {pagination.totalCount} Properties Found
-                          </h3>
+                          </h2>
                         </div>
                         
                         <div className="flex items-center gap-3">
@@ -397,7 +397,7 @@ export default function Properties() {
                 <h2 className="text-lg font-semibold mb-4 flex items-center">
                   <Filter className="h-5 w-5 mr-2 text-primary" />
                   Vacation Rentals & Short-term Stays
-                </h3>
+                </h2>
                 <p className="text-muted-foreground text-sm mb-4">
                   Discover fully furnished apartments and vacation homes perfect for short-term stays.
                 </p>
@@ -410,7 +410,7 @@ export default function Properties() {
                 <div className="flex items-center justify-between">
                   <h2 className="text-lg font-semibold">
                     {filteredApartments.length} Vacation Rentals Available
-                  </h3>
+                  </h2>
                   <Badge variant="outline">Short-term Rentals</Badge>
                 </div>
               </div>
