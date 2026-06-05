@@ -295,7 +295,7 @@ export default function Properties() {
                       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
                         <div className="flex items-center space-x-3">
                           <Building2 className="h-5 w-5 text-primary" />
-                          <h3 className="text-lg font-semibold">
+                          <h2 className="text-lg font-semibold">
                             {pagination.totalCount} Properties Found
                           </h3>
                         </div>
@@ -375,7 +375,7 @@ export default function Properties() {
                     <div className="text-center py-12">
                       <div className="neumorphic-card p-12 rounded-3xl">
                         <Building2 className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-                        <h3 className="text-xl font-semibold mb-2">No Properties Found</h3>
+                        <h2 className="text-xl font-semibold mb-2">No Properties Found</h2>
                         <p className="text-muted-foreground mb-6">
                           Try adjusting your filters to see more results
                         </p>
@@ -394,7 +394,7 @@ export default function Properties() {
 
             <TabsContent value="apartments" className="space-y-8">
               <div className="neumorphic-card p-6 rounded-3xl">
-                <h3 className="text-lg font-semibold mb-4 flex items-center">
+                <h2 className="text-lg font-semibold mb-4 flex items-center">
                   <Filter className="h-5 w-5 mr-2 text-primary" />
                   Vacation Rentals & Short-term Stays
                 </h3>
@@ -408,7 +408,7 @@ export default function Properties() {
 
               <div className="mb-6">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-semibold">
+                  <h2 className="text-lg font-semibold">
                     {filteredApartments.length} Vacation Rentals Available
                   </h3>
                   <Badge variant="outline">Short-term Rentals</Badge>
@@ -427,7 +427,7 @@ export default function Properties() {
                 <div className="text-center py-12">
                   <div className="neumorphic-card p-12 rounded-3xl">
                     <Building2 className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-                    <h3 className="text-xl font-semibold mb-2">No Vacation Rentals Found</h3>
+                    <h2 className="text-xl font-semibold mb-2">No Vacation Rentals Found</h2>
                     <p className="text-muted-foreground mb-6">
                       Try adjusting your filters to see more results
                     </p>
