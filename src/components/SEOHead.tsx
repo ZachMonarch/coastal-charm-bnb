@@ -56,7 +56,7 @@ export const SEOHead: React.FC<SEOProps> = ({
 }) => {
   const fullTitle = title === defaultProps.title ? title : `${title} | ${siteName}`;
   const currentUrl = url || (typeof window !== 'undefined' ? window.location.href : '');
-  const defaultImage = '/og-image.png';
+  const defaultImage = 'https://monarchpropertymmgt.online/og-image.png';
   const seoImage = image || defaultImage;
 
   // Generate structured data
