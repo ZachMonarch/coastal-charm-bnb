@@ -77,8 +77,8 @@ export default function News() {
   return (
     <>
       <Helmet>
-        <title>Property Management News & Insights | Monarch Property Management</title>
-        <meta name="description" content="Stay updated with the latest news, trends, and advice in property management, real estate markets, and industry careers from around the world." />
+        <title>Property Management News & Insights | Monarch</title>
+        <meta name="description" content="Latest news, trends, and advice on property management, real estate markets, and industry careers." />
       </Helmet>
 
       <div className="min-h-screen w-full flex flex-col">
