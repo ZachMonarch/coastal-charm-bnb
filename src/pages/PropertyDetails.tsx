@@ -189,6 +189,8 @@ export default function PropertyDetails() {
                     </Button>
                   </div>
                 </div>
+                {/* sr-only intermediate heading to maintain h1→h2→h3 hierarchy */}
+                <h2 className="sr-only">Property overview</h2>
 
                 {/* Property Features */}
                 <div className="grid grid-cols-3 gap-4 mb-6">
