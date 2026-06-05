@@ -165,10 +165,10 @@ export default function Properties() {
     <EnhancedPageBackground gradient="linear" pattern="dots" primaryColor="primary">
       <SEOHead
         title="Properties & Vacation Rentals for Rent"
-        description="Browse our curated selection of long-term rental properties and vacation accommodations. Find your perfect home with premium amenities and flexible lease terms."
+        description="Browse our curated long-term rentals and vacation accommodations with premium amenities and flexible lease terms."
         keywords={["property rentals", "vacation rentals", "apartments for rent", "long-term rentals", "furnished apartments", "property management"]}
         type="website"
-        url="https://monarch-properties.com/properties"
+        url="https://monarchpropertymmgt.online/properties"
       />
       
       {/* Hero Section with Background Image */}
