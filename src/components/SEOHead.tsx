@@ -164,12 +164,13 @@ export const SEOHead: React.FC<SEOProps> = ({
       <meta name="bingbot" content={noIndex ? 'noindex, nofollow' : 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1'} />
       
       {/* Canonical URL - managed by useCanonicalUrl hook in pages */}
+      {currentUrl && <link rel="canonical" href={currentUrl} />}
       
       {/* Enhanced SEO Meta Tags */}
       <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
       <meta name="mobile-web-app-capable" content="yes" />
       <meta name="application-name" content={siteName} />
-      <meta name="msapplication-TileColor" content="#D97743" />
+      <meta name="msapplication-TileColor" content="#AC551F" />
       <meta name="msapplication-config" content="/browserconfig.xml" />
       
       {/* Performance & Loading - preconnect hints are in index.html, no duplicates here */}
@@ -210,7 +211,7 @@ export const SEOHead: React.FC<SEOProps> = ({
       <meta name="twitter:image:alt" content={title} />
       
       {/* Additional Meta Tags */}
-      <meta name="theme-color" content="#D97743" />
+      <meta name="theme-color" content="#AC551F" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       <meta name="apple-mobile-web-app-title" content={siteName} />

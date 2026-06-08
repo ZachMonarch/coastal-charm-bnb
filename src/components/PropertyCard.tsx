@@ -125,7 +125,7 @@ export default function PropertyCard({ property, className }: PropertyCardProps)
         {qualityImages && qualityImages.length > 0 ? (
           <OptimizedImageDisplay
             images={qualityImages}
-            alt={property.title}
+            alt={`Property: ${property.title} in ${property.city}, ${property.state}`}
             aspectRatio="landscape"
             className={cn(
               "w-full h-full transition-all duration-700",
@@ -137,7 +137,7 @@ export default function PropertyCard({ property, className }: PropertyCardProps)
         ) : (
           <img
             src={primaryImage}
-            alt={property.title}
+            alt={`Property: ${property.title} in ${property.city}, ${property.state}`}
             className={cn(
               "w-full h-full object-cover transition-all duration-700",
               isHovered ? "scale-110" : "scale-100"
