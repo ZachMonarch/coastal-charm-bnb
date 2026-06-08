@@ -113,6 +113,118 @@ export interface RFQDetailData {
   } | null;
 }
 
+type JsonRecord = Record<string, any>;
+
+const asRecord = (value: unknown): JsonRecord =>
+  value && typeof value === 'object' && !Array.isArray(value) ? (value as JsonRecord) : {};
+
+const asArray = <T = any,>(value: unknown): T[] => (Array.isArray(value) ? (value as T[]) : []);
+
+const asStringArray = (value: unknown): string[] => {
+  if (Array.isArray(value)) return value.map((item) => String(item).trim()).filter(Boolean);
+  if (typeof value !== 'string') return [];
+
+  const cleaned = value.trim();
+  if (!cleaned) return [];
+
+  return cleaned
+    .split(/\r?\n|;|\u2022/)
+    .map((item) => item.replace(/^[-*]\s*/, '').trim())
+    .filter(Boolean);
+};
+
+const normalizeRfqJson = (rfq: any): Omit<RFQDetailData, 'documents' | 'property'> => {
+  const documentControl = asRecord(rfq.document_control);
+  const executiveSummary = asRecord(rfq.executive_summary);
+  const buildingDetails = asRecord(rfq.building_details);
+  const systemStrategy = asRecord(rfq.system_strategy);
+  const technicalSpecs = asRecord(rfq.technical_specs);
+  const commercialFramework = asRecord(rfq.commercial_framework);
+  const staffingRequirements = asRecord(rfq.staffing_requirements);
+  const budgetGuidance = asRecord(rfq.budget_guidance);
+
+  return {
+    ...rfq,
+    document_control: documentControl,
+    executive_summary: {
+      ...executiveSummary,
+      project_summary: executiveSummary.project_summary || executiveSummary.building_overview || executiveSummary.project_scope,
+      expected_duration: executiveSummary.expected_duration || rfq.expected_duration,
+    },
+    building_details: {
+      ...buildingDetails,
+      parking: buildingDetails.parking || buildingDetails.parking_spaces,
+    },
+    system_strategy: {
+      ...systemStrategy,
+      prohibited_systems: asStringArray(systemStrategy.prohibited_systems),
+      design_finality: asStringArray(systemStrategy.design_finality),
+    },
+    unit_configuration: asArray<JsonRecord>(rfq.unit_configuration).map((unit) => ({
+      unit_type: unit.unit_type || '',
+      quantity: Number(unit.quantity) || 0,
+      typical_size: unit.typical_size || '',
+      hvac_capacity: unit.hvac_capacity || unit.capacity || '',
+    })),
+    technical_specs: {
+      ...technicalSpecs,
+      cooling_load_summary:
+        technicalSpecs.cooling_load_summary ||
+        (technicalSpecs.residential_load || technicalSpecs.common_area_load || technicalSpecs.total_load
+          ? {
+              residential: technicalSpecs.residential_load || 'N/A',
+              common_area: technicalSpecs.common_area_load || 'N/A',
+              total: technicalSpecs.total_load || 'N/A',
+            }
+          : undefined),
+      boq: {
+        ...asRecord(technicalSpecs.boq),
+        residential_systems: asArray(technicalSpecs.boq?.residential_systems || technicalSpecs.boq_items),
+      },
+      installation_scope: asStringArray(technicalSpecs.installation_scope),
+    },
+    commercial_framework: {
+      ...commercialFramework,
+      installation_milestones: asArray(commercialFramework.installation_milestones || commercialFramework.payment_milestones),
+      maintenance_payment:
+        asArray(commercialFramework.maintenance_payment).length > 0
+          ? asArray(commercialFramework.maintenance_payment)
+          : [
+              commercialFramework.maintenance_terms
+                ? { service_type: 'Maintenance', payment_terms: commercialFramework.maintenance_terms }
+                : null,
+              commercialFramework.emergency_terms
+                ? { service_type: 'Emergency', payment_terms: commercialFramework.emergency_terms }
+                : null,
+            ].filter(Boolean),
+    },
+    codes_compliance: asStringArray(rfq.codes_compliance),
+    staffing_requirements: {
+      ...staffingRequirements,
+      requirements: asStringArray(staffingRequirements.requirements || staffingRequirements.certifications),
+      suggested_staffing: asStringArray(staffingRequirements.suggested_staffing || staffingRequirements.suggested_roles),
+    },
+    budget_guidance: {
+      ...budgetGuidance,
+      items:
+        asArray(budgetGuidance.items).length > 0
+          ? asArray(budgetGuidance.items)
+          : [
+              budgetGuidance.installation_min || budgetGuidance.installation_max
+                ? { service: 'Installation', budget_range: `$${budgetGuidance.installation_min || 0} - $${budgetGuidance.installation_max || 0}` }
+                : null,
+              budgetGuidance.maintenance_min || budgetGuidance.maintenance_max
+                ? { service: 'Maintenance', budget_range: `$${budgetGuidance.maintenance_min || 0} - $${budgetGuidance.maintenance_max || 0}` }
+                : null,
+              budgetGuidance.emergency_min || budgetGuidance.emergency_max
+                ? { service: 'Emergency', budget_range: `$${budgetGuidance.emergency_min || 0} - $${budgetGuidance.emergency_max || 0}` }
+                : null,
+            ].filter(Boolean),
+      notes: asStringArray(budgetGuidance.notes || budgetGuidance.contingency_percent),
+    },
+  };
+};
+
 export function useRFQDetail(rfqId: string | undefined) {
   return useQuery({
     queryKey: ['rfq-detail', rfqId],
@@ -152,17 +264,7 @@ export function useRFQDetail(rfqId: string | undefined) {
         .order('created_at', { ascending: true });
 
       return {
-        ...rfq,
-        document_control: (rfq.document_control as RFQDetailData['document_control']) || {},
-        executive_summary: (rfq.executive_summary as RFQDetailData['executive_summary']) || {},
-        building_details: (rfq.building_details as RFQDetailData['building_details']) || {},
-        system_strategy: (rfq.system_strategy as RFQDetailData['system_strategy']) || {},
-        unit_configuration: (rfq.unit_configuration as RFQDetailData['unit_configuration']) || [],
-        technical_specs: (rfq.technical_specs as RFQDetailData['technical_specs']) || {},
-        commercial_framework: (rfq.commercial_framework as RFQDetailData['commercial_framework']) || {},
-        codes_compliance: (rfq.codes_compliance as string[]) || [],
-        staffing_requirements: (rfq.staffing_requirements as RFQDetailData['staffing_requirements']) || {},
-        budget_guidance: (rfq.budget_guidance as RFQDetailData['budget_guidance']) || {},
+        ...normalizeRfqJson(rfq),
         documents: documents || [],
         property
       };
