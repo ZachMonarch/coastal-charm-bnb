@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { SEOHead } from "@/components/SEOHead";
 import { contactSchema } from "@/lib/validation/contactSchema";
 import { ZodError } from "zod";
+import { pushSalesIQLead } from "@/lib/salesiq";
 
 export default function Contact() {
   const { t } = useLanguage();
@@ -38,7 +39,22 @@ export default function Contact() {
       
       // Simulate form submission with validated data
       await new Promise(resolve => setTimeout(resolve, 1500));
-      
+
+      // Push contact submission to SalesIQ as a qualified lead
+      pushSalesIQLead(
+        {
+          name: `${validatedData.firstName} ${validatedData.lastName}`.trim(),
+          email: validatedData.email,
+          phone: validatedData.phone || undefined,
+          info: {
+            subject: validatedData.subject,
+            category: validatedData.category,
+            message_preview: validatedData.message.slice(0, 140),
+          },
+        },
+        'contact_form'
+      );
+
       toast.success("Message sent successfully! We'll get back to you within 24 hours.");
       
       // Reset form
