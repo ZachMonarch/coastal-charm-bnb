@@ -22,6 +22,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useBookings } from "@/hooks/useBookings";
 import { useAuth } from "@/contexts/OptimizedAuthContext";
 import { toast } from "sonner";
+import { pushSalesIQLead } from "@/lib/salesiq";
 
 interface BookingFormProps {
   propertyId?: number;
@@ -70,6 +71,20 @@ export default function BookingForm({ propertyId }: BookingFormProps) {
       };
       
       await createBooking(bookingData);
+      pushSalesIQLead(
+        {
+          name: user.user_metadata?.full_name || user.email || undefined,
+          email: user.email || undefined,
+          info: {
+            property_id: propertyId ?? 'n/a',
+            check_in: bookingData.check_in_date,
+            check_out: bookingData.check_out_date,
+            guests: bookingData.guests,
+            total_amount: bookingData.total_amount,
+          },
+        },
+        'booking_form'
+      );
       toast.success('Booking request submitted successfully!');
       setSubmitted(true);
       
