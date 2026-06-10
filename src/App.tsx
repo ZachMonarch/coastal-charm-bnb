@@ -12,6 +12,8 @@ import OptimizedLayout from "@/components/OptimizedLayout";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { lazy, Suspense } from "react";
 import WhatsAppFloatingButton from "@/components/WhatsAppFloatingButton";
+import SalesIQProvider from "@/components/SalesIQProvider";
+const SalesIQAdmin = lazy(() => import("./pages/admin/SalesIQAdmin"));
 
 // Lazy load CommandPalette - not needed for initial page interaction
 const CommandPalette = lazy(() => import("@/components/CommandPalette"));
@@ -565,15 +567,21 @@ const App = () => (
                   <AdminPayoutProcessing />
                 </OptimizedProtectedRoute>
               } />
-                  
+              <Route path="/admin/salesiq" element={
+                <OptimizedProtectedRoute requiredRole="admin">
+                  <SalesIQAdmin />
+                </OptimizedProtectedRoute>
+              } />
+
                           {/* Catch all route */}
                           <Route path="*" element={<NotFound />} />
                 </Routes>
               </Suspense>
             </OptimizedLayout>
-            
-            {/* WhatsApp Floating Button - Global */}
+
+            {/* Global floating widgets */}
             <WhatsAppFloatingButton />
+            <SalesIQProvider />
           </BrowserRouter>
         </OptimizedSecurityProvider>
       </TooltipProvider>
