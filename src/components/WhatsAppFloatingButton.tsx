@@ -18,7 +18,7 @@ export default function WhatsAppFloatingButton() {
       target="_blank"
       rel="noopener noreferrer"
       className={cn(
-        "fixed bottom-6 right-6 z-[700]",
+        "fixed bottom-6 left-6 z-[700]",
         "flex items-center justify-center",
         "w-14 h-14 md:w-16 md:h-16",
         "bg-[#25D366] hover:bg-[#20bd5a]",
@@ -45,7 +45,7 @@ export default function WhatsAppFloatingButton() {
       
       {/* Tooltip on hover */}
       <span className={cn(
-        "absolute right-full mr-3 px-3 py-2 rounded-lg",
+        "absolute left-full ml-3 px-3 py-2 rounded-lg",
         "bg-gray-900 dark:bg-gray-800 text-white text-sm font-medium whitespace-nowrap",
         "opacity-0 group-hover:opacity-100",
         "transition-opacity duration-200",
