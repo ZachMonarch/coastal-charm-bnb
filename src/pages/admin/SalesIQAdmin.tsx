@@ -9,7 +9,6 @@ import {
   DEFAULT_SALESIQ_CONFIG,
   getSalesIQConfig,
   saveSalesIQConfig,
-  setConsent,
   type SalesIQConfig,
 } from '@/lib/salesiq';
 
@@ -67,32 +66,9 @@ export default function SalesIQAdmin() {
             />
           </div>
 
-          <div className="flex items-center justify-between rounded-lg border p-3">
-            <div>
-              <Label htmlFor="consent" className="text-base">Require visitor consent (GDPR)</Label>
-              <p className="text-xs text-muted-foreground">
-                When on, the widget loads only after the visitor accepts the chat-cookie banner.
-              </p>
-            </div>
-            <Switch
-              id="consent"
-              checked={cfg.requireConsent}
-              onCheckedChange={(v) => setCfg({ ...cfg, requireConsent: v })}
-            />
-          </div>
-
           <div className="flex flex-wrap gap-2">
             <Button onClick={save}>Save changes</Button>
             <Button variant="outline" onClick={reset}>Restore defaults</Button>
-            <Button
-              variant="ghost"
-              onClick={() => {
-                setConsent('granted');
-                toast.success('Consent granted for this browser');
-              }}
-            >
-              Force-grant consent (this browser)
-            </Button>
           </div>
         </CardContent>
       </Card>

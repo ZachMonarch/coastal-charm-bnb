@@ -6,19 +6,18 @@
 export interface SalesIQConfig {
   /** Widget code (the `wc=` param from the Zoho embed snippet) */
   widgetCode: string;
-  /** Whether GDPR / consent gating is required before loading. */
-  requireConsent: boolean;
+  /** Deprecated — kept for backward compatibility with stored configs. Ignored. */
+  requireConsent?: boolean;
   /** Globally enable/disable the widget. */
   enabled: boolean;
 }
 
 const STORAGE_KEY = 'monarch:salesiq:config';
-const CONSENT_KEY = 'monarch:salesiq:consent'; // 'granted' | 'denied'
 
 export const DEFAULT_SALESIQ_CONFIG: SalesIQConfig = {
   widgetCode:
     'siq72811652de7599a323f8b30ccdfca7e2460a8df28bc9041a69523f70fb9a460acfb19c59d4fb826396f07a76f37d0d19',
-  requireConsent: true,
+  requireConsent: false,
   enabled: true,
 };
 
@@ -39,15 +38,14 @@ export function saveSalesIQConfig(cfg: SalesIQConfig) {
   window.dispatchEvent(new CustomEvent('salesiq:config-changed', { detail: cfg }));
 }
 
+/** @deprecated Consent gating removed. Kept as a no-op for callers. */
 export function getConsent(): 'granted' | 'denied' | null {
-  if (typeof window === 'undefined') return null;
-  return (window.localStorage.getItem(CONSENT_KEY) as 'granted' | 'denied' | null) ?? null;
+  return 'granted';
 }
 
-export function setConsent(value: 'granted' | 'denied') {
-  if (typeof window === 'undefined') return;
-  window.localStorage.setItem(CONSENT_KEY, value);
-  window.dispatchEvent(new CustomEvent('salesiq:consent-changed', { detail: value }));
+/** @deprecated Consent gating removed. Kept as a no-op for callers. */
+export function setConsent(_value: 'granted' | 'denied') {
+  /* noop */
 }
 
 declare global {
