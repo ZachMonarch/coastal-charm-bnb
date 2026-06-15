@@ -1,14 +1,11 @@
 import { useEffect, useState } from 'react';
 import {
   applySalesIQTheme,
-  getConsent,
   getSalesIQConfig,
   loadSalesIQ,
-  setConsent,
   unloadSalesIQ,
   type SalesIQConfig,
 } from '@/lib/salesiq';
-import { Button } from '@/components/ui/button';
 
 function detectTheme(): 'light' | 'dark' {
   if (typeof document === 'undefined') return 'light';
@@ -18,28 +15,20 @@ function detectTheme(): 'light' | 'dark' {
 }
 
 /**
- * Loads Zoho SalesIQ on every route once consent is granted, syncs theme,
- * and shows a lightweight consent banner when needed.
+ * Loads Zoho SalesIQ on every route and syncs the chat UI theme with the site.
+ * Consent gating was intentionally removed — the widget loads as soon as the
+ * app mounts, gated only by the global `enabled` flag in the admin config.
  */
 export default function SalesIQProvider() {
   const [config, setConfigState] = useState<SalesIQConfig>(() => getSalesIQConfig());
-  const [consent, setConsentState] = useState<'granted' | 'denied' | null>(() => getConsent());
 
-  // React to admin/config or consent changes from anywhere in the app.
   useEffect(() => {
     const onConfig = (e: Event) => setConfigState((e as CustomEvent<SalesIQConfig>).detail);
-    const onConsent = (e: Event) =>
-      setConsentState((e as CustomEvent<'granted' | 'denied'>).detail);
     window.addEventListener('salesiq:config-changed', onConfig);
-    window.addEventListener('salesiq:consent-changed', onConsent);
-    return () => {
-      window.removeEventListener('salesiq:config-changed', onConfig);
-      window.removeEventListener('salesiq:consent-changed', onConsent);
-    };
+    return () => window.removeEventListener('salesiq:config-changed', onConfig);
   }, []);
 
-  const allowed =
-    config.enabled && (!config.requireConsent || consent === 'granted') && !!config.widgetCode;
+  const allowed = config.enabled && !!config.widgetCode;
 
   useEffect(() => {
     if (!allowed) {
@@ -51,7 +40,6 @@ export default function SalesIQProvider() {
       .catch((err) => console.warn('[SalesIQ] load failed', err));
   }, [allowed, config.widgetCode]);
 
-  // Sync theme on dark-mode toggle and OS preference change.
   useEffect(() => {
     if (!allowed) return;
     const apply = () => applySalesIQTheme(detectTheme());
@@ -65,36 +53,5 @@ export default function SalesIQProvider() {
     };
   }, [allowed]);
 
-  if (!config.enabled || !config.requireConsent || consent !== null) return null;
-
-  return (
-    <div
-      role="dialog"
-      aria-live="polite"
-      aria-label="Live chat cookie consent"
-      className="fixed bottom-6 right-6 z-[800] max-w-sm rounded-xl border border-border bg-card p-4 shadow-2xl"
-    >
-      <p className="text-sm text-card-foreground">
-        We use Zoho SalesIQ to power live chat support. It sets cookies to remember your
-        conversation. Allow it?
-      </p>
-      <div className="mt-3 flex gap-2 justify-end">
-        <Button
-          size="sm"
-          variant="ghost"
-          onClick={() => setConsent('denied')}
-          aria-label="Decline live chat cookies"
-        >
-          Decline
-        </Button>
-        <Button
-          size="sm"
-          onClick={() => setConsent('granted')}
-          aria-label="Allow live chat cookies"
-        >
-          Allow chat
-        </Button>
-      </div>
-    </div>
-  );
+  return null;
 }
