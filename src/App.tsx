@@ -43,6 +43,7 @@ const Amenities = lazy(() => import("./pages/Amenities"));
 const News = lazy(() => import("./pages/News"));
 const Bookmarks = lazy(() => import("./pages/Bookmarks"));
 const AuthDebug = lazy(() => import("./pages/AuthDebug"));
+const ChoosePropertyManagementCompany = lazy(() => import("./pages/guides/ChoosePropertyManagementCompany"));
 const AuthTest = lazy(() => import("./pages/AuthTest"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 // UserProfile consolidated into UnifiedSettings
@@ -200,6 +201,7 @@ const App = () => (
                 
                 {/* About Page - Phase 9B */}
                 <Route path="/about" element={<About />} />
+                <Route path="/blog/how-to-choose-property-management-company" element={<ChoosePropertyManagementCompany />} />
                 {import.meta.env.DEV && (
                   <Route path="/auth-test" element={
                     <OptimizedProtectedRoute requiredRole="admin">
