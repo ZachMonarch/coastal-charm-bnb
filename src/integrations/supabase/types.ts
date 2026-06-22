@@ -3667,6 +3667,13 @@ export type Database = {
             referencedRelation: "vendor_profiles"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "vendor_lead_credits_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: true
+            referencedRelation: "vendor_profiles_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       vendor_lead_matches: {
@@ -3732,6 +3739,13 @@ export type Database = {
             columns: ["vendor_id"]
             isOneToOne: false
             referencedRelation: "vendor_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vendor_lead_matches_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendor_profiles_public"
             referencedColumns: ["id"]
           },
         ]
@@ -4340,6 +4354,13 @@ export type Database = {
             referencedRelation: "vendor_profiles"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "vendor_reviews_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendor_profiles_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       vendor_tiers: {
@@ -4386,6 +4407,13 @@ export type Database = {
             columns: ["vendor_id"]
             isOneToOne: true
             referencedRelation: "vendor_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vendor_tiers_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: true
+            referencedRelation: "vendor_profiles_public"
             referencedColumns: ["id"]
           },
         ]
@@ -4863,6 +4891,89 @@ export type Database = {
             columns: ["project_id"]
             isOneToOne: false
             referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vendor_profiles_public: {
+        Row: {
+          availability_status: string | null
+          avatar_url: string | null
+          average_rating: number | null
+          background_check_verified: boolean | null
+          certifications: string[] | null
+          company_name: string | null
+          completed_jobs: number | null
+          created_at: string | null
+          description: string | null
+          id: string | null
+          insurance_verified: boolean | null
+          is_verified: boolean | null
+          last_active_at: string | null
+          rating: number | null
+          response_time_hours: number | null
+          service_areas: string[] | null
+          specialties: string[] | null
+          subscription_plan: string | null
+          subscription_status: string | null
+          success_rate: number | null
+          user_id: string | null
+          years_experience: number | null
+        }
+        Insert: {
+          availability_status?: string | null
+          avatar_url?: string | null
+          average_rating?: number | null
+          background_check_verified?: boolean | null
+          certifications?: string[] | null
+          company_name?: string | null
+          completed_jobs?: number | null
+          created_at?: string | null
+          description?: string | null
+          id?: string | null
+          insurance_verified?: boolean | null
+          is_verified?: boolean | null
+          last_active_at?: string | null
+          rating?: number | null
+          response_time_hours?: number | null
+          service_areas?: string[] | null
+          specialties?: string[] | null
+          subscription_plan?: string | null
+          subscription_status?: string | null
+          success_rate?: number | null
+          user_id?: string | null
+          years_experience?: number | null
+        }
+        Update: {
+          availability_status?: string | null
+          avatar_url?: string | null
+          average_rating?: number | null
+          background_check_verified?: boolean | null
+          certifications?: string[] | null
+          company_name?: string | null
+          completed_jobs?: number | null
+          created_at?: string | null
+          description?: string | null
+          id?: string | null
+          insurance_verified?: boolean | null
+          is_verified?: boolean | null
+          last_active_at?: string | null
+          rating?: number | null
+          response_time_hours?: number | null
+          service_areas?: string[] | null
+          specialties?: string[] | null
+          subscription_plan?: string | null
+          subscription_status?: string | null
+          success_rate?: number | null
+          user_id?: string | null
+          years_experience?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vendor_profiles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
