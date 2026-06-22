@@ -43,8 +43,10 @@ export const useVerifiedVendors = (options: UseVerifiedVendorsOptions = {}) => {
 
       // Show all verified vendors (subscription_status filter removed for inclusivity)
       // Verified status is the primary filter; subscription tiers affect display priority
+      // Public marketplace listing — uses the safe `vendor_profiles_public` view
+      // which excludes PII (email, phone, address, license, blacklist).
       let query = supabase
-        .from('vendor_profiles')
+        .from('vendor_profiles_public' as any)
         .select(`
           id,
           user_id,
@@ -62,12 +64,8 @@ export const useVerifiedVendors = (options: UseVerifiedVendorsOptions = {}) => {
           subscription_plan,
           subscription_status,
           years_experience,
-          phone,
-          email,
-          address,
           service_areas
         `)
-        .eq('is_verified', true)
         .order('rating', { ascending: false })
         .order('completed_jobs', { ascending: false });
 
@@ -93,7 +91,7 @@ export const useVerifiedVendors = (options: UseVerifiedVendorsOptions = {}) => {
         throw fetchError;
       }
 
-      setVendors((data as VerifiedVendor[]) || []);
+      setVendors(((data as unknown) as VerifiedVendor[]) || []);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch verified vendors';
       console.error('Verified vendors fetch error:', err);
