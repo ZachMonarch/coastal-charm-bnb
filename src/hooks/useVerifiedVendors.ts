@@ -91,7 +91,7 @@ export const useVerifiedVendors = (options: UseVerifiedVendorsOptions = {}) => {
         throw fetchError;
       }
 
-      setVendors((data as VerifiedVendor[]) || []);
+      setVendors(((data as unknown) as VerifiedVendor[]) || []);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch verified vendors';
       console.error('Verified vendors fetch error:', err);
