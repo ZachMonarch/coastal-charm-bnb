@@ -160,6 +160,7 @@ export default function Gallery() {
       <main className="p-6 w-full" role="main" aria-label="Property image gallery">
         <div className="content-constrained">
 
+          <h2 className="sr-only">Browse property images by category</h2>
           {/* Gallery Filters */}
           <div className="flex flex-wrap justify-center gap-2 mb-8" role="group" aria-label="Filter gallery by category">
             {["all", "exterior", "rooms", "amenities"].map((category) => (
