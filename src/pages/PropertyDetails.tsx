@@ -136,8 +136,50 @@ export default function PropertyDetails() {
   const amenitiesList = property.amenities ? 
     property.amenities.split(',').map(a => a.trim()).filter(Boolean) : [];
 
+  const canonicalUrl = `https://monarchpropertymmgt.online/properties/${property.id}`;
+  const heroImage = property.image_urls?.[0] || 'https://monarchpropertymmgt.online/og-image.png';
+  const metaDescription = (property.description || `${property.title} located at ${property.address}, ${property.city}, ${property.state}. ${property.bedrooms || 0} bed, ${property.bathrooms || 0} bath.`).slice(0, 158);
+  const seoTitle = `${property.title} - ${property.city}, ${property.state}`.slice(0, 58);
+
+  const listingJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'RealEstateListing',
+    name: property.title,
+    description: metaDescription,
+    image: heroImage,
+    url: canonicalUrl,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: property.address,
+      addressLocality: property.city,
+      addressRegion: property.state,
+      postalCode: property.zip_code,
+      addressCountry: 'US',
+    },
+    numberOfRooms: property.bedrooms || undefined,
+    floorSize: property.square_feet ? { '@type': 'QuantitativeValue', value: property.square_feet, unitCode: 'FTK' } : undefined,
+    offers: {
+      '@type': 'Offer',
+      price: property.price || 0,
+      priceCurrency: 'USD',
+      availability: `https://schema.org/${property.status?.toLowerCase().includes('available') || !property.status ? 'InStock' : 'OutOfStock'}`,
+      url: canonicalUrl,
+    },
+  };
+
   return (
     <div className="min-h-screen">
+      <SEOHead
+        title={seoTitle}
+        description={metaDescription}
+        image={heroImage}
+        url={canonicalUrl}
+        type="product"
+        price={{ amount: property.price || 0, currency: 'USD' }}
+      />
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify(listingJsonLd)}</script>
+      </Helmet>
       <main className="p-6">
         <div className="container mx-auto">
           {/* Breadcrumb */}
