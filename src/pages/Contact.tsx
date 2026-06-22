@@ -129,6 +129,7 @@ export default function Contact() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Contact Information */}
             <div className="space-y-8">
+              <h2 className="sr-only">Contact information</h2>
               <Card className="neumorphic-card brand-teal-accent border-l-4">
                 <CardHeader>
                   <CardTitle className="flex items-center">
