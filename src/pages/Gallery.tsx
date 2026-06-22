@@ -220,6 +220,7 @@ export default function Gallery() {
               <Button 
                 variant="ghost"
                 size="sm"
+                aria-label="Close image preview"
                 className="absolute top-4 right-4 text-white hover:bg-white/10"
                 onClick={() => setSelectedImage(null)}
               >
