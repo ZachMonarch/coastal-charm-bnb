@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { MapPin, Bed, Bath, Square, Calendar, Phone, Mail, Heart, Share2, ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -11,6 +12,7 @@ import OptimizedImageDisplay from '@/components/OptimizedImageDisplay';
 import useOptimizedImages from '@/hooks/useOptimizedImages';
 import { toast } from 'sonner';
 import Footer from '@/components/Footer';
+import { SEOHead } from '@/components/SEOHead';
 
 export default function PropertyDetails() {
   const { id } = useParams<{ id: string }>();
