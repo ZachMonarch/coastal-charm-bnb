@@ -117,7 +117,7 @@ export function NewsArticleCard({ article, viewMode }: NewsArticleCardProps) {
             <div className="flex items-center justify-between">
               <Button variant="outline" size="sm" asChild>
                 <a href={article.url} target="_blank" rel="noopener noreferrer">
-                  Read More
+                  Read full news article
                   <ExternalLink className="ml-2 h-3 w-3" />
                 </a>
               </Button>
@@ -208,7 +208,7 @@ export function NewsArticleCard({ article, viewMode }: NewsArticleCardProps) {
           asChild
         >
           <a href={article.url} target="_blank" rel="noopener noreferrer">
-            Read More
+            Read full news article
             <ExternalLink className="ml-2 h-4 w-4" />
           </a>
         </Button>
