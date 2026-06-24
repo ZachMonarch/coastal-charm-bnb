@@ -64,11 +64,11 @@ serve(async (req) => {
 
     if (paymentError) {
       console.error("Payment lookup error:", paymentError);
-      throw new Error(`Payment not found or already paid. Details: ${paymentError.message}`);
+      throw new Error("Payment not found or already processed");
     }
     
     if (!payment) {
-      throw new Error("Payment not found for this vendor or already processed");
+      throw new Error("Payment not found or already processed");
     }
 
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
@@ -117,8 +117,7 @@ serve(async (req) => {
     });
   } catch (error) {
     console.error("Payment creation error:", error);
-    const errorMessage = error instanceof Error ? error.message : "Unknown error";
-    return new Response(JSON.stringify({ error: errorMessage }), {
+    return new Response(JSON.stringify({ error: "Request failed", code: "PROCESSING_ERROR" }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
     });

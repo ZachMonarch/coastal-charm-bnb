@@ -57,7 +57,7 @@ serve(async (req) => {
     });
   } catch (e) {
     console.error("refund-emd error", e);
-    return new Response(JSON.stringify({ error: (e as Error).message }), {
+    return new Response(JSON.stringify({ error: "Request failed", code: "PROCESSING_ERROR" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });

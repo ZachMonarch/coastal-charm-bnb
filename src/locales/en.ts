@@ -13,7 +13,7 @@ export const en = {
     description: "Expert property management services with a focus on maximizing returns and maintaining premium standards for residential and commercial properties.",
     bookStay: "Get Started Today",
     exploreApartments: "View Properties",
-    scrollDown: "Learn More"
+    scrollDown: "Learn about our services"
   },
   footer: {
     description: "Monarch Property Management provides comprehensive property management services, ensuring your investment properties achieve optimal returns while maintaining the highest standards.",
