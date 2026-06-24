@@ -116,6 +116,21 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
+    // Authorization: only admins / property managers can send arbitrary emails
+    const { data: roleRows } = await supabaseClient
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', user.id);
+    const allowedRoles = new Set(['admin', 'property_manager']);
+    const hasPrivileged = (roleRows || []).some((r: any) => allowedRoles.has(r.role));
+    if (!hasPrivileged) {
+      console.warn('send-email forbidden for user', user.id);
+      return new Response(
+        JSON.stringify({ error: 'Forbidden', code: 'INSUFFICIENT_ROLE' }),
+        { status: 403, headers: { 'Content-Type': 'application/json', ...corsHeaders } }
+      );
+    }
+
     // Rate limiting per user
     const clientIP = req.headers.get('CF-Connecting-IP') || req.headers.get('X-Forwarded-For') || 'unknown';
     const rateLimitKey = `${user.id}_${clientIP}`;

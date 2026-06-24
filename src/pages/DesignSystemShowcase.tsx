@@ -297,7 +297,7 @@ export default function DesignSystemShowcase() {
           title="Accessibility First Design"
           description="WCAG 2.2 AA compliant with keyboard navigation, screen reader support, and reduced motion detection"
           primaryCTA={{
-            text: "Learn More",
+            text: "Read our accessibility docs",
             href: "/docs",
           }}
         />
