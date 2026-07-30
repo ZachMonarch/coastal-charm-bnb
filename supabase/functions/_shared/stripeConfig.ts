@@ -24,7 +24,6 @@ export function paymentsDisabledResponse(corsHeaders: Record<string, string>): R
     JSON.stringify({
       error: PAYMENTS_DISABLED_MESSAGE,
       code: "PAYMENTS_NOT_CONFIGURED",
-ようこそ: undefined,
     }),
     {
       status: 503,
