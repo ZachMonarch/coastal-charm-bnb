@@ -1,6 +1,25 @@
 # Changelog
 
 All notable changes to the Monarch Property Management application.
+## [2.3.0] - 2026-07-30
+### Security (critical)
+- **Profile privilege escalation blocked**: added `prevent_profile_privilege_escalation()` BEFORE UPDATE trigger on `public.profiles` — non-admin users can no longer change their own `tenant_id` or `role`. Dropped the duplicate, unrestricted `profiles_update_own` policy and added a `WITH CHECK` to `profiles_unified_update`.
+- **RFQ over-broad read fixed**: `app_rfqs_unified_select` (both `public.rfqs` and `app.rfqs`) previously granted SELECT to *any* tenant member. It now additionally requires admin/property_manager role, ownership, an `rfq_invites` row, an active `rfq_access_grants` row, or `status IN ('open','published')`.
+
+### Added
+- `supabase/functions/_shared/stripeConfig.ts` — central Stripe configuration guard.
+- `src/lib/paymentErrors.ts` — maps 503 / `PAYMENTS_NOT_CONFIGURED` responses to a user-safe message.
+
+### Changed
+- All 10 Stripe-dependent edge functions (`create-payment`, `create-checkout`, `create-emd-payment`, `refund-emd`, `process-refund`, `create-payment-method`, `customer-portal`, `check-subscription`, `create-vendor-checkout`, `create-vendor-payment`) now fail fast with HTTP 503 `PAYMENTS_NOT_CONFIGURED` instead of throwing an opaque Stripe "Invalid API Key" error when `STRIPE_SECRET_KEY` is absent.
+- `useEMD` surfaces the friendly payment-unavailable message.
+
+### Known gaps (verified 2026-07-30)
+- `STRIPE_SECRET_KEY` / `STRIPE_WEBHOOK_SECRET` are **not configured** — all payment, EMD, subscription, refund and payout flows are non-functional until added.
+- Twilio SMS credentials are not configured — `send-sms` is inert.
+- Supabase linter: 249 findings (1 ERROR security-definer view, 4 public-bucket-listing, ~240 SECURITY DEFINER execute grants, leaked-password protection disabled).
+- `src/lib/cms.ts` remains a stub (5 unimplemented API calls).
+
 
 ## [2.2.0] - 2026-05-03
 ### Added
