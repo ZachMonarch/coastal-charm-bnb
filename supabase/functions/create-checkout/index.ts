@@ -3,6 +3,7 @@ import Stripe from "https://esm.sh/stripe@14.21.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 import { getCorsHeaders, handleCorsPreflightRequest } from "../_shared/cors.ts";
+import { isPaymentsConfigured, paymentsDisabledResponse } from "../_shared/stripeConfig.ts";
 
 const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY') || '', {
   apiVersion: '2023-10-16',
@@ -53,6 +54,9 @@ const handler = async (req: Request): Promise<Response> => {
   if (preflightResponse) return preflightResponse;
 
   const corsHeaders = getCorsHeaders(req);
+  if (!isPaymentsConfigured()) {
+    return paymentsDisabledResponse(corsHeaders);
+  }
 
   try {
     // Get user from authorization header

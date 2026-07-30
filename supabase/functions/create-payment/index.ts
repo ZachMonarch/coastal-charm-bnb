@@ -3,6 +3,7 @@ import Stripe from "https://esm.sh/stripe@18.5.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.75.0";
 import { getCorsHeaders, handleCorsPreflightRequest } from "../_shared/cors.ts";
 import { CreatePaymentSchema, createValidationErrorResponse } from "../_shared/validation.ts";
+import { isPaymentsConfigured, paymentsDisabledResponse } from "../_shared/stripeConfig.ts";
 
 serve(async (req) => {
   // Handle CORS preflight
@@ -10,6 +11,9 @@ serve(async (req) => {
   if (corsResponse) return corsResponse;
 
   const corsHeaders = getCorsHeaders(req);
+  if (!isPaymentsConfigured()) {
+    return paymentsDisabledResponse(corsHeaders);
+  }
 
   // Use service role to bypass RLS after authenticating user
   const supabaseClient = createClient(
