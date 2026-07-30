@@ -1,6 +1,24 @@
 # Monarch Property Management - Application Status
 
-**Last Updated:** January 23, 2026
+**Last Updated:** July 30, 2026
+
+> **Accuracy rule:** no checkbox in this file may be ticked without command output or a tool result backing it. Items below marked ❌ were verified as *not working* on 2026-07-30.
+
+## 🚨 Verified blockers (2026-07-30)
+
+| Area | Status | Evidence |
+|------|--------|----------|
+| Stripe payments (EMD, subscriptions, invoices, refunds, payouts) | ❌ Non-functional | `STRIPE_SECRET_KEY` absent from project secrets; 10+ edge functions depend on it |
+| Stripe webhook reconciliation | ❌ Not configured | `STRIPE_WEBHOOK_SECRET` absent |
+| SMS notifications | ❌ Non-functional | `TWILIO_*` secrets absent |
+| Supabase linter | ⚠️ 249 findings | 1 ERROR (security definer view), 4 public buckets listable, ~240 SECURITY DEFINER execute grants |
+| Leaked password protection | ❌ Disabled | Linter WARN 247 |
+| CMS layer | ❌ Stub | 5 `TODO: Phase 3` markers in `src/lib/cms.ts` |
+| Mock data in admin panels | ⚠️ Present | `AdminInvoices`, `ProductionMonitoring`, `PerformanceMonitoringDashboard`, `SystemDiagnostics`, `MaintenanceRequestPortal` |
+| Canonical domain | ⚠️ Inconsistent | `.com` vs `.online` vs `coastal-charm-bnb.lovable.app` across index.html / sitemap / GSC |
+
+Full remediation plan and prioritization: `.lovable/plan.md`.
+
 
 ## ✅ Completed Features
 
