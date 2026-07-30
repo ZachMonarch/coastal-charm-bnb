@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { describePaymentError } from '@/lib/paymentErrors';
 
 export function useEMD(rfqId?: string, vendorId?: string) {
   return useQuery({
@@ -31,7 +32,7 @@ export function useStartEMDPayment() {
       if (data?.url) window.location.href = data.url;
       else if (data?.already_held) toast.success('EMD already paid');
     },
-    onError: (e: any) => toast.error(e.message || 'Failed to start EMD payment'),
+    onError: (e: any) => toast.error(describePaymentError(e, 'Failed to start EMD payment')),
   });
 }
 
@@ -59,7 +60,7 @@ export function useRefundEMD() {
       return data;
     },
     onSuccess: () => { toast.success('EMD refunded'); qc.invalidateQueries({ queryKey: ['emd-admin-list'] }); },
-    onError: (e: any) => toast.error(e.message || 'Refund failed'),
+    onError: (e: any) => toast.error(describePaymentError(e, 'Refund failed')),
   });
 }
 
