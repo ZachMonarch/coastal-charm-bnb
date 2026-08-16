@@ -282,7 +282,7 @@ export default function PropertyCard({ property, className }: PropertyCardProps)
           <Button 
             asChild
             variant="outline" 
-            className="flex-1 min-h-[48px] min-w-[48px]"
+            className="flex-1 min-h-[48px] min-w-[48px] text-foreground"
             aria-label={`View details for ${property.title}`}
           >
             <Link to={`/properties/${property.id}`}>
