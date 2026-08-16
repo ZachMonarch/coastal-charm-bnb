@@ -1,23 +1,25 @@
 # Monarch Property Management - Application Status
 
-**Last Updated:** July 30, 2026
+**Last Updated:** August 14, 2026
 
-> **Accuracy rule:** no checkbox in this file may be ticked without command output or a tool result backing it. Items below marked ❌ were verified as *not working* on 2026-07-30.
+> **Accuracy rule:** no checkbox in this file may be ticked without command output or a tool result backing it.
 
-## 🚨 Verified blockers (2026-07-30)
+## 🚨 Verified blockers (2026-08-14)
 
 | Area | Status | Evidence |
 |------|--------|----------|
-| Stripe payments (EMD, subscriptions, invoices, refunds, payouts) | ❌ Non-functional | `STRIPE_SECRET_KEY` absent from project secrets; 10+ edge functions depend on it |
+| Stripe payments (EMD, subscriptions, invoices, refunds, payouts) | ❌ Non-functional | `STRIPE_SECRET_KEY` absent from project secrets; all Stripe functions now return a graceful 503 `PAYMENTS_NOT_CONFIGURED` |
 | Stripe webhook reconciliation | ❌ Not configured | `STRIPE_WEBHOOK_SECRET` absent |
 | SMS notifications | ❌ Non-functional | `TWILIO_*` secrets absent |
-| Supabase linter | ⚠️ 249 findings | 1 ERROR (security definer view), 4 public buckets listable, ~240 SECURITY DEFINER execute grants |
-| Leaked password protection | ❌ Disabled | Linter WARN 247 |
+| Supabase linter | ⚠️ 102 findings (was 243) | 0 ERROR, 0 mutable-search-path; residual = documented public-RPC allowlist + 4 public buckets + leaked-password toggle |
+| Leaked password protection | ❌ Disabled | Dashboard-only toggle — cannot be enabled from code |
 | CMS layer | ❌ Stub | 5 `TODO: Phase 3` markers in `src/lib/cms.ts` |
-| Mock data in admin panels | ⚠️ Present | `AdminInvoices`, `ProductionMonitoring`, `PerformanceMonitoringDashboard`, `SystemDiagnostics`, `MaintenanceRequestPortal` |
+| Mock data in admin panels | ⚠️ Partly cleared | `PerformanceMonitoringDashboard` now uses measured probes; `AdminInvoices`, `ProductionMonitoring`, `SystemDiagnostics`, `MaintenanceRequestPortal` still synthetic |
+| Accessibility (axe, public pages) | ✅ Clean | 0 contrast / 0 landmark violations on `/`, `/properties`, `/contact` (axe-core 4.10, 2026-08-14). Residual node is Zoho SalesIQ's own `#gdpr_banner` |
 | Canonical domain | ⚠️ Inconsistent | `.com` vs `.online` vs `coastal-charm-bnb.lovable.app` across index.html / sitemap / GSC |
 
 Full remediation plan and prioritization: `.lovable/plan.md`.
+
 
 
 ## ✅ Completed Features
