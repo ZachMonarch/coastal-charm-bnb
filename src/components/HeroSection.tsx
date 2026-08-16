@@ -39,8 +39,7 @@ export default function HeroSection() {
       ref={sectionRef}
       className="relative h-screen overflow-hidden hero-section" 
       data-hero="true" 
-      role="banner" 
-      aria-label="Hero section"
+      aria-label="Introduction"
     >
       {/* Hero image with CSS-only parallax for better performance */}
       <div 
