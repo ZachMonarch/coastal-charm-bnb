@@ -68,5 +68,7 @@ export default function WhatsAppFloatingButton() {
         "pointer-events-none"
       )} />
     </a>
+    </aside>
+
   );
 }
