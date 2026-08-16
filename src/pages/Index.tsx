@@ -196,7 +196,7 @@ export default function Index() {
           <div className="content-constrained">
             <CTASection />
           </div>
-        </main>
+        </div>
         <Footer />
       </div>
     </EnhancedSEOLayout>
