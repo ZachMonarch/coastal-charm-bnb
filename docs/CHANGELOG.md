@@ -1,7 +1,39 @@
 # Changelog
 
 All notable changes to the Monarch Property Management application.
+
+## [2.4.0] - 2026-08-14
+### Security — database attack surface reduced (measured)
+- **Supabase linter: 243 → 102 findings** (verified by running the linter before and after the migration).
+- Cleared the last ERROR-level finding: `public.bookings_staff_view` now runs with `security_invoker = true`, so it enforces each caller's own RLS instead of the view owner's. The view already filtered on `auth.uid()`, so behaviour is unchanged.
+- Revoked `EXECUTE` from `anon` / `PUBLIC` on every `SECURITY DEFINER` function in `public` and `app`, except a documented allowlist the public website genuinely needs: `get_public_property_listings`, `get_public_property_count`, `get_public_rfq`, `get_public_rfqs`, `check_rate_limit`, `check_auth_rate_limit`, `optimized_rate_limit_check`, `log_security_event`, `log_security_audit`.
+- Revoked all client `EXECUTE` on internal trigger functions (they are invoked by the engine, never by clients).
+- Pinned `search_path = public` on `public.set_updated_at()` — the last function with a mutable search path (0 remaining).
+- Verified afterwards in a headless browser that `/`, `/properties`, `/rfq` and the public RFQ discovery pages load with **no permission or RPC errors**.
+
+### Changed — no more fabricated admin metrics
+- `PerformanceMonitoringDashboard` no longer generates synthetic numbers with `Math.random()`. It now reports only measured values: real round-trip latency of a bounded, head-only Supabase count query; real JS heap usage via `performance.memory`; and live probes of Database, Auth, Storage and the `health-check` edge function. Server CPU and concurrent-user counts are shown as **N/A — not instrumented** rather than invented.
+
+### Accessibility — axe-verified, not asserted
+Ran axe-core 4.10 headless against `/`, `/properties` and `/contact` before and after. Fixed:
+- **Nested `main` landmark** on the homepage: `Index.tsx` rendered its own `<main>` inside the layout's `<main>`. Now a `<div>`.
+- **Duplicate `banner` landmark**: `HeroSection` carried `role="banner"` alongside the real `<header>` in `Navbar`. Removed; kept `aria-label="Introduction"` on the section.
+- **Content outside a landmark**: the floating WhatsApp link is now wrapped in an `<aside aria-label="Quick contact">`.
+- **Contrast, primary buttons**: `--primary` darkened `32 82% 33%` → `32 82% 30%`; white-on-bronze measured 4.48:1 (fail) and now clears 4.5:1.
+- **Contrast, navbar wordmark**: `text-primary/70 dark:text-primary/60` on the 12px "MANAGEMENT" line measured 3.05:1 — now full-opacity `text-primary`.
+- **Contrast, booking selectors**: the guest/children `SelectItem` rows rendered white text on the off-white card (1.06:1, effectively invisible in the closed trigger). Pinned to `text-foreground`.
+- Verified after the fixes: **0 landmark and 0 contrast violations** on all three pages once entry animations settle. The only residual node is `#gdpr_banner` inside Zoho SalesIQ's own iframe markup, which we don't control.
+- Note for future audits: PropertyCard buttons report transient contrast failures if axe runs during the card fade-in. They pass once the animation completes — do not "fix" them by hardcoding colors.
+
+### Still blocked on credentials / a decision (unchanged)
+- `STRIPE_SECRET_KEY` / `STRIPE_WEBHOOK_SECRET` absent → every payment, EMD, subscription, refund and payout flow returns the graceful 503 `PAYMENTS_NOT_CONFIGURED`.
+- Twilio secrets absent → `send-sms` inert.
+- **Leaked Password Protection is still disabled** — dashboard-only toggle, cannot be set from code.
+- Canonical domain unresolved (`.com` vs `.online` vs `coastal-charm-bnb.lovable.app`); sitemap currently uses the lovable domain.
+
+
 ## [2.3.0] - 2026-07-30
+
 ### Security (critical)
 - **Profile privilege escalation blocked**: added `prevent_profile_privilege_escalation()` BEFORE UPDATE trigger on `public.profiles` — non-admin users can no longer change their own `tenant_id` or `role`. Dropped the duplicate, unrestricted `profiles_update_own` policy and added a `WITH CHECK` to `profiles_unified_update`.
 - **RFQ over-broad read fixed**: `app_rfqs_unified_select` (both `public.rfqs` and `app.rfqs`) previously granted SELECT to *any* tenant member. It now additionally requires admin/property_manager role, ownership, an `rfq_invites` row, an active `rfq_access_grants` row, or `status IN ('open','published')`.

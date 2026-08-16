@@ -224,7 +224,7 @@ export default function BookingForm({ propertyId }: BookingFormProps) {
                 <SelectContent className="glass-card border-0">
                   {[1, 2, 3, 4, 5, 6].map((num) => (
                     <SelectItem key={num} value={num.toString()}>
-                      <div className="flex items-center">
+                      <div className="flex items-center text-foreground">
                         <Users className="h-4 w-4 mr-2 text-primary" />
                         {num} {num === 1 ? t.bookingForm.adult : t.bookingForm.adults}
                       </div>
@@ -247,7 +247,7 @@ export default function BookingForm({ propertyId }: BookingFormProps) {
                 <SelectContent className="glass-card border-0">
                   {[0, 1, 2, 3, 4].map((num) => (
                     <SelectItem key={num} value={num.toString()}>
-                      <div className="flex items-center">
+                      <div className="flex items-center text-foreground">
                         <Users className="h-4 w-4 mr-2 text-primary" />
                         {num} {num === 1 ? t.bookingForm.child : t.bookingForm.children}
                       </div>

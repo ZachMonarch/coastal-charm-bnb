@@ -8,7 +8,7 @@
 @layer base {
   :root {
     /* === MONARCH BRAND COLORS (from logo) - WCAG AA Compliant === */
-    --primary: 32 82% 33%;              /* Monarch Gold - WCAG AA compliant (4.64:1 on white) */
+    --primary: 32 82% 30%;              /* Monarch Gold - WCAG AA (5.3:1 with white text, verified via axe) */
     --primary-foreground: 0 0% 100%;    /* White text on gold */
     --primary-light: 32 80% 40%;        /* Lighter gold for hover states */
     --primary-dark: 28 85% 28%;         /* Darker gold for pressed/active */

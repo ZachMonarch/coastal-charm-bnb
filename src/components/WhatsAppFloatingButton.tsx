@@ -13,12 +13,17 @@ export default function WhatsAppFloatingButton() {
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
   
   return (
+    <aside
+      aria-label="Quick contact"
+      className="fixed bottom-6 left-6 z-[700] print:hidden"
+    >
     <a
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
       className={cn(
-        "fixed bottom-6 left-6 z-[700]",
+        "relative",
+
         "flex items-center justify-center",
         "w-14 h-14 md:w-16 md:h-16",
         "bg-[#25D366] hover:bg-[#20bd5a]",
@@ -63,5 +68,7 @@ export default function WhatsAppFloatingButton() {
         "pointer-events-none"
       )} />
     </a>
+    </aside>
+
   );
 }

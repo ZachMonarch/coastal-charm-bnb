@@ -135,7 +135,7 @@ export default function Navbar() {
             </div>
             <div className="hidden md:flex flex-col">
               <span className="text-lg font-semibold text-primary">Monarch Property</span>
-              <span className="text-xs text-primary/70 dark:text-primary/60 -mt-1 font-semibold tracking-wide uppercase">
+              <span className="text-xs text-primary dark:text-primary -mt-1 font-semibold tracking-wide uppercase">
                 Management
               </span>
             </div>
