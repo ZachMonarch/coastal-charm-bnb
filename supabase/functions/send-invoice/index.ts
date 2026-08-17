@@ -75,26 +75,61 @@ serve(async (req: Request) => {
     }
 
     const body: InvoiceEmailRequest = await req.json();
-    const {
-      invoiceId,
-      recipientEmail,
-      recipientName,
-      invoiceNumber,
-      amount,
-      currency = 'USD',
-      dueDate,
-      projectTitle,
-      description,
-      lineItems = [],
-      vendorName,
-      vendorCompany,
-      paymentUrl,
-    } = body;
+    const { invoiceId, projectTitle, vendorName, vendorCompany, paymentUrl } = body;
 
-    // Validate required fields
-    if (!invoiceId || !recipientEmail || !invoiceNumber || !amount) {
+    if (!invoiceId || typeof invoiceId !== 'string') {
       return new Response(
-        JSON.stringify({ error: 'Missing required fields: invoiceId, recipientEmail, invoiceNumber, amount' }),
+        JSON.stringify({ error: 'Missing required field: invoiceId' }),
+        { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } }
+      );
+    }
+
+    // --- Authorization: only admins / property managers or the invoice's own
+    // vendor may send an invoice. Recipient, amount and number always come
+    // from the database, never from the request body. ---
+    const { data: invoice, error: invoiceError } = await supabaseClient
+      .from('invoices')
+      .select('id, invoice_number, client_name, client_email, amount, currency, due_date, description, line_items, vendor_id, created_by')
+      .eq('id', invoiceId)
+      .maybeSingle();
+
+    if (invoiceError || !invoice) {
+      return new Response(
+        JSON.stringify({ error: 'Invoice not found' }),
+        { status: 404, headers: { 'Content-Type': 'application/json', ...corsHeaders } }
+      );
+    }
+
+    const { data: callerRoles } = await supabaseClient
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', user.id);
+
+    const isStaff = (callerRoles ?? []).some(
+      (r: { role: string }) => r.role === 'admin' || r.role === 'property_manager'
+    );
+    const isOwner = invoice.created_by === user.id || invoice.vendor_id === user.id;
+
+    if (!isStaff && !isOwner) {
+      console.warn(`Invoice send denied for user ${user.id} on invoice ${invoiceId}`);
+      return new Response(
+        JSON.stringify({ error: 'Forbidden' }),
+        { status: 403, headers: { 'Content-Type': 'application/json', ...corsHeaders } }
+      );
+    }
+
+    const recipientEmail = invoice.client_email as string;
+    const recipientName = (invoice.client_name as string) || 'Valued Client';
+    const invoiceNumber = invoice.invoice_number as string;
+    const amount = Number(invoice.amount ?? 0);
+    const currency = (invoice.currency as string) || 'USD';
+    const dueDate = invoice.due_date as string | null;
+    const description = invoice.description as string | null;
+    const lineItems = (Array.isArray(invoice.line_items) ? invoice.line_items : []) as InvoiceEmailRequest['lineItems'] extends undefined ? never[] : NonNullable<InvoiceEmailRequest['lineItems']>;
+
+    if (!recipientEmail) {
+      return new Response(
+        JSON.stringify({ error: 'Invoice has no client email on record' }),
         { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } }
       );
     }

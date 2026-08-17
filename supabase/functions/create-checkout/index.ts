@@ -97,7 +97,6 @@ const handler = async (req: Request): Promise<Response> => {
 
     const {
       type,
-      amount,
       currency,
       bookingId,
       paymentId,
@@ -107,7 +106,12 @@ const handler = async (req: Request): Promise<Response> => {
       metadata = {}
     } = validationResult.data;
 
-    console.log('Creating checkout session for:', { type, amount, userId: user.id });
+    // SECURITY: the charged amount is NEVER taken from the request body.
+    // It is resolved server-side from the owning record (or the fixed price
+    // book for subscriptions) so a client cannot manipulate the price.
+    let amount = 0;
+
+    console.log('Creating checkout session for:', { type, userId: user.id });
 
     // Get user profile for customer info
     const { data: profile } = await supabase
@@ -117,6 +121,7 @@ const handler = async (req: Request): Promise<Response> => {
       .single();
 
     const baseUrl = req.headers.get('origin') || 'https://monarchpropertymmgt.online';
+    
     
     // Configure session based on type
     const sessionConfig: any = {
