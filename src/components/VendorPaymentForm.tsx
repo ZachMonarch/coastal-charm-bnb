@@ -74,35 +74,21 @@ export default function VendorPaymentForm() {
   const addPaymentMethod = async () => {
     if (!user) return;
 
-    // Validate required fields
-    if (newPaymentMethod.type === 'credit_card') {
-      if (!newPaymentMethod.card_number || !newPaymentMethod.expiry_month || 
-          !newPaymentMethod.expiry_year || !newPaymentMethod.cvv || !newPaymentMethod.name_on_card) {
-        toast.error('Please fill in all credit card fields');
-        return;
-      }
-    } else if (newPaymentMethod.type === 'bank_account') {
-      if (!newPaymentMethod.full_legal_name || !newPaymentMethod.bank_name || 
-          !newPaymentMethod.routing_number || !newPaymentMethod.account_number) {
-        toast.error('Please fill in all required bank account fields');
-        return;
-      }
+    // Card payments are handled by StripeCardCapture (client-side tokenization).
+    if (newPaymentMethod.type !== 'bank_account') return;
+
+    if (!newPaymentMethod.full_legal_name || !newPaymentMethod.bank_name ||
+        !newPaymentMethod.routing_number || !newPaymentMethod.account_number) {
+      toast.error('Please fill in all required bank account fields');
+      return;
     }
 
     setLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke('create-payment-method', {
+      const { error } = await supabase.functions.invoke('create-payment-method', {
         body: {
-          type: newPaymentMethod.type,
-          cardDetails: newPaymentMethod.type === 'credit_card' ? {
-            card_number: newPaymentMethod.card_number,
-            expiry_month: newPaymentMethod.expiry_month,
-            expiry_year: newPaymentMethod.expiry_year,
-            cvv: newPaymentMethod.cvv,
-            name_on_card: newPaymentMethod.name_on_card,
-            billing_address: newPaymentMethod.billing_address
-          } : null,
-          bankDetails: newPaymentMethod.type === 'bank_account' ? {
+          type: 'bank_account',
+          bankDetails: {
             full_legal_name: newPaymentMethod.full_legal_name,
             bank_name: newPaymentMethod.bank_name,
             bank_address: newPaymentMethod.bank_address,
@@ -113,7 +99,7 @@ export default function VendorPaymentForm() {
             swift_code: newPaymentMethod.swift_code,
             iban: newPaymentMethod.iban,
             wire_instructions: newPaymentMethod.wire_instructions
-          } : null
+          }
         }
       });
 
@@ -123,12 +109,6 @@ export default function VendorPaymentForm() {
       setShowAddForm(false);
       setNewPaymentMethod({
         type: 'credit_card',
-        card_number: '',
-        expiry_month: '',
-        expiry_year: '',
-        cvv: '',
-        name_on_card: '',
-        billing_address: '',
         routing_number: '',
         account_number: '',
         full_legal_name: '',
@@ -140,6 +120,7 @@ export default function VendorPaymentForm() {
         iban: '',
         wire_instructions: ''
       });
+
 
       toast.success('Payment method added successfully');
     } catch (error: any) {
