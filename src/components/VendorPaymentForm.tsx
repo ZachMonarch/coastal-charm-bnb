@@ -242,92 +242,15 @@ export default function VendorPaymentForm() {
               </div>
 
               {newPaymentMethod.type === 'credit_card' ? (
-                <>
-                  <div className="space-y-2">
-                    <Label>Card Number</Label>
-                    <Input
-                      placeholder="1234 5678 9012 3456"
-                      value={newPaymentMethod.card_number}
-                      onChange={(e) => setNewPaymentMethod({
-                        ...newPaymentMethod,
-                        card_number: e.target.value.replace(/\D/g, '').replace(/(\d{4})(?=\d)/g, '$1 ')
-                      })}
-                      maxLength={19}
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-3 gap-2">
-                    <div className="space-y-2">
-                      <Label>Month</Label>
-                      <Select
-                        value={newPaymentMethod.expiry_month}
-                        onValueChange={(value) => setNewPaymentMethod({
-                          ...newPaymentMethod,
-                          expiry_month: value
-                        })}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="MM" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {Array.from({ length: 12 }, (_, i) => i + 1).map(month => (
-                            <SelectItem key={month} value={month.toString().padStart(2, '0')}>
-                              {month.toString().padStart(2, '0')}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label>Year</Label>
-                      <Select
-                        value={newPaymentMethod.expiry_year}
-                        onValueChange={(value) => setNewPaymentMethod({
-                          ...newPaymentMethod,
-                          expiry_year: value
-                        })}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="YY" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {Array.from({ length: 10 }, (_, i) => new Date().getFullYear() + i).map(year => (
-                            <SelectItem key={year} value={year.toString().slice(-2)}>
-                              {year.toString().slice(-2)}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label>CVV</Label>
-                      <Input
-                        placeholder="123"
-                        value={newPaymentMethod.cvv}
-                        onChange={(e) => setNewPaymentMethod({
-                          ...newPaymentMethod,
-                          cvv: e.target.value.replace(/\D/g, '')
-                        })}
-                        maxLength={4}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label>Name on Card</Label>
-                    <Input
-                      placeholder="John Doe"
-                      value={newPaymentMethod.name_on_card}
-                      onChange={(e) => setNewPaymentMethod({
-                        ...newPaymentMethod,
-                        name_on_card: e.target.value
-                      })}
-                    />
-                  </div>
-                </>
+                <StripeCardCapture
+                  onAdded={async () => {
+                    await fetchPaymentMethods();
+                    setShowAddForm(false);
+                  }}
+                  onCancel={() => setShowAddForm(false)}
+                />
               ) : (
+
                 <>
                   <div className="space-y-2">
                     <Label>Full Legal Name *</Label>
