@@ -362,14 +362,17 @@ export default function VendorPaymentForm() {
                 </>
               )}
 
-              <div className="flex justify-end gap-2">
-                <Button variant="outline" onClick={() => setShowAddForm(false)}>
-                  Cancel
-                </Button>
-                <Button onClick={addPaymentMethod} disabled={loading}>
-                  {loading ? 'Adding...' : 'Add Payment Method'}
-                </Button>
-              </div>
+              {newPaymentMethod.type === 'bank_account' && (
+                <div className="flex justify-end gap-2">
+                  <Button variant="outline" onClick={() => setShowAddForm(false)}>
+                    Cancel
+                  </Button>
+                  <Button onClick={addPaymentMethod} disabled={loading}>
+                    {loading ? 'Adding...' : 'Add Payment Method'}
+                  </Button>
+                </div>
+              )}
+
             </div>
           </DialogContent>
         </Dialog>
