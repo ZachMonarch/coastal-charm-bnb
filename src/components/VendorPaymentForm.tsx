@@ -27,13 +27,8 @@ export default function VendorPaymentForm() {
   
   const [newPaymentMethod, setNewPaymentMethod] = useState({
     type: 'credit_card' as 'credit_card' | 'bank_account',
-    card_number: '',
-    expiry_month: '',
-    expiry_year: '',
-    cvv: '',
-    name_on_card: '',
-    billing_address: '',
     routing_number: '',
+
     account_number: '',
     full_legal_name: '',
     bank_name: '',
