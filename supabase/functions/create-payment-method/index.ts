@@ -107,17 +107,19 @@ serve(async (req) => {
       throw new Error("Invalid payment method type or missing details");
     }
 
+    const pm = paymentMethod as any;
     return new Response(
-      JSON.stringify({ 
+      JSON.stringify({
         success: true,
         payment_method: {
-          id: paymentMethod.id,
-          last_four: paymentMethod.card?.last4 || paymentMethod.last_four,
-          brand: paymentMethod.card?.brand,
+          id: pm.id,
+          last_four: pm.card?.last4 || pm.last_four,
+          brand: pm.card?.brand ?? null,
         }
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
+
   } catch (error) {
     console.error("Error creating payment method:", error);
     return new Response(
