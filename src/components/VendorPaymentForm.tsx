@@ -10,6 +10,8 @@ import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/contexts/OptimizedAuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import StripeCardCapture from '@/components/vendor/StripeCardCapture';
+
 
 interface PaymentMethod {
   id: string;
@@ -27,13 +29,8 @@ export default function VendorPaymentForm() {
   
   const [newPaymentMethod, setNewPaymentMethod] = useState({
     type: 'credit_card' as 'credit_card' | 'bank_account',
-    card_number: '',
-    expiry_month: '',
-    expiry_year: '',
-    cvv: '',
-    name_on_card: '',
-    billing_address: '',
     routing_number: '',
+
     account_number: '',
     full_legal_name: '',
     bank_name: '',
@@ -79,35 +76,21 @@ export default function VendorPaymentForm() {
   const addPaymentMethod = async () => {
     if (!user) return;
 
-    // Validate required fields
-    if (newPaymentMethod.type === 'credit_card') {
-      if (!newPaymentMethod.card_number || !newPaymentMethod.expiry_month || 
-          !newPaymentMethod.expiry_year || !newPaymentMethod.cvv || !newPaymentMethod.name_on_card) {
-        toast.error('Please fill in all credit card fields');
-        return;
-      }
-    } else if (newPaymentMethod.type === 'bank_account') {
-      if (!newPaymentMethod.full_legal_name || !newPaymentMethod.bank_name || 
-          !newPaymentMethod.routing_number || !newPaymentMethod.account_number) {
-        toast.error('Please fill in all required bank account fields');
-        return;
-      }
+    // Card payments are handled by StripeCardCapture (client-side tokenization).
+    if (newPaymentMethod.type !== 'bank_account') return;
+
+    if (!newPaymentMethod.full_legal_name || !newPaymentMethod.bank_name ||
+        !newPaymentMethod.routing_number || !newPaymentMethod.account_number) {
+      toast.error('Please fill in all required bank account fields');
+      return;
     }
 
     setLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke('create-payment-method', {
+      const { error } = await supabase.functions.invoke('create-payment-method', {
         body: {
-          type: newPaymentMethod.type,
-          cardDetails: newPaymentMethod.type === 'credit_card' ? {
-            card_number: newPaymentMethod.card_number,
-            expiry_month: newPaymentMethod.expiry_month,
-            expiry_year: newPaymentMethod.expiry_year,
-            cvv: newPaymentMethod.cvv,
-            name_on_card: newPaymentMethod.name_on_card,
-            billing_address: newPaymentMethod.billing_address
-          } : null,
-          bankDetails: newPaymentMethod.type === 'bank_account' ? {
+          type: 'bank_account',
+          bankDetails: {
             full_legal_name: newPaymentMethod.full_legal_name,
             bank_name: newPaymentMethod.bank_name,
             bank_address: newPaymentMethod.bank_address,
@@ -118,7 +101,7 @@ export default function VendorPaymentForm() {
             swift_code: newPaymentMethod.swift_code,
             iban: newPaymentMethod.iban,
             wire_instructions: newPaymentMethod.wire_instructions
-          } : null
+          }
         }
       });
 
@@ -128,12 +111,6 @@ export default function VendorPaymentForm() {
       setShowAddForm(false);
       setNewPaymentMethod({
         type: 'credit_card',
-        card_number: '',
-        expiry_month: '',
-        expiry_year: '',
-        cvv: '',
-        name_on_card: '',
-        billing_address: '',
         routing_number: '',
         account_number: '',
         full_legal_name: '',
@@ -145,6 +122,7 @@ export default function VendorPaymentForm() {
         iban: '',
         wire_instructions: ''
       });
+
 
       toast.success('Payment method added successfully');
     } catch (error: any) {
@@ -242,92 +220,15 @@ export default function VendorPaymentForm() {
               </div>
 
               {newPaymentMethod.type === 'credit_card' ? (
-                <>
-                  <div className="space-y-2">
-                    <Label>Card Number</Label>
-                    <Input
-                      placeholder="1234 5678 9012 3456"
-                      value={newPaymentMethod.card_number}
-                      onChange={(e) => setNewPaymentMethod({
-                        ...newPaymentMethod,
-                        card_number: e.target.value.replace(/\D/g, '').replace(/(\d{4})(?=\d)/g, '$1 ')
-                      })}
-                      maxLength={19}
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-3 gap-2">
-                    <div className="space-y-2">
-                      <Label>Month</Label>
-                      <Select
-                        value={newPaymentMethod.expiry_month}
-                        onValueChange={(value) => setNewPaymentMethod({
-                          ...newPaymentMethod,
-                          expiry_month: value
-                        })}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="MM" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {Array.from({ length: 12 }, (_, i) => i + 1).map(month => (
-                            <SelectItem key={month} value={month.toString().padStart(2, '0')}>
-                              {month.toString().padStart(2, '0')}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label>Year</Label>
-                      <Select
-                        value={newPaymentMethod.expiry_year}
-                        onValueChange={(value) => setNewPaymentMethod({
-                          ...newPaymentMethod,
-                          expiry_year: value
-                        })}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="YY" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {Array.from({ length: 10 }, (_, i) => new Date().getFullYear() + i).map(year => (
-                            <SelectItem key={year} value={year.toString().slice(-2)}>
-                              {year.toString().slice(-2)}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label>CVV</Label>
-                      <Input
-                        placeholder="123"
-                        value={newPaymentMethod.cvv}
-                        onChange={(e) => setNewPaymentMethod({
-                          ...newPaymentMethod,
-                          cvv: e.target.value.replace(/\D/g, '')
-                        })}
-                        maxLength={4}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label>Name on Card</Label>
-                    <Input
-                      placeholder="John Doe"
-                      value={newPaymentMethod.name_on_card}
-                      onChange={(e) => setNewPaymentMethod({
-                        ...newPaymentMethod,
-                        name_on_card: e.target.value
-                      })}
-                    />
-                  </div>
-                </>
+                <StripeCardCapture
+                  onAdded={async () => {
+                    await fetchPaymentMethods();
+                    setShowAddForm(false);
+                  }}
+                  onCancel={() => setShowAddForm(false)}
+                />
               ) : (
+
                 <>
                   <div className="space-y-2">
                     <Label>Full Legal Name *</Label>
@@ -463,14 +364,17 @@ export default function VendorPaymentForm() {
                 </>
               )}
 
-              <div className="flex justify-end gap-2">
-                <Button variant="outline" onClick={() => setShowAddForm(false)}>
-                  Cancel
-                </Button>
-                <Button onClick={addPaymentMethod} disabled={loading}>
-                  {loading ? 'Adding...' : 'Add Payment Method'}
-                </Button>
-              </div>
+              {newPaymentMethod.type === 'bank_account' && (
+                <div className="flex justify-end gap-2">
+                  <Button variant="outline" onClick={() => setShowAddForm(false)}>
+                    Cancel
+                  </Button>
+                  <Button onClick={addPaymentMethod} disabled={loading}>
+                    {loading ? 'Adding...' : 'Add Payment Method'}
+                  </Button>
+                </div>
+              )}
+
             </div>
           </DialogContent>
         </Dialog>
