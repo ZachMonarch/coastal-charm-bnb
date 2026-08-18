@@ -31,30 +31,36 @@ serve(async (req) => {
       throw new Error("Unauthorized");
     }
 
-    const { type, cardDetails, bankDetails } = await req.json();
+    const body = await req.json();
+    const { type, paymentMethodId, cardDetails, bankDetails } = body ?? {};
+
+    // Raw card data must never be sent to the server (PCI scope).
+    if (cardDetails && typeof cardDetails === "object") {
+      return new Response(
+        JSON.stringify({
+          error: "Raw card details are not accepted. Tokenize the card in the browser with Stripe.js.",
+          code: "RAW_CARD_DATA_REJECTED",
+        }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
       apiVersion: "2025-08-27.basil",
     });
 
     let paymentMethod;
 
-    if (type === "credit_card" && cardDetails) {
-      // Create Stripe payment method for credit card
-      paymentMethod = await stripe.paymentMethods.create({
-        type: "card",
-        card: {
-          number: cardDetails.card_number.replace(/\s/g, ""),
-          exp_month: parseInt(cardDetails.expiry_month),
-          exp_year: parseInt("20" + cardDetails.expiry_year),
-          cvc: cardDetails.cvv,
-        },
-        billing_details: {
-          name: cardDetails.name_on_card,
-          address: {
-            line1: cardDetails.billing_address,
-          },
-        },
-      });
+    if (type === "credit_card") {
+      if (typeof paymentMethodId !== "string" || !/^pm_[A-Za-z0-9_]+$/.test(paymentMethodId)) {
+        throw new Error("Invalid payment method token");
+      }
+
+      // Retrieve non-sensitive metadata (brand/last4) from Stripe itself.
+      paymentMethod = await stripe.paymentMethods.retrieve(paymentMethodId);
+      if (paymentMethod.type !== "card") {
+        throw new Error("Unsupported payment method type");
+      }
 
       // Store in database
       const { error: dbError } = await supabaseClient
@@ -69,6 +75,7 @@ serve(async (req) => {
         });
 
       if (dbError) throw dbError;
+
 
     } else if (type === "bank_account" && bankDetails) {
       // For bank accounts, store details directly (no Stripe tokenization)
