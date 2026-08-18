@@ -16,7 +16,9 @@ const supabase = createClient(supabaseUrl, supabaseServiceKey);
 // Input validation schema
 const CheckoutRequestSchema = z.object({
   type: z.enum(['booking', 'vendor_payment', 'subscription']),
-  amount: z.number().positive().max(1000000),
+  // Accepted for backwards compatibility but IGNORED — the real amount is
+  // always resolved server-side from the owning record / price book.
+  amount: z.number().positive().max(1000000).optional(),
   currency: z.string().length(3).optional().default('usd'),
   bookingId: z.string().uuid().optional(),
   paymentId: z.string().uuid().optional(),
@@ -139,21 +141,26 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Configure line items based on type
     switch (type) {
-      case 'booking':
+      case 'booking': {
         if (!bookingId) {
           throw new Error('Booking ID required for booking payments');
         }
-        
-        // Get booking details
+
+        // Get booking details — amount comes from the booking record
         const { data: booking, error: bookingError } = await supabase
           .from('bookings')
-          .select('property_id, check_in_date, check_out_date, guests')
+          .select('property_id, check_in_date, check_out_date, guests, total_amount')
           .eq('id', bookingId)
           .eq('user_id', user.id)
           .single();
 
         if (bookingError || !booking) {
           throw new Error('Booking not found or access denied');
+        }
+
+        amount = Number(booking.total_amount ?? 0);
+        if (!(amount > 0)) {
+          throw new Error('Booking has no payable amount');
         }
 
         sessionConfig.line_items = [{
@@ -167,25 +174,31 @@ const handler = async (req: Request): Promise<Response> => {
           },
           quantity: 1,
         }];
-        
+
         sessionConfig.metadata.bookingId = bookingId;
         break;
+      }
 
-      case 'vendor_payment':
+      case 'vendor_payment': {
         if (!paymentId) {
           throw new Error('Payment ID required for vendor payments');
         }
 
-        // Get payment details
+        // Get payment details — amount comes from the payment record
         const { data: payment, error: paymentError } = await supabase
           .from('vendor_payments')
-          .select('title, description')
+          .select('title, description, amount, status')
           .eq('id', paymentId)
           .eq('vendor_id', user.id)
           .single();
 
         if (paymentError || !payment) {
           throw new Error('Payment not found or access denied');
+        }
+
+        amount = Number(payment.amount ?? 0);
+        if (!(amount > 0)) {
+          throw new Error('Payment has no payable amount');
         }
 
         sessionConfig.line_items = [{
@@ -199,13 +212,26 @@ const handler = async (req: Request): Promise<Response> => {
           },
           quantity: 1,
         }];
-        
+
         sessionConfig.metadata.paymentId = paymentId;
         break;
+      }
 
-      case 'subscription':
+      case 'subscription': {
         if (!subscriptionTier) {
           throw new Error('Subscription tier required for subscription payments');
+        }
+
+        // Fixed server-side price book (USD / month) — never client supplied
+        const TIER_PRICES: Record<string, number> = {
+          basic: 49,
+          professional: 149,
+          enterprise: 399,
+        };
+
+        amount = TIER_PRICES[subscriptionTier];
+        if (!amount) {
+          throw new Error('Unknown subscription tier');
         }
 
         sessionConfig.mode = 'subscription';
@@ -235,6 +261,7 @@ const handler = async (req: Request): Promise<Response> => {
 
         sessionConfig.metadata.subscriptionTier = subscriptionTier;
         break;
+      }
 
       default:
         throw new Error('Invalid payment type');

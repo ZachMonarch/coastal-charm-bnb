@@ -125,7 +125,7 @@ serve(async (req: Request) => {
     const currency = (invoice.currency as string) || 'USD';
     const dueDate = invoice.due_date as string | null;
     const description = invoice.description as string | null;
-    const lineItems = (Array.isArray(invoice.line_items) ? invoice.line_items : []) as InvoiceEmailRequest['lineItems'] extends undefined ? never[] : NonNullable<InvoiceEmailRequest['lineItems']>;
+    const lineItems = (Array.isArray(invoice.line_items) ? invoice.line_items : []) as NonNullable<InvoiceEmailRequest['lineItems']>;
 
     if (!recipientEmail) {
       return new Response(
