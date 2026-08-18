@@ -16,7 +16,9 @@ const supabase = createClient(supabaseUrl, supabaseServiceKey);
 // Input validation schema
 const CheckoutRequestSchema = z.object({
   type: z.enum(['booking', 'vendor_payment', 'subscription']),
-  amount: z.number().positive().max(1000000),
+  // Accepted for backwards compatibility but IGNORED — the real amount is
+  // always resolved server-side from the owning record / price book.
+  amount: z.number().positive().max(1000000).optional(),
   currency: z.string().length(3).optional().default('usd'),
   bookingId: z.string().uuid().optional(),
   paymentId: z.string().uuid().optional(),
