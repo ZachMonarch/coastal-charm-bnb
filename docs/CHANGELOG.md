@@ -2,6 +2,20 @@
 
 All notable changes to the Monarch Property Management application.
 
+## [2.5.0] - 2026-08-18
+### Security — privilege escalation and payment integrity
+- **Privilege escalation closed at the last trusting policy**: `vendor_bids_insert_vendor` no longer accepts `profiles.role` as proof of vendor status; it now requires a matching row in `public.user_roles`. `profiles.role` / `tenant_id` were already immutable for non-admins via `prevent_profile_privilege_escalation`; a new `BEFORE INSERT` trigger (`trg_prevent_profile_role_insert`) additionally downgrades any privileged role a non-admin tries to self-assign at signup.
+- **Bid pricing integrity**: `bid_lines` INSERT/UPDATE now require an active `vendor` role in `user_roles`, not just `vendor_id = auth.uid()`.
+- **Checkout price manipulation fixed**: `create-checkout` ignores the client-supplied `amount`. Charges are resolved server-side from `bookings.total_amount`, `vendor_payments.amount` (both scoped to the caller's own record), or a fixed server-side subscription price book (basic 49 / professional 149 / enterprise 399 USD per month). Zero or missing amounts are rejected.
+- **`send-invoice` authorization**: the function now loads the invoice from the database and requires the caller to be admin / property_manager or the invoice's own creator/vendor. Recipient, invoice number, amount, currency, due date and line items all come from the `invoices` row — arbitrary recipients and forged figures are no longer possible.
+- **`send-sms` is no longer an open relay**: requires a bearer token, resolves the caller via `auth.getUser`, and returns 403 unless the caller holds `admin` or `property_manager`. Message body capped at 1600 characters.
+
+### Dependencies — vulnerable packages upgraded
+- `vite` 5.4.10 → **5.4.21** (dev-server `fs.deny` bypass / esbuild advisories).
+- `xlsx` 0.18.5 → **0.20.3** from the official SheetJS distribution (npm's registry copy is frozen at the vulnerable 0.18.5: prototype-pollution and ReDoS advisories).
+- Verified with `tsgo --noEmit` (app) and `deno check` (edge functions): clean.
+
+
 ## [2.4.0] - 2026-08-14
 ### Security — database attack surface reduced (measured)
 - **Supabase linter: 243 → 102 findings** (verified by running the linter before and after the migration).
