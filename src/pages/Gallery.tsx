@@ -157,7 +157,7 @@ export default function Gallery() {
         </div>
       </section>
       
-      <main className="p-6 w-full" role="main" aria-label="Property image gallery">
+      <div className="p-6 w-full" role="main" aria-label="Property image gallery">
         <div className="content-constrained">
 
           <h2 className="sr-only">Browse property images by category</h2>
@@ -240,7 +240,7 @@ export default function Gallery() {
             </div>
           )}
         </div>
-      </main>
+      </div>
       
       <Footer />
     </div>

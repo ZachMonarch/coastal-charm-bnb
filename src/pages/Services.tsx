@@ -99,7 +99,7 @@ export default function Services() {
         </div>
       </div>
 
-      <main className="p-6 w-full">
+      <div className="p-6 w-full">
         <div className="content-constrained">
 
           {/* Stats Section */}
@@ -261,7 +261,7 @@ export default function Services() {
             </div>
           </div>
         </div>
-      </main>
+      </div>
 
       <Footer />
     </div>

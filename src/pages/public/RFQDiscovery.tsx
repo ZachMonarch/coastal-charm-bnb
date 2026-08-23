@@ -38,7 +38,7 @@ export default function RFQDiscovery() {
   }, []);
 
   return (
-    <main className="container mx-auto px-4 py-10 max-w-7xl">
+    <div className="container mx-auto px-4 py-10 max-w-7xl">
       <Helmet>
         <title>Open Projects & RFQs — Monarch Property Management</title>
         <meta
@@ -105,6 +105,6 @@ export default function RFQDiscovery() {
           ))}
         </div>
       )}
-    </main>
+    </div>
   );
 }

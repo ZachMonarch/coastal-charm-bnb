@@ -72,7 +72,7 @@ export default function PropertyDetails() {
   if (loading) {
     return (
       <div className="min-h-screen">
-        <main className="p-6">
+        <div className="p-6">
           <div className="container mx-auto">
             <div className="animate-pulse space-y-6">
               <div className="h-8 bg-muted rounded-lg w-1/4"></div>
@@ -94,7 +94,7 @@ export default function PropertyDetails() {
               </div>
             </div>
           </div>
-        </main>
+        </div>
       </div>
     );
   }
@@ -102,7 +102,7 @@ export default function PropertyDetails() {
   if (error || !property) {
     return (
       <div className="min-h-screen">
-        <main className="p-6">
+        <div className="p-6">
           <div className="container mx-auto">
             <div className="text-center py-12">
               <h1 className="text-2xl font-bold mb-4">Property Not Found</h1>
@@ -115,7 +115,7 @@ export default function PropertyDetails() {
               </Link>
             </div>
           </div>
-        </main>
+        </div>
       </div>
     );
   }
@@ -180,7 +180,7 @@ export default function PropertyDetails() {
       <Helmet>
         <script type="application/ld+json">{JSON.stringify(listingJsonLd)}</script>
       </Helmet>
-      <main className="p-6">
+      <div className="p-6">
         <div className="container mx-auto">
           {/* Breadcrumb */}
           <div className="mb-6">
@@ -362,7 +362,7 @@ export default function PropertyDetails() {
             </div>
           </div>
         </div>
-      </main>
+      </div>
 
       <Footer />
     </div>

@@ -57,17 +57,17 @@ export default function PublicRFQView() {
 
   if (loading) {
     return (
-      <main className="container mx-auto px-4 py-10 max-w-3xl">
+      <div className="container mx-auto px-4 py-10 max-w-3xl">
         <Skeleton className="h-8 w-48 mb-4" />
         <Skeleton className="h-12 w-full mb-2" />
         <Skeleton className="h-64 w-full" />
-      </main>
+      </div>
     );
   }
 
   if (!rfq) {
     return (
-      <main className="container mx-auto px-4 py-16 text-center">
+      <div className="container mx-auto px-4 py-16 text-center">
         <h1 className="text-2xl font-semibold mb-2">Project not found</h1>
         <p className="text-muted-foreground mb-6">
           This project may have been closed or is no longer available publicly.
@@ -75,7 +75,7 @@ export default function PublicRFQView() {
         <Button asChild>
           <Link to="/rfq">Browse open projects</Link>
         </Button>
-      </main>
+      </div>
     );
   }
 
@@ -98,7 +98,7 @@ export default function PublicRFQView() {
   };
 
   return (
-    <main className="container mx-auto px-4 py-10 max-w-3xl">
+    <div className="container mx-auto px-4 py-10 max-w-3xl">
       <Helmet>
         <title>{rfq.title} — Open Project | Monarch Property Management</title>
         <meta name="description" content={rfq.preview ?? 'Open project / RFQ accepting bids.'} />
@@ -185,6 +185,6 @@ export default function PublicRFQView() {
         open={requestOpen}
         onOpenChange={setRequestOpen}
       />
-    </main>
+    </div>
   );
 }

@@ -136,7 +136,7 @@ export default function Amenities() {
         </div>
       </div>
 
-      <main className="p-6 w-full">
+      <div className="p-6 w-full">
         <div className="content-constrained">
 
           {/* Featured Amenities */}
@@ -263,7 +263,7 @@ export default function Amenities() {
             </div>
           </div>
         </div>
-      </main>
+      </div>
       
       <Footer />
     </div>

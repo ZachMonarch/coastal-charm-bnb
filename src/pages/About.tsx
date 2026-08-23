@@ -70,7 +70,7 @@ export default function About() {
         imageUrl="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1920&h=800&fit=crop"
       />
 
-      <main className="p-6 w-full">
+      <div className="p-6 w-full">
         <div className="container mx-auto max-w-6xl">
           {/* Mission Statement */}
           <section className="py-16">
@@ -238,7 +238,7 @@ export default function About() {
             </Card>
           </section>
         </div>
-      </main>
+      </div>
 
       <Footer />
     </div>

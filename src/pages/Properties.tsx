@@ -215,7 +215,7 @@ export default function Properties() {
         </div>
       </section>
       
-      <main className="w-full px-4 py-6 sm:px-6 lg:px-8" role="main" aria-label="Properties and vacation rentals">
+      <div className="w-full px-4 py-6 sm:px-6 lg:px-8" role="main" aria-label="Properties and vacation rentals">
         <div className="content-constrained">
           {/* Page Hero removed - using image hero above */}
           <div className="hidden">
@@ -437,7 +437,7 @@ export default function Properties() {
             </TabsContent>
           </Tabs>
         </div>
-      </main>
+      </div>
 
       <Footer />
     </EnhancedPageBackground>
