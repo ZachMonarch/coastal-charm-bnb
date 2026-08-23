@@ -259,7 +259,7 @@ export default function ChoosePropertyManagementCompany() {
             </div>
           </section>
         </article>
-      </main>
+      </div>
     </>
   );
 }
