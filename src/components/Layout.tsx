@@ -52,13 +52,14 @@ export default function Layout({ children }: LayoutProps) {
   // Standard layout for public pages with full-width support
   return (
     <div className="min-h-screen w-full overflow-x-hidden">
-      {/* Skip to main content link for accessibility */}
+      {/* Skip to main content link for accessibility (single source of truth) */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md focus:shadow-lg"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-background focus:text-foreground focus:border focus:border-border focus:rounded-md focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-ring"
       >
         Skip to main content
       </a>
+
       {shouldShowNavbar && <Navbar />}
       <main id="main-content" className={`w-full ${shouldShowNavbar ? 'pt-20' : ''}`}>
         {children}
