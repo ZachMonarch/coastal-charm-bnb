@@ -24,7 +24,7 @@ export default function Terms() {
         imageUrl="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1920&h=600&fit=crop"
       />
 
-      <main className="p-6">
+      <div className="p-6">
         <div className="container mx-auto max-w-4xl">
 
           <div className="space-y-8">
@@ -120,7 +120,7 @@ export default function Terms() {
             </div>
           </div>
         </div>
-      </main>
+      </div>
 
       <Footer />
     </div>

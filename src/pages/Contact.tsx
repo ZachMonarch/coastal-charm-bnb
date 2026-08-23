@@ -123,7 +123,7 @@ export default function Contact() {
         </div>
       </section>
       
-      <main className="p-6" role="main" aria-label="Contact information and form">
+      <div className="p-6" role="main" aria-label="Contact information and form">
         <div className="container mx-auto max-w-6xl">
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -350,7 +350,7 @@ export default function Contact() {
             </Card>
           </div>
         </div>
-      </main>
+      </div>
 
       <Footer />
     </div>

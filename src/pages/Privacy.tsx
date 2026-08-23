@@ -24,7 +24,7 @@ export default function Privacy() {
         imageUrl="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1920&h=600&fit=crop"
       />
 
-      <main className="p-6">
+      <div className="p-6">
         <div className="container mx-auto max-w-4xl">
 
           <div className="space-y-8">
@@ -149,7 +149,7 @@ export default function Privacy() {
             </div>
           </div>
         </div>
-      </main>
+      </div>
 
       <Footer />
     </div>

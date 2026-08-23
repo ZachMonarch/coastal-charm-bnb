@@ -77,7 +77,7 @@ export default function ChoosePropertyManagementCompany() {
         <script type="application/ld+json">{JSON.stringify(faqLd)}</script>
       </Helmet>
 
-      <main className="container mx-auto max-w-3xl px-4 py-12">
+      <div className="container mx-auto max-w-3xl px-4 py-12">
         <nav aria-label="Breadcrumb" className="mb-6 text-sm text-muted-foreground">
           <Link to="/" className="hover:text-foreground">Home</Link>
           <span className="mx-2">/</span>
@@ -259,7 +259,7 @@ export default function ChoosePropertyManagementCompany() {
             </div>
           </section>
         </article>
-      </main>
+      </div>
     </>
   );
 }

@@ -101,7 +101,7 @@ export default function BookingPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/5">
-      <main className="px-4 py-6 sm:px-6 lg:px-8">
+      <div className="px-4 py-6 sm:px-6 lg:px-8">
         <div className="container mx-auto max-w-7xl">
           {/* Header with Back Button */}
           <div className="mb-8">
@@ -235,7 +235,7 @@ export default function BookingPage() {
             </div>
           </div>
         </div>
-      </main>
+      </div>
 
       <Footer />
     </div>

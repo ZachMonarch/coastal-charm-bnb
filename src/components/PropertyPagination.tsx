@@ -82,12 +82,13 @@ export default function PropertyPagination({
             size="sm"
             onClick={() => onPageChange(currentPage - 1)}
             disabled={!hasPreviousPage}
+            aria-label="Go to previous page"
             className={cn(
               "neumorphic-card p-2 h-10 w-10",
               !hasPreviousPage && "opacity-50 cursor-not-allowed"
             )}
           >
-            <ChevronLeft className="h-4 w-4" />
+            <ChevronLeft className="h-4 w-4" aria-hidden="true" />
           </Button>
 
           {/* Page Numbers */}
@@ -95,7 +96,7 @@ export default function PropertyPagination({
             {pageNumbers.map((page, index) => (
               page === 'ellipsis' ? (
                 <div key={`ellipsis-${index}`} className="px-3 py-2">
-                  <MoreHorizontal className="h-4 w-4 text-muted-foreground" />
+                  <MoreHorizontal className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                 </div>
               ) : (
                 <Button
@@ -122,12 +123,13 @@ export default function PropertyPagination({
             size="sm"
             onClick={() => onPageChange(currentPage + 1)}
             disabled={!hasNextPage}
+            aria-label="Go to next page"
             className={cn(
               "neumorphic-card p-2 h-10 w-10",
               !hasNextPage && "opacity-50 cursor-not-allowed"
             )}
           >
-            <ChevronRight className="h-4 w-4" />
+            <ChevronRight className="h-4 w-4" aria-hidden="true" />
           </Button>
         </div>
 

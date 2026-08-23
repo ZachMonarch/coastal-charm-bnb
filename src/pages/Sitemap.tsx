@@ -106,7 +106,7 @@ export default function Sitemap() {
   
   return (
     <div className="min-h-screen">
-      <main className="p-6">
+      <div className="p-6">
         <div className="container mx-auto">
           {/* Hero Section */}
           <PageHero
@@ -170,7 +170,7 @@ export default function Sitemap() {
             </Link>
           </div>
         </div>
-      </main>
+      </div>
 
       <Footer />
     </div>

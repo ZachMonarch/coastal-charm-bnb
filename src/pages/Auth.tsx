@@ -449,7 +449,7 @@ export default function Auth() {
             <div className="flex items-center justify-center gap-3 mb-4">
               <OptimizedLogo size="xl" className="rounded-xl shadow-lg border border-border bg-card" />
               <div className="text-left">
-                <h1 className="text-2xl font-bold text-foreground">MONARCH</h1>
+                <span className="text-2xl font-bold text-foreground">MONARCH</span>
                 <p className="text-primary text-sm font-medium">Property Management</p>
               </div>
             </div>
