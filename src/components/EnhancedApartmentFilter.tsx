@@ -203,7 +203,7 @@ export default function EnhancedApartmentFilter({ onFilterChange, className }: F
               Location
             </label>
             <Select value={filters.location} onValueChange={(value) => updateFilter('location', value)}>
-              <SelectTrigger className="neumorphic-card h-12 border-0">
+              <SelectTrigger className="neumorphic-card h-12 border-0" aria-label="Filter by location">
                 <SelectValue placeholder="Any Location" />
               </SelectTrigger>
               <SelectContent className="glass-card border-0">
@@ -224,7 +224,7 @@ export default function EnhancedApartmentFilter({ onFilterChange, className }: F
               Guests
             </label>
             <Select value={filters.capacity} onValueChange={(value) => updateFilter('capacity', value)}>
-              <SelectTrigger className="neumorphic-card h-12 border-0">
+              <SelectTrigger className="neumorphic-card h-12 border-0" aria-label="Filter by guest capacity">
                 <SelectValue placeholder="Any Capacity" />
               </SelectTrigger>
               <SelectContent className="glass-card border-0">
@@ -244,7 +244,7 @@ export default function EnhancedApartmentFilter({ onFilterChange, className }: F
               Property Type
             </label>
             <Select value={filters.propertyType} onValueChange={(value) => updateFilter('propertyType', value)}>
-              <SelectTrigger className="neumorphic-card h-12 border-0">
+              <SelectTrigger className="neumorphic-card h-12 border-0" aria-label="Filter by property type">
                 <SelectValue placeholder="Any Type" />
               </SelectTrigger>
               <SelectContent className="glass-card border-0">
@@ -293,7 +293,7 @@ export default function EnhancedApartmentFilter({ onFilterChange, className }: F
                 Minimum Rating
               </label>
               <Select value={filters.rating} onValueChange={(value) => updateFilter('rating', value)}>
-                <SelectTrigger className="neumorphic-card h-12 border-0">
+                <SelectTrigger className="neumorphic-card h-12 border-0" aria-label="Filter by minimum rating">
                   <SelectValue placeholder="Any Rating" />
                 </SelectTrigger>
                 <SelectContent className="glass-card border-0">
