@@ -4053,3 +4053,9 @@ select:focus-visible {
   background: hsl(var(--primary) / 0.4);
   color: hsl(0 0% 95%);
 }
+/* Zoho SalesIQ third-party widget: raise link contrast to meet WCAG AA */
+.zsiq_flt_rel a.lmore,
+a.gdpr_lmore_link {
+  color: hsl(var(--foreground)) !important;
+  text-decoration: underline;
+}
