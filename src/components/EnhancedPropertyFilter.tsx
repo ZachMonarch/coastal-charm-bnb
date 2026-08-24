@@ -124,7 +124,7 @@ export default function EnhancedPropertyFilter({
                 value={filters.city || 'all'} 
                 onValueChange={(value) => handleFilterChange('city', value)}
               >
-                <SelectTrigger className="w-[180px] neumorphic-inset">
+                <SelectTrigger className="w-[180px] neumorphic-inset" aria-label="Filter properties by city">
                   <MapPin className="h-4 w-4 mr-2" />
                   <SelectValue />
                 </SelectTrigger>
@@ -142,7 +142,7 @@ export default function EnhancedPropertyFilter({
                 value={filters.property_type || 'all'} 
                 onValueChange={(value) => handleFilterChange('property_type', value)}
               >
-                <SelectTrigger className="w-[180px] neumorphic-inset">
+                <SelectTrigger className="w-[180px] neumorphic-inset" aria-label="Filter properties by type">
                   <Home className="h-4 w-4 mr-2" />
                   <SelectValue />
                 </SelectTrigger>

@@ -282,7 +282,7 @@ export default function Contact() {
                   <div>
                     <Label htmlFor="category">Inquiry Type</Label>
                     <Select value={formData.category} onValueChange={(value) => handleChange('category', value)}>
-                      <SelectTrigger className={errors.category ? 'border-destructive' : ''}>
+                      <SelectTrigger id="category" aria-label="Inquiry type" className={errors.category ? 'border-destructive' : ''}>
                         <SelectValue placeholder="Select inquiry type" />
                       </SelectTrigger>
                       <SelectContent>
