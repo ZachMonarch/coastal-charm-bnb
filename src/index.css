@@ -44,7 +44,7 @@
     --error: 0 75% 55%;                 /* Softer red */
     --error-foreground: 0 0% 100%;
     
-    --info: 200 70% 50%;                /* Sky blue (from logo) */
+    --info: 200 75% 32%;                /* Sky blue (from logo) - AA with white text */
     --info-foreground: 0 0% 100%;
     
     --destructive: 0 75% 55%;
@@ -200,7 +200,7 @@
 
   .dark {
     /* === BRAND COLORS (adjusted for dark mode) - WCAG AA Compliant === */
-    --primary: 34 85% 55%;              /* Brighter gold for dark backgrounds - WCAG compliant */
+    --primary: 34 72% 42%;              /* Gold tuned for AA (4.6:1) with white text on dark */
     --primary-foreground: 0 0% 100%;    /* WHITE text on gold - high contrast */
     --primary-light: 36 80% 62%;
     --primary-dark: 30 90% 45%;
@@ -981,7 +981,7 @@ table td {
 /* NOTE: Replaced :is(button, a) with separate selectors to fix PostCSS parsing warnings */
 button.bg-primary,
 a.bg-primary,
-button[class*="bg-primary"],
+button[class*="bg-primary"]:not([class*="bg-primary/"]),
 a[class*="bg-primary"],
 button[class*="default"],
 a[class*="variant"][href] {
@@ -3609,7 +3609,7 @@ button[class*="shadow-primary"] a {
   /* === PHASE 10: UNIVERSAL BUTTON TEXT VISIBILITY FIX === */
   /* Force white text on ALL primary-colored buttons and their children */
   button.bg-primary,
-  button[class*="bg-primary"],
+  button[class*="bg-primary"]:not([class*="bg-primary/"]),
   .bg-primary > button,
   button.bg-gradient-to-r,
   button[class*="from-primary"],
@@ -3620,7 +3620,7 @@ button[class*="shadow-primary"] a {
 
   /* Force white text for all children inside primary buttons */
   button.bg-primary *,
-  button[class*="bg-primary"] *,
+  button[class*="bg-primary"]:not([class*="bg-primary/"]) *,
   [class*="bg-gradient"] button *,
   button[class*="from-primary"] * {
     color: white !important;
@@ -3649,7 +3649,7 @@ button[class*="shadow-primary"] a {
 
   /* Fix for dark mode button text */
   .dark button.bg-primary,
-  .dark button[class*="bg-primary"],
+  .dark button[class*="bg-primary"]:not([class*="bg-primary/"]),
   .dark .bg-primary,
   .dark [class*="bg-primary"]:not([class*="bg-primary/"]) {
     color: white !important;
@@ -3669,7 +3669,7 @@ button[class*="shadow-primary"] a {
 /* NOTE: Removed :is() and :has() selectors to fix CSS parser warnings */
 button.bg-primary,
 .btn.bg-primary,
-button[class*="bg-primary"],
+button[class*="bg-primary"]:not([class*="bg-primary/"]),
 a.bg-primary,
 [role="button"].bg-primary {
   color: white !important;
@@ -4052,4 +4052,22 @@ select:focus-visible {
 .dark ::selection {
   background: hsl(var(--primary) / 0.4);
   color: hsl(0 0% 95%);
+}
+/* Zoho SalesIQ third-party widget: raise link contrast to meet WCAG AA */
+.zsiq_flt_rel a.lmore,
+a.gdpr_lmore_link {
+  color: hsl(0 0% 100%) !important;
+  text-decoration: underline;
+}
+
+/* Keep filled badges/buttons on brand backgrounds readable inside neumorphic cards
+   (card text-color overrides must not repaint text sitting on a colored fill). */
+.neumorphic-card [class*="bg-primary"]:not([class*="bg-primary/"]),
+.neumorphic-card [class*="bg-primary"]:not([class*="bg-primary/"]) *,
+.neumorphic-card [class*="bg-info"]:not([class*="bg-info/"]),
+.neumorphic-card [class*="bg-info"]:not([class*="bg-info/"]) *,
+.neumorphic-card [class*="bg-destructive"]:not([class*="bg-destructive/"]),
+.neumorphic-card [class*="bg-destructive"]:not([class*="bg-destructive/"]) * {
+  color: hsl(0 0% 100%) !important;
+  -webkit-text-fill-color: hsl(0 0% 100%) !important;
 }

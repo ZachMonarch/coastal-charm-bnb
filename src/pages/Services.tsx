@@ -116,6 +116,7 @@ export default function Services() {
           </div>
 
           {/* Services Grid */}
+          <h2 className="sr-only">Our property management services</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
             {services.map((service, index) => (
               <Card 
