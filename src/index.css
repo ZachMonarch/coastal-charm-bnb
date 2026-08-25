@@ -4062,7 +4062,7 @@ a.gdpr_lmore_link {
 
 /* Keep filled badges/buttons on brand backgrounds readable inside neumorphic cards
    (card text-color overrides must not repaint text sitting on a colored fill). */
-:root:not(.dark) :root:not(.dark) .neumorphic-card [class*="bg-primary"]:not([class*="bg-primary/"]),
+:root:not(.dark) .neumorphic-card [class*="bg-primary"]:not([class*="bg-primary/"]),
 :root:not(.dark) .neumorphic-card [class*="bg-primary"]:not([class*="bg-primary/"]) *,
 :root:not(.dark) .neumorphic-card [class*="bg-info"]:not([class*="bg-info/"]),
 :root:not(.dark) .neumorphic-card [class*="bg-info"]:not([class*="bg-info/"]) *,
