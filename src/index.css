@@ -445,6 +445,18 @@
 }
 
 /* ONLY the public navbar with data-monarch-header gets styled background */
+/* Navbar keeps a white surface in dark mode, so it also keeps the light-mode
+   brand tokens to preserve WCAG AA contrast on that surface. */
+.dark [data-monarch-header],
+.dark .monarch-header {
+  --primary: 32 82% 30%;
+  --primary-foreground: 0 0% 100%;
+  --foreground: 0 0% 10%;
+  --muted-foreground: 0 0% 35%;
+  --accent-foreground: 0 0% 10%;
+  --border: 32 25% 82%;
+}
+
 [data-monarch-header],
 .monarch-header {
   background-color: var(--header-bg) !important;
