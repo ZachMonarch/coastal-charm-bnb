@@ -470,7 +470,8 @@ export default function Auth() {
 
               <TabsContent value="signin" className="mt-0">
                 <CardHeader className="space-y-1 pb-4 pt-2">
-                  <CardTitle className="text-2xl font-bold" asChild><h2>Welcome Back</h2></CardTitle>
+                  <h2 className="sr-only">Sign in to your account</h2>
+                  <CardTitle className="text-2xl font-bold">Welcome Back</CardTitle>
                   <CardDescription>Sign in to access your dashboard</CardDescription>
                 </CardHeader>
                 <CardContent>
