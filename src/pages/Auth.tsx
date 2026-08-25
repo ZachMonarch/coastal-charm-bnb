@@ -470,6 +470,7 @@ export default function Auth() {
 
               <TabsContent value="signin" className="mt-0">
                 <CardHeader className="space-y-1 pb-4 pt-2">
+                  <h2 className="sr-only">Sign in to your account</h2>
                   <CardTitle className="text-2xl font-bold">Welcome Back</CardTitle>
                   <CardDescription>Sign in to access your dashboard</CardDescription>
                 </CardHeader>
@@ -522,7 +523,7 @@ export default function Auth() {
                       className="w-full h-12 text-base font-semibold rounded-md inline-flex items-center justify-center gap-2 disabled:pointer-events-none disabled:opacity-60 shadow-md transition-colors"
                       disabled={isLoading}
                       style={{ 
-                        backgroundColor: 'hsl(32, 80%, 40%)', 
+                        backgroundColor: 'hsl(32, 82%, 30%)', 
                         color: '#ffffff',
                         WebkitTextFillColor: '#ffffff'
                       }}

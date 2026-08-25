@@ -138,6 +138,7 @@ export default function PropertyPagination({
           <span className="text-muted-foreground">Go to:</span>
           <input
             type="number"
+            aria-label="Go to page number"
             min="1"
             max={totalPages}
             value={currentPage}

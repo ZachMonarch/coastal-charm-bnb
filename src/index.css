@@ -445,6 +445,18 @@
 }
 
 /* ONLY the public navbar with data-monarch-header gets styled background */
+/* Navbar keeps a white surface in dark mode, so it also keeps the light-mode
+   brand tokens to preserve WCAG AA contrast on that surface. */
+.dark [data-monarch-header],
+.dark .monarch-header {
+  --primary: 32 82% 30%;
+  --primary-foreground: 0 0% 100%;
+  --foreground: 0 0% 10%;
+  --muted-foreground: 0 0% 35%;
+  --accent-foreground: 0 0% 10%;
+  --border: 32 25% 82%;
+}
+
 [data-monarch-header],
 .monarch-header {
   background-color: var(--header-bg) !important;
@@ -982,7 +994,7 @@ table td {
 button.bg-primary,
 a.bg-primary,
 button[class*="bg-primary"]:not([class*="bg-primary/"]),
-a[class*="bg-primary"],
+a[class*="bg-primary"]:not([class*="bg-primary/"]),
 button[class*="default"],
 a[class*="variant"][href] {
   color: white !important;
@@ -998,7 +1010,7 @@ a[style*="color: white"] {
 
 /* Ensure Book Now and CTA buttons have proper contrast */
 .inline-flex.items-center.justify-center.gap-2.bg-primary,
-.inline-flex.items-center.justify-center.gap-2[class*="bg-primary"] {
+.inline-flex.items-center.justify-center.gap-2[class*="bg-primary"]:not([class*="bg-primary/"]) {
   color: #ffffff !important;
 }
 
@@ -1117,8 +1129,8 @@ a[style*="color: white"] {
 
 /* === LIGHT MODE ICON VISIBILITY ON COLORED BACKGROUNDS === */
 /* Icons on bg-primary/* backgrounds need darker colors for contrast */
-:root:not(.dark) [class*="bg-primary"] svg.text-primary,
-:root:not(.dark) [class*="bg-primary"] .text-primary svg {
+:root:not(.dark) [class*="bg-primary"]:not([class*="bg-primary/"]) svg.text-primary,
+:root:not(.dark) [class*="bg-primary"]:not([class*="bg-primary/"]) .text-primary svg {
   color: #5a4015 !important;
   stroke: #5a4015 !important;
   stroke-width: 2.5;
@@ -1289,7 +1301,7 @@ label {
 /* Ensure button text is always visible when using asChild with Link */
 /* Covers: bg-primary, gradients with primary, and default buttons */
 .bg-primary a,
-[class*="bg-primary"] a,
+[class*="bg-primary"]:not([class*="bg-primary/"]) a,
 [class*="from-primary"] a,
 [class*="bg-gradient"] a,
 button[class*="shadow-primary"] a {
@@ -1297,7 +1309,7 @@ button[class*="shadow-primary"] a {
 }
 
 .dark .bg-primary a,
-.dark [class*="bg-primary"] a,
+.dark [class*="bg-primary"]:not([class*="bg-primary/"]) a,
 .dark [class*="from-primary"] a,
 .dark [class*="bg-gradient"] a,
 .dark button[class*="shadow-primary"] a {
@@ -1731,7 +1743,7 @@ button[class*="shadow-primary"] a {
     color: hsl(0 0% 30%);
   }
   
-  :root:not(.dark) [class*="TabsList"][class*="bg-primary"] [data-state="inactive"] {
+  :root:not(.dark) [class*="TabsList"][class*="bg-primary"]:not([class*="bg-primary/"]) [data-state="inactive"] {
     color: hsl(0 0% 25%);
   }
 
@@ -3614,7 +3626,7 @@ button[class*="shadow-primary"] a {
   button.bg-gradient-to-r,
   button[class*="from-primary"],
   button[class*="shadow-primary"],
-  [class*="bg-primary"] button {
+  [class*="bg-primary"]:not([class*="bg-primary/"]) button {
     color: white !important;
   }
 
@@ -3677,8 +3689,8 @@ a.bg-primary,
 
 /* Fix for button text inside Link components with asChild */
 [data-radix-collection-item].bg-primary,
-[class*="bg-primary"] > a,
-a[class*="bg-primary"] {
+[class*="bg-primary"]:not([class*="bg-primary/"]) > a,
+a[class*="bg-primary"]:not([class*="bg-primary/"]) {
   color: white !important;
 }
 
@@ -4062,12 +4074,16 @@ a.gdpr_lmore_link {
 
 /* Keep filled badges/buttons on brand backgrounds readable inside neumorphic cards
    (card text-color overrides must not repaint text sitting on a colored fill). */
-.neumorphic-card [class*="bg-primary"]:not([class*="bg-primary/"]),
-.neumorphic-card [class*="bg-primary"]:not([class*="bg-primary/"]) *,
-.neumorphic-card [class*="bg-info"]:not([class*="bg-info/"]),
-.neumorphic-card [class*="bg-info"]:not([class*="bg-info/"]) *,
-.neumorphic-card [class*="bg-destructive"]:not([class*="bg-destructive/"]),
-.neumorphic-card [class*="bg-destructive"]:not([class*="bg-destructive/"]) * {
+:root:not(.dark) .neumorphic-card [class*="bg-primary"]:not([class*="bg-primary/"]),
+:root:not(.dark) .neumorphic-card [class*="bg-primary"]:not([class*="bg-primary/"]) *,
+:root:not(.dark) .neumorphic-card [class*="bg-info"]:not([class*="bg-info/"]),
+:root:not(.dark) .neumorphic-card [class*="bg-info"]:not([class*="bg-info/"]) *,
+:root:not(.dark) .neumorphic-card [class*="bg-destructive"]:not([class*="bg-destructive/"]),
+:root:not(.dark) .neumorphic-card [class*="bg-destructive"]:not([class*="bg-destructive/"]) *,
+.dark .neumorphic-card [class*="bg-primary"]:not([class*="bg-primary/"]),
+.dark .neumorphic-card [class*="bg-primary"]:not([class*="bg-primary/"]) *,
+.dark .neumorphic-card [class*="bg-info"]:not([class*="bg-info/"]),
+.dark .neumorphic-card [class*="bg-info"]:not([class*="bg-info/"]) * {
   color: hsl(0 0% 100%) !important;
   -webkit-text-fill-color: hsl(0 0% 100%) !important;
 }
