@@ -2,7 +2,21 @@
 
 All notable changes to the Monarch Property Management application.
 
+## [2.6.0] - 2026-08-20
+### Security — vendor banking data locked to signed-in owners
+- `vendor_payment_methods` policies recreated for the `authenticated` role only; all grants revoked from `anon`. Vendors reach only their own records, verified admins see all.
+- Re-confirmed `user_roles` inserts are admin-only (no self-escalation to `vendor`).
+
+### Accessibility — WCAG AA verified in light and dark themes
+- Single `main` landmark and single `h1` per page: skip link consolidated into `Layout`, nested `<main>` elements replaced across 15 public pages, `Auth` branding demoted to a `<span>` plus an `sr-only` `<h2>` restoring heading order.
+- Accessible names added: pagination buttons and page-number input, property/apartment filter selects, password visibility toggle, contact inquiry type.
+- Contrast tokens corrected: light `--primary` 32 82% 30%, dark `--primary` 34 72% 55% with near-black `--primary-foreground`, dark `--secondary-foreground` near-black, dark `--info` 200 65% 38% with white text. The public navbar keeps a white surface in dark mode, so it now scopes the light-mode brand tokens for AA contrast.
+- Brand-fill text rules switched from substring matching (`[class*="bg-primary"]`) to exact token matching (`[class~="bg-primary"]`), so `hover:bg-primary/80` utilities no longer repaint filled badges and outline buttons into invisible or low-contrast text.
+- Third-party SalesIQ consent chip text forced to white.
+- **Validation**: axe-core (`color-contrast`, `landmark-one-main`, `heading-order`, `page-has-heading-one`, `link-name`, `button-name`, `image-alt`, `duplicate-id-aria`, `label`) across `/`, `/properties`, `/rfq`, `/services`, `/contact`, `/about`, `/gallery`, `/auth`, `/blog/how-to-choose-property-management-company` — **0 violations in both light and dark schemes**. `tsgo --noEmit` clean.
+
 ## [2.5.0] - 2026-08-18
+
 ### Security — privilege escalation and payment integrity
 - **Privilege escalation closed at the last trusting policy**: `vendor_bids_insert_vendor` no longer accepts `profiles.role` as proof of vendor status; it now requires a matching row in `public.user_roles`. `profiles.role` / `tenant_id` were already immutable for non-admins via `prevent_profile_privilege_escalation`; a new `BEFORE INSERT` trigger (`trg_prevent_profile_role_insert`) additionally downgrades any privileged role a non-admin tries to self-assign at signup.
 - **Bid pricing integrity**: `bid_lines` INSERT/UPDATE now require an active `vendor` role in `user_roles`, not just `vendor_id = auth.uid()`.
