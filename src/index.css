@@ -231,8 +231,8 @@
     --warning-foreground: 0 0% 5%;      /* Very dark text on amber - high contrast */
     --error: 0 70% 60%;
     --error-foreground: 0 0% 100%;
-    --info: 200 65% 55%;
-    --info-foreground: 0 0% 10%;        /* Near-black on brighter sky blue (AA) */
+    --info: 200 65% 38%;                /* Sky blue: AA (4.8:1) with white text */
+    --info-foreground: 0 0% 100%;
     
     --destructive: 0 70% 60%;
     --destructive-foreground: 0 0% 100%;
