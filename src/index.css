@@ -232,7 +232,7 @@
     --error: 0 70% 60%;
     --error-foreground: 0 0% 100%;
     --info: 200 65% 55%;
-    --info-foreground: 0 0% 100%;
+    --info-foreground: 0 0% 10%;        /* Near-black on brighter sky blue (AA) */
     
     --destructive: 0 70% 60%;
     --destructive-foreground: 0 0% 100%;
