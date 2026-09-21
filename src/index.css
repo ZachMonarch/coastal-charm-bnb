@@ -4105,3 +4105,10 @@ a.gdpr_lmore_link {
   color: hsl(0 0% 100%) !important;
   -webkit-text-fill-color: hsl(0 0% 100%) !important;
 }
+
+/* Zoho SalesIQ consent/preference buttons: ensure readable text on their dark chip. */
+.zoho-okbtn,
+.zoho-okbtn * {
+  color: hsl(0 0% 100%) !important;
+  -webkit-text-fill-color: hsl(0 0% 100%) !important;
+}
