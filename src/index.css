@@ -200,13 +200,13 @@
 
   .dark {
     /* === BRAND COLORS (adjusted for dark mode) - WCAG AA Compliant === */
-    --primary: 34 72% 42%;              /* Gold tuned for AA (4.6:1) with white text on dark */
-    --primary-foreground: 0 0% 100%;    /* WHITE text on gold - high contrast */
+    --primary: 34 72% 55%;              /* Bright gold: AA as text on dark surfaces */
+    --primary-foreground: 0 0% 10%;     /* Near-black text on gold fills (AA 6.5:1) */
     --primary-light: 36 80% 62%;
     --primary-dark: 30 90% 45%;
     
     --secondary: 175 40% 50%;           /* Brighter teal for dark mode */
-    --secondary-foreground: 0 0% 98%;
+    --secondary-foreground: 0 0% 10%;   /* Near-black on brighter teal (AA) */
     
     /* === SURFACE COLORS (dark palette) - WCAG AA Enhanced === */
     --background: 0 0% 8%;              /* Deep charcoal */
@@ -231,7 +231,7 @@
     --warning-foreground: 0 0% 5%;      /* Very dark text on amber - high contrast */
     --error: 0 70% 60%;
     --error-foreground: 0 0% 100%;
-    --info: 200 65% 55%;
+    --info: 200 65% 38%;                /* Sky blue: AA (4.8:1) with white text */
     --info-foreground: 0 0% 100%;
     
     --destructive: 0 70% 60%;
@@ -993,8 +993,8 @@ table td {
 /* NOTE: Replaced :is(button, a) with separate selectors to fix PostCSS parsing warnings */
 button.bg-primary,
 a.bg-primary,
-button[class*="bg-primary"]:not([class*="bg-primary/"]),
-a[class*="bg-primary"]:not([class*="bg-primary/"]),
+button[class~="bg-primary"],
+a[class~="bg-primary"],
 button[class*="default"],
 a[class*="variant"][href] {
   color: white !important;
@@ -1010,7 +1010,7 @@ a[style*="color: white"] {
 
 /* Ensure Book Now and CTA buttons have proper contrast */
 .inline-flex.items-center.justify-center.gap-2.bg-primary,
-.inline-flex.items-center.justify-center.gap-2[class*="bg-primary"]:not([class*="bg-primary/"]) {
+.inline-flex.items-center.justify-center.gap-2[class~="bg-primary"] {
   color: #ffffff !important;
 }
 
@@ -1129,8 +1129,8 @@ a[style*="color: white"] {
 
 /* === LIGHT MODE ICON VISIBILITY ON COLORED BACKGROUNDS === */
 /* Icons on bg-primary/* backgrounds need darker colors for contrast */
-:root:not(.dark) [class*="bg-primary"]:not([class*="bg-primary/"]) svg.text-primary,
-:root:not(.dark) [class*="bg-primary"]:not([class*="bg-primary/"]) .text-primary svg {
+:root:not(.dark) [class~="bg-primary"] svg.text-primary,
+:root:not(.dark) [class~="bg-primary"] .text-primary svg {
   color: #5a4015 !important;
   stroke: #5a4015 !important;
   stroke-width: 2.5;
@@ -1301,7 +1301,7 @@ label {
 /* Ensure button text is always visible when using asChild with Link */
 /* Covers: bg-primary, gradients with primary, and default buttons */
 .bg-primary a,
-[class*="bg-primary"]:not([class*="bg-primary/"]) a,
+[class~="bg-primary"] a,
 [class*="from-primary"] a,
 [class*="bg-gradient"] a,
 button[class*="shadow-primary"] a {
@@ -1309,7 +1309,10 @@ button[class*="shadow-primary"] a {
 }
 
 .dark .bg-primary a,
-.dark [class*="bg-primary"]:not([class*="bg-primary/"]) a,
+.dark [class~="bg-primary"] a {
+  color: hsl(0 0% 10%) !important;
+}
+
 .dark [class*="from-primary"] a,
 .dark [class*="bg-gradient"] a,
 .dark button[class*="shadow-primary"] a {
@@ -1415,11 +1418,13 @@ button[class*="shadow-primary"] a {
     opacity: 0.9;
   }
 
-  /* Ensure links inside btn-primary always have white text */
+  /* Links inside primary buttons follow the primary foreground token
+     (white in light mode, near-black on the brighter dark-mode gold). */
   .btn-primary a,
   .btn-primary > a,
   a.btn-primary {
-    color: white !important;
+    color: hsl(var(--primary-foreground)) !important;
+    -webkit-text-fill-color: hsl(var(--primary-foreground)) !important;
   }
 
   .btn-secondary {
@@ -1743,7 +1748,7 @@ button[class*="shadow-primary"] a {
     color: hsl(0 0% 30%);
   }
   
-  :root:not(.dark) [class*="TabsList"][class*="bg-primary"]:not([class*="bg-primary/"]) [data-state="inactive"] {
+  :root:not(.dark) [class*="TabsList"][class~="bg-primary"] [data-state="inactive"] {
     color: hsl(0 0% 25%);
   }
 
@@ -3621,18 +3626,18 @@ button[class*="shadow-primary"] a {
   /* === PHASE 10: UNIVERSAL BUTTON TEXT VISIBILITY FIX === */
   /* Force white text on ALL primary-colored buttons and their children */
   button.bg-primary,
-  button[class*="bg-primary"]:not([class*="bg-primary/"]),
+  button[class~="bg-primary"],
   .bg-primary > button,
   button.bg-gradient-to-r,
   button[class*="from-primary"],
   button[class*="shadow-primary"],
-  [class*="bg-primary"]:not([class*="bg-primary/"]) button {
+  [class~="bg-primary"] button {
     color: white !important;
   }
 
   /* Force white text for all children inside primary buttons */
   button.bg-primary *,
-  button[class*="bg-primary"]:not([class*="bg-primary/"]) *,
+  button[class~="bg-primary"] *,
   [class*="bg-gradient"] button *,
   button[class*="from-primary"] * {
     color: white !important;
@@ -3645,7 +3650,7 @@ button[class*="shadow-primary"] a {
 
   /* Force white text on any element with bg-primary class */
   .bg-primary,
-  [class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="bg-primary-"]) {
+  [class~="bg-primary"]:not([class*="bg-primary-"]) {
     color: white !important;
   }
 
@@ -3653,27 +3658,27 @@ button[class*="shadow-primary"] a {
   .bg-primary span,
   .bg-primary div,
   .bg-primary a,
-  [class*="bg-primary"]:not([class*="bg-primary/"]) span,
-  [class*="bg-primary"]:not([class*="bg-primary/"]) div,
-  [class*="bg-primary"]:not([class*="bg-primary/"]) a {
+  [class~="bg-primary"] span,
+  [class~="bg-primary"] div,
+  [class~="bg-primary"] a {
     color: white !important;
   }
 
   /* Fix for dark mode button text */
   .dark button.bg-primary,
-  .dark button[class*="bg-primary"]:not([class*="bg-primary/"]),
+  .dark button[class~="bg-primary"],
   .dark .bg-primary,
-  .dark [class*="bg-primary"]:not([class*="bg-primary/"]) {
-    color: white !important;
+  .dark [class~="bg-primary"] {
+    color: hsl(0 0% 10%) !important;
   }
 
   .dark .bg-primary span,
   .dark .bg-primary div,
   .dark .bg-primary a,
-  .dark [class*="bg-primary"]:not([class*="bg-primary/"]) span,
-  .dark [class*="bg-primary"]:not([class*="bg-primary/"]) div,
-  .dark [class*="bg-primary"]:not([class*="bg-primary/"]) a {
-    color: white !important;
+  .dark [class~="bg-primary"] span,
+  .dark [class~="bg-primary"] div,
+  .dark [class~="bg-primary"] a {
+    color: hsl(0 0% 10%) !important;
   }
 }
 
@@ -3681,7 +3686,7 @@ button[class*="shadow-primary"] a {
 /* NOTE: Removed :is() and :has() selectors to fix CSS parser warnings */
 button.bg-primary,
 .btn.bg-primary,
-button[class*="bg-primary"]:not([class*="bg-primary/"]),
+button[class~="bg-primary"],
 a.bg-primary,
 [role="button"].bg-primary {
   color: white !important;
@@ -3689,8 +3694,8 @@ a.bg-primary,
 
 /* Fix for button text inside Link components with asChild */
 [data-radix-collection-item].bg-primary,
-[class*="bg-primary"]:not([class*="bg-primary/"]) > a,
-a[class*="bg-primary"]:not([class*="bg-primary/"]) {
+[class~="bg-primary"] > a,
+a[class~="bg-primary"] {
   color: white !important;
 }
 
@@ -4074,16 +4079,36 @@ a.gdpr_lmore_link {
 
 /* Keep filled badges/buttons on brand backgrounds readable inside neumorphic cards
    (card text-color overrides must not repaint text sitting on a colored fill). */
-:root:not(.dark) .neumorphic-card [class*="bg-primary"]:not([class*="bg-primary/"]),
-:root:not(.dark) .neumorphic-card [class*="bg-primary"]:not([class*="bg-primary/"]) *,
-:root:not(.dark) .neumorphic-card [class*="bg-info"]:not([class*="bg-info/"]),
-:root:not(.dark) .neumorphic-card [class*="bg-info"]:not([class*="bg-info/"]) *,
-:root:not(.dark) .neumorphic-card [class*="bg-destructive"]:not([class*="bg-destructive/"]),
-:root:not(.dark) .neumorphic-card [class*="bg-destructive"]:not([class*="bg-destructive/"]) *,
-.dark .neumorphic-card [class*="bg-primary"]:not([class*="bg-primary/"]),
-.dark .neumorphic-card [class*="bg-primary"]:not([class*="bg-primary/"]) *,
-.dark .neumorphic-card [class*="bg-info"]:not([class*="bg-info/"]),
-.dark .neumorphic-card [class*="bg-info"]:not([class*="bg-info/"]) * {
+:root:not(.dark) .neumorphic-card [class~="bg-primary"],
+:root:not(.dark) .neumorphic-card [class~="bg-primary"] *,
+:root:not(.dark) .neumorphic-card [class~="bg-info"],
+:root:not(.dark) .neumorphic-card [class~="bg-info"] *,
+:root:not(.dark) .neumorphic-card [class~="bg-destructive"],
+:root:not(.dark) .neumorphic-card [class~="bg-destructive"] *,
+:root:not(.dark) .neumorphic-card [class~="bg-destructive"] * {
+  color: hsl(0 0% 100%) !important;
+  -webkit-text-fill-color: hsl(0 0% 100%) !important;
+}
+
+/* Dark mode uses a brighter gold fill, so text on it must be near-black. */
+.dark .neumorphic-card [class~="bg-primary"],
+.dark .neumorphic-card [class~="bg-primary"] *,
+.dark [class~="bg-primary"],
+.dark [class~="bg-primary"] * {
+  color: hsl(0 0% 10%) !important;
+  -webkit-text-fill-color: hsl(0 0% 10%) !important;
+}
+
+/* Navbar in dark mode keeps light-mode gold (darker), so its filled CTA keeps white text. */
+.dark [data-monarch-header] [class~="bg-primary"]:not(.no-fill),
+.dark [data-monarch-header] [class~="bg-primary"]:not(.no-fill) * {
+  color: hsl(0 0% 100%) !important;
+  -webkit-text-fill-color: hsl(0 0% 100%) !important;
+}
+
+/* Zoho SalesIQ consent/preference buttons: ensure readable text on their dark chip. */
+.zoho-okbtn,
+.zoho-okbtn * {
   color: hsl(0 0% 100%) !important;
   -webkit-text-fill-color: hsl(0 0% 100%) !important;
 }
