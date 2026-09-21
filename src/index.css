@@ -200,8 +200,8 @@
 
   .dark {
     /* === BRAND COLORS (adjusted for dark mode) - WCAG AA Compliant === */
-    --primary: 34 72% 42%;              /* Gold tuned for AA (4.6:1) with white text on dark */
-    --primary-foreground: 0 0% 100%;    /* WHITE text on gold - high contrast */
+    --primary: 34 72% 55%;              /* Bright gold: AA as text on dark surfaces */
+    --primary-foreground: 0 0% 10%;     /* Near-black text on gold fills (AA 6.5:1) */
     --primary-light: 36 80% 62%;
     --primary-dark: 30 90% 45%;
     
@@ -1309,7 +1309,10 @@ button[class*="shadow-primary"] a {
 }
 
 .dark .bg-primary a,
-.dark [class*="bg-primary"]:not([class*="bg-primary/"]) a,
+.dark [class*="bg-primary"]:not([class*="bg-primary/"]) a {
+  color: hsl(0 0% 10%) !important;
+}
+
 .dark [class*="from-primary"] a,
 .dark [class*="bg-gradient"] a,
 .dark button[class*="shadow-primary"] a {
@@ -3664,7 +3667,7 @@ button[class*="shadow-primary"] a {
   .dark button[class*="bg-primary"]:not([class*="bg-primary/"]),
   .dark .bg-primary,
   .dark [class*="bg-primary"]:not([class*="bg-primary/"]) {
-    color: white !important;
+    color: hsl(0 0% 10%) !important;
   }
 
   .dark .bg-primary span,
@@ -3673,7 +3676,7 @@ button[class*="shadow-primary"] a {
   .dark [class*="bg-primary"]:not([class*="bg-primary/"]) span,
   .dark [class*="bg-primary"]:not([class*="bg-primary/"]) div,
   .dark [class*="bg-primary"]:not([class*="bg-primary/"]) a {
-    color: white !important;
+    color: hsl(0 0% 10%) !important;
   }
 }
 
@@ -4080,10 +4083,16 @@ a.gdpr_lmore_link {
 :root:not(.dark) .neumorphic-card [class*="bg-info"]:not([class*="bg-info/"]) *,
 :root:not(.dark) .neumorphic-card [class*="bg-destructive"]:not([class*="bg-destructive/"]),
 :root:not(.dark) .neumorphic-card [class*="bg-destructive"]:not([class*="bg-destructive/"]) *,
-.dark .neumorphic-card [class*="bg-primary"]:not([class*="bg-primary/"]),
-.dark .neumorphic-card [class*="bg-primary"]:not([class*="bg-primary/"]) *,
-.dark .neumorphic-card [class*="bg-info"]:not([class*="bg-info/"]),
-.dark .neumorphic-card [class*="bg-info"]:not([class*="bg-info/"]) * {
+:root:not(.dark) .neumorphic-card [class*="bg-destructive"]:not([class*="bg-destructive/"]) * {
   color: hsl(0 0% 100%) !important;
   -webkit-text-fill-color: hsl(0 0% 100%) !important;
+}
+
+/* Dark mode uses a brighter gold fill, so text on it must be near-black. */
+.dark .neumorphic-card [class*="bg-primary"]:not([class*="bg-primary/"]),
+.dark .neumorphic-card [class*="bg-primary"]:not([class*="bg-primary/"]) *,
+.dark [class*="bg-primary"]:not([class*="bg-primary/"]),
+.dark [class*="bg-primary"]:not([class*="bg-primary/"]) * {
+  color: hsl(0 0% 10%) !important;
+  -webkit-text-fill-color: hsl(0 0% 10%) !important;
 }
