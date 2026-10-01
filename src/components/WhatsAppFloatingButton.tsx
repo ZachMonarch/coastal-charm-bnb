@@ -31,7 +31,7 @@ export default function WhatsAppFloatingButton() {
         "transition-all duration-300 ease-out",
         "hover:scale-110 hover:shadow-[0_8px_30px_rgba(37,211,102,0.4)]",
         "active:scale-95",
-        "focus-visible:ring-4 focus-visible:ring-[#25D366]/30 focus-visible:outline-none",
+        "focus-visible:ring-4 focus-visible:ring-[#25D366]/30 focus-visible:outline-hidden",
         "group",
         "pointer-events-auto",
         "print:hidden" // Hide in print mode

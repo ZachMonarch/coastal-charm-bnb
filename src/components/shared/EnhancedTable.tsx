@@ -99,7 +99,7 @@ export default function EnhancedTable<T extends Record<string, any>>({
   return (
     <div className={cn(
       'rounded-xl border border-border/50 overflow-hidden',
-      'bg-card/50 backdrop-blur-sm',
+      'bg-card/50 backdrop-blur-xs',
       'shadow-sm hover:shadow-md transition-shadow duration-300',
       className
     )}>
@@ -141,7 +141,7 @@ export default function EnhancedTable<T extends Record<string, any>>({
         <Table>
           <TableHeader className={cn(stickyHeader && 'sticky top-0 z-10')}>
             <TableRow className={cn(
-              'bg-muted/50 backdrop-blur-sm',
+              'bg-muted/50 backdrop-blur-xs',
               'border-b border-border/50'
             )}>
               {showRowNumbers && (

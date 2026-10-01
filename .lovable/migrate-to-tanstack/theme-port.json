@@ -1,0 +1,23 @@
+{
+  "customizations": [
+    { "token": "brand + semantic color utilities (border, input, ring, background, foreground, primary[-light/-dark], monarch, edge-light/dark, secondary, destructive, muted, accent, popover, card, success, warning, error, info)", "source": "tailwind.config.ts", "reappliedIn": "src/styles.css" },
+    { "token": "feature palette (--color-feature-info/success/accent/warning/danger/violet/rose/cyan/sky/teal + -dark variants)", "source": "tailwind.config.ts", "reappliedIn": "src/styles.css" },
+    { "token": "literal palettes teal/sky/earth (+light/dark/foreground)", "source": "tailwind.config.ts", "reappliedIn": "src/styles.css" },
+    { "token": "overlay colors (overlay, overlay-foreground, overlay-muted)", "source": "tailwind.config.ts", "reappliedIn": "src/styles.css" },
+    { "token": "chart colors (--color-chart-1..5)", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": "sidebar color mappings (--color-sidebar-*)", "source": "tailwind.config.ts", "reappliedIn": "src/styles.css" },
+    { "token": "font families (--font-sans Inter, --font-serif Playfair Display, --font-mono JetBrains Mono)", "source": "tailwind.config.ts", "reappliedIn": "src/styles.css" },
+    { "token": "shadow scale (--shadow-2xs..--shadow-2xl mapped to project shadow vars)", "source": "tailwind.config.ts", "reappliedIn": "src/styles.css" },
+    { "token": "--ease-spring cubic-bezier(0.34, 1.56, 0.64, 1)", "source": "tailwind.config.ts", "reappliedIn": "src/styles.css" },
+    { "token": "animation utilities (--animate-accordion-down/up, fade-in[-left/right], slide-up/down, float, pulse-slow, scale-in, slide-in-up/right, glow-pulse, golden-shimmer, subtle-bounce, skeleton-shimmer, micro-lift)", "source": "tailwind.config.ts", "reappliedIn": "src/styles.css" },
+    { "token": "keyframes (accordion-down/up, fade-in, fade-in-right, fade-in-left, slide-up, slide-down, float, pulse-slow, wave, subtle-bounce, micro-lift)", "source": "tailwind.config.ts", "reappliedIn": "src/styles.css" },
+    { "token": "bg-gradient-primary", "source": "tailwind.config.ts", "reappliedIn": "src/styles.css" },
+    { "token": "bg-gradient-primary-radial", "source": "tailwind.config.ts", "reappliedIn": "src/styles.css" },
+    { "token": "bg-gradient-secondary", "source": "tailwind.config.ts", "reappliedIn": "src/styles.css" },
+    { "token": "bg-gradient-subtle", "source": "tailwind.config.ts", "reappliedIn": "src/styles.css" },
+    { "token": "container (centered, 2rem padding, full-width at 2xl)", "source": "tailwind.config.ts", "reappliedIn": "src/styles.css" },
+    { "token": "transition durations (duration-fast/normal/slow/slower)", "source": "tailwind.config.ts", "reappliedIn": "src/styles.css" },
+    { "token": "radius scale (--radius-sm/md/lg/xl from var(--radius))", "source": "tailwind.config.ts", "reappliedIn": "src/styles.css" },
+    { "token": "full ported stylesheet body (4,108 lines: :root/.dark HSL variables, badge/status/z-index/opacity scales, @layer base/components/utilities rules, remaining keyframes)", "source": "src/index.css", "reappliedIn": "src/styles.css" }
+  ]
+}

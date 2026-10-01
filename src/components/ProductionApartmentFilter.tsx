@@ -184,7 +184,7 @@ export default function ProductionApartmentFilter() {
       </div>
 
       {/* Filters */}
-      <Card className="backdrop-blur-sm bg-card/90 border-border/50">
+      <Card className="backdrop-blur-xs bg-card/90 border-border/50">
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
             Search & Filter Properties

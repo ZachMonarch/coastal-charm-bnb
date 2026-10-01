@@ -100,7 +100,7 @@ export default function KPICard({
               {/* Animated gradient ring around icon */}
               <div
                 className={cn(
-                  "absolute -inset-1 rounded-xl opacity-0 group-hover:opacity-40 transition-all duration-300 blur-sm bg-gradient-to-br",
+                  "absolute -inset-1 rounded-xl opacity-0 group-hover:opacity-40 transition-all duration-300 blur-xs bg-gradient-to-br",
                   palette.iconOverlay,
                 )}
               />

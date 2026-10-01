@@ -147,7 +147,7 @@ export const LazyImageOptimized: React.FC<LazyImageProps> = ({
         <img
           src={blurDataURL}
           alt=""
-          className={`${placeholderClasses} filter blur-sm scale-110`}
+          className={`${placeholderClasses} filter blur-xs scale-110`}
           aria-hidden="true"
         />
       )}

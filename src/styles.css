@@ -94,7 +94,7 @@
   --color-chart-4: hsl(var(--chart-4));
   --color-chart-5: hsl(var(--chart-5));
 
-  --color-sidebar: hsl(var(--sidebar-background));
+  --color-sidebar: hsl(var(--sidebar));
   --color-sidebar-foreground: hsl(var(--sidebar-foreground));
   --color-sidebar-primary: hsl(var(--sidebar-primary));
   --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
@@ -215,3 +215,4114 @@
 @utility duration-slower { transition-duration: 700ms; }
 
 /* ==== Ported project stylesheet (src/index.css) is appended below this line ==== */
+/* Fonts loaded via index.html for optimal performance - Inter, Playfair Display, JetBrains Mono */
+/* Critical CSS loaded inline for performance */
+
+
+@layer base {
+  :root {
+    /* === MONARCH BRAND COLORS (from logo) - WCAG AA Compliant === */
+    --primary: 32 82% 30%;              /* Monarch Gold - WCAG AA (5.3:1 with white text, verified via axe) */
+    --primary-foreground: 0 0% 100%;    /* White text on gold */
+    --primary-light: 32 80% 40%;        /* Lighter gold for hover states */
+    --primary-dark: 28 85% 28%;         /* Darker gold for pressed/active */
+    
+    /* Secondary: Teal Green from "MONARCH" text */
+    --secondary: 175 35% 35%;           /* Brand Teal */
+    --secondary-foreground: 0 0% 98%;   /* Light text on teal */
+    
+    /* === SURFACE COLORS (warm off-white palette) - WCAG AAA Enhanced === */
+    --background: 40 25% 97%;           /* Warm off-white */
+    --foreground: 0 0% 8%;              /* DARKENED: Near-black for maximum contrast (was 12%) */
+    
+    --card: 0 0% 100%;                  /* Pure white cards */
+    --card-foreground: 0 0% 8%;         /* DARKENED: Match foreground */
+    
+    --popover: 0 0% 100%;               /* Pure white popovers */
+    --popover-foreground: 0 0% 8%;      /* DARKENED: Match foreground */
+    
+    --muted: 40 15% 94%;                /* Warm muted background */
+    --muted-foreground: 0 0% 18%;       /* DARKENED: 8:1 contrast ratio for WCAG AAA (was 22%) */
+    
+    /* Accent: Sky Blue from logo mountain background */
+    --accent: 200 45% 95%;              /* Light sky blue tint */
+    --accent-foreground: 175 35% 30%;   /* Teal text on accent */
+    
+    /* === SEMANTIC COLORS === */
+    --success: 155 60% 35%;             /* Sage green (from logo mountains) */
+    --success-foreground: 0 0% 100%;
+    
+    --warning: 38 92% 50%;              /* Amber - harmonizes with gold */
+    --warning-foreground: 0 0% 5%;      /* Very dark text on amber - high contrast */
+    
+    --error: 0 75% 55%;                 /* Softer red */
+    --error-foreground: 0 0% 100%;
+    
+    --info: 200 75% 32%;                /* Sky blue (from logo) - AA with white text */
+    --info-foreground: 0 0% 100%;
+    
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 100%;
+    
+    /* === UI ELEMENTS === */
+    --border: 40 15% 88%;               /* Warm border */
+    --input: 40 15% 90%;                /* Warm input background */
+    --ring: 32 82% 33%;                 /* Gold focus ring - WCAG AA compliant */
+
+    /* Enhanced shadows for depth */
+    --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
+    --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.1), 0 2px 4px -2px hsl(0 0% 0% / 0.1);
+    --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.1), 0 4px 6px -4px hsl(0 0% 0% / 0.1);
+    --shadow-xl: 0 20px 25px -5px hsl(0 0% 0% / 0.15), 0 8px 10px -6px hsl(0 0% 0% / 0.1);
+    --shadow-primary: 0 4px 14px 0 hsl(32 82% 33% / 0.25);
+    --shadow-glow: 0 0 20px hsl(32 82% 33% / 0.3);
+    --shadow-brand: 0 8px 24px -4px hsl(32 82% 33% / 0.2);
+
+    /* Enhanced gradients - WCAG AA compliant */
+    --gradient-primary: linear-gradient(135deg, hsl(32 82% 33%), hsl(32 80% 40%));
+    --gradient-primary-vibrant: linear-gradient(135deg, hsl(32 82% 33%) 0%, hsl(28 85% 28%) 50%, hsl(32 80% 40%) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(175 35% 35%), hsl(175 40% 45%));
+    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted)));
+    --gradient-shimmer: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.1), transparent);
+
+    /* Z-index scale for consistent layering 
+     * CRITICAL: Follow this hierarchy to prevent dropdown/select issues
+     * - Base content: 0-50
+     * - Sticky elements (headers): 100-150
+     * - Modal overlays: 400
+     * - Modal content: 401-402
+     * - Dropdowns/Selects (must be higher than modals): 500+
+     * - Toasts/Notifications: 600+
+     */
+    --z-base: 0;
+    --z-content: 10;
+    --z-dropdown: 50;
+    --z-sticky: 100;
+    --z-header: 150;
+    --z-drawer: 160;
+    --z-modal-overlay: 400;
+    --z-modal-content: 401;
+    --z-select-dropdown: 500;
+    --z-toast: 600;
+
+    --radius: 0.75rem;
+
+    /* Extended Status Color Variants */
+    --status-draft: var(--muted);
+    --status-submitted: var(--info);
+    --status-pending: var(--warning);
+    --status-active: var(--success);
+    --status-overdue: var(--destructive);
+    
+    /* Badge-specific backgrounds with opacity for light mode - INCREASED VISIBILITY */
+    --badge-success-bg: 155 60% 35% / 0.18;
+    --badge-success-fg: 155 60% 28%;
+    --badge-warning-bg: 38 92% 50% / 0.18;
+    --badge-warning-fg: 38 92% 38%;
+    --badge-error-bg: 0 75% 55% / 0.18;
+    --badge-error-fg: 0 75% 42%;
+    --badge-info-bg: 200 70% 50% / 0.18;
+    --badge-info-fg: 200 70% 38%;
+    --badge-muted-bg: 240 5% 64.9% / 0.15;
+    --badge-muted-fg: 240 3.8% 35%;
+
+    /* === CHART COLORS (brand-aligned) === */
+    --chart-1: 32 82% 33%;              /* Monarch Gold - WCAG AA compliant */
+    --chart-2: 175 35% 45%;             /* Teal */
+    --chart-3: 200 60% 60%;             /* Sky Blue */
+    --chart-4: 25 50% 55%;              /* Earth Brown */
+    --chart-5: 155 40% 50%;             /* Sage Green */
+    
+    /* Enhanced status colors for consistent theming */
+    --status-success: var(--success);
+    --status-warning: var(--warning);
+    --status-error: var(--destructive);
+    --status-info: var(--info);
+    --status-neutral: var(--muted);
+    
+    /* Card border variants */
+    --card-border-success: 155 60% 35% / 0.3;
+    --card-border-warning: 38 92% 50% / 0.3;
+    --card-border-error: 0 75% 55% / 0.3;
+    --card-border-info: 200 70% 50% / 0.3;
+    
+    /* === STANDARDIZED OPACITY SCALE === */
+    /* Use these for consistent opacity across the design system */
+    --opacity-subtle: 0.10;      /* Barely visible accents */
+    --opacity-light: 0.20;       /* Light backgrounds */
+    --opacity-medium: 0.40;      /* Standard interactive states */
+    --opacity-strong: 0.60;      /* Emphasized elements */
+    --opacity-solid: 0.80;       /* Primary surfaces */
+    
+    /* === OVERLAY TEXT (for hero sections on images) === */
+    /* These are constant colors for text on dark image overlays - NOT theme-dependent */
+    --overlay-foreground: 0 0% 100%;      /* White text on dark overlays */
+    --overlay-muted: 0 0% 100%;           /* Base for muted overlay text */
+    --overlay-muted-opacity: 0.85;        /* Opacity for muted text */
+    
+    /* === FEATURE CARD COLORS (semantic gradients for service pages) === */
+    /* These replace hardcoded Tailwind colors like blue-500, emerald-500 */
+    --feature-info: 200 70% 50%;           /* Info blue - for tenant screening, legal */
+    --feature-info-dark: 200 70% 40%;
+    --feature-success: 155 60% 40%;        /* Success green - for rent collection, upkeep */
+    --feature-success-dark: 155 60% 32%;
+    --feature-accent: 270 60% 55%;         /* Purple accent - for inspections, relations */
+    --feature-accent-dark: 270 60% 45%;
+    --feature-warning: 38 92% 50%;         /* Warning amber - for maintenance, emergency */
+    --feature-warning-dark: 38 92% 40%;
+    --feature-danger: 0 75% 55%;           /* Danger red - for emergencies */
+    --feature-danger-dark: 0 75% 45%;
+    --feature-violet: 270 60% 55%;         /* Violet - for consultation */
+    --feature-violet-dark: 270 60% 45%;
+    --feature-rose: 350 80% 55%;           /* Rose - for investment analysis */
+    --feature-rose-dark: 350 80% 45%;
+    --feature-cyan: 185 70% 45%;           /* Cyan - for plumbing */
+    --feature-cyan-dark: 185 70% 35%;
+    --feature-sky: 200 80% 55%;            /* Sky blue - for HVAC */
+    --feature-sky-dark: 200 80% 45%;
+    --feature-teal: 170 55% 40%;           /* Teal - for general */
+    --feature-teal-dark: 170 55% 32%;
+    
+    /* === SIDEBAR === */
+    --sidebar: 40 20% 98%;
+    --sidebar-foreground: 0 0% 12%;
+    --sidebar-primary: 32 82% 33%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 175 35% 35%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 40 15% 88%;
+    --sidebar-ring: 32 82% 33%;
+
+    --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-serif: 'Playfair Display', Georgia, Cambria, 'Times New Roman', serif;
+    --font-mono: 'JetBrains Mono', Monaco, Consolas, 'Courier New', monospace;
+
+    --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
+
+    --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
+
+    --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
+
+    --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 8px 10px -1px hsl(0 0% 0% / 0.1);
+
+    --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
+
+    --tracking-normal: 0em;
+
+    --spacing: 0.25rem;
+  }
+
+  .dark {
+    /* === BRAND COLORS (adjusted for dark mode) - WCAG AA Compliant === */
+    --primary: 34 72% 55%;              /* Bright gold: AA as text on dark surfaces */
+    --primary-foreground: 0 0% 10%;     /* Near-black text on gold fills (AA 6.5:1) */
+    --primary-light: 36 80% 62%;
+    --primary-dark: 30 90% 45%;
+    
+    --secondary: 175 40% 50%;           /* Brighter teal for dark mode */
+    --secondary-foreground: 0 0% 10%;   /* Near-black on brighter teal (AA) */
+    
+    /* === SURFACE COLORS (dark palette) - WCAG AA Enhanced === */
+    --background: 0 0% 8%;              /* Deep charcoal */
+    --foreground: 0 0% 98%;             /* BRIGHTENED: Pure white for max readability (was 96%) */
+    
+    --card: 0 0% 12%;                   /* Elevated card */
+    --card-foreground: 0 0% 98%;        /* BRIGHTENED: Match foreground */
+    
+    --popover: 0 0% 14%;                /* Slightly elevated popover */
+    --popover-foreground: 0 0% 98%;     /* BRIGHTENED: Match foreground */
+    
+    --muted: 0 0% 18%;                  /* Muted surface */
+    --muted-foreground: 0 0% 82%;       /* BRIGHTENED: 6:1+ contrast ratio for WCAG AA (was 78%) */
+    
+    --accent: 175 30% 15%;              /* Dark teal accent */
+    --accent-foreground: 34 85% 60%;    /* Gold text on accent */
+    
+    /* === SEMANTIC (brightened for dark mode) === */
+    --success: 155 55% 45%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 90% 55%;
+    --warning-foreground: 0 0% 5%;      /* Very dark text on amber - high contrast */
+    --error: 0 70% 60%;
+    --error-foreground: 0 0% 100%;
+    --info: 200 65% 38%;                /* Sky blue: AA (4.8:1) with white text */
+    --info-foreground: 0 0% 100%;
+    
+    --destructive: 0 70% 60%;
+    --destructive-foreground: 0 0% 100%;
+    
+    /* === UI ELEMENTS === */
+    --border: 0 0% 22%;
+    --input: 0 0% 22%;
+    --ring: 34 85% 55%;
+
+    /* Enhanced dark mode badge backgrounds with MAXIMUM visibility */
+    --badge-success-bg: 155 55% 45% / 0.35;
+    --badge-success-fg: 155 65% 60%;
+    --badge-warning-bg: 38 90% 55% / 0.35;
+    --badge-warning-fg: 38 95% 70%;
+    --badge-error-bg: 0 70% 60% / 0.35;
+    --badge-error-fg: 0 80% 72%;
+    --badge-info-bg: 200 65% 55% / 0.35;
+    --badge-info-fg: 200 75% 68%;
+    --badge-muted-bg: 0 0% 40% / 0.35;
+    --badge-muted-fg: 0 0% 85%;
+
+    /* === CHART COLORS (dark mode) === */
+    --chart-1: 34 85% 55%;
+    --chart-2: 175 45% 55%;
+    --chart-3: 200 55% 65%;
+    --chart-4: 28 55% 60%;
+    --chart-5: 155 45% 55%;
+    
+    /* Brighter card border variants for dark mode */
+    --card-border-success: 155 55% 45% / 0.4;
+    --card-border-warning: 38 90% 55% / 0.4;
+    --card-border-error: 0 70% 60% / 0.4;
+    --card-border-info: 200 65% 55% / 0.4;
+    
+    /* === STANDARDIZED OPACITY SCALE (dark mode - slightly higher for visibility) === */
+    --opacity-subtle: 0.15;
+    --opacity-light: 0.25;
+    --opacity-medium: 0.45;
+    --opacity-strong: 0.65;
+    --opacity-solid: 0.85;
+    
+    /* === OVERLAY TEXT (same for dark mode) === */
+    --overlay-foreground: 0 0% 100%;
+    --overlay-muted: 0 0% 100% / 0.9;
+    
+    /* === SIDEBAR (dark) === */
+    --sidebar: 0 0% 10%;
+    --sidebar-foreground: 0 0% 96%;
+    --sidebar-primary: 34 85% 55%;
+    --sidebar-primary-foreground: 0 0% 8%;
+    --sidebar-accent: 175 45% 55%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 0 0% 22%;
+    --sidebar-ring: 34 85% 55%;
+
+    /* Enhanced dark mode shadows for depth */
+    --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.3);
+    --shadow-md: 0 2px 4px 0px hsl(0 0% 0% / 0.4);
+    --shadow-lg: 0 4px 8px 0px hsl(0 0% 0% / 0.5);
+    --shadow-primary: 0 4px 14px 0 hsl(34 85% 55% / 0.3);
+    --shadow-2xs: 0 1px 2px 0px hsl(0 0% 0% / 0.2);
+    --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.2);
+    --shadow: 0 2px 4px 0px hsl(0 0% 0% / 0.3);
+    --shadow-xl: 0 8px 16px 0px hsl(0 0% 0% / 0.4);
+    --shadow-2xl: 0 12px 24px 0px hsl(0 0% 0% / 0.5);
+  }
+
+  /* Enhanced glass cards for dark mode */
+  .dark .glass-card {
+    background: rgba(30, 30, 35, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .dark .glass-card:hover {
+    box-shadow: 
+      0 12px 40px rgba(0, 0, 0, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15),
+      0 0 20px hsl(var(--primary) / 0.2);
+  }
+
+  /* Enhanced neumorphic cards for dark mode */
+  .dark .neumorphic-card {
+    background: linear-gradient(145deg, hsl(var(--card)), hsl(var(--background)));
+    box-shadow:
+      8px 8px 16px rgba(0, 0, 0, 0.5),
+      -4px -4px 12px rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .dark .neumorphic-card:hover {
+    box-shadow:
+      12px 12px 24px rgba(0, 0, 0, 0.6),
+      -6px -6px 16px rgba(255, 255, 255, 0.08);
+  }
+
+  /* Enhanced badge visibility in dark mode */
+  .dark [class*="bg-success/10"],
+  .dark [class*="bg-warning/10"],
+  .dark [class*="bg-destructive/10"],
+  .dark [class*="bg-info/10"] {
+    background-opacity: 0.25 !important;
+  }
+
+  /* Enhanced app-shell gradient for dark mode */
+  .dark .app-shell {
+    background:
+      radial-gradient(circle at top left, hsl(var(--primary) / 0.15), transparent 50%),
+      radial-gradient(circle at bottom right, hsl(var(--secondary) / 0.12), transparent 50%),
+      hsl(var(--background));
+  }
+
+  /* === PHASE 5: DARK MODE VISIBILITY ENHANCEMENTS === */
+  
+  /* Enhanced focus rings for dark mode accessibility */
+  .dark *:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px hsl(var(--ring) / 0.2);
+  }
+
+  /* Interactive element glow on hover (dark mode only) */
+  .dark .interactive-glow:hover {
+    box-shadow: 
+      0 4px 12px hsl(var(--primary) / 0.3),
+      0 0 20px hsl(var(--primary) / 0.15);
+  }
+
+  /* Enhanced button visibility in dark mode */
+  .dark button:not([disabled]):hover,
+  .dark [role="button"]:not([disabled]):hover {
+    box-shadow: 0 2px 8px hsl(var(--primary) / 0.2);
+  }
+
+  /* Enhanced card hover states in dark mode */
+  .dark [class*="hover:shadow-"] {
+    transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+  }
+
+  /* Improved text contrast for muted text in dark mode - WCAG AA compliant */
+  .dark .text-muted-foreground {
+    color: hsl(0 0% 85%) !important; /* BRIGHTENED: Enhanced for 5:1 contrast ratio */
+  }
+
+  /* Enhanced border visibility in dark mode */
+  .dark .border,
+  .dark [class*="border-border"] {
+    border-color: hsl(0 0% 25%); /* Slightly lighter for better definition */
+  }
+
+  /* Enhanced input focus states */
+  .dark input:focus,
+  .dark textarea:focus,
+  .dark select:focus {
+    border-color: hsl(var(--primary));
+    box-shadow: 
+      0 0 0 2px hsl(var(--primary) / 0.2),
+      0 0 12px hsl(var(--primary) / 0.15);
+  }
+
+  /* Enhanced table row hover in dark mode */
+  .dark tr:hover {
+    background-color: hsl(var(--muted) / 0.5);
+  }
+
+  /* Enhanced link visibility in dark mode */
+  .dark a:not([class]) {
+    color: hsl(var(--primary));
+  }
+  
+  .dark a:not([class]):hover {
+    color: hsl(var(--primary-light));
+    text-decoration: underline;
+  }
+
+  /* Icon visibility enhancement */
+  .dark .text-muted-foreground svg,
+  .dark [class*="opacity-50"] svg {
+    opacity: 0.85;
+  }
+}
+
+/* === LIGHT MODE BASE TOKENS (WCAG AAA enhanced contrast) === */
+:root:not(.dark) {
+  --foreground: 0 0% 8%;           /* Maximum contrast for body text */
+  --muted-foreground: 0 0% 18%;    /* Strong contrast for secondary text */
+  --popover-foreground: 0 0% 8%;   /* Match foreground */
+  --card-foreground: 0 0% 8%;      /* Match foreground */
+}
+
+/* === MUTED TEXT VISIBILITY (Single consolidated rule) === */
+/* NOTE: Dark mode rule is in @layer base above - do not duplicate */
+/* Light mode handled in LIGHT MODE VISIBILITY ENHANCEMENTS section */
+
+/* === PUBLIC NAVBAR HEADER STYLING (SCOPED) === */
+/* ONLY the public navbar [data-monarch-header] has forced white background */
+/* The app's internal dashboard headers use theme tokens properly */
+
+/* CSS variable for public header background */
+:root {
+  --header-bg: rgba(255, 255, 255, 0.98);
+  --header-border: hsl(var(--border));
+}
+
+.dark {
+  --header-bg: rgba(255, 255, 255, 0.98); /* Public navbar stays white in dark mode for brand contrast */
+  --header-border: hsl(var(--border));
+}
+
+/* ONLY the public navbar with data-monarch-header gets styled background */
+/* Navbar keeps a white surface in dark mode, so it also keeps the light-mode
+   brand tokens to preserve WCAG AA contrast on that surface. */
+.dark [data-monarch-header],
+.dark .monarch-header {
+  --primary: 32 82% 30%;
+  --primary-foreground: 0 0% 100%;
+  --foreground: 0 0% 10%;
+  --muted-foreground: 0 0% 35%;
+  --accent-foreground: 0 0% 10%;
+  --border: 32 25% 82%;
+}
+
+[data-monarch-header],
+.monarch-header {
+  background-color: var(--header-bg) !important;
+  border-bottom-color: var(--header-border) !important;
+}
+
+/* Public navbar text - GUARANTEED VISIBILITY */
+/* Light mode: dark text on white bg */
+:root:not(.dark) [data-monarch-header] nav ul li > button,
+:root:not(.dark) [data-monarch-header] nav ul li > button > span,
+:root:not(.dark) [data-monarch-header] nav ul li > button > svg,
+:root:not(.dark) [data-monarch-header] nav ul li a,
+:root:not(.dark) [data-monarch-header] nav [data-nav-dropdown],
+:root:not(.dark) [data-monarch-header] nav [data-nav-dropdown] > span,
+:root:not(.dark) [data-monarch-header] nav [data-nav-dropdown] > svg,
+:root:not(.dark) .monarch-header nav a,
+:root:not(.dark) .monarch-header nav button,
+:root:not(.dark) .monarch-header nav button span {
+  color: hsl(0 0% 8%) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  font-weight: 600;
+}
+
+/* Dark mode: dark text on white bg (header stays white for brand contrast) */
+.dark [data-monarch-header] nav ul li > button,
+.dark [data-monarch-header] nav ul li > button > span,
+.dark [data-monarch-header] nav ul li > button > svg,
+.dark [data-monarch-header] nav ul li a,
+.dark [data-monarch-header] nav [data-nav-dropdown],
+.dark [data-monarch-header] nav [data-nav-dropdown] > span,
+.dark [data-monarch-header] nav [data-nav-dropdown] > svg,
+.dark .monarch-header nav a,
+.dark .monarch-header nav button,
+.dark .monarch-header nav button span {
+  color: hsl(0 0% 8%) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  font-weight: 600;
+}
+
+/* Force SVG icons in PUBLIC navbar - GUARANTEED VISIBILITY */
+:root:not(.dark) [data-monarch-header] nav svg,
+:root:not(.dark) [data-monarch-header] nav ul li svg,
+:root:not(.dark) .monarch-header nav svg {
+  color: hsl(0 0% 8%) !important;
+  stroke: hsl(0 0% 8%) !important;
+  opacity: 1 !important;
+}
+
+.dark [data-monarch-header] nav svg,
+.dark [data-monarch-header] nav ul li svg,
+.dark .monarch-header nav svg {
+  color: hsl(0 0% 8%) !important;
+  stroke: hsl(0 0% 8%) !important;
+  opacity: 1 !important;
+}
+
+/* Hover states for public navbar - primary color */
+[data-monarch-header] nav ul li > button:hover,
+[data-monarch-header] nav ul li > button:hover > span,
+[data-monarch-header] nav ul li > button:hover > svg,
+[data-monarch-header] nav ul li a:hover,
+[data-monarch-header] nav [data-nav-dropdown]:hover,
+[data-monarch-header] nav [data-nav-dropdown]:hover > span,
+[data-monarch-header] nav [data-nav-dropdown]:hover > svg {
+  color: hsl(var(--primary)) !important;
+}
+
+[data-monarch-header] nav ul li a:hover svg,
+[data-monarch-header] nav ul li button:hover svg {
+  color: hsl(var(--primary)) !important;
+  stroke: hsl(var(--primary)) !important;
+}
+
+/* === DROPDOWN MENU VISIBILITY === */
+[data-radix-dropdown-menu-content],
+[data-radix-popper-content-wrapper] [role="menu"] {
+  background: hsl(var(--popover));
+  border-color: hsl(var(--border));
+  color: hsl(var(--popover-foreground));
+}
+
+[data-radix-dropdown-menu-content] span,
+[data-radix-dropdown-menu-content] p,
+[data-radix-dropdown-menu-content] a {
+  color: hsl(var(--popover-foreground));
+}
+
+[data-radix-dropdown-menu-content] .text-muted-foreground {
+  color: hsl(var(--muted-foreground));
+}
+
+[data-radix-dropdown-menu-content] [role="menuitem"]:hover {
+  background: hsl(var(--primary) / 0.08);
+  color: hsl(var(--primary));
+}
+
+/* === SIDEBAR VISIBILITY (token-based) === */
+[data-sidebar] a,
+[data-sidebar] button,
+[data-sidebar] span:not([class*="bg-"]) {
+  color: hsl(var(--sidebar-foreground));
+}
+
+[data-sidebar] a:hover,
+[data-sidebar] button:hover {
+  color: hsl(var(--sidebar-primary)) !important;
+}
+
+[data-sidebar] a[aria-current="page"],
+[data-sidebar] a[aria-current="page"] span {
+  color: hsl(var(--sidebar-primary)) !important;
+}
+
+[data-sidebar] .text-muted-foreground {
+  color: hsl(var(--muted-foreground));
+}
+
+/* === SIDEBAR FOOTER ICON CONTAINERS - GUARANTEED VISIBILITY === */
+/* Footer icons (theme toggle, language selector) - enhanced visibility in both themes */
+[data-sidebar="footer"] > div > div {
+  background: hsl(0 0% 100%) !important;
+  border: 2px solid hsl(var(--primary) / 0.5) !important;
+  box-shadow: 0 1px 3px hsl(0 0% 0% / 0.08) !important;
+  border-radius: 0.5rem;
+  padding: 0.25rem;
+}
+
+.dark [data-sidebar="footer"] > div > div {
+  background: hsl(var(--card)) !important;
+  border-color: hsl(var(--primary) / 0.5) !important;
+}
+
+/* All SVG icons in sidebar footer - force visible colors */
+[data-sidebar="footer"] svg {
+  color: hsl(0 0% 25%) !important;
+  stroke: hsl(0 0% 25%) !important;
+  opacity: 1 !important;
+}
+
+.dark [data-sidebar="footer"] svg {
+  color: hsl(0 0% 90%) !important;
+  stroke: hsl(0 0% 90%) !important;
+}
+
+/* Sun icon gets amber color */
+[data-sidebar="footer"] svg.lucide-sun {
+  color: hsl(38 92% 50%) !important;
+  stroke: hsl(38 92% 50%) !important;
+}
+
+/* Globe icon visibility */
+[data-sidebar="footer"] svg.lucide-globe {
+  color: hsl(0 0% 30%) !important;
+  stroke: hsl(0 0% 30%) !important;
+}
+
+.dark [data-sidebar="footer"] svg.lucide-globe {
+  color: hsl(0 0% 85%) !important;
+  stroke: hsl(0 0% 85%) !important;
+}
+
+/* Language selector text in sidebar footer */
+[data-sidebar="footer"] [data-radix-select-trigger] span {
+  color: hsl(0 0% 15%) !important;
+  font-weight: 700 !important;
+}
+
+.dark [data-sidebar="footer"] [data-radix-select-trigger] span {
+  color: hsl(0 0% 90%) !important;
+}
+
+/* Hover states */
+[data-sidebar="footer"] > div > div:hover {
+  border-color: hsl(var(--primary)) !important;
+  box-shadow: 0 2px 6px hsl(var(--primary) / 0.15) !important;
+}
+
+/* === PUBLIC NAVBAR ICON CONTAINERS - GUARANTEED VISIBILITY === */
+/* Header icons (theme toggle, language, notifications, user menu) - BOTH MODES use white bg */
+[data-monarch-header] [data-header-icon],
+[data-monarch-header] [data-header-controls] > div {
+  background: hsl(0 0% 100%) !important;
+  border: 2px solid hsl(var(--primary) / 0.5) !important;
+  box-shadow: 0 1px 3px hsl(0 0% 0% / 0.08) !important;
+}
+
+/* CRITICAL: Force white background on buttons INSIDE header icon containers (fixes dark mode black boxes) */
+[data-monarch-header] [data-header-icon] button,
+[data-monarch-header] [data-header-controls] > div button,
+[data-monarch-header] [data-header-controls] button {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* All SVG icons in header - force dark color for visibility on white */
+[data-monarch-header] [data-header-icon] svg,
+[data-monarch-header] [data-header-controls] svg {
+  color: hsl(0 0% 25%) !important;
+  stroke: hsl(0 0% 25%) !important;
+  fill: none !important;
+  opacity: 1 !important;
+}
+
+/* Sun icon gets amber color for better recognition */
+[data-monarch-header] [data-header-icon] svg.lucide-sun,
+[data-monarch-header] [data-header-controls] svg.lucide-sun {
+  color: hsl(38 92% 50%) !important;
+  stroke: hsl(38 92% 50%) !important;
+}
+
+/* Moon icon gets slate color */
+[data-monarch-header] [data-header-icon] svg.lucide-moon,
+[data-monarch-header] [data-header-controls] svg.lucide-moon {
+  color: hsl(215 25% 35%) !important;
+  stroke: hsl(215 25% 35%) !important;
+}
+
+/* Bell icon gets foreground color */
+[data-monarch-header] [data-header-icon] svg.lucide-bell,
+[data-monarch-header] [data-header-controls] svg.lucide-bell {
+  color: hsl(0 0% 20%) !important;
+  stroke: hsl(0 0% 20%) !important;
+}
+
+/* Language selector text - force dark on white background */
+[data-monarch-header] [data-header-icon] span,
+[data-monarch-header] [data-radix-select-trigger],
+[data-monarch-header] [data-radix-select-trigger] span {
+  color: hsl(0 0% 15%) !important;
+  font-weight: 700 !important;
+}
+
+/* Hover states for header icons */
+[data-monarch-header] [data-header-icon]:hover,
+[data-monarch-header] [data-header-controls] > div:hover {
+  border-color: hsl(var(--primary)) !important;
+  box-shadow: 0 2px 6px hsl(var(--primary) / 0.15) !important;
+}
+
+/* Token-based text-foreground - no forced colors */
+.text-foreground {
+  color: hsl(var(--foreground));
+}
+
+/* Lucide icons inherit stroke from currentColor */
+.lucide {
+  stroke: currentColor;
+}
+
+/* === AUTH BUTTON VISIBILITY - GUARANTEED WHITE TEXT === */
+/* These buttons must always show white text regardless of theme or navbar rules */
+[data-auth-button],
+[data-auth-button] a,
+[data-auth-button] span {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Ensure auth buttons in monarch header override any dark text rules */
+[data-monarch-header] [data-auth-button],
+[data-monarch-header] [data-auth-button] a,
+[data-monarch-header] [data-auth-button] span {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* === CARD & BUTTON TEXT VISIBILITY (token-based) === */
+[class*="Card"] h1,
+[class*="Card"] h2,
+[class*="Card"] h3,
+[class*="Card"] p {
+  color: hsl(var(--card-foreground));
+}
+
+[class*="CardDescription"] {
+  color: hsl(var(--muted-foreground));
+}
+
+[class*="Card"] span:not([class*="text-white"]):not([class*="text-primary"]):not([class*="bg-"]):not([class*="Badge"]) {
+  color: hsl(var(--card-foreground));
+}
+
+/* === GENERAL TEXT VISIBILITY (LIGHT MODE) === */
+/* General section text - but EXCLUDE hero sections with image overlays */
+:root:not(.dark) section:not(.hero-section) p:not([class*="text-white"]):not([style*="color"]),
+:root:not(.dark) section:not(.hero-section) span:not([class*="text-white"]):not([class*="text-primary"]):not([class*="bg-"]):not([style*="color"]) {
+  color: hsl(0 0% 22%);
+}
+
+/* Preserve white text in hero sections and elements with explicit white text */
+section .text-white,
+section [class*="text-white"],
+.container .text-white {
+  color: rgb(255, 255, 255) !important;
+}
+
+/* === FOOTER VISIBILITY (LIGHT MODE) === */
+:root:not(.dark) footer p,
+:root:not(.dark) footer span:not([class*="bg-"]),
+:root:not(.dark) footer li,
+:root:not(.dark) footer address {
+  color: hsl(0 0% 22%) !important;
+}
+
+:root:not(.dark) footer a:not([class*="text-white"]):not([class*="btn"]) {
+  color: hsl(0 0% 20%) !important;
+}
+
+:root:not(.dark) footer a:hover {
+  color: hsl(var(--primary)) !important;
+}
+
+:root:not(.dark) footer h3,
+:root:not(.dark) footer h4 {
+  color: hsl(0 0% 10%) !important;
+}
+
+/* === OVERLAY TEXT CLASSES (for hero sections on images) === */
+.text-overlay-foreground {
+  color: hsl(0 0% 100%) !important;
+  text-shadow: 
+    0 2px 4px hsl(0 0% 0% / 1),
+    0 4px 8px hsl(0 0% 0% / 0.95),
+    0 8px 16px hsl(0 0% 0% / 0.8),
+    0 0 40px hsl(0 0% 0% / 0.6) !important;
+  -webkit-text-stroke: 0.5px hsl(0 0% 0% / 0.3);
+}
+
+.text-overlay-muted {
+  color: hsl(0 0% 100% / 0.95) !important;
+  text-shadow: 
+    0 2px 4px hsl(0 0% 0% / 1),
+    0 4px 8px hsl(0 0% 0% / 0.9),
+    0 8px 16px hsl(0 0% 0% / 0.7),
+    0 0 30px hsl(0 0% 0% / 0.5) !important;
+}
+
+/* === HERO TEXT VISIBILITY - Universal enforcement (high specificity) === */
+.breakout-full-width h1,
+.breakout-full-width h1.text-white,
+.breakout-full-width .text-white,
+[data-hero] h1,
+.hero-section h1,
+section[role="banner"] h1 {
+  color: #ffffff !important;
+  opacity: 1 !important;
+  text-shadow: 
+    0 2px 4px rgba(0, 0, 0, 1),
+    0 4px 8px rgba(0, 0, 0, 0.95),
+    0 8px 16px rgba(0, 0, 0, 0.85) !important;
+  -webkit-text-stroke: 0.3px rgba(0, 0, 0, 0.3);
+}
+
+.breakout-full-width p,
+.breakout-full-width p.text-white,
+[data-hero] p,
+.hero-section p,
+section[role="banner"] p {
+  color: #ffffff !important;
+  opacity: 1 !important;
+  text-shadow: 
+    0 2px 4px rgba(0, 0, 0, 1),
+    0 4px 8px rgba(0, 0, 0, 0.9) !important;
+}
+
+.breakout-full-width span,
+.breakout-full-width span.text-white {
+  color: #ffffff !important;
+  opacity: 1 !important;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9) !important;
+}
+
+/* === DARK MODE VISIBILITY POLISH === */
+
+.dark [class*="Card"] p,
+.dark [class*="CardDescription"] {
+  color: hsl(0 0% 78%) !important;
+}
+
+.dark footer a {
+  color: hsl(0 0% 75%) !important;
+}
+
+.dark footer a:hover {
+  color: hsl(var(--primary)) !important;
+}
+
+/* === DARK MODE PUBLIC NAVBAR VISIBILITY (scoped to [data-monarch-header]) === */
+/* Only public navbar needs forced dark text since its background is white */
+.dark [data-monarch-header] nav ul li > button,
+.dark [data-monarch-header] nav ul li > button > span,
+.dark [data-monarch-header] nav ul li > button > svg,
+.dark [data-monarch-header] nav .nav-dropdown-trigger,
+.dark [data-monarch-header] nav .nav-dropdown-trigger > span,
+.dark [data-monarch-header] nav .nav-dropdown-trigger > svg {
+  color: #1a1a1a !important;
+}
+
+.dark [data-monarch-header] nav ul li > button:hover,
+.dark [data-monarch-header] nav ul li > button:hover > span,
+.dark [data-monarch-header] nav ul li > button:hover > svg,
+.dark [data-monarch-header] nav .nav-dropdown-trigger:hover,
+.dark [data-monarch-header] nav .nav-dropdown-trigger:hover > span,
+.dark [data-monarch-header] nav .nav-dropdown-trigger:hover > svg {
+  color: hsl(var(--primary)) !important;
+}
+
+.dark [data-monarch-header] nav [data-radix-dropdown-menu-trigger],
+.dark [data-monarch-header] nav [data-radix-dropdown-menu-trigger] span,
+.dark [data-monarch-header] nav [data-radix-dropdown-menu-trigger] svg {
+  color: #1a1a1a !important;
+}
+
+.dark [data-monarch-header] nav [data-radix-dropdown-menu-trigger]:hover,
+.dark [data-monarch-header] nav [data-radix-dropdown-menu-trigger]:hover span,
+.dark [data-monarch-header] nav [data-radix-dropdown-menu-trigger]:hover svg {
+  color: hsl(var(--primary)) !important;
+}
+
+/* ============================================================
+   DESIGN SYSTEM VISIBILITY - Lean, Token-Based Rules
+   Uses semantic tokens instead of hardcoded colors
+   ============================================================ */
+
+/* === CORE TOKEN ENFORCEMENT === */
+/* These rules ensure design tokens are properly applied without !important spam */
+
+/* Card text uses semantic tokens */
+.card-title, [data-slot="card-title"] {
+  color: hsl(var(--card-foreground));
+}
+
+.card-description, [data-slot="card-description"] {
+  color: hsl(var(--muted-foreground));
+}
+
+/* Sidebar uses semantic tokens - scoped to [data-sidebar] */
+[data-sidebar] {
+  color: hsl(var(--sidebar-foreground));
+}
+
+[data-sidebar] a:hover,
+[data-sidebar] button:hover {
+  color: hsl(var(--sidebar-primary));
+}
+
+[data-sidebar] [aria-current="page"] {
+  color: hsl(var(--sidebar-primary));
+  font-weight: 500;
+}
+
+/* Form elements use design tokens */
+label {
+  color: hsl(var(--foreground));
+}
+
+input, textarea, select {
+  color: hsl(var(--foreground));
+  background-color: hsl(var(--input));
+  border-color: hsl(var(--border));
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: hsl(var(--muted-foreground));
+  opacity: 0.7;
+}
+
+/* Table text visibility */
+table th {
+  color: hsl(var(--foreground));
+  font-weight: 600;
+}
+
+table td {
+  color: hsl(var(--foreground));
+}
+
+/* === DASHBOARD HERO (scoped with data attribute) === */
+[data-dashboard-hero] h1,
+[data-dashboard-hero] h2 {
+  color: white !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+[data-dashboard-hero] p {
+  color: rgba(255, 255, 255, 0.9) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* === ACCESS GATE & PENDING APPROVAL VIEWS === */
+/* Scoped with component data attributes for clarity */
+[data-access-gate] h1,
+[data-access-gate] h2,
+[data-pending-approval] h1,
+[data-pending-approval] h2 {
+  color: hsl(var(--foreground));
+}
+
+[data-access-gate] p,
+[data-pending-approval] p {
+  color: hsl(var(--muted-foreground));
+}
+
+/* === DARK MODE PENDING APPROVAL VISIBILITY ENHANCEMENT === */
+.dark [data-pending-approval] span.text-sm,
+.dark [data-pending-approval] span.text-xs {
+  color: hsl(0 0% 80%) !important;
+}
+
+.dark [data-pending-approval] p {
+  color: hsl(0 0% 85%) !important;
+}
+
+/* === DARK MODE CARD TEXT VISIBILITY ENHANCEMENT === */
+.dark [class*="Card"] p:not([class*="text-white"]),
+.dark .card p:not([class*="text-white"]) {
+  color: hsl(0 0% 85%);
+}
+
+.dark [class*="Card"] span.text-sm:not([class*="text-white"]):not([class*="bg-"]),
+.dark .card span.text-sm:not([class*="text-white"]):not([class*="bg-"]) {
+  color: hsl(0 0% 80%);
+}
+
+.dark [class*="Card"] .text-muted-foreground {
+  color: hsl(0 0% 80%) !important;
+}
+
+/* === WCAG AA BUTTON TEXT CONTRAST FIX === */
+/* Ensures white text on primary background buttons for 4.5:1 contrast ratio */
+/* NOTE: Replaced :is(button, a) with separate selectors to fix PostCSS parsing warnings */
+button.bg-primary,
+a.bg-primary,
+button[class~="bg-primary"],
+a[class~="bg-primary"],
+button[class*="default"],
+a[class*="variant"][href] {
+  color: white !important;
+}
+
+/* Primary variant buttons must have white text */
+button.inline-flex.bg-primary,
+a.inline-flex.bg-primary,
+button[style*="color: white"],
+a[style*="color: white"] {
+  color: #ffffff !important;
+}
+
+/* Ensure Book Now and CTA buttons have proper contrast */
+.inline-flex.items-center.justify-center.gap-2.bg-primary,
+.inline-flex.items-center.justify-center.gap-2[class~="bg-primary"] {
+  color: #ffffff !important;
+}
+
+@layer base {
+  body {
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  #radix-portal-root {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-select-dropdown);
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  #radix-portal-root > * {
+    pointer-events: auto;
+  }
+
+  /* CRITICAL FIX: Force closed Radix components to be fully removed from layout */
+  [data-state="closed"][role="dialog"],
+  [data-state="closed"][role="menu"],
+  [data-state="closed"][role="alertdialog"],
+  [data-state="closed"][role="listbox"] {
+    display: none !important;
+    pointer-events: none !important;
+  }
+
+  .app-shell {
+    background:
+      radial-gradient(circle at top left, hsl(var(--primary) / 0.12), transparent 55%),
+      radial-gradient(circle at bottom right, hsl(var(--secondary) / 0.10), transparent 55%),
+      hsl(var(--background));
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+
+  /* Reduced motion support for accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* === SAFE AREA UTILITIES FOR NOTCHED DEVICES === */
+  /* Supports iPhone X+, Android notched devices, and tablets with rounded corners */
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top, 0);
+  }
+
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+
+  .safe-area-left {
+    padding-left: env(safe-area-inset-left, 0);
+  }
+
+  .safe-area-right {
+    padding-right: env(safe-area-inset-right, 0);
+  }
+
+  .safe-area-x {
+    padding-left: env(safe-area-inset-left, 0);
+    padding-right: env(safe-area-inset-right, 0);
+  }
+
+  .safe-area-y {
+    padding-top: env(safe-area-inset-top, 0);
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+
+  .safe-area-all {
+    padding: env(safe-area-inset-top, 0) 
+             env(safe-area-inset-right, 0) 
+             env(safe-area-inset-bottom, 0) 
+             env(safe-area-inset-left, 0);
+  }
+}
+
+/* === LIGHT MODE VISIBILITY ENHANCEMENTS === */
+/* Ensure text is clearly visible in light mode across all components */
+
+/* GLOBAL Light mode text visibility - SINGLE SOURCE OF TRUTH */
+:root:not(.dark) .text-muted-foreground {
+  color: #3a3a3a !important;
+}
+
+/* Card description text enhancement */
+:root:not(.dark) [class*="CardDescription"],
+:root:not(.dark) .text-sm.text-muted-foreground {
+  color: #333333 !important;
+}
+
+/* Auth page text visibility */
+:root:not(.dark) p.text-muted-foreground {
+  color: #444444 !important;
+}
+
+/* Ensure icon visibility in light mode - INCREASED CONTRAST */
+.text-muted-foreground svg {
+  opacity: 1;
+}
+
+/* === LIGHT MODE ICON VISIBILITY ON COLORED BACKGROUNDS === */
+/* Icons on bg-primary/* backgrounds need darker colors for contrast */
+:root:not(.dark) [class~="bg-primary"] svg.text-primary,
+:root:not(.dark) [class~="bg-primary"] .text-primary svg {
+  color: #5a4015 !important;
+  stroke: #5a4015 !important;
+  stroke-width: 2.5;
+}
+
+/* Icons on bg-info/* backgrounds need darker colors */
+:root:not(.dark) [class*="bg-info"] svg.text-info,
+:root:not(.dark) [class*="bg-info"] .text-info svg {
+  color: #1a6aa8 !important;
+  stroke: #1a6aa8 !important;
+  stroke-width: 2.5;
+}
+
+/* Icons on bg-warning/* backgrounds need darker colors */
+:root:not(.dark) [class*="bg-warning"] svg.text-warning,
+:root:not(.dark) [class*="bg-warning"] .text-warning svg {
+  color: #9a6a0a !important;
+  stroke: #9a6a0a !important;
+  stroke-width: 2.5;
+}
+
+/* Icons on bg-success/* backgrounds need darker colors */
+:root:not(.dark) [class*="bg-success"] svg.text-success,
+:root:not(.dark) [class*="bg-success"] .text-success svg {
+  color: #1a6a4a !important;
+  stroke: #1a6a4a !important;
+  stroke-width: 2.5;
+}
+
+/* Icons on bg-secondary/* backgrounds need darker colors */
+:root:not(.dark) [class*="bg-secondary"] svg.text-secondary,
+:root:not(.dark) [class*="bg-secondary"] .text-secondary svg {
+  color: #2a5a5e !important;
+  stroke: #2a5a5e !important;
+  stroke-width: 2.5;
+}
+
+/* General tab trigger text and icon visibility in light mode - HIGH CONTRAST */
+:root:not(.dark) [data-radix-collection-item] {
+  color: #1a1a1a !important;
+}
+
+/* CRITICAL: Explicitly target span text inside tab triggers */
+:root:not(.dark) [data-radix-collection-item] span {
+  color: #1a1a1a !important;
+}
+
+:root:not(.dark) [data-radix-collection-item] svg {
+  color: #1a1a1a !important;
+  stroke: #1a1a1a !important;
+  stroke-width: 2.5 !important;
+}
+
+/* Active tab text and icons - white on colored background */
+:root:not(.dark) [data-radix-collection-item][data-state="active"] {
+  color: white !important;
+}
+
+:root:not(.dark) [data-radix-collection-item][data-state="active"] span {
+  color: white !important;
+}
+
+:root:not(.dark) [data-radix-collection-item][data-state="active"] svg {
+  color: white !important;
+  stroke: white !important;
+  stroke-width: 2.5 !important;
+}
+
+/* === HERO BUTTON TEXT VISIBILITY === */
+/* Force white text on all primary/gradient buttons and their children */
+:root:not(.dark) .btn-primary,
+:root:not(.dark) .btn-primary *,
+:root:not(.dark) .btn-primary a,
+:root:not(.dark) .btn-primary span,
+:root:not(.dark) .tech-glow,
+:root:not(.dark) .tech-glow *,
+:root:not(.dark) .tech-glow a,
+:root:not(.dark) .tech-glow span {
+  color: white !important;
+}
+
+:root:not(.dark) .btn-primary svg,
+:root:not(.dark) .tech-glow svg {
+  color: white !important;
+  stroke: white !important;
+}
+
+/* Badge text visibility - ensure readable in light mode */
+.badge-outline,
+[data-slot="badge"][variant="outline"] {
+  color: hsl(var(--foreground));
+}
+
+/* Table row text visibility */
+table td,
+table th {
+  color: hsl(var(--foreground));
+}
+
+table td.text-muted-foreground {
+  color: hsl(0 0% 28%);
+}
+
+/* Form label visibility enhancement */
+label {
+  color: hsl(var(--foreground));
+}
+
+/* Placeholder text enhancement for better visibility */
+::placeholder {
+  color: hsl(0 0% 45%);
+  opacity: 1;
+}
+
+/* Select trigger text visibility */
+[data-radix-select-trigger] {
+  color: hsl(var(--foreground));
+}
+
+/* Dialog content text visibility */
+[role="dialog"] p,
+[role="dialog"] span {
+  color: hsl(var(--foreground));
+}
+
+[role="dialog"] .text-muted-foreground {
+  color: hsl(0 0% 28%);
+}
+
+/* Stats and metric text enhancement */
+.stat-value,
+.metric-value {
+  color: hsl(var(--foreground));
+}
+
+.stat-label,
+.metric-label {
+  color: hsl(0 0% 28%);
+}
+
+/* === LIGHT MODE LINK VISIBILITY === */
+/* Ensure links with text-primary are visible in light mode */
+:root:not(.dark) a.text-primary,
+:root:not(.dark) a[class*="text-primary"],
+:root:not(.dark) .text-primary a {
+  color: #8B5A2B !important;
+}
+
+/* Auth page link visibility */
+:root:not(.dark) p a[href="/terms"],
+:root:not(.dark) p a[href="/privacy"] {
+  color: #8B5A2B !important;
+  font-weight: 600;
+}
+
+/* === PILLS AND GRID TAB VISIBILITY FIX === */
+:root:not(.dark) [data-radix-collection-item][class*="rounded-full"],
+:root:not(.dark) [data-radix-collection-item][class*="flex-1"] {
+  color: #1a1a1a !important;
+}
+
+:root:not(.dark) [data-radix-collection-item][class*="rounded-full"] span,
+:root:not(.dark) [data-radix-collection-item][class*="flex-1"] span {
+  color: #1a1a1a !important;
+}
+
+
+/* Ensure button text is always visible when using asChild with Link */
+/* Covers: bg-primary, gradients with primary, and default buttons */
+.bg-primary a,
+[class~="bg-primary"] a,
+[class*="from-primary"] a,
+[class*="bg-gradient"] a,
+button[class*="shadow-primary"] a {
+  color: white !important;
+}
+
+.dark .bg-primary a,
+.dark [class~="bg-primary"] a {
+  color: hsl(0 0% 10%) !important;
+}
+
+.dark [class*="from-primary"] a,
+.dark [class*="bg-gradient"] a,
+.dark button[class*="shadow-primary"] a {
+  color: white !important;
+}
+
+@layer components {
+  /* === PERFORMANCE OPTIMIZATIONS === */
+  
+  /* Content visibility for below-fold sections - huge rendering performance boost */
+  .content-visibility-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 500px;
+  }
+  
+  .lazy-load {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .lazy-load.loaded {
+    opacity: 1;
+  }
+
+  /* GPU-accelerated transforms */
+  .fast-refresh {
+    will-change: transform;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+  }
+  
+  /* Optimized transition - use transform instead of layout properties */
+  .optimized-transition {
+    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+    will-change: transform, opacity;
+  }
+
+  /* Full-width layout utilities */
+  .breakout-full-width {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+  }
+
+  .full-width-section {
+    width: 100%;
+    max-width: 100vw;
+  }
+
+  .content-constrained {
+    max-width: 1536px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .content-constrained {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .content-constrained {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  @media (min-width: 768px) {
+    .container {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+
+  .btn-primary {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    border-radius: 0.5rem;
+    padding: 0.625rem 1.5rem;
+    font-weight: 500;
+    transition: background-color 0.2s, opacity 0.2s;
+    box-shadow: var(--shadow-primary);
+  }
+
+  .btn-primary:hover {
+    opacity: 0.9;
+  }
+
+  /* Links inside primary buttons follow the primary foreground token
+     (white in light mode, near-black on the brighter dark-mode gold). */
+  .btn-primary a,
+  .btn-primary > a,
+  a.btn-primary {
+    color: hsl(var(--primary-foreground)) !important;
+    -webkit-text-fill-color: hsl(var(--primary-foreground)) !important;
+  }
+
+  .btn-secondary {
+    background: hsl(var(--secondary));
+    color: hsl(var(--secondary-foreground));
+    border-radius: 0.5rem;
+    padding: 0.625rem 1.5rem;
+    font-weight: 500;
+    transition: background-color 0.2s, opacity 0.2s;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .btn-secondary:hover {
+    opacity: 0.8;
+  }
+
+  .section {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+  
+  @media (min-width: 768px) {
+    .section {
+      padding-top: 6rem;
+      padding-bottom: 6rem;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .section {
+      padding-top: 8rem;
+      padding-bottom: 8rem;
+    }
+  }
+
+  .card {
+    background: hsl(var(--card));
+    color: hsl(var(--card-foreground));
+    border: 1px solid hsl(var(--border));
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.2s ease-out;
+  }
+
+  .card:hover {
+    box-shadow: var(--shadow-md);
+  }
+
+  .card-elevated {
+    background: hsl(var(--card));
+    color: hsl(var(--card-foreground));
+    border: 1px solid hsl(var(--border));
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .nav-bar {
+    background: hsl(var(--background) / 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid hsl(var(--border));
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* Neumorphic / Glassmorphic Design System */
+  .neumorphic-card {
+    background: hsl(var(--card));
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid hsl(var(--border) / 0.5);
+    box-shadow: 
+      0 8px 32px 0 rgba(0, 0, 0, 0.08),
+      0 2px 8px 0 rgba(0, 0, 0, 0.04),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
+  }
+  
+  @supports (backdrop-filter: blur(12px)) {
+    .neumorphic-card {
+      background: hsl(var(--card) / 0.92);
+    }
+  }
+  
+  /* === NEUMORPHIC CARD TEXT VISIBILITY (theme-aware) === */
+  /* Light mode: ensure high contrast text */
+  :root:not(.dark) .neumorphic-card {
+    color: hsl(0 0% 12%);
+  }
+  
+  :root:not(.dark) .neumorphic-card .text-muted-foreground,
+  :root:not(.dark) .neumorphic-card [class*="CardDescription"] {
+    color: hsl(0 0% 35%) !important;
+  }
+
+  :root:not(.dark) .neumorphic-card h1,
+  :root:not(.dark) .neumorphic-card h2,
+  :root:not(.dark) .neumorphic-card h3,
+  :root:not(.dark) .neumorphic-card h4,
+  :root:not(.dark) .neumorphic-card [class*="CardTitle"],
+  :root:not(.dark) .neumorphic-card .font-bold,
+  :root:not(.dark) .neumorphic-card .font-semibold {
+    color: hsl(0 0% 8%) !important;
+  }
+
+  :root:not(.dark) .neumorphic-card .text-2xl,
+  :root:not(.dark) .neumorphic-card .text-3xl,
+  :root:not(.dark) .neumorphic-card .text-4xl,
+  :root:not(.dark) .neumorphic-card .text-foreground {
+    color: hsl(0 0% 8%) !important;
+  }
+  
+  :root:not(.dark) .neumorphic-card .text-sm {
+    color: hsl(0 0% 40%) !important;
+  }
+
+  /* Dark mode: use token-based colors for proper visibility */
+  .dark .neumorphic-card {
+    color: hsl(var(--card-foreground));
+  }
+  
+  .dark .neumorphic-card .text-muted-foreground,
+  .dark .neumorphic-card [class*="CardDescription"],
+  .dark .neumorphic-card .text-sm {
+    color: hsl(0 0% 75%) !important;
+  }
+  
+  .dark .neumorphic-card h1,
+  .dark .neumorphic-card h2,
+  .dark .neumorphic-card h3,
+  .dark .neumorphic-card h4,
+  .dark .neumorphic-card [class*="CardTitle"],
+  .dark .neumorphic-card .font-bold,
+  .dark .neumorphic-card .font-semibold,
+  .dark .neumorphic-card .text-2xl,
+  .dark .neumorphic-card .text-3xl,
+  .dark .neumorphic-card .text-4xl,
+  .dark .neumorphic-card .text-foreground {
+    color: hsl(0 0% 98%) !important;
+  }
+
+  .neumorphic-card:hover {
+    box-shadow: 
+      0 12px 40px 0 rgba(0, 0, 0, 0.15),
+      0 4px 12px 0 rgba(0, 0, 0, 0.08),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+  }
+
+  .neumorphic-inset {
+    background: hsl(var(--muted) / 0.5);
+    border: 1px solid hsl(var(--border) / 0.2);
+    box-shadow: 
+      inset 0 2px 4px 0 rgba(0, 0, 0, 0.1),
+      inset 0 -1px 0 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .floating-card {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  @keyframes morphic-float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(5deg); }
+  }
+
+  .animate-morphic-float {
+    animation: morphic-float 8s ease-in-out infinite;
+  }
+
+  .performance-optimized {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+  .page-transition-enter {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .page-transition-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 600ms ease-out, transform 600ms ease-out;
+  }
+
+  .page-transition-exit {
+    opacity: 1;
+  }
+
+  .page-transition-exit-active {
+    opacity: 0;
+    transition: opacity 400ms ease-in;
+  }
+
+  /* === MOBILE VIEWPORT OPTIMIZATION (100% ZOOM) === */
+  @media (max-width: 640px) {
+    /* Card spacing and sizing */
+    .neumorphic-card,
+    [class*="Card"]:not([class*="CardContent"]):not([class*="CardHeader"]):not([class*="CardTitle"]):not([class*="CardDescription"]) {
+      padding: 0.875rem;
+      margin-bottom: 0.75rem;
+    }
+    
+    /* Card content padding */
+    [class*="CardContent"] {
+      padding: 0.75rem !important;
+    }
+  
+    [class*="CardHeader"] {
+      padding: 0.75rem 0.75rem 0.5rem !important;
+    }
+    
+    /* Responsive typography */
+    h1 { font-size: clamp(1.5rem, 6vw, 2rem); }
+    h2 { font-size: clamp(1.25rem, 5vw, 1.75rem); }
+    h3 { font-size: clamp(1rem, 4vw, 1.25rem); }
+    
+    /* Stats text sizing */
+    .text-2xl { font-size: clamp(1.125rem, 5vw, 1.5rem); }
+    .text-3xl { font-size: clamp(1.25rem, 5vw, 1.875rem); }
+    
+    /* Badge sizing for mobile readability */
+    [class*="Badge"] {
+      font-size: 0.65rem;
+      padding: 0.125rem 0.375rem;
+    }
+    
+    /* Responsive button layouts */
+    .flex.justify-end.gap-2,
+    .flex.justify-end.gap-3 {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .flex.justify-end.gap-2 button,
+    .flex.justify-end.gap-3 button {
+      width: 100%;
+    }
+    
+    /* Stats grid - 2 columns on mobile */
+    .grid.grid-cols-1.md\\:grid-cols-2.lg\\:grid-cols-4,
+    .grid.grid-cols-1.md\\:grid-cols-4 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.5rem;
+    }
+    
+    /* Form inputs full width */
+    input, select, textarea {
+      width: 100%;
+      min-height: 44px;
+    }
+    
+    /* Table responsive */
+    table {
+      display: block;
+      overflow-x: auto;
+    }
+  }
+
+  /* Tablet optimization */
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .neumorphic-card {
+      padding: 1.25rem;
+    }
+    
+    .grid.grid-cols-1.md\\:grid-cols-2.lg\\:grid-cols-4 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* Badge visibility enhancement for light mode */
+  .bg-warning\/10 { background-color: hsl(var(--warning) / 0.15) !important; }
+  .bg-success\/10 { background-color: hsl(var(--success) / 0.15) !important; }
+  .bg-info\/10 { background-color: hsl(var(--info) / 0.15) !important; }
+  .bg-destructive\/10 { background-color: hsl(var(--destructive) / 0.15) !important; }
+
+  /* Ensure badge text is dark enough in light mode */
+  .text-warning { color: hsl(38 92% 38%) !important; }
+  .text-success { color: hsl(155 60% 28%) !important; }
+  .text-info { color: hsl(200 70% 38%) !important; }
+
+  /* Dark mode restore original badge colors */
+  .dark .text-warning { color: hsl(38 92% 50%) !important; }
+  .dark .text-success { color: hsl(155 60% 50%) !important; }
+  .dark .text-info { color: hsl(200 70% 60%) !important; }
+
+  /* === LIGHT MODE CARD & TAB VISIBILITY FIXES === */
+  /* Ensure all cards have readable text in light mode */
+  :root:not(.dark) [class*="from-primary"][class*="Card"] h1,
+  :root:not(.dark) [class*="from-primary"][class*="Card"] h2,
+  :root:not(.dark) [class*="from-primary"][class*="Card"] h3,
+  :root:not(.dark) [class*="from-primary"][class*="Card"] h4,
+  :root:not(.dark) [class*="from-success"][class*="Card"] h1,
+  :root:not(.dark) [class*="from-success"][class*="Card"] h2,
+  :root:not(.dark) [class*="from-warning"][class*="Card"] h1,
+  :root:not(.dark) [class*="from-warning"][class*="Card"] h2,
+  :root:not(.dark) [class*="from-info"][class*="Card"] h1,
+  :root:not(.dark) [class*="from-info"][class*="Card"] h2 {
+    color: hsl(0 0% 10%) !important;
+  }
+
+  :root:not(.dark) [class*="from-primary"][class*="Card"] .text-muted-foreground,
+  :root:not(.dark) [class*="from-success"][class*="Card"] .text-muted-foreground,
+  :root:not(.dark) [class*="from-warning"][class*="Card"] .text-muted-foreground,
+  :root:not(.dark) [class*="from-info"][class*="Card"] .text-muted-foreground,
+  :root:not(.dark) [class*="from-primary"][class*="Card"] [class*="CardDescription"],
+  :root:not(.dark) [class*="from-success"][class*="Card"] [class*="CardDescription"],
+  :root:not(.dark) [class*="from-warning"][class*="Card"] [class*="CardDescription"],
+  :root:not(.dark) [class*="from-info"][class*="Card"] [class*="CardDescription"] {
+    color: hsl(0 0% 25%) !important;
+  }
+
+  /* Tabs colorful variant - ensure visible in light mode */
+  :root:not(.dark) [data-state="inactive"][class*="TabsTrigger"] {
+    color: hsl(0 0% 30%);
+  }
+  
+  :root:not(.dark) [class*="TabsList"][class~="bg-primary"] [data-state="inactive"] {
+    color: hsl(0 0% 25%);
+  }
+
+  /* General card text visibility in light mode */
+  :root:not(.dark) [class*="Card"] [class*="CardTitle"] {
+    color: hsl(0 0% 12%);
+  }
+
+  :root:not(.dark) [class*="Card"] [class*="CardDescription"] {
+    color: hsl(0 0% 28%);
+  }
+
+  /* === BRAND COLOR UTILITY CLASSES === */
+  .brand-gold-accent {
+    border-left: 4px solid hsl(var(--primary));
+  }
+
+  .brand-teal-accent {
+    border-left: 4px solid hsl(var(--secondary));
+  }
+
+  .brand-gold-border {
+    border-color: hsl(var(--primary) / 0.3);
+  }
+
+  .brand-gold-text {
+    color: hsl(var(--primary));
+  }
+
+  .brand-gold-bg {
+    background-color: hsl(var(--primary) / 0.1);
+  }
+
+  .brand-teal-text {
+    color: hsl(var(--secondary));
+  }
+
+  .brand-teal-bg {
+    background-color: hsl(var(--secondary) / 0.1);
+  }
+
+  /* === OVERLAY TEXT UTILITY CLASSES === */
+  /* For text on dark image overlays - always renders white regardless of theme */
+  .text-overlay-foreground {
+    color: hsl(0 0% 100%) !important;
+  }
+  
+  .text-overlay-foreground\/85 {
+    color: hsl(0 0% 100% / 0.85) !important;
+  }
+  
+  .text-overlay-foreground\/90 {
+    color: hsl(0 0% 100% / 0.9) !important;
+  }
+  
+  .text-overlay-foreground\/80 {
+    color: hsl(0 0% 100% / 0.8) !important;
+  }
+
+  /* Muted overlay text - visible on dark backgrounds/overlays */
+  .text-overlay-muted {
+    color: hsl(0 0% 100% / 0.85) !important;
+  }
+
+  /* Bright overlay text - maximum visibility on dark backgrounds */
+  .text-overlay-bright {
+    color: hsl(0 0% 100%) !important;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  }
+
+  /* === SIDEBAR SCROLLBAR VISIBILITY - HIGH CONTRAST === */
+  [data-sidebar] ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  [data-sidebar] ::-webkit-scrollbar-track {
+    background: hsl(var(--sidebar) / 0.3);
+    border-radius: 4px;
+  }
+  
+  [data-sidebar] ::-webkit-scrollbar-thumb {
+    background: hsl(var(--sidebar-primary) / 0.7);
+    border-radius: 4px;
+    border: 1px solid hsl(var(--sidebar-primary) / 0.3);
+  }
+  
+  [data-sidebar] ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--sidebar-primary) / 0.9);
+  }
+  
+  .dark [data-sidebar] ::-webkit-scrollbar-track {
+    background: hsl(var(--sidebar) / 0.2);
+  }
+  
+  .dark [data-sidebar] ::-webkit-scrollbar-thumb {
+    background: hsl(var(--sidebar-primary) / 0.8);
+    border: 1px solid hsl(var(--sidebar-primary) / 0.4);
+  }
+  
+  .dark [data-sidebar] ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--sidebar-primary));
+  }
+
+  /* === GLOBAL SCROLL AREA VISIBILITY === */
+  .scroll-area-visible ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .scroll-area-visible ::-webkit-scrollbar-track {
+    background: hsl(var(--muted) / 0.5);
+    border-radius: 4px;
+  }
+  
+  .scroll-area-visible ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.6);
+    border-radius: 4px;
+  }
+  
+  .scroll-area-visible ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.8);
+  }
+  
+  .dark .scroll-area-visible ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.7);
+  }
+
+  /* === DARK MODE BUTTON TEXT VISIBILITY ENHANCEMENTS === */
+  .dark .btn-visible-text {
+    color: hsl(var(--foreground)) !important;
+  }
+
+  /* Ensure outline buttons have visible text in dark mode */
+  .dark button[class*="border"][class*="bg-background"],
+  .dark [role="button"][class*="border"][class*="bg-background"] {
+    color: hsl(var(--foreground));
+  }
+
+  /* Navigation link visibility in dark mode */
+  .dark .nav-link-visible,
+  .dark a.nav-link-visible {
+    color: hsl(var(--foreground)) !important;
+  }
+  
+  .dark .nav-link-visible:hover {
+    color: hsl(var(--primary)) !important;
+  }
+  
+  /* Hero text on dark backgrounds */
+  .hero-text-visible {
+    color: hsl(0 0% 100%);
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8), 0 4px 20px rgba(0, 0, 0, 0.6);
+  }
+  
+  .hero-text-visible-muted {
+    color: hsl(0 0% 95%);
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.7);
+  }
+
+  /* === TEXT CLAMP UTILITIES === */
+  .text-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .text-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .text-clamp-4 {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Enhanced card with brand colors */
+  .card-brand {
+    border: 1px solid hsl(var(--primary) / 0.2);
+    background: linear-gradient(
+      135deg,
+      hsl(var(--card)) 0%,
+      hsl(var(--primary) / 0.02) 100%
+    );
+  }
+
+  .card-brand:hover {
+    border-color: hsl(var(--primary) / 0.4);
+    box-shadow: 0 8px 30px hsl(var(--primary) / 0.15);
+  }
+
+  .glass-card {
+    background: hsl(var(--background) / 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid hsl(var(--border) / 0.5);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .glass-card:hover {
+    border-color: hsl(var(--primary) / 0.3);
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.15);
+  }
+  
+  .dark .glass-card {
+    background: hsl(var(--background) / 0.8);
+    border: 1px solid hsl(var(--border) / 0.3);
+  }
+  
+  .dark .glass-card:hover {
+    border-color: hsl(var(--primary) / 0.4);
+    box-shadow: 0 0 30px hsl(var(--primary) / 0.2);
+  }
+  
+  /* Interactive card with border glow */
+  .card-interactive {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: 0.75rem;
+    transition: all 0.3s ease;
+  }
+  
+  .card-interactive:hover {
+    border-color: hsl(var(--primary) / 0.5);
+    box-shadow: 0 0 0 1px hsl(var(--primary) / 0.3), var(--shadow-md);
+    transform: translateY(-2px);
+  }
+  
+  .dark .card-interactive:hover {
+    border-color: hsl(var(--primary) / 0.6);
+    box-shadow: 0 0 0 1px hsl(var(--primary) / 0.4), 0 8px 24px hsl(0 0% 0% / 0.4);
+  }
+  
+  /* Dark mode gradient overlays */
+  .dark-gradient-overlay {
+    position: relative;
+  }
+  
+  .dark .dark-gradient-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, hsl(var(--primary) / 0.03), transparent);
+    pointer-events: none;
+    border-radius: inherit;
+  }
+
+  /* Mobile optimizations - Enhanced */
+  @media (max-width: 640px) {
+    .container {
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+    }
+
+    .section {
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+    }
+
+    .card {
+      border-radius: 0.5rem;
+      padding: 0.75rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-primary {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      border-radius: 0.375rem;
+      min-height: 44px; /* Touch target optimization */
+    }
+
+    /* Mobile text scaling with better readability */
+    h1 { font-size: 1.5rem; }
+    h2 { font-size: 1.25rem; }
+    h3 { font-size: 1.125rem; }
+    
+    @media (min-width: 768px) {
+      h1 { font-size: 1.875rem; }
+      h2 { font-size: 1.5rem; }
+      h3 { font-size: 1.25rem; }
+    }
+
+    /* Mobile grid optimizations */
+    .grid-responsive {
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    /* Touch target improvements - WCAG 2.1 Level AAA (44x44px minimum) */
+    button, .btn-primary, .btn-secondary, a[role="button"], [role="button"] {
+      min-height: 44px;
+      min-width: 44px;
+    }
+
+    /* Ensure interactive elements have sufficient spacing */
+    button:not(:last-child), a:not(:last-child) {
+      margin-right: 8px;
+    }
+
+    /* Mobile font size adjustments */
+    .text-xs { font-size: 0.75rem; }
+    .text-sm { font-size: 0.875rem; }
+    .text-base { font-size: 1rem; }
+
+    /* Enhanced mobile touch targets - WCAG 2.1 AAA (44x44px minimum) */
+    button, 
+    a, 
+    [role="button"], 
+    input[type="checkbox"],
+    input[type="radio"],
+    .btn-primary, 
+    .btn-secondary {
+      min-height: 44px;
+      min-width: 44px;
+      padding: 12px 16px;
+    }
+
+    /* Adequate spacing between interactive elements */
+    nav a:not(:last-child),
+    nav button:not(:last-child) {
+      margin-right: 12px;
+    }
+  }
+
+  @media (min-width: 641px) and (max-width: 768px) {
+    .container {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    .grid-responsive {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+  }
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .grid-responsive {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+    
+    @media (min-width: 1024px) {
+      .grid-responsive {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+  }
+
+  @media (min-width: 1025px) {
+    .grid-responsive {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+    
+    @media (min-width: 1280px) {
+      .grid-responsive {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+  }
+
+  /* Lightweight animations */
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.6s ease-out;
+  }
+
+  /* === ENHANCED THEME TRANSITION === */
+  * {
+    transition-property: background-color, border-color, color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+
+  /* Exclude elements that need instant response */
+  button, a, input, select, textarea {
+    transition-property: background-color, border-color, color, fill, stroke, transform, box-shadow, opacity;
+  }
+  
+  /* === NAVIGATION TEXT VISIBILITY SHADOWS === */
+  .text-shadow-nav {
+    text-shadow: 
+      0 1px 2px hsl(var(--background) / 0.8),
+      0 0 4px hsl(var(--background) / 0.4);
+  }
+  
+  .text-shadow-nav-light {
+    text-shadow: 
+      0 1px 2px hsl(0 0% 0% / 0.12),
+      0 0 6px hsl(var(--background) / 0.5);
+  }
+  
+  .dark .text-shadow-nav,
+  .text-shadow-nav-dark {
+    text-shadow: 
+      0 1px 3px hsl(0 0% 0% / 0.6),
+      0 0 8px hsl(var(--primary) / 0.2);
+  }
+
+  /* === PROFESSIONAL EFFECTS === */
+  .page-enter {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  .page-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 300ms ease-out, transform 300ms ease-out;
+  }
+
+  /* Enhanced card hover animations */
+  .card-hover-lift {
+    transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 300ms ease-out, border-color 300ms ease-out;
+  }
+  .card-hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .card-hover-glow {
+    transition: transform 300ms ease-out, box-shadow 300ms ease-out, border-color 300ms ease-out;
+  }
+  .card-hover-glow:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg), 0 0 20px hsl(var(--primary) / 0.15);
+    border-color: hsl(var(--primary) / 0.3);
+  }
+
+  .dark .card-hover-glow:hover {
+    box-shadow: var(--shadow-lg), 0 0 30px hsl(var(--primary) / 0.25);
+    border-color: hsl(var(--primary) / 0.4);
+  }
+
+  /* Micro-interactions */
+  .btn-press:active {
+    transform: scale(0.98);
+  }
+
+  .icon-hover {
+    transition: transform 200ms ease-out, color 200ms ease-out;
+  }
+  .icon-hover:hover {
+    transform: scale(1.1);
+    color: hsl(var(--primary));
+  }
+
+  .link-underline {
+    position: relative;
+  }
+  .link-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: hsl(var(--primary));
+    transition: width 300ms ease-out;
+  }
+  .link-underline:hover::after {
+    width: 100%;
+  }
+
+  /* Tab indicator animation */
+  .tab-indicator {
+    position: relative;
+  }
+  .tab-indicator::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 100%;
+    height: 2px;
+    background: hsl(var(--primary));
+    transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .tab-indicator[data-state="active"]::after,
+  .tab-indicator:hover::after {
+    transform: translateX(-50%) scaleX(1);
+  }
+
+  /* Golden shimmer and glow effects */
+  @keyframes golden-shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+  @keyframes glow-pulse {
+    0%, 100% { box-shadow: 0 0 20px hsl(var(--primary) / 0.3); }
+    50% { box-shadow: 0 0 40px hsl(var(--primary) / 0.5); }
+  }
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  @keyframes scale-in {
+    0% { opacity: 0; transform: scale(0.95); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  @keyframes slide-in-up {
+    0% { opacity: 0; transform: translateY(16px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slide-in-right {
+    0% { opacity: 0; transform: translateX(16px); }
+    100% { opacity: 1; transform: translateX(0); }
+  }
+  
+  /* Enhanced Button Ripple Effect */
+  @keyframes ripple {
+    0% { transform: scale(0); opacity: 0.5; }
+    100% { transform: scale(4); opacity: 0; }
+  }
+  
+  .btn-ripple {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .btn-ripple::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1) translate(-50%, -50%);
+    transform-origin: 50% 50%;
+  }
+  
+  .btn-ripple:focus:not(:active)::after {
+    animation: ripple 0.6s ease-out;
+  }
+
+  /* Enhanced Skeleton Shimmer */
+  .skeleton-shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--muted)) 25%,
+      hsl(var(--muted-foreground) / 0.1) 50%,
+      hsl(var(--muted)) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  .btn-golden-shimmer {
+    background: linear-gradient(90deg, hsl(32 80% 52%), hsl(38 85% 60%), hsl(32 80% 52%));
+    background-size: 200% 100%;
+  }
+  .btn-golden-shimmer:hover {
+    animation: golden-shimmer 1.5s ease-in-out infinite;
+  }
+  .animate-glow {
+    animation: glow-pulse 2s ease-in-out infinite;
+  }
+  .animate-shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+  .animate-shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-shimmer);
+    animation: shimmer 2s infinite;
+  }
+  .animate-scale-in {
+    animation: scale-in 300ms ease-out;
+  }
+  .animate-slide-in-up {
+    animation: slide-in-up 400ms ease-out;
+  }
+  .animate-slide-in-right {
+    animation: slide-in-right 400ms ease-out;
+  }
+
+  /* Staggered animation delays for lists */
+  .stagger-1 { animation-delay: 50ms; }
+  .stagger-2 { animation-delay: 100ms; }
+  .stagger-3 { animation-delay: 150ms; }
+  .stagger-4 { animation-delay: 200ms; }
+  .stagger-5 { animation-delay: 250ms; }
+  .stagger-6 { animation-delay: 300ms; }
+
+  /* AnimatedCounter animations */
+  @keyframes count-up {
+    from { 
+      opacity: 0; 
+      transform: translateY(10px); 
+    }
+    to { 
+      opacity: 1; 
+      transform: translateY(0); 
+    }
+  }
+
+  @keyframes count-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+  }
+
+  /* Star fill animation for reviews */
+  @keyframes star-fill {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+
+  /* Before/After slider glow */
+  @keyframes slider-glow {
+    0%, 100% { box-shadow: 0 0 10px hsl(var(--primary) / 0.3); }
+    50% { box-shadow: 0 0 20px hsl(var(--primary) / 0.5); }
+  }
+
+  .animate-count-up { animation: count-up 0.5s ease-out; }
+  .animate-count-pulse { animation: count-pulse 2s ease-in-out infinite; }
+  .animate-star-fill { animation: star-fill 0.3s ease-out; }
+  .animate-slider-glow { animation: slider-glow 2s ease-in-out infinite; }
+
+  /* Accessibility Enhancements */
+
+  /* Ensure dropdowns have proper background and z-index */
+  [role="menu"],
+  [role="listbox"],
+  [data-radix-popper-content-wrapper],
+  .dropdown-content {
+    background: hsl(var(--popover)) !important;
+    z-index: 100 !important;
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* Dark mode dropdown backgrounds */
+  .dark [role="menu"],
+  .dark [role="listbox"],
+  .dark [data-radix-popper-content-wrapper],
+  .dark .dropdown-content {
+    background: hsl(var(--popover)) !important;
+    border: 1px solid hsl(var(--border));
+  }
+
+  /* Enhanced focus visible styles for keyboard navigation - WCAG AA compliant */
+  *:focus-visible {
+    outline: 3px solid hsl(var(--ring));
+    outline-offset: 3px;
+    transition: outline-offset 0.15s ease;
+  }
+
+  /* High contrast focus for interactive elements */
+  button:focus-visible,
+  a:focus-visible,
+  [role="button"]:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: 3px solid hsl(var(--ring));
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px hsla(var(--ring) / 0.15);
+  }
+
+  /* Keyboard navigation indicator for body */
+  body.keyboard-navigation *:focus {
+    outline: 3px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+
+  /* Skip to main content link for screen readers */
+  .skip-to-content {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    padding: 8px 16px;
+    text-decoration: none;
+    z-index: 100;
+  }
+
+  .skip-to-content:focus {
+    top: 0;
+  }
+
+  /* Ensure sufficient contrast for links */
+  a:not(.btn-primary):not(.btn-secondary) {
+    color: hsl(var(--primary));
+    text-decoration-color: hsl(var(--primary) / 0.3);
+  }
+
+  a:not(.btn-primary):not(.btn-secondary):hover {
+    text-decoration-color: hsl(var(--primary));
+  }
+
+  /* Lovable badge close button - meet WCAG touch target size requirements */
+  #lovable-badge-close {
+    min-width: 24px !important;
+    min-height: 24px !important;
+    padding: 4px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    background: transparent !important;
+    border: none !important;
+    cursor: pointer !important;
+    transition: opacity 0.2s !important;
+  }
+
+  #lovable-badge-close:hover {
+    opacity: 0.7 !important;
+  }
+
+  /* Ensure adequate spacing around touch targets */
+  #lovable-badge {
+    position: relative !important;
+    padding: 4px 30px 4px 10px !important;
+  }
+
+  /* === ENHANCED TABLE ROW STYLES === */
+  .table-row-glow {
+    transition: all 0.25s ease-out;
+    position: relative;
+  }
+  
+  .table-row-glow:hover {
+    background: linear-gradient(90deg, hsl(var(--primary) / 0.08), hsl(var(--primary) / 0.02), transparent);
+    box-shadow: 
+      inset 4px 0 0 hsl(var(--primary)),
+      0 2px 8px hsl(var(--primary) / 0.1);
+  }
+  
+  .dark .table-row-glow:hover {
+    background: linear-gradient(90deg, hsl(var(--primary) / 0.15), hsl(var(--primary) / 0.05), transparent);
+    box-shadow: 
+      inset 4px 0 0 hsl(var(--primary)),
+      0 4px 12px hsl(var(--primary) / 0.2);
+  }
+
+  /* Colorful table row variants with border accent */
+  .table-row-colorful {
+    transition: all 0.25s ease-out;
+    position: relative;
+  }
+  
+  .table-row-colorful:hover {
+    background: linear-gradient(90deg, hsl(var(--primary) / 0.06), transparent);
+    box-shadow: 0 2px 8px hsl(var(--primary) / 0.08);
+  }
+  
+  /* Status-specific border colors (for use with border-l-4) */
+  .border-l-info { border-left-color: hsl(var(--info)); }
+  .border-l-success { border-left-color: hsl(var(--success)); }
+  .border-l-warning { border-left-color: hsl(var(--warning)); }
+  .border-l-destructive { border-left-color: hsl(var(--destructive)); }
+  .border-l-primary { border-left-color: hsl(var(--primary)); }
+  .border-l-secondary { border-left-color: hsl(var(--secondary)); }
+  .border-l-muted { border-left-color: hsl(var(--muted-foreground) / 0.5); }
+
+  .table-row-error {
+    background: linear-gradient(90deg, hsl(var(--destructive) / 0.08), hsl(var(--destructive) / 0.02), transparent);
+    border-left: 4px solid hsl(var(--destructive));
+    box-shadow: inset 0 0 0 1px hsl(var(--destructive) / 0.1);
+  }
+
+  .table-row-error:hover {
+    background: linear-gradient(90deg, hsl(var(--destructive) / 0.12), hsl(var(--destructive) / 0.04), transparent);
+    box-shadow: 0 2px 8px hsl(var(--destructive) / 0.15);
+  }
+
+  .table-row-success {
+    background: linear-gradient(90deg, hsl(var(--success) / 0.08), hsl(var(--success) / 0.02), transparent);
+    border-left: 4px solid hsl(var(--success));
+    box-shadow: inset 0 0 0 1px hsl(var(--success) / 0.1);
+  }
+
+  .table-row-success:hover {
+    background: linear-gradient(90deg, hsl(var(--success) / 0.12), hsl(var(--success) / 0.04), transparent);
+    box-shadow: 0 2px 8px hsl(var(--success) / 0.15);
+  }
+
+  .table-row-warning {
+    background: linear-gradient(90deg, hsl(var(--warning) / 0.08), hsl(var(--warning) / 0.02), transparent);
+    border-left: 4px solid hsl(var(--warning));
+    box-shadow: inset 0 0 0 1px hsl(var(--warning) / 0.1);
+  }
+
+  .table-row-warning:hover {
+    background: linear-gradient(90deg, hsl(var(--warning) / 0.12), hsl(var(--warning) / 0.04), transparent);
+    box-shadow: 0 2px 8px hsl(var(--warning) / 0.15);
+  }
+
+  .table-row-info {
+    background: linear-gradient(90deg, hsl(var(--info) / 0.08), hsl(var(--info) / 0.02), transparent);
+    border-left: 4px solid hsl(var(--info));
+    box-shadow: inset 0 0 0 1px hsl(var(--info) / 0.1);
+  }
+
+  .table-row-info:hover {
+    background: linear-gradient(90deg, hsl(var(--info) / 0.12), hsl(var(--info) / 0.04), transparent);
+    box-shadow: 0 2px 8px hsl(var(--info) / 0.15);
+  }
+
+  /* === ENHANCED EMPTY STATE STYLES === */
+  .empty-state-icon {
+    background: linear-gradient(135deg, hsl(var(--primary) / 0.1), hsl(var(--secondary) / 0.1));
+    border: 2px dashed hsl(var(--primary) / 0.3);
+  }
+  
+  .empty-state-colorful {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--primary) / 0.03) 0%,
+      hsl(var(--background)) 50%,
+      hsl(var(--secondary) / 0.03) 100%
+    );
+  }
+
+  /* === ENHANCED FORM FOCUS STATES === */
+  .input-enhanced {
+    transition: all 0.2s ease-out;
+  }
+  
+  .input-enhanced:focus {
+    border-color: hsl(var(--primary));
+    box-shadow: 0 0 0 3px hsl(var(--primary) / 0.15), 
+                0 0 15px hsl(var(--primary) / 0.1);
+  }
+  
+  .input-enhanced:focus-within {
+    border-color: hsl(var(--primary));
+  }
+
+  /* Form input glow variants */
+  .input-glow-success:focus {
+    border-color: hsl(var(--success));
+    box-shadow: 0 0 0 3px hsl(var(--success) / 0.15);
+  }
+  
+  .input-glow-warning:focus {
+    border-color: hsl(var(--warning));
+    box-shadow: 0 0 0 3px hsl(var(--warning) / 0.15);
+  }
+  
+  .input-glow-error:focus {
+    border-color: hsl(var(--destructive));
+    box-shadow: 0 0 0 3px hsl(var(--destructive) / 0.15);
+  }
+
+  /* === ENHANCED TAB INDICATOR === */
+  .tab-colorful[data-state="active"] {
+    background: linear-gradient(135deg, hsl(var(--primary) / 0.15), transparent);
+    border-bottom: 2px solid hsl(var(--primary));
+    color: hsl(var(--primary));
+  }
+  
+  .tab-underline {
+    position: relative;
+  }
+  
+  .tab-underline::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--secondary)));
+    transform: scaleX(0);
+    transition: transform 0.3s ease-out;
+  }
+  
+  .tab-underline[data-state="active"]::after,
+  .tab-underline:hover::after {
+    transform: scaleX(1);
+  }
+
+  /* === COLORFUL STAT CARDS === */
+  .stat-card-primary {
+    background: linear-gradient(135deg, hsl(var(--primary) / 0.1), hsl(var(--primary) / 0.02));
+    border: 1px solid hsl(var(--primary) / 0.2);
+  }
+  
+  .stat-card-success {
+    background: linear-gradient(135deg, hsl(var(--success) / 0.1), hsl(var(--success) / 0.02));
+    border: 1px solid hsl(var(--success) / 0.2);
+  }
+  
+  .stat-card-warning {
+    background: linear-gradient(135deg, hsl(var(--warning) / 0.1), hsl(var(--warning) / 0.02));
+    border: 1px solid hsl(var(--warning) / 0.2);
+  }
+  
+  .stat-card-info {
+    background: linear-gradient(135deg, hsl(var(--info) / 0.1), hsl(var(--info) / 0.02));
+    border: 1px solid hsl(var(--info) / 0.2);
+  }
+  
+  .stat-card-error {
+    background: linear-gradient(135deg, hsl(var(--destructive) / 0.1), hsl(var(--destructive) / 0.02));
+    border: 1px solid hsl(var(--destructive) / 0.2);
+  }
+
+  /* === BADGE GLOW EFFECTS === */
+  .badge-glow-success {
+    box-shadow: 0 0 8px hsl(var(--success) / 0.4);
+  }
+  
+  .badge-glow-warning {
+    box-shadow: 0 0 8px hsl(var(--warning) / 0.4);
+  }
+  
+  .badge-glow-error {
+    box-shadow: 0 0 8px hsl(var(--destructive) / 0.4);
+  }
+  
+  .badge-glow-info {
+    box-shadow: 0 0 8px hsl(var(--info) / 0.4);
+  }
+
+  /* === DATA DISPLAY STYLES === */
+  .data-value-positive {
+    color: hsl(var(--success));
+  }
+  
+  .data-value-negative {
+    color: hsl(var(--destructive));
+  }
+  
+  .data-value-neutral {
+    color: hsl(var(--muted-foreground));
+  }
+  
+  .data-highlight {
+    background: linear-gradient(90deg, hsl(var(--primary) / 0.1), transparent);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-weight: 600;
+  }
+
+  /* === LOADING STATE STYLES === */
+  .loading-shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--muted)) 0%,
+      hsl(var(--primary) / 0.1) 50%,
+      hsl(var(--muted)) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+  }
+  
+  .loading-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  /* === FEEDBACK COMPONENT STYLES === */
+  .feedback-success {
+    background: linear-gradient(135deg, hsl(var(--success) / 0.1), hsl(var(--success) / 0.05));
+    border: 1px solid hsl(var(--success) / 0.3);
+    color: hsl(var(--success));
+  }
+  
+  .feedback-warning {
+    background: linear-gradient(135deg, hsl(var(--warning) / 0.1), hsl(var(--warning) / 0.05));
+    border: 1px solid hsl(var(--warning) / 0.3);
+    color: hsl(var(--warning));
+  }
+  
+  .feedback-error {
+    background: linear-gradient(135deg, hsl(var(--destructive) / 0.1), hsl(var(--destructive) / 0.05));
+    border: 1px solid hsl(var(--destructive) / 0.3);
+    color: hsl(var(--destructive));
+  }
+  
+  .feedback-info {
+    background: linear-gradient(135deg, hsl(var(--info) / 0.1), hsl(var(--info) / 0.05));
+    border: 1px solid hsl(var(--info) / 0.3);
+    color: hsl(var(--info));
+  }
+
+  /* === ENHANCED DESIGN SYSTEM UTILITIES === */
+  
+  /* Shimmer animation for decorative elements */
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  .animate-shimmer {
+    animation: shimmer 3s ease-in-out infinite;
+  }
+
+  /* Decorative background patterns */
+  .pattern-dots {
+    background-image: radial-gradient(circle at 1px 1px, hsl(var(--primary) / 0.15) 1px, transparent 0);
+    background-size: 24px 24px;
+  }
+
+  .pattern-grid {
+    background-image: 
+      linear-gradient(hsl(var(--primary) / 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--primary) / 0.08) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .pattern-mesh {
+    background-image:
+      radial-gradient(at 40% 20%, hsl(var(--primary) / 0.15) 0px, transparent 50%),
+      radial-gradient(at 80% 0%, hsl(var(--accent) / 0.1) 0px, transparent 50%),
+      radial-gradient(at 0% 50%, hsl(var(--primary) / 0.08) 0px, transparent 50%);
+  }
+
+  /* Enhanced card utilities */
+  .card-premium {
+    background: linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--primary) / 0.08) 100%);
+    border: 1px solid hsl(var(--primary) / 0.2);
+    box-shadow: 
+      0 4px 6px -1px hsl(var(--primary) / 0.1),
+      0 2px 4px -2px hsl(var(--primary) / 0.1),
+      inset 0 1px 0 hsl(0 0% 100% / 0.1);
+  }
+
+  .card-premium:hover {
+    border-color: hsl(var(--primary) / 0.4);
+    box-shadow: 
+      0 10px 15px -3px hsl(var(--primary) / 0.15),
+      0 4px 6px -4px hsl(var(--primary) / 0.1),
+      inset 0 1px 0 hsl(0 0% 100% / 0.15);
+  }
+
+  /* Glowing effects */
+  .glow-primary {
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
+  }
+
+  .glow-success {
+    box-shadow: 0 0 20px hsl(var(--success) / 0.3);
+  }
+
+  .glow-warning {
+    box-shadow: 0 0 20px hsl(var(--warning) / 0.3);
+  }
+
+  .glow-info {
+    box-shadow: 0 0 20px hsl(var(--info) / 0.3);
+  }
+
+  /* Icon containers with glow */
+  .icon-container-primary {
+    background: linear-gradient(135deg, hsl(var(--primary) / 0.25), hsl(var(--primary) / 0.15));
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 12px hsl(var(--primary) / 0.2);
+  }
+
+  .icon-container-success {
+    background: linear-gradient(135deg, hsl(var(--success) / 0.25), hsl(var(--success) / 0.15));
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 12px hsl(var(--success) / 0.2);
+  }
+
+  /* Table enhancements */
+  .table-row-enhanced {
+    transition: all 0.2s ease;
+  }
+
+  .table-row-enhanced:hover {
+    background: hsl(var(--primary) / 0.05);
+    box-shadow: inset 4px 0 0 hsl(var(--primary));
+  }
+
+  .table-header-gradient {
+    background: linear-gradient(90deg, hsl(var(--primary) / 0.1), transparent);
+  }
+
+  /* Animated gradient text */
+  .text-gradient-animated {
+    background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)), hsl(var(--primary)));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient-shift 3s ease infinite;
+  }
+
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% center; }
+    50% { background-position: 100% center; }
+  }
+
+  /* Rainbow border animation for premium elements */
+  .border-rainbow {
+    position: relative;
+  }
+
+  .border-rainbow::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    background: linear-gradient(90deg, 
+      hsl(var(--primary)), 
+      hsl(var(--success)), 
+      hsl(var(--info)), 
+      hsl(var(--warning)), 
+      hsl(var(--primary))
+    );
+    background-size: 200% auto;
+    animation: rainbow-shift 4s linear infinite;
+    z-index: -1;
+    opacity: 0.5;
+  }
+
+  @keyframes rainbow-shift {
+    0% { background-position: 0% center; }
+    100% { background-position: 200% center; }
+  }
+
+  /* Floating animation for decorative elements */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  /* Subtle background pulse */
+  @keyframes bg-pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0.8; }
+  }
+
+  .animate-bg-pulse {
+    animation: bg-pulse 4s ease-in-out infinite;
+  }
+
+  /* === PHASE 6: ANIMATION POLISH === */
+  
+  /* Smooth micro-interactions for interactive elements */
+  .micro-interaction {
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.2s ease-out,
+                border-color 0.2s ease-out;
+  }
+
+  .micro-interaction:hover {
+    transform: translateY(-2px);
+  }
+
+  .micro-interaction:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  /* Button press feedback */
+  .btn-press {
+    transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.15s ease-out;
+  }
+
+  .btn-press:active {
+    transform: scale(0.97);
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* Smooth scale on hover */
+  .scale-hover {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .scale-hover:hover {
+    transform: scale(1.02);
+  }
+
+  /* Card lift animation */
+  .card-lift {
+    transition: transform 0.3s ease-out,
+                box-shadow 0.3s ease-out;
+  }
+
+  .card-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* Stagger animation utilities */
+  .stagger-1 { animation-delay: 0.1s; }
+  .stagger-2 { animation-delay: 0.2s; }
+  .stagger-3 { animation-delay: 0.3s; }
+  .stagger-4 { animation-delay: 0.4s; }
+  .stagger-5 { animation-delay: 0.5s; }
+
+  /* Skeleton loading animation */
+  @keyframes skeleton-shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--muted)) 25%,
+      hsl(var(--muted-foreground) / 0.1) 50%,
+      hsl(var(--muted)) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.5s ease-in-out infinite;
+  }
+
+  /* Icon rotate on hover */
+  .icon-rotate {
+    transition: transform 0.3s ease-out;
+  }
+
+  .group:hover .icon-rotate {
+    transform: rotate(15deg);
+  }
+
+  /* Subtle bounce effect */
+  @keyframes subtle-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+
+  .subtle-bounce {
+    animation: subtle-bounce 2s ease-in-out infinite;
+  }
+
+  /* Expand on focus for inputs */
+  .input-expand {
+    transition: box-shadow 0.2s ease-out,
+                border-color 0.2s ease-out,
+                transform 0.2s ease-out;
+  }
+
+  .input-expand:focus {
+    transform: scale(1.01);
+    box-shadow: 0 0 0 3px hsl(var(--primary) / 0.2);
+  }
+
+  /* Ripple effect base */
+  .ripple-container {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ripple-container::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, hsl(var(--primary-foreground) / 0.3) 0%, transparent 60%);
+    transform: scale(0);
+    opacity: 0;
+    transition: transform 0.4s ease-out, opacity 0.4s ease-out;
+  }
+
+  .ripple-container:active::after {
+    transform: scale(2);
+    opacity: 1;
+    transition: transform 0s, opacity 0s;
+  }
+
+  /* === PHASE 7: TYPOGRAPHY & SPACING CONSISTENCY === */
+  
+  /* Consistent text size scale */
+  .text-display-xl {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+
+  .text-display-lg {
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+
+  .text-display-md {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+
+  .text-body-lg {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    font-family: 'Inter', -apple-system, sans-serif;
+  }
+
+  .text-body-md {
+    font-size: 1rem;
+    line-height: 1.6;
+    font-family: 'Inter', -apple-system, sans-serif;
+  }
+
+  .text-body-sm {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    font-family: 'Inter', -apple-system, sans-serif;
+  }
+
+  .text-label {
+    font-size: 0.75rem;
+    line-height: 1.4;
+    letter-spacing: 0.025em;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-family: 'Inter', -apple-system, sans-serif;
+  }
+
+  /* Consistent spacing scale utilities */
+  .section-spacing {
+    padding-top: clamp(3rem, 8vw, 6rem);
+    padding-bottom: clamp(3rem, 8vw, 6rem);
+  }
+
+  .section-spacing-sm {
+    padding-top: clamp(2rem, 5vw, 4rem);
+    padding-bottom: clamp(2rem, 5vw, 4rem);
+  }
+
+  .section-spacing-lg {
+    padding-top: clamp(4rem, 10vw, 8rem);
+    padding-bottom: clamp(4rem, 10vw, 8rem);
+  }
+
+  /* Content width constraints */
+  .content-narrow {
+    max-width: 42rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .content-medium {
+    max-width: 56rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .content-wide {
+    max-width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Consistent gap utilities */
+  .stack-xs { gap: 0.5rem; }
+  .stack-sm { gap: 0.75rem; }
+  .stack-md { gap: 1rem; }
+  .stack-lg { gap: 1.5rem; }
+  .stack-xl { gap: 2rem; }
+  .stack-2xl { gap: 3rem; }
+
+  /* Prose styles for long-form content */
+  .prose-monarch {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: hsl(var(--foreground));
+  }
+
+  .prose-monarch h1,
+  .prose-monarch h2,
+  .prose-monarch h3,
+  .prose-monarch h4 {
+    font-family: 'Playfair Display', Georgia, serif;
+    color: hsl(var(--foreground));
+    margin-top: 2em;
+    margin-bottom: 0.75em;
+  }
+
+  .prose-monarch h1 { font-size: 2.25rem; }
+  .prose-monarch h2 { font-size: 1.75rem; }
+  .prose-monarch h3 { font-size: 1.375rem; }
+  .prose-monarch h4 { font-size: 1.125rem; }
+
+  .prose-monarch p {
+    margin-bottom: 1.5em;
+  }
+
+  .prose-monarch a {
+    color: hsl(var(--primary));
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .prose-monarch a:hover {
+    color: hsl(var(--primary-light));
+  }
+
+  .prose-monarch ul,
+  .prose-monarch ol {
+    margin-bottom: 1.5em;
+    padding-left: 1.5em;
+  }
+
+  .prose-monarch li {
+    margin-bottom: 0.5em;
+  }
+
+  .prose-monarch blockquote {
+    border-left: 4px solid hsl(var(--primary));
+    padding-left: 1.5rem;
+    margin: 1.5em 0;
+    color: hsl(var(--muted-foreground));
+    font-style: italic;
+  }
+
+  /* Balanced text utility */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  /* Truncation utilities */
+  .line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Responsive typography utilities */
+  @media (max-width: 640px) {
+    .text-display-xl { letter-spacing: -0.01em; }
+    .text-display-lg { letter-spacing: -0.01em; }
+    .prose-monarch { font-size: 0.9375rem; }
+  }
+
+  /* Focus visible styling for keyboard navigation */
+  .focus-ring {
+    outline: none;
+  }
+
+  .focus-ring:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+    border-radius: 0.25rem;
+  }
+
+  /* Print-friendly styles */
+  @media print {
+    .no-print { display: none !important; }
+    
+    .prose-monarch {
+      font-size: 12pt;
+      line-height: 1.5;
+    }
+  }
+
+  /* === PHASE 8: ACCESSIBILITY ENHANCEMENTS === */
+  
+  /* Skip to main content link */
+  .skip-link {
+    position: absolute;
+    top: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.75rem 1.5rem;
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    font-weight: 600;
+    border-radius: 0.5rem;
+    z-index: 9999;
+    transition: top 0.3s ease;
+  }
+
+  .skip-link:focus {
+    top: 1rem;
+  }
+
+  /* Enhanced focus indicators for all interactive elements */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  [role="button"]:focus-visible,
+  [role="link"]:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+    border-radius: 0.25rem;
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    :root {
+      --border: 0 0% 30%;
+      --muted-foreground: 0 0% 25%;
+    }
+
+    .dark {
+      --border: 0 0% 70%;
+      --muted-foreground: 0 0% 80%;
+    }
+
+    button, a, input, select, textarea {
+      border-width: 2px;
+    }
+  }
+
+  /* Screen reader only utility */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .sr-only-focusable:focus,
+  .sr-only-focusable:active {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+
+  /* Visible focus for keyboard users only */
+  .focus-visible-only:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  /* Improved form field accessibility */
+  label {
+    cursor: pointer;
+  }
+
+  input:disabled,
+  select:disabled,
+  textarea:disabled,
+  button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  /* Error state accessibility */
+  .field-error {
+    border-color: hsl(var(--destructive)) !important;
+    box-shadow: 0 0 0 2px hsl(var(--destructive) / 0.2);
+  }
+
+  .error-message {
+    color: hsl(var(--destructive));
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+
+  /* Live region for dynamic content announcements */
+  .live-region {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  /* === PHASE 9: PERFORMANCE OPTIMIZATIONS === */
+  
+  /* GPU acceleration for smooth animations */
+  .gpu-accelerated {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+
+  /* Content visibility for offscreen content */
+  .content-visibility-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px;
+  }
+
+  /* Lazy loading fade-in effect */
+  .lazy-fade {
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+  }
+
+  .lazy-fade.loaded {
+    opacity: 1;
+  }
+
+  /* Optimized image containers */
+  .img-container {
+    position: relative;
+    overflow: hidden;
+    background: hsl(var(--muted));
+  }
+
+  .img-container img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .img-container:hover img {
+    transform: scale(1.02);
+  }
+
+  /* Prevent layout shifts */
+  .aspect-video { aspect-ratio: 16 / 9; }
+  .aspect-square { aspect-ratio: 1 / 1; }
+  .aspect-portrait { aspect-ratio: 3 / 4; }
+  .aspect-wide { aspect-ratio: 21 / 9; }
+
+  /* Smooth scrolling with respect to user preferences */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  /* Optimize paint for large lists */
+  .virtualized-list {
+    contain: layout style paint;
+  }
+
+  .virtualized-item {
+    contain: layout style;
+  }
+
+  /* === PHASE 10: FINAL POLISH & QA === */
+  
+  /* Consistent border radius scale */
+  .rounded-card { border-radius: 0.75rem; }
+  .rounded-button { border-radius: 0.5rem; }
+  .rounded-input { border-radius: 0.375rem; }
+  .rounded-badge { border-radius: 9999px; }
+
+  /* Consistent shadow scale with brand colors */
+  .shadow-brand-sm {
+    box-shadow: 0 2px 8px hsl(var(--primary) / 0.1);
+  }
+
+  .shadow-brand-md {
+    box-shadow: 0 4px 16px hsl(var(--primary) / 0.15);
+  }
+
+  .shadow-brand-lg {
+    box-shadow: 0 8px 32px hsl(var(--primary) / 0.2);
+  }
+
+  /* Consistent transition presets */
+  .transition-fast { transition-duration: 150ms; }
+  .transition-normal { transition-duration: 300ms; }
+  .transition-slow { transition-duration: 500ms; }
+
+  .transition-colors-only {
+    transition-property: color, background-color, border-color;
+    transition-timing-function: ease-out;
+    transition-duration: 200ms;
+  }
+
+  .transition-transform-only {
+    transition-property: transform;
+    transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition-duration: 200ms;
+  }
+
+  /* Hover state consistency */
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .hover-glow:hover {
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.25);
+  }
+
+  .hover-border:hover {
+    border-color: hsl(var(--primary) / 0.5);
+  }
+
+  /* Selection styling - Phase 3 Enhanced */
+  ::selection {
+    background: hsl(var(--primary) / 0.25);
+    color: hsl(var(--foreground));
+  }
+  
+  .dark ::selection {
+    background: hsl(var(--primary) / 0.35);
+    color: hsl(var(--foreground));
+  }
+
+  /* Scrollbar styling for webkit browsers - Phase 3 Enhanced */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--muted) / 0.5);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.4);
+    border-radius: 4px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.55);
+  }
+
+  .dark ::-webkit-scrollbar-track {
+    background: hsl(var(--muted) / 0.3);
+  }
+
+  .dark ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.5);
+  }
+  
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.65);
+  }
+
+  /* Loading states */
+  .loading-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: hsl(var(--background) / 0.8);
+    backdrop-filter: blur(4px);
+    z-index: 10;
+  }
+
+  /* Empty state styling */
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    text-align: center;
+    color: hsl(var(--muted-foreground));
+  }
+
+  .empty-state svg {
+    width: 4rem;
+    height: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+
+  /* Success/error feedback states */
+  .feedback-success {
+    background: hsl(var(--success) / 0.1);
+    border: 1px solid hsl(var(--success) / 0.3);
+    color: hsl(var(--success));
+  }
+
+  .feedback-error {
+    background: hsl(var(--destructive) / 0.1);
+    border: 1px solid hsl(var(--destructive) / 0.3);
+    color: hsl(var(--destructive));
+  }
+
+  .feedback-warning {
+    background: hsl(var(--warning) / 0.1);
+    border: 1px solid hsl(var(--warning) / 0.3);
+    color: hsl(var(--warning));
+  }
+
+  .feedback-info {
+    background: hsl(var(--info) / 0.1);
+    border: 1px solid hsl(var(--info) / 0.3);
+    color: hsl(var(--info));
+  }
+
+  /* Final touch: smooth page load animation */
+  @keyframes page-load {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .page-enter {
+    animation: page-load 0.4s ease-out forwards;
+  }
+
+  /* Phase 9A: Text visibility on dark overlays/gradients */
+  .text-overlay-muted {
+    color: hsl(0 0% 100% / 0.85) !important;
+    text-shadow: 0 1px 2px hsl(0 0% 0% / 0.5);
+  }
+
+  .text-overlay-bright {
+    color: hsl(0 0% 100%) !important;
+    text-shadow: 0 2px 4px hsl(0 0% 0% / 0.6);
+  }
+
+  /* Phase 9C: Text overflow utilities */
+  .text-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .text-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .text-clamp-4 {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* === PHASE 10: UNIVERSAL BUTTON TEXT VISIBILITY FIX === */
+  /* Force white text on ALL primary-colored buttons and their children */
+  button.bg-primary,
+  button[class~="bg-primary"],
+  .bg-primary > button,
+  button.bg-gradient-to-r,
+  button[class*="from-primary"],
+  button[class*="shadow-primary"],
+  [class~="bg-primary"] button {
+    color: white !important;
+  }
+
+  /* Force white text for all children inside primary buttons */
+  button.bg-primary *,
+  button[class~="bg-primary"] *,
+  [class*="bg-gradient"] button *,
+  button[class*="from-primary"] * {
+    color: white !important;
+  }
+
+  /* Ensure text-primary-foreground always resolves to white */
+  .text-primary-foreground {
+    color: hsl(var(--primary-foreground)) !important;
+  }
+
+  /* Force white text on any element with bg-primary class */
+  .bg-primary,
+  [class~="bg-primary"]:not([class*="bg-primary-"]) {
+    color: white !important;
+  }
+
+  /* Nested spans and elements inside primary buttons */
+  .bg-primary span,
+  .bg-primary div,
+  .bg-primary a,
+  [class~="bg-primary"] span,
+  [class~="bg-primary"] div,
+  [class~="bg-primary"] a {
+    color: white !important;
+  }
+
+  /* Fix for dark mode button text */
+  .dark button.bg-primary,
+  .dark button[class~="bg-primary"],
+  .dark .bg-primary,
+  .dark [class~="bg-primary"] {
+    color: hsl(0 0% 10%) !important;
+  }
+
+  .dark .bg-primary span,
+  .dark .bg-primary div,
+  .dark .bg-primary a,
+  .dark [class~="bg-primary"] span,
+  .dark [class~="bg-primary"] div,
+  .dark [class~="bg-primary"] a {
+    color: hsl(0 0% 10%) !important;
+  }
+}
+
+/* Ultra-high specificity fix for primary button text color */
+/* NOTE: Removed :is() and :has() selectors to fix CSS parser warnings */
+button.bg-primary,
+.btn.bg-primary,
+button[class~="bg-primary"],
+a.bg-primary,
+[role="button"].bg-primary {
+  color: white !important;
+}
+
+/* Fix for button text inside Link components with asChild */
+[data-radix-collection-item].bg-primary,
+[class~="bg-primary"] > a,
+a[class~="bg-primary"] {
+  color: white !important;
+}
+
+/* Radix Slot component fix - when Button uses asChild */
+[data-slot="button"].bg-primary,
+[data-slot].bg-primary {
+  color: white !important;
+}
+
+/* Auth form button text fix - ultra-high specificity */
+form button[type="submit"].bg-primary,
+form button[type="submit"].bg-primary *,
+form button[type="submit"],
+form button[type="submit"] span,
+[data-form="auth"] button,
+.auth-button {
+  color: white !important;
+  -webkit-text-fill-color: white !important;
+}
+
+/* Force visibility on ALL submit buttons on the page */
+button[type="submit"] {
+  color: white !important;
+  -webkit-text-fill-color: white !important;
+}
+
+button[type="submit"] span {
+  color: white !important;
+  -webkit-text-fill-color: white !important;
+}
+
+/* === AUTH BUTTONS IN HEADER - PRESERVE WHITE TEXT === */
+/* These buttons have explicit dark backgrounds and need white text */
+/* Updated to use bg-slate-900 and stronger visibility rules */
+[data-monarch-header] [data-auth-button],
+[data-monarch-header] [data-auth-button] *,
+[data-monarch-header] [data-auth-button] a,
+[data-monarch-header] button.bg-slate-900,
+[data-monarch-header] button.bg-slate-900 *,
+[data-monarch-header] a.bg-slate-900,
+[data-monarch-header] a.bg-slate-900 *,
+[data-monarch-header] button.bg-slate-800,
+[data-monarch-header] button.bg-slate-800 *,
+.monarch-header [data-auth-button],
+.monarch-header [data-auth-button] *,
+.monarch-header [data-auth-button] a,
+.monarch-header button.bg-slate-900,
+.monarch-header button.bg-slate-900 *,
+header [data-auth-button],
+header [data-auth-button] * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Primary button in header - ensure white text */
+[data-monarch-header] button.bg-primary,
+[data-monarch-header] button.bg-primary *,
+[data-monarch-header] a.bg-primary,
+[data-monarch-header] a.bg-primary *,
+.monarch-header button.bg-primary,
+.monarch-header button.bg-primary *,
+header button.bg-primary,
+header button.bg-primary * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Auth buttons visibility for both light and dark mode */
+[data-auth-button="sign-in"],
+[data-auth-button="sign-in"] *,
+[data-auth-button="sign-in-mobile"],
+[data-auth-button="sign-in-mobile"] *,
+[data-auth-button="join-now"],
+[data-auth-button="join-now"] * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Force high contrast border on auth buttons */
+.dark [data-auth-button="sign-in"],
+.dark [data-auth-button="sign-in-mobile"] {
+  border-color: hsl(0 0% 50%) !important;
+  background-color: hsl(0 0% 10%) !important;
+}
+
+[data-auth-button="join-now"] {
+  background-color: hsl(var(--primary)) !important;
+  border-color: hsl(var(--primary)) !important;
+}
+
+/* === SIDEBAR FOOTER VISIBILITY ENHANCEMENT === */
+/* Ensure sidebar footer controls are visible in both themes */
+[data-sidebar="footer"],
+[data-sidebar] .p-4:last-child {
+  background-color: hsl(var(--card));
+  border-top: 2px solid hsl(var(--border));
+}
+
+[data-sidebar="footer"] button,
+[data-sidebar] .p-4:last-child button {
+  color: hsl(var(--foreground)) !important;
+  background-color: hsl(var(--muted) / 0.5);
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.5rem;
+}
+
+[data-sidebar="footer"] button:hover,
+[data-sidebar] .p-4:last-child button:hover {
+  background-color: hsl(var(--primary) / 0.1);
+  color: hsl(var(--primary)) !important;
+}
+
+[data-sidebar="footer"] svg,
+[data-sidebar] .p-4:last-child svg {
+  color: hsl(var(--foreground)) !important;
+  opacity: 1 !important;
+}
+
+/* Dark mode sidebar footer */
+.dark [data-sidebar="footer"],
+.dark [data-sidebar] .p-4:last-child {
+  background-color: hsl(var(--card));
+}
+
+.dark [data-sidebar="footer"] button,
+.dark [data-sidebar] .p-4:last-child button {
+  color: hsl(var(--foreground)) !important;
+  background-color: hsl(var(--muted) / 0.3);
+  border-color: hsl(var(--border));
+}
+
+.dark [data-sidebar="footer"] svg,
+.dark [data-sidebar] .p-4:last-child svg {
+  color: hsl(var(--foreground)) !important;
+}
+
+/* === VIEW DETAILS BUTTON TEXT VISIBILITY === */
+/* Ensure "View Details" button text is always white on primary background */
+.flex-1 > a.flex.items-center.justify-center.gap-2,
+button.flex-1 a,
+.flex-1 a[href*="/projects/"] {
+  color: white !important;
+}
+
+.flex-1 > a.flex.items-center.justify-center.gap-2 span,
+button.flex-1 a span,
+.flex-1 a[href*="/projects/"] span {
+  color: white !important;
+  -webkit-text-fill-color: white !important;
+}
+
+.flex-1 > a.flex.items-center.justify-center.gap-2 svg,
+button.flex-1 a svg,
+.flex-1 a[href*="/projects/"] svg {
+  color: white !important;
+  stroke: white !important;
+}
+
+/* ======================================================================
+   COMPREHENSIVE LIGHT MODE VISIBILITY & ACCESSIBILITY ENHANCEMENTS
+   WCAG AA Compliant - Contrast Ratio 4.5:1 for normal text, 3:1 for large
+   ====================================================================== */
+
+/* === FOOTER LINK STYLES (was missing - caused invisible links) === */
+.footer-link {
+  color: hsl(0 0% 28%);
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color 0.2s ease, text-decoration 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.footer-link:hover {
+  color: hsl(var(--primary));
+  text-decoration: underline;
+}
+
+.footer-link:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.dark .footer-link {
+  color: hsl(0 0% 72%);
+}
+
+.dark .footer-link:hover {
+  color: hsl(var(--primary));
+}
+
+/* === GLOBAL LIGHT MODE HEADING VISIBILITY === */
+:root:not(.dark) h1,
+:root:not(.dark) h2,
+:root:not(.dark) h3,
+:root:not(.dark) h4,
+:root:not(.dark) h5,
+:root:not(.dark) h6 {
+  color: hsl(0 0% 10%);
+}
+
+/* === FOOTER-SPECIFIC LIGHT MODE ENHANCEMENTS === */
+footer h2,
+footer h3,
+footer h4 {
+  color: hsl(0 0% 12%) !important;
+}
+
+.dark footer h2,
+.dark footer h3,
+.dark footer h4 {
+  color: hsl(0 0% 95%) !important;
+}
+
+/* Footer descriptive text - enhanced contrast */
+footer .text-muted-foreground {
+  color: hsl(0 0% 30%);
+}
+
+.dark footer .text-muted-foreground {
+  color: hsl(0 0% 70%);
+}
+
+/* Footer list items and general text */
+footer ul li {
+  color: hsl(0 0% 28%);
+}
+
+.dark footer ul li {
+  color: hsl(0 0% 72%);
+}
+
+/* Footer contact info text */
+footer address,
+footer p:not(.text-primary) {
+  color: hsl(0 0% 28%);
+}
+
+.dark footer address,
+.dark footer p:not(.text-primary) {
+  color: hsl(0 0% 72%);
+}
+
+/* === ENHANCED CARD TEXT VISIBILITY IN LIGHT MODE === */
+/* All card content paragraphs */
+:root:not(.dark) [class*="Card"] p,
+:root:not(.dark) .card p {
+  color: hsl(0 0% 20%);
+}
+
+/* Card spans and small text */
+:root:not(.dark) [class*="Card"] span.text-sm,
+:root:not(.dark) .card span.text-sm {
+  color: hsl(0 0% 22%);
+}
+
+/* Card list items */
+:root:not(.dark) [class*="Card"] li,
+:root:not(.dark) .card li {
+  color: hsl(0 0% 22%);
+}
+
+/* Ensure muted-foreground is darker in cards for light mode */
+:root:not(.dark) [class*="Card"] .text-muted-foreground,
+:root:not(.dark) .card .text-muted-foreground {
+  color: hsl(0 0% 25%) !important;
+}
+
+/* === FORM LABEL AND INPUT VISIBILITY === */
+:root:not(.dark) label,
+:root:not(.dark) .font-medium {
+  color: hsl(0 0% 15%);
+}
+
+:root:not(.dark) input,
+:root:not(.dark) textarea,
+:root:not(.dark) select {
+  color: hsl(0 0% 12%);
+}
+
+:root:not(.dark) input::placeholder,
+:root:not(.dark) textarea::placeholder {
+  color: hsl(0 0% 45%);
+}
+
+/* === NAVBAR & HEADER VISIBILITY (UNIFIED) === */
+/* Token-based approach - no !important overrides */
+header .text-foreground,
+header nav .text-foreground {
+  color: hsl(var(--foreground));
+}
+
+header nav a:hover,
+header nav button:hover {
+  color: hsl(var(--primary));
+}
+
+/* === SIDEBAR VISIBILITY === */
+[data-sidebar] [data-sidebar-menu-button] {
+  color: hsl(var(--foreground));
+}
+
+[data-sidebar] [data-sidebar-menu-button]:hover {
+  color: hsl(var(--primary));
+}
+
+[data-sidebar-group-label] {
+  color: hsl(var(--muted-foreground));
+}
+
+/* === COMPREHENSIVE LIGHT MODE TEXT VISIBILITY === */
+/* NOTE: Root tokens defined in @layer base - removed conflicting override */
+/* NOTE: .text-muted-foreground rule consolidated above - removed duplicate */
+
+/* === ACCESSIBILITY FOCUS STATES (WCAG 2.1 AA) === */
+/* High-visibility focus for all interactive elements */
+:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+}
+
+/* Button and link focus states */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Input focus states with enhanced visibility */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 1px;
+  border-color: hsl(var(--primary));
+}
+
+/* === SKIP LINK FOR KEYBOARD NAVIGATION === */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: hsl(var(--primary));
+  color: white;
+  padding: 8px 16px;
+  z-index: 1000;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* === ENHANCED CONTRAST FOR DISABLED STATES === */
+:root:not(.dark) button:disabled,
+:root:not(.dark) input:disabled,
+:root:not(.dark) select:disabled,
+:root:not(.dark) textarea:disabled {
+  opacity: 0.6;
+  color: hsl(0 0% 35%);
+}
+
+/* === ENSURE TEXT SELECTION IS VISIBLE === */
+::selection {
+  background: hsl(var(--primary) / 0.3);
+  color: hsl(0 0% 10%);
+}
+
+.dark ::selection {
+  background: hsl(var(--primary) / 0.4);
+  color: hsl(0 0% 95%);
+}
+/* Zoho SalesIQ third-party widget: raise link contrast to meet WCAG AA */
+.zsiq_flt_rel a.lmore,
+a.gdpr_lmore_link {
+  color: hsl(0 0% 100%) !important;
+  text-decoration: underline;
+}
+
+/* Keep filled badges/buttons on brand backgrounds readable inside neumorphic cards
+   (card text-color overrides must not repaint text sitting on a colored fill). */
+:root:not(.dark) .neumorphic-card [class~="bg-primary"],
+:root:not(.dark) .neumorphic-card [class~="bg-primary"] *,
+:root:not(.dark) .neumorphic-card [class~="bg-info"],
+:root:not(.dark) .neumorphic-card [class~="bg-info"] *,
+:root:not(.dark) .neumorphic-card [class~="bg-destructive"],
+:root:not(.dark) .neumorphic-card [class~="bg-destructive"] *,
+:root:not(.dark) .neumorphic-card [class~="bg-destructive"] * {
+  color: hsl(0 0% 100%) !important;
+  -webkit-text-fill-color: hsl(0 0% 100%) !important;
+}
+
+/* Dark mode uses a brighter gold fill, so text on it must be near-black. */
+.dark .neumorphic-card [class~="bg-primary"],
+.dark .neumorphic-card [class~="bg-primary"] *,
+.dark [class~="bg-primary"],
+.dark [class~="bg-primary"] * {
+  color: hsl(0 0% 10%) !important;
+  -webkit-text-fill-color: hsl(0 0% 10%) !important;
+}
+
+/* Navbar in dark mode keeps light-mode gold (darker), so its filled CTA keeps white text. */
+.dark [data-monarch-header] [class~="bg-primary"]:not(.no-fill),
+.dark [data-monarch-header] [class~="bg-primary"]:not(.no-fill) * {
+  color: hsl(0 0% 100%) !important;
+  -webkit-text-fill-color: hsl(0 0% 100%) !important;
+}
+
+/* Zoho SalesIQ consent/preference buttons: ensure readable text on their dark chip. */
+.zoho-okbtn,
+.zoho-okbtn * {
+  color: hsl(0 0% 100%) !important;
+  -webkit-text-fill-color: hsl(0 0% 100%) !important;
+}

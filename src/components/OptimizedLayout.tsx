@@ -48,7 +48,7 @@ export default function OptimizedLayout({ children }: LayoutProps) {
           <AppSidebar />
             <main id="main-content" role="main" aria-label="Main content" className="flex-1 flex flex-col min-w-0">
             {/* Global header with sidebar trigger - ALWAYS visible and prominent */}
-            <header className="sticky top-0 z-[100] h-16 flex items-center border-b border-border bg-card/95 backdrop-blur-sm shadow-md">
+            <header className="sticky top-0 z-[100] h-16 flex items-center border-b border-border bg-card/95 backdrop-blur-xs shadow-md">
               <div className="flex items-center gap-4 px-4 md:px-6 w-full">
                 {/* Prominent sidebar trigger button */}
                 <SidebarTrigger className="shrink-0 h-10 w-10 flex items-center justify-center rounded-lg hover:bg-accent border-2 border-border transition-all hover:shadow-lg hover:scale-105 bg-background" />

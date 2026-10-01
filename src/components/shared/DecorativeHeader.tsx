@@ -228,7 +228,7 @@ export default function DecorativeHeader({
                   key={index}
                   className={cn(
                     'flex items-center gap-3 p-3 rounded-xl',
-                    'bg-background/50 backdrop-blur-sm border border-border/50',
+                    'bg-background/50 backdrop-blur-xs border border-border/50',
                     'transition-all duration-300 hover:shadow-md hover:border-primary/30',
                     'group'
                   )}

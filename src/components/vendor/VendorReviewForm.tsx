@@ -101,7 +101,7 @@ export default function VendorReviewForm({
           <button
             key={star}
             type="button"
-            className="focus:outline-none focus:ring-2 focus:ring-primary rounded"
+            className="focus:outline-hidden focus:ring-2 focus:ring-primary rounded"
             onMouseEnter={() => setHoveredRating(prev => ({ ...prev, [category]: star }))}
             onMouseLeave={() => setHoveredRating(prev => ({ ...prev, [category]: 0 }))}
             onClick={() => handleRatingClick(category, star)}

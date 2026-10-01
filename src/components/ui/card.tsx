@@ -28,7 +28,7 @@ const Card = React.forwardRef<
     ref={ref}
     className={cn(
       // Base styles with standardized opacity (using design system scale)
-      "rounded-xl border border-border/[0.6] bg-card/[0.95] text-card-foreground shadow-sm transition-all duration-300 backdrop-blur-sm",
+      "rounded-xl border border-border/[0.6] bg-card/[0.95] text-card-foreground shadow-sm transition-all duration-300 backdrop-blur-xs",
       // Dark mode enhancements
       "dark:bg-card/[0.9] dark:border-border/[0.8] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)]",
       {
@@ -57,7 +57,7 @@ const Card = React.forwardRef<
         // Stats card - KPI display
         'bg-gradient-to-br from-primary/[0.2] via-card to-secondary/[0.05] border-primary/[0.25] shadow-md hover:shadow-lg hover:border-primary/[0.4] hover:-translate-y-0.5': variant === 'stat-card',
         // Table container
-        'bg-card/[0.5] backdrop-blur-sm border-border/[0.5] shadow-sm hover:shadow-md overflow-hidden': variant === 'table-container',
+        'bg-card/[0.5] backdrop-blur-xs border-border/[0.5] shadow-sm hover:shadow-md overflow-hidden': variant === 'table-container',
       },
       className
     )}

@@ -128,7 +128,7 @@ export default function BeforeAfterSlider({
           className="w-full h-full object-cover"
           loading="lazy"
         />
-        <span className="absolute bottom-4 right-4 px-3 py-1.5 bg-background/80 backdrop-blur-sm rounded-full text-sm font-medium text-foreground">
+        <span className="absolute bottom-4 right-4 px-3 py-1.5 bg-background/80 backdrop-blur-xs rounded-full text-sm font-medium text-foreground">
           {afterLabel}
         </span>
       </div>
@@ -144,7 +144,7 @@ export default function BeforeAfterSlider({
           className="w-full h-full object-cover"
           loading="lazy"
         />
-        <span className="absolute bottom-4 left-4 px-3 py-1.5 bg-background/80 backdrop-blur-sm rounded-full text-sm font-medium text-foreground">
+        <span className="absolute bottom-4 left-4 px-3 py-1.5 bg-background/80 backdrop-blur-xs rounded-full text-sm font-medium text-foreground">
           {beforeLabel}
         </span>
       </div>

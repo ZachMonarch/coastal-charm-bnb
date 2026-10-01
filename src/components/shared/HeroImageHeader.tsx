@@ -78,7 +78,7 @@ export default function HeroImageHeader({
             align === 'center' && 'justify-center'
           )}>
             {Icon && (
-              <div className="p-2 rounded-lg bg-primary/20 backdrop-blur-sm">
+              <div className="p-2 rounded-lg bg-primary/20 backdrop-blur-xs">
                 <Icon className="h-6 w-6 text-primary" />
               </div>
             )}

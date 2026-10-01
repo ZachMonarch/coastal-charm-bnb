@@ -96,7 +96,7 @@ export default function OptimizedBookingForm({ propertyId }: BookingFormProps) {
   }
 
   return (
-    <div className="bg-card/80 backdrop-blur-sm border border-border rounded-xl p-6 shadow-lg">
+    <div className="bg-card/80 backdrop-blur-xs border border-border rounded-xl p-6 shadow-lg">
       <h2 className="text-xl font-semibold mb-6 text-foreground">
         {t.booking.title}
       </h2>

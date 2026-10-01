@@ -1,13 +1,20 @@
-import '@testing-library/jest-dom'
-import * as matchers from '@testing-library/jest-dom/matchers'
-import { expect } from 'vitest'
+import "@testing-library/jest-dom/vitest";
 
-// Extend Vitest's expect with jest-dom matchers
-expect.extend(matchers)
+Object.defineProperty(window, "scrollTo", {
+  writable: true,
+  value: () => {},
+});
 
-// Optional: provide a global fetch implementation in non-browser environments
-if (typeof globalThis.fetch === 'undefined') {
-  // Node 18+ includes fetch; this is a fallback for older Node versions.
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  globalThis.fetch = require('node-fetch') as any
-}
+Object.defineProperty(window, "matchMedia", {
+  writable: true,
+  value: (query: string) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: () => {},
+    removeListener: () => {},
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    dispatchEvent: () => {},
+  }),
+});

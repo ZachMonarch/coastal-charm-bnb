@@ -27,7 +27,7 @@ export default function VerifiedVendorCard({ vendor, featured = false }: Verifie
     <Card className={cn(
       "group relative overflow-hidden transition-all duration-300",
       "hover:shadow-2xl hover:-translate-y-2",
-      "bg-gradient-to-br from-background/80 to-background/60 backdrop-blur-sm",
+      "bg-gradient-to-br from-background/80 to-background/60 backdrop-blur-xs",
       "border-2",
       featured ? "border-primary shadow-xl scale-105" : "border-border/50 hover:border-primary/50"
     )}>

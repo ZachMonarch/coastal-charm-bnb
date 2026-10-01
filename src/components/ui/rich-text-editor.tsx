@@ -223,8 +223,8 @@ export function RichTextEditor({
         editor={editor} 
         className={cn(
           "prose prose-sm max-w-none p-3",
-          "focus-within:outline-none",
-          "[&_.ProseMirror]:min-h-[100px] [&_.ProseMirror]:outline-none",
+          "focus-within:outline-hidden",
+          "[&_.ProseMirror]:min-h-[100px] [&_.ProseMirror]:outline-hidden",
           "[&_.ProseMirror_p.is-editor-empty:first-child]:before:content-[attr(data-placeholder)]",
           "[&_.ProseMirror_p.is-editor-empty:first-child]:before:text-muted-foreground",
           "[&_.ProseMirror_p.is-editor-empty:first-child]:before:float-left",
