@@ -6,7 +6,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-60 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 active:scale-[0.98]",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-all duration-200 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-60 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 active:scale-[0.98]",
   {
     variants: {
       variant: {
@@ -19,14 +19,14 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80 hover:shadow-sm dark:bg-secondary dark:text-secondary-foreground [&>a]:text-secondary-foreground [&_a]:text-secondary-foreground",
         ghost: "text-foreground hover:bg-accent hover:text-accent-foreground dark:text-foreground dark:hover:bg-muted dark:hover:text-foreground",
         link: "text-primary underline-offset-4 hover:underline active:scale-100 dark:text-primary",
-        hero: "bg-overlay/20 text-primary-foreground backdrop-blur-sm border border-white/30 hover:bg-overlay/30 shadow-lg hover:shadow-xl [&>a]:text-white [&_a]:text-white",
+        hero: "bg-overlay/20 text-primary-foreground backdrop-blur-xs border border-white/30 hover:bg-overlay/30 shadow-lg hover:shadow-xl [&>a]:text-white [&_a]:text-white",
         heroSolid: "bg-primary text-primary-foreground shadow-lg hover:bg-primary-dark hover:shadow-xl hover:scale-[1.02] active:scale-[0.99] [&>a]:!text-white [&_a]:!text-white",
         neumorphic: "neumorphic-card hover:neumorphic-inset text-foreground dark:text-foreground",
         glass: "glass-card text-foreground hover:bg-white/20 dark:text-foreground dark:hover:bg-black/30",
         shimmer: "bg-gradient-to-r from-primary via-primary-light to-primary bg-[length:200%_100%] text-primary-foreground hover:bg-[position:100%_0] transition-all duration-500 shadow-md hover:shadow-primary/40 [&>a]:!text-white [&_a]:!text-white",
         gradient: "bg-gradient-to-r from-primary to-primary-dark text-primary-foreground shadow-md hover:shadow-lg hover:shadow-primary/30 hover:scale-[1.02] active:scale-[0.99] [&>a]:!text-white [&_a]:!text-white",
         glow: "bg-primary text-primary-foreground shadow-[0_0_20px_hsl(var(--primary)/0.3)] hover:bg-primary-dark hover:shadow-[0_0_30px_hsl(var(--primary)/0.5)] hover:scale-[1.02] active:scale-[0.99] transition-all duration-300 [&>a]:!text-white [&_a]:!text-white",
-        heroAction: "bg-black/70 text-primary-foreground border border-white/40 hover:bg-black/80 shadow-lg backdrop-blur-sm font-semibold [&>a]:text-white [&_a]:text-white",
+        heroAction: "bg-black/70 text-primary-foreground border border-white/40 hover:bg-black/80 shadow-lg backdrop-blur-xs font-semibold [&>a]:text-white [&_a]:text-white",
         warning: "bg-warning text-warning-foreground shadow-sm hover:bg-warning/90 hover:shadow-md font-semibold [&>a]:text-warning-foreground [&_a]:text-warning-foreground",
       },
       size: {

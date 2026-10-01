@@ -22,7 +22,7 @@ export default function MobileOptimizedCard({
     <Card className={cn(
       "neumorphic-card w-full",
       "transition-all duration-300 hover:shadow-lg",
-      "border-0 bg-card/50 backdrop-blur-sm",
+      "border-0 bg-card/50 backdrop-blur-xs",
       className
     )}>
       {(title || description || headerAction) && (

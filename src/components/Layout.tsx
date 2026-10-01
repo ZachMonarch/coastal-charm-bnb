@@ -30,7 +30,7 @@ export default function Layout({ children }: LayoutProps) {
           <AppSidebar />
           <main className="flex-1">
             {/* Global trigger that is ALWAYS visible */}
-            <header className="h-12 flex items-center border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+            <header className="h-12 flex items-center border-b bg-background/95 backdrop-blur-sm supports-[backdrop-filter]:bg-background/60">
               <SidebarTrigger className="ml-2" />
               <div className="flex-1 px-4 flex items-center justify-between">
                 <h1 className="text-lg font-semibold">
@@ -55,7 +55,7 @@ export default function Layout({ children }: LayoutProps) {
       {/* Skip to main content link for accessibility (single source of truth) */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-background focus:text-foreground focus:border focus:border-border focus:rounded-md focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-ring"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-background focus:text-foreground focus:border focus:border-border focus:rounded-md focus:shadow-lg focus:outline-hidden focus:ring-2 focus:ring-ring"
       >
         Skip to main content
       </a>

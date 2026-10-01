@@ -173,7 +173,7 @@ export default function ProductionVendorSystem() {
       </div>
 
       {/* Filters */}
-      <Card className="backdrop-blur-sm bg-card/90 border-border/50">
+      <Card className="backdrop-blur-xs bg-card/90 border-border/50">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Filter className="w-5 h-5" />

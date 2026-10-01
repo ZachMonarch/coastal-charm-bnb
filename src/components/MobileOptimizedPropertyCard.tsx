@@ -109,7 +109,7 @@ const MobileOptimizedPropertyCard = memo(({
           {property.status && (
             <Badge 
               className={cn(
-                "absolute top-2 left-2 text-xs font-medium backdrop-blur-sm",
+                "absolute top-2 left-2 text-xs font-medium backdrop-blur-xs",
                 getStatusColor(property.status)
               )}
             >
@@ -122,7 +122,7 @@ const MobileOptimizedPropertyCard = memo(({
             <Button
               variant="ghost"
               size="sm"
-              className="absolute top-2 right-2 h-8 w-8 bg-background/90 backdrop-blur-sm hover:bg-background"
+              className="absolute top-2 right-2 h-8 w-8 bg-background/90 backdrop-blur-xs hover:bg-background"
               onClick={handleFavoriteClick}
             >
               <Heart 
@@ -136,7 +136,7 @@ const MobileOptimizedPropertyCard = memo(({
 
           {/* Price Overlay - Mobile Optimized */}
           <div className="absolute bottom-2 left-2">
-            <div className="bg-background/95 backdrop-blur-sm px-2 py-1 rounded-lg">
+            <div className="bg-background/95 backdrop-blur-xs px-2 py-1 rounded-lg">
               <div className="flex items-center">
                 <DollarSign className="h-3 w-3 mr-1 text-primary" />
                 <span className="text-sm font-bold text-foreground">
@@ -152,7 +152,7 @@ const MobileOptimizedPropertyCard = memo(({
           {/* Image Count - Mobile */}
           {optimizedImages.length > 1 && (
             <div className="absolute bottom-2 right-2">
-              <div className="bg-background/95 backdrop-blur-sm px-2 py-1 rounded-lg text-xs">
+              <div className="bg-background/95 backdrop-blur-xs px-2 py-1 rounded-lg text-xs">
                 +{optimizedImages.length - 1}
               </div>
             </div>

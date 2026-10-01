@@ -124,7 +124,7 @@ export function HeroBlock({
         <div className="max-w-4xl mx-auto space-y-6 md:space-y-8 animate-fade-in">
           {/* Subtitle Badge */}
           {subtitle && (
-            <div className="inline-flex items-center px-4 md:px-6 py-2 md:py-3 bg-card/80 backdrop-blur-sm border border-border/50 rounded-full shadow-md">
+            <div className="inline-flex items-center px-4 md:px-6 py-2 md:py-3 bg-card/80 backdrop-blur-xs border border-border/50 rounded-full shadow-md">
               <span className="text-sm md:text-base font-medium text-foreground">
                 {subtitle}
               </span>
@@ -192,7 +192,7 @@ export function HeroBlock({
                     "min-w-[200px]",
                     variant === "gradient"
                       ? "border-primary text-primary hover:bg-primary/10"
-                      : "border-overlay/30 text-overlay-foreground hover:bg-overlay/10 bg-overlay/5 backdrop-blur-sm"
+                      : "border-overlay/30 text-overlay-foreground hover:bg-overlay/10 bg-overlay/5 backdrop-blur-xs"
                   )}
                   onClick={cta.secondary.onClick}
                 >
@@ -219,7 +219,7 @@ export function HeroBlock({
                 <div
                   key={index}
                   className={cn(
-                    "p-4 md:p-6 rounded-xl backdrop-blur-sm border",
+                    "p-4 md:p-6 rounded-xl backdrop-blur-xs border",
                     variant === "gradient"
                       ? "bg-card border-border shadow-sm"
                       : "bg-overlay/10 border-overlay/20"
@@ -257,7 +257,7 @@ export function HeroBlock({
           <a
             href={scrollTarget}
             className={cn(
-              "flex flex-col items-center p-3 rounded-full backdrop-blur-sm border transition-all duration-300 hover:scale-110",
+              "flex flex-col items-center p-3 rounded-full backdrop-blur-xs border transition-all duration-300 hover:scale-110",
               variant === "gradient"
                 ? "bg-card border-border hover:border-primary"
                 : "bg-overlay/10 border-overlay/20 hover:bg-overlay/20"

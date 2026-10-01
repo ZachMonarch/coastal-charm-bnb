@@ -63,7 +63,7 @@ const colorMap: Record<ChartColor, { fill: string; stroke: string }> = {
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-card/95 backdrop-blur-sm border border-border rounded-lg shadow-lg p-3">
+      <div className="bg-card/95 backdrop-blur-xs border border-border rounded-lg shadow-lg p-3">
         <p className="text-sm font-medium text-foreground">{label}</p>
         {payload.map((entry: any, index: number) => (
           <p key={index} className="text-sm text-muted-foreground">

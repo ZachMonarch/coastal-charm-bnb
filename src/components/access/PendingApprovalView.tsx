@@ -51,7 +51,7 @@ export function PendingApprovalView() {
   // If approved, show success and redirect option
   if (hasApprovedRequest) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 backdrop-blur-sm overflow-auto">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 backdrop-blur-xs overflow-auto">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-success/10 blur-3xl" />
           <div className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full bg-primary/10 blur-3xl" />
@@ -91,7 +91,7 @@ export function PendingApprovalView() {
   // If rejected, show rejection notice
   if (hasRejectedRequest) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 backdrop-blur-sm overflow-auto">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 backdrop-blur-xs overflow-auto">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-destructive/5 blur-3xl" />
           <div className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full bg-primary/5 blur-3xl" />
@@ -144,7 +144,7 @@ export function PendingApprovalView() {
 
   // Pending state (default)
   return (
-    <div data-pending-approval className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 backdrop-blur-sm overflow-auto">
+    <div data-pending-approval className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 backdrop-blur-xs overflow-auto">
       {/* Decorative background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-warning/10 blur-3xl" />

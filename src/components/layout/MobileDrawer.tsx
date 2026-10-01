@@ -101,7 +101,7 @@ export default function MobileDrawer({
       {/* Backdrop */}
       <div 
         className={cn(
-          "absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300",
+          "absolute inset-0 bg-black/50 backdrop-blur-xs transition-opacity duration-300",
           isOpen ? "opacity-100" : "opacity-0"
         )}
         onClick={onClose}

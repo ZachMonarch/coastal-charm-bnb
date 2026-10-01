@@ -33,7 +33,7 @@ export default function NavDropdown({ label, items, icon, className }: NavDropdo
           "text-foreground",
           "hover:text-primary hover:bg-primary/10",
           "data-[state=open]:bg-primary/10 data-[state=open]:!text-primary",
-          "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none",
+          "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-hidden",
           "relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2",
           "after:w-0 data-[state=open]:after:w-3/4 after:h-0.5 after:bg-primary after:transition-all",
           className

@@ -122,7 +122,7 @@ const OptimizedPropertyCard = memo(({
           {/* Property type badge */}
           {property.property_type && (
             <Badge 
-              className="absolute top-3 left-3 bg-background/90 backdrop-blur-sm"
+              className="absolute top-3 left-3 bg-background/90 backdrop-blur-xs"
               variant="secondary"
             >
               {property.property_type}
@@ -143,7 +143,7 @@ const OptimizedPropertyCard = memo(({
             <Button
               variant="ghost"
               size="sm"
-              className="absolute bottom-3 right-3 bg-background/90 backdrop-blur-sm hover:bg-background"
+              className="absolute bottom-3 right-3 bg-background/90 backdrop-blur-xs hover:bg-background"
               onClick={handleFavoriteClick}
             >
               <Heart 
@@ -156,7 +156,7 @@ const OptimizedPropertyCard = memo(({
 
           {/* Price overlay */}
           <div className="absolute bottom-3 left-3">
-            <div className="bg-background/90 backdrop-blur-sm px-3 py-1 rounded-lg">
+            <div className="bg-background/90 backdrop-blur-xs px-3 py-1 rounded-lg">
               <span className="text-lg font-bold text-primary">
                 {formatPrice(property.price)}
               </span>

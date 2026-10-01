@@ -123,7 +123,7 @@ export default function Navbar() {
           {/* Logo */}
           <Link
             to="/"
-            className="flex items-center space-x-3 group hover:opacity-90 transition-opacity focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none rounded-lg"
+            className="flex items-center space-x-3 group hover:opacity-90 transition-opacity focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-hidden rounded-lg"
           >
             <div className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center">
               <OptimizedLogo size="lg" />
@@ -147,7 +147,7 @@ export default function Navbar() {
                   "hover:text-primary hover:bg-primary/5",
                   "relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2",
                   "after:w-0 hover:after:w-3/4 after:h-0.5 after:bg-primary/60 after:transition-all",
-                  "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none",
+                  "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-hidden",
                   location.pathname === "/" && "!text-primary after:w-3/4",
                 )}
               >
@@ -170,7 +170,7 @@ export default function Navbar() {
                     "hover:text-primary hover:bg-primary/5",
                     "relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2",
                     "after:w-0 hover:after:w-3/4 after:h-0.5 after:bg-primary/60 after:transition-all",
-                    "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none",
+                    "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-hidden",
                     location.pathname === link.path && "!text-primary after:w-3/4",
                   )}
                 >
@@ -357,7 +357,7 @@ export default function Navbar() {
                 className={cn(
                   "block px-4 py-3 text-base font-medium rounded-lg border-l-4 transition-all",
                   "text-foreground hover:border-primary/80 hover:bg-muted hover:text-foreground",
-                  "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none",
+                  "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-hidden",
                   location.pathname === "/" ? "border-primary/80 bg-muted text-foreground" : "border-transparent",
                 )}
               >
@@ -419,7 +419,7 @@ export default function Navbar() {
                   className={cn(
                     "block px-4 py-3 text-base font-medium rounded-lg border-l-4 transition-all",
                     "text-foreground hover:border-primary/80 hover:bg-muted hover:text-foreground",
-                    "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none",
+                    "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-hidden",
                     location.pathname === link.path ? "border-primary/80 bg-muted text-foreground" : "border-transparent",
                   )}
                 >

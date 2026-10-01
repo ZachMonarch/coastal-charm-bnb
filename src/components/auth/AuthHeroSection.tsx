@@ -102,7 +102,7 @@ export function AuthHeroSection({ activeRole = "property_manager" }: AuthHeroSec
             <img 
               src="/lovable-uploads/318cdd13-7256-4cfe-99e0-948e43902b7b.png" 
               alt="Monarch Logo"
-              className="h-16 w-16 rounded-xl shadow-lg border-2 border-overlay/20 object-contain bg-overlay/10 backdrop-blur-sm"
+              className="h-16 w-16 rounded-xl shadow-lg border-2 border-overlay/20 object-contain bg-overlay/10 backdrop-blur-xs"
               width={64}
               height={64}
               loading="lazy"
@@ -127,7 +127,7 @@ export function AuthHeroSection({ activeRole = "property_manager" }: AuthHeroSec
           {content.benefits.map((benefit, index) => (
             <div 
               key={index} 
-              className="flex items-center gap-3 bg-overlay/10 backdrop-blur-sm rounded-lg px-4 py-3 border border-overlay/10"
+              className="flex items-center gap-3 bg-overlay/10 backdrop-blur-xs rounded-lg px-4 py-3 border border-overlay/10"
             >
               <div className="flex-shrink-0 w-6 h-6 bg-primary rounded-full flex items-center justify-center">
                 <CheckCircle2 className="w-4 h-4 text-primary-foreground" />
@@ -173,15 +173,15 @@ export function AuthHeroSection({ activeRole = "property_manager" }: AuthHeroSec
 
         {/* Trust badges */}
         <div className="mt-10 flex flex-wrap items-center gap-6">
-          <div className="flex items-center gap-2 bg-overlay/10 backdrop-blur-sm px-4 py-2 rounded-full border border-overlay/10">
+          <div className="flex items-center gap-2 bg-overlay/10 backdrop-blur-xs px-4 py-2 rounded-full border border-overlay/10">
             <Lock className="w-4 h-4 text-primary" />
             <span className="text-overlay-foreground text-sm font-medium">256-bit SSL</span>
           </div>
-          <div className="flex items-center gap-2 bg-overlay/10 backdrop-blur-sm px-4 py-2 rounded-full border border-overlay/10">
+          <div className="flex items-center gap-2 bg-overlay/10 backdrop-blur-xs px-4 py-2 rounded-full border border-overlay/10">
             <Shield className="w-4 h-4 text-primary" />
             <span className="text-overlay-foreground text-sm font-medium">SOC 2 Compliant</span>
           </div>
-          <div className="flex items-center gap-2 bg-overlay/10 backdrop-blur-sm px-4 py-2 rounded-full border border-overlay/10">
+          <div className="flex items-center gap-2 bg-overlay/10 backdrop-blur-xs px-4 py-2 rounded-full border border-overlay/10">
             <Award className="w-4 h-4 text-primary" />
             <span className="text-overlay-foreground text-sm font-medium">GDPR Ready</span>
           </div>

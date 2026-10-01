@@ -81,7 +81,7 @@ export function NewsFeaturedCarousel({ articles }: NewsFeaturedCarouselProps) {
               <Button
                 variant="ghost"
                 size="icon"
-                className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white backdrop-blur-sm"
+                className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white backdrop-blur-xs"
                 onClick={goToPrevious}
               >
                 <ChevronLeft className="h-6 w-6" />
@@ -89,7 +89,7 @@ export function NewsFeaturedCarousel({ articles }: NewsFeaturedCarouselProps) {
               <Button
                 variant="ghost"
                 size="icon"
-                className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white backdrop-blur-sm"
+                className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white backdrop-blur-xs"
                 onClick={goToNext}
               >
                 <ChevronRight className="h-6 w-6" />

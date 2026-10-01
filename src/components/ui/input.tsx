@@ -7,13 +7,13 @@ const inputVariants = cva(
   {
     variants: {
       variant: {
-        default: "border-input focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-        filled: "border-transparent bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:bg-background",
-        outline: "border-2 border-input focus-visible:outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20",
-        colorful: "border-2 border-primary/30 bg-primary/5 focus-visible:outline-none focus-visible:border-primary focus-visible:ring-4 focus-visible:ring-primary/20 focus-visible:bg-background focus-visible:shadow-[0_0_15px_hsl(var(--primary)/0.15)]",
-        success: "border-2 border-success/30 bg-success/5 focus-visible:outline-none focus-visible:border-success focus-visible:ring-4 focus-visible:ring-success/20 focus-visible:bg-background",
-        warning: "border-2 border-warning/30 bg-warning/5 focus-visible:outline-none focus-visible:border-warning focus-visible:ring-4 focus-visible:ring-warning/20 focus-visible:bg-background",
-        error: "border-2 border-destructive/30 bg-destructive/5 focus-visible:outline-none focus-visible:border-destructive focus-visible:ring-4 focus-visible:ring-destructive/20 focus-visible:bg-background",
+        default: "border-input focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+        filled: "border-transparent bg-muted focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:bg-background",
+        outline: "border-2 border-input focus-visible:outline-hidden focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20",
+        colorful: "border-2 border-primary/30 bg-primary/5 focus-visible:outline-hidden focus-visible:border-primary focus-visible:ring-4 focus-visible:ring-primary/20 focus-visible:bg-background focus-visible:shadow-[0_0_15px_hsl(var(--primary)/0.15)]",
+        success: "border-2 border-success/30 bg-success/5 focus-visible:outline-hidden focus-visible:border-success focus-visible:ring-4 focus-visible:ring-success/20 focus-visible:bg-background",
+        warning: "border-2 border-warning/30 bg-warning/5 focus-visible:outline-hidden focus-visible:border-warning focus-visible:ring-4 focus-visible:ring-warning/20 focus-visible:bg-background",
+        error: "border-2 border-destructive/30 bg-destructive/5 focus-visible:outline-hidden focus-visible:border-destructive focus-visible:ring-4 focus-visible:ring-destructive/20 focus-visible:bg-background",
       },
       inputSize: {
         sm: "h-8 px-2 text-xs",
