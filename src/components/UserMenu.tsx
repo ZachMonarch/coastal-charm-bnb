@@ -5,7 +5,7 @@ import { LogOut, Settings, Bell, User } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import ReusableAvatar from './Avatar';
 import { Badge } from '@/components/ui/badge';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from '@/lib/router-compat';
 import { getRoleBadgeColor } from '@/utils/themeColors';
 
 export default function UserMenu() {

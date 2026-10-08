@@ -1,92 +1,27 @@
-// Service Worker for Monarch Property Management
-// Version: Auto-managed by vite-plugin-pwa
-// This file is a fallback only - production uses VitePWA's generated SW
+// Kill-switch service worker (TanStack Start migration).
+// Replaces the old Workbox / vite-plugin-pwa worker at the same URL so returning
+// browsers evict it. Only this app's own caches are deleted.
+function isAppCache(name) {
+  const hasWorkboxBucket = /(^|-)precache-v\d+-|(^|-)runtime-|(^|-)googleAnalytics-/.test(name);
+  if (hasWorkboxBucket && name.endsWith(self.registration.scope)) return true;
+  // Runtime caches configured by the old vite-plugin-pwa setup + fallback worker
+  return name === "unsplash-images" || name === "supabase-api" || name.startsWith("monarch-");
+}
 
-const CACHE_VERSION = 'monarch-v2-' + Date.now();
-const STATIC_CACHE = CACHE_VERSION + '-static';
+self.addEventListener("install", () => self.skipWaiting());
 
-// Minimal critical assets - DO NOT cache HTML (causes stale content)
-const STATIC_ASSETS = [
-  '/icons/icon-512.png'
-];
-
-// Install - skip waiting for immediate activation
-self.addEventListener('install', (event) => {
+self.addEventListener("activate", (event) =>
   event.waitUntil(
-    caches.open(STATIC_CACHE)
-      .then((cache) => {
-        // Graceful caching - don't fail install if assets missing
-        return Promise.allSettled(
-          STATIC_ASSETS.map(url => 
-            cache.add(url).catch(() => console.warn('SW: Asset not found:', url))
-          )
-        );
-      })
-      .then(() => self.skipWaiting())
-  );
-});
-
-// Activate - clean old caches and claim clients
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames
-          .filter(name => name.startsWith('monarch-') && name !== STATIC_CACHE)
-          .map(name => caches.delete(name))
-      );
-    }).then(() => self.clients.claim())
-  );
-});
-
-// Fetch strategy: Network-first for HTML/API, Cache-first for static assets
-self.addEventListener('fetch', (event) => {
-  const { request } = event;
-  
-  // Skip non-GET requests
-  if (request.method !== 'GET') return;
-  
-  // Skip external domains
-  if (!request.url.startsWith(self.location.origin)) return;
-  
-  const url = new URL(request.url);
-  
-  // NEVER cache HTML - always network first to prevent stale content
-  if (request.mode === 'navigate' || url.pathname === '/' || url.pathname.endsWith('.html')) {
-    event.respondWith(
-      fetch(request).catch(() => caches.match('/offline.html'))
-    );
-    return;
-  }
-  
-  // Static assets (JS/CSS/images) - stale-while-revalidate
-  if (request.url.match(/\.(js|css|png|jpg|jpeg|gif|webp|svg|ico|woff2?)$/)) {
-    event.respondWith(
-      caches.match(request).then((cached) => {
-        const fetchPromise = fetch(request).then((response) => {
-          if (response && response.status === 200) {
-            const clone = response.clone();
-            caches.open(STATIC_CACHE).then(cache => cache.put(request, clone));
-          }
-          return response;
-        });
-        return cached || fetchPromise;
-      })
-    );
-    return;
-  }
-});
-
-// Handle messages from main thread (cache clear, etc)
-self.addEventListener('message', (event) => {
-  if (event.data?.type === 'SKIP_WAITING') {
-    self.skipWaiting();
-  }
-  if (event.data?.type === 'CLEAR_CACHE') {
-    caches.keys().then(names => 
-      Promise.all(names.map(name => caches.delete(name)))
-    ).then(() => {
-      event.ports[0]?.postMessage({ cleared: true });
-    });
-  }
-});
+    (async () => {
+      try {
+        const cacheNames = await caches.keys();
+        await Promise.allSettled(cacheNames.filter(isAppCache).map((name) => caches.delete(name)));
+        await self.clients.claim();
+        const windowClients = await self.clients.matchAll({ type: "window" });
+        await Promise.allSettled(windowClients.map((client) => client.navigate(client.url)));
+      } finally {
+        await self.registration.unregister();
+      }
+    })(),
+  ),
+);

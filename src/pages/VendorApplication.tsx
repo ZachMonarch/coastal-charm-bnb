@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/router-compat";
 import OptimizedProtectedRoute from "@/components/OptimizedProtectedRoute";
 import PrivatePageWrapper from "@/components/PrivatePageWrapper";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";

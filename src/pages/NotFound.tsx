@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation } from "@/lib/router-compat";
 import { Button } from "@/components/ui/button";
 import { Home, Building2, Wrench, Phone, LayoutDashboard, LogIn } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";

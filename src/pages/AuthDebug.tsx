@@ -15,7 +15,7 @@ import { getAuthBaseUrl, getEmailRedirectUrl, getPasswordResetRedirectUrl, getMa
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/router-compat";
 import { ArrowLeft, Copy, CheckCircle, XCircle, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
 

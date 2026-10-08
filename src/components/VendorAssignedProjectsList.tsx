@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useVendorAssignedProjects } from "@/hooks/useVendorAssignedProjects";
 import { Briefcase, Calendar, DollarSign, MapPin, Clock } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import emptyProjectsImg from "@/assets/empty-state-projects.png";
 
 export default function VendorAssignedProjectsList() {

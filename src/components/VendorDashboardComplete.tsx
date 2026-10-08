@@ -34,7 +34,7 @@ import VendorActionCard from './VendorActionCard';
 import VendorDashboardSkeleton from './VendorDashboardSkeleton';
 import VendorOnboardingChecklist from './VendorOnboardingChecklist';
 import ReusableAvatar from './Avatar';
-import { Link } from 'react-router-dom';
+import { Link } from '@/lib/router-compat';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import VendorAssignedProjectsList from './VendorAssignedProjectsList';
 import PageHeroWithImage from './shared/PageHeroWithImage';

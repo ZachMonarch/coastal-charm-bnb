@@ -5,7 +5,7 @@ import { useAuth } from '@/contexts/OptimizedAuthContext';
 import { useVendorBidsSubscription } from '@/hooks/useRFQSubscription';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from '@/lib/router-compat';
 import { RFQStatusBadge } from '@/components/rfq/shared/RFQStatusBadge';
 import { Badge } from '@/components/ui/badge';
 import { Clock, FileText, DollarSign, Briefcase, TrendingUp } from 'lucide-react';

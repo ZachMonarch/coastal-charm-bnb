@@ -5,7 +5,7 @@ import { useProjects } from "@/hooks/useProjects";
 import { useAuth } from "@/contexts/OptimizedAuthContext";
 import { ContractStatusChip } from "@/components/ContractStatusChip";
 import { ContractProgressBar } from "@/components/ContractProgressBar";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/router-compat";
 import PrivatePageWrapper from "@/components/PrivatePageWrapper";
 import PageHero from "@/components/shared/PageHero";
 import StatsCard from "@/components/shared/StatsCard";

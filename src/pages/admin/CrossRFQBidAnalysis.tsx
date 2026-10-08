@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Star, BarChart3 } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Link } from 'react-router-dom';
+import { Link } from '@/lib/router-compat';
 import OptimizedProtectedRoute from '@/components/OptimizedProtectedRoute';
 import PrivatePageWrapper from '@/components/PrivatePageWrapper';
 import { format } from 'date-fns';

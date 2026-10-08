@@ -12,7 +12,7 @@ import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { StatusBadge } from '@/components/StatusBadge';
 import { Badge } from '@/components/ui/badge';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from '@/lib/router-compat';
 import PageHero from '@/components/shared/PageHero';
 import StatsCard from '@/components/shared/StatsCard';
 import ColorfulIconBox from '@/components/shared/ColorfulIconBox';

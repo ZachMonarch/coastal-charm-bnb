@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useCapabilities } from "@/hooks/useCapabilities";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/router-compat";
 import { Plus, FileText, Users, Wrench, Building2, DollarSign } from "lucide-react";
 import { cn } from "@/lib/utils";
 

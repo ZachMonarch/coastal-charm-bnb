@@ -6,7 +6,7 @@ import {
   CheckCircle2, Circle, Building2, Phone, MapPin, Briefcase, 
   Award, Shield, CreditCard, Image, FileText, ArrowRight
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/router-compat";
 
 interface ProfileCompletenessProps {
   profile: {

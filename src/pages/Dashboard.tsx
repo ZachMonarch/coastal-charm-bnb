@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/router-compat";
 import { useAuth } from "@/contexts/OptimizedAuthContext";
 import { useAccessRequest } from "@/hooks/useAccessRequest";
 import { AccessGateOverlay } from "@/components/access/AccessGateOverlay";

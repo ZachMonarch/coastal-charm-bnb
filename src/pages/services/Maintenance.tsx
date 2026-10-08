@@ -1,7 +1,7 @@
 import { Wrench, Clock, Shield, CheckCircle, Phone, Zap, ArrowRight, Building2, Users, AlertTriangle, Star, Sparkles, ThumbsUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import Footer from "@/components/Footer";
 import { SEOHead } from "@/components/SEOHead";
 import { Breadcrumbs } from "@/components/Breadcrumbs";

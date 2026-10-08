@@ -7,7 +7,7 @@ import { Crown, Shield, Calendar, DollarSign, AlertTriangle, CheckCircle, FileTe
 import { useAuth } from '@/contexts/OptimizedAuthContext';
 import { useVendorApplications, useVendorBids } from '@/hooks/useVendors';
 import VerifiedBadge from './VerifiedBadge';
-import { Link } from 'react-router-dom';
+import { Link } from '@/lib/router-compat';
 import { supabase } from '@/integrations/supabase/client';
 
 interface VendorDashboardContentProps {

@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "@/lib/router-compat";
 import { 
   Building2, Home, Settings, User, Shield, Zap, Users, FileText, Star, Wrench, 
   BarChart, Plus, Gauge, Search, ClipboardList, CreditCard, FolderOpen, Crown, 

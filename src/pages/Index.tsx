@@ -9,7 +9,7 @@ import FeaturesShowcase from "@/components/FeaturesShowcase";
 import CTASection from "@/components/CTASection";
 import { EnhancedSEOLayout } from "@/components/EnhancedSEOLayout";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import { ArrowRight, Building2 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useProperties } from "@/hooks/useProperties";

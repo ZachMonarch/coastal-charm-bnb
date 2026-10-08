@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { CheckCircle, ArrowRight, Crown, Wrench, FileCheck, CreditCard } from 'lucide-react';
 import { useAuth } from '@/contexts/OptimizedAuthContext';
-import { Link } from 'react-router-dom';
+import { Link } from '@/lib/router-compat';
 
 export default function VendorOnboardingFlow() {
   const { user } = useAuth();

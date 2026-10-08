@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useAuth } from "@/contexts/OptimizedAuthContext";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "@/lib/router-compat";
 
 export interface NavigationItem {
   title: string;
