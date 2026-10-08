@@ -13,7 +13,7 @@ import VendorBidForm from './VendorBidForm';
 import CountdownTimer from './CountdownTimer';
 import VendorRFQSkeleton from './VendorRFQSkeleton';
 import { cn } from '@/lib/utils';
-import { Link } from 'react-router-dom';
+import { Link } from '@/lib/router-compat';
 import { getStatusColor, getPriorityColor } from '@/utils/themeColors';
 
 export default function VendorRFQTabs() {

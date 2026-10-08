@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from '@/lib/router-compat';
 import { useAuth, UserRole } from '@/contexts/OptimizedAuthContext';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { toast } from 'sonner';

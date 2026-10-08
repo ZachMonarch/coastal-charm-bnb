@@ -5,7 +5,7 @@ import { useRFQListSubscription } from '@/hooks/useRFQSubscription';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Plus, FileText, Clock, CheckCircle2, Award, FolderKanban, Building, Calendar, Users } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from '@/lib/router-compat';
 import { RFQStatusBadge } from '@/components/rfq/shared/RFQStatusBadge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';

@@ -1,5 +1,5 @@
 import { memo, useState, useCallback } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import { MapPin, Bed, Bath, Square, Star, Heart } from "lucide-react";
 import { logger } from '@/utils/logger';
 import { Card, CardContent } from "@/components/ui/card";

@@ -2,7 +2,7 @@ import { Shield, FileText, Scale, Users, AlertCircle, BookOpen } from "lucide-re
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Footer from "@/components/Footer";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import { SEOHead } from "@/components/SEOHead";
 import { PageHeroWithImage } from "@/components/PageHeroWithImage";
 

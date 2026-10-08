@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link } from '@/lib/router-compat';
 import { Helmet } from 'react-helmet-async';
 import { MapPin, Bed, Bath, Square, Calendar, Phone, Mail, Heart, Share2, ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';

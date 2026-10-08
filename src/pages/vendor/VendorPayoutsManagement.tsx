@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogD
 import { Textarea } from '@/components/ui/textarea';
 import PrivatePageWrapper from '@/components/PrivatePageWrapper';
 import { DollarSign, Download, Settings, TrendingUp, CheckCircle2, Clock, MessageSquare, AlertCircle, Wallet } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from '@/lib/router-compat';
 import { Label } from '@/components/ui/label';
 import EnhancedPageBackground from '@/components/shared/EnhancedPageBackground';
 import PageHeroWithImage from '@/components/shared/PageHeroWithImage';

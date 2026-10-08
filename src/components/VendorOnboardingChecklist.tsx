@@ -11,7 +11,7 @@ import {
   MessageSquare,
   ChevronRight 
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link } from '@/lib/router-compat';
 import { useAuth } from '@/contexts/OptimizedAuthContext';
 import { useVendorDashboardStats } from '@/hooks/useVendorDashboardStats';
 

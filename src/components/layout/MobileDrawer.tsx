@@ -1,6 +1,6 @@
 import { ReactNode, useEffect } from "react";
 import { createPortal } from "react-dom";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "@/lib/router-compat";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";

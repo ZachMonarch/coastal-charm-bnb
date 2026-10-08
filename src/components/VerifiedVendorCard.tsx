@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import ReusableAvatar from './Avatar';
 import { Star, Shield, CheckCircle2, Clock, Briefcase, Award, Phone, MapPin } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link } from '@/lib/router-compat';
 import { cn } from '@/lib/utils';
 import type { VerifiedVendor } from '@/hooks/useVerifiedVendors';
 

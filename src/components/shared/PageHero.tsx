@@ -1,7 +1,7 @@
 import React from 'react';
 import { LucideIcon, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
+import { Link } from '@/lib/router-compat';
 import { cn } from '@/lib/utils';
 
 interface HeroStat {

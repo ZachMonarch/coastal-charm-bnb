@@ -11,7 +11,7 @@ import { useAuth } from '@/contexts/OptimizedAuthContext';
 import { useVendorApplications } from '@/hooks/useVendors';
 import VendorBidForm from './rfq/VendorBidForm';
 import { supabase } from '@/integrations/supabase/client';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from '@/lib/router-compat';
 import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 

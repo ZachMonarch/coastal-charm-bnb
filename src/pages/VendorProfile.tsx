@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, User } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link } from '@/lib/router-compat';
 import VendorProfilePanel from '@/components/VendorProfilePanel';
 import OptimizedProtectedRoute from '@/components/OptimizedProtectedRoute';
 import PageHero from '@/components/shared/PageHero';

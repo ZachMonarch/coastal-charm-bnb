@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "@/lib/router-compat";
 import { useAuth } from "@/contexts/OptimizedAuthContext";
 import { Eye, EyeOff, LogIn, UserPlus, Building2, Shield, User, Wrench, Lock, Mail, Phone, Briefcase } from "lucide-react";
 import { getRoleHomeRouteForRoles } from "@/lib/roleRoutes";

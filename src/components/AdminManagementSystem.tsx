@@ -1,5 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams, useNavigate } from "@/lib/router-compat";
 import { Building, Users, UserPlus, FileText, Shield, BarChart3, CreditCard, Newspaper, UsersRound, Gavel, Bell, MessageSquare, Mail, UserCheck } from "lucide-react";
 import EnhancedPageBackground from "@/components/shared/EnhancedPageBackground";
 import PageHero from "@/components/shared/PageHero";

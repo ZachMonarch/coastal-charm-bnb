@@ -11,7 +11,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/OptimizedAuthContext';
 import VendorApplicationForm from './VendorApplicationForm';
 import { toast } from 'sonner';
-import { Link } from 'react-router-dom';
+import { Link } from '@/lib/router-compat';
 import { logger } from '@/utils/logger';
 import { getPriorityColor } from '@/utils/themeColors';
 

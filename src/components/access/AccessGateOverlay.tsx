@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link } from '@/lib/router-compat';
 import { useAuth } from '@/contexts/OptimizedAuthContext';
 import { useAccessRequest, type RoleRequestType } from '@/hooks/useAccessRequest';
 import { Button } from '@/components/ui/button';

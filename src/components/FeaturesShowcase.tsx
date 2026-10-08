@@ -1,6 +1,6 @@
 import { TrendingUp, Zap, Users, Wrench, Calculator, Clock, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function FeaturesShowcase() {

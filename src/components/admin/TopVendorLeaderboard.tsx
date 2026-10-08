@@ -1,7 +1,7 @@
 import { useTopVendors } from '@/hooks/useAdminVendorOps';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Trophy } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link } from '@/lib/router-compat';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function TopVendorLeaderboard() {

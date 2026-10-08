@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { User, Bell, Shield, CreditCard, Globe, Monitor, DollarSign, Clock } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link } from '@/lib/router-compat';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';

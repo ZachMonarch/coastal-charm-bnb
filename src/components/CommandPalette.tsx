@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from '@/lib/router-compat';
 import { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
 import { Search, Home, Users, Building2, FileText, Settings, BarChart, DollarSign, Wrench } from 'lucide-react';
 import { useAuth } from '@/contexts/OptimizedAuthContext';
