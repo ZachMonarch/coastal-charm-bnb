@@ -1,0 +1,52 @@
+src/pages/BookingPage.tsx(217,53): error TS7006: Parameter 'amenity' implicitly has an 'any' type.
+src/pages/BookingPage.tsx(217,62): error TS7006: Parameter 'index' implicitly has an 'any' type.
+src/pages/ProjectDetails.tsx(60,19): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+src/pages/ProjectDetails.tsx(64,18): error TS2345: Argument of type '{ id: string; title: string; description: string | null; category: string; priority: string; status: string; budget_min: number | null; budget_max: number | null; deadline: string | null; ... 9 more ...; documents: Json; }' is not assignable to parameter of type 'SetStateAction<Project | null>'.
+src/pages/ProjectDetails.tsx(65,22): error TS2345: Argument of type '{ id: string; title: string; description: string | null; category: string; priority: string; status: string; budget_min: number | null; budget_max: number | null; deadline: string | null; ... 9 more ...; documents: Json; }' is not assignable to parameter of type 'SetStateAction<Project | null>'.
+src/pages/ProjectManagement.tsx(57,19): error TS2345: Argument of type '{ id: string; title: string; description: string | null; category: string; priority: string; status: string; budget_min: number | null; budget_max: number | null; deadline: string | null; ... 4 more ...; assigned_vendor_id: string | null; }[]' is not assignable to parameter of type 'SetStateAction<Project[]>'.
+src/pages/TenantManagement.tsx(56,15): error TS2322: Type '{ id: string; name: string; email: string; phone: string | null; unit: string; property: string; rent: number; status: string; leaseStart: string | null; leaseEnd: string; avatar: string | null; }[]' is not assignable to type 'Tenant[]'.
+src/pages/TenantManagement.tsx(199,36): error TS2322: Type 'string | null' is not assignable to type 'string | undefined'.
+src/pages/UniversalPayments.tsx(36,13): error TS7030: Not all code paths return a value.
+src/pages/UniversalPayments.tsx(69,19): error TS2345: Argument of type '{ id: string; title: string; description: string | null; amount: number; status: string; payment_type: string; due_date: string | null; paid_at: string | null; created_at: string; }[]' is not assignable to parameter of type 'SetStateAction<Payment[]>'.
+src/pages/UserManagement.tsx(188,36): error TS2322: Type 'string | null' is not assignable to type 'string | undefined'.
+src/pages/VendorPayments.tsx(71,27): error TS2345: Argument of type '{ id: string; vendor_id: string; title: string; description: string | null; amount: number; payment_type: string; status: string; due_date: string | null; created_at: string; }[]' is not assignable to parameter of type 'SetStateAction<VendorPaymentFromAdmin[]>'.
+src/pages/VendorShowcase.tsx(80,5): error TS2345: Argument of type 'string | null | undefined' is not assignable to parameter of type 'string | undefined'.
+src/pages/VendorShowcase.tsx(116,32): error TS2769: No overload matches this call.
+src/pages/admin/AdminPayoutProcessing.tsx(116,28): error TS2538: Type 'null' cannot be used as an index type.
+src/pages/admin/ComprehensiveRFQDetail.tsx(114,21): error TS2345: Argument of type '(string | null)[]' is not assignable to parameter of type 'readonly string[]'.
+src/pages/admin/RFQEdit.tsx(1155,62): error TS18047: 'prop.id' is possibly 'null'.
+src/pages/admin/RFQEdit.tsx(1235,17): error TS2322: Type '{ id: number | null; title: string | null; address: string | null; city: string | null; state: string | null; }[]' is not assignable to type 'PropertyOption[]'.
+src/pages/admin/UnifiedRFQManagement.tsx(62,21): error TS2345: Argument of type '(number | null)[]' is not assignable to parameter of type 'readonly number[]'.
+src/pages/admin/WorkOrders.tsx(63,9): error TS2322: Type 'string | undefined' is not assignable to type 'string'.
+src/pages/vendor-onboarding/CapabilitiesStep.tsx(43,26): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+src/pages/vendor-onboarding/CapabilitiesStep.tsx(79,24): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+src/pages/vendor-onboarding/CompanyStep.tsx(36,26): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+src/pages/vendor-onboarding/ComplianceStep.tsx(46,24): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+src/pages/vendor-onboarding/ProfileStep.tsx(33,19): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+src/pages/vendor-onboarding/ReviewStep.tsx(44,24): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+src/pages/vendor/VendorInquiries.tsx(84,26): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+src/pages/vendor/VendorInquiries.tsx(88,20): error TS2345: Argument of type '{ id: string; category: string; subject: string; message: string; priority: string | null; status: string | null; admin_response: string | null; responded_at: string | null; created_at: string | null; }[]' is not assignable to parameter of type 'SetStateAction<Inquiry[]>'.
+src/pages/vendor/VendorInquiries.tsx(108,11): error TS2322: Type 'string | undefined' is not assignable to type 'string'.
+src/pages/vendor/VendorLeads.tsx(97,24): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+src/pages/vendor/VendorLeads.tsx(127,16): error TS2345: Argument of type '{ id: string; title: string; description: string; service_category: string; urgency: string | null; budget_min: number | null; budget_max: number | null; location_city: string | null; ... 5 more ...; expires_at: string | null; }[]' is not assignable to parameter of type 'SetStateAction<QuoteRequest[]>'.
+src/pages/vendor/VendorLeads.tsx(162,22): error TS2345: Argument of type '{ match_id: string; match_status: string | null; quote_amount: number | null; id?: string | undefined; title?: string | undefined; description?: string | undefined; service_category?: string | undefined; ... 9 more ...; expires_at?: string | ... 1 more ... | undefined; }[]' is not assignable to parameter of type 'SetStateAction<QuoteRequest[]>'.
+src/pages/vendor/VendorPayoutsManagement.tsx(69,13): error TS7030: Not all code paths return a value.
+src/pages/vendor/VendorPayoutsManagement.tsx(102,18): error TS2345: Argument of type '{ id: string; amount: number; status: string; reference: string | null; notes: string | null; payout_date: string | null; payout_method: string | null; created_at: string; vendor_acknowledged: boolean | null; vendor_notes: string | null; acknowledged_at: string | null; }[]' is not assignable to parameter of type 'SetStateAction<VendorPayout[]>'.
+src/pages/vendor/VendorPayoutsManagement.tsx(110,28): error TS2345: Argument of type 'boolean | null' is not assignable to parameter of type 'SetStateAction<boolean>'.
+src/pages/vendor/VendorProfileShowcase.tsx(69,24): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+src/pages/vendor/VendorProfileShowcase.tsx(75,20): error TS2345: Argument of type '{ id: string; company_name: string; description: string | null; phone: string | null; address: string | null; specialties: string[] | null; service_areas: string[] | null; certifications: string[] | null; ... 7 more ...; subscription_plan: string | null; }' is not assignable to parameter of type 'SetStateAction<VendorProfile | null>'.
+src/pages/vendor/VendorProfileShowcase.tsx(98,24): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+src/pages/vendor/VendorRFQDashboard.tsx(43,26): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+src/pages/vendor/VendorRFQDashboard.tsx(69,26): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+src/pages/vendor/VendorRFQDetail.tsx(62,26): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+src/utils/enhancedRLSTesting.ts(31,20): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+src/utils/enhancedRLSTesting.ts(49,21): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string | null'.
+src/utils/enhancedRLSTesting.ts(68,20): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+src/utils/enhancedRLSTesting.ts(113,23): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+src/utils/enhancedRLSTesting.ts(131,24): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+src/utils/enhancedRLSTesting.ts(272,20): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+src/utils/enhancedRLSTesting.ts(289,21): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+src/utils/enhancedRLSTesting.ts(307,7): error TS2322: Type 'string | undefined' is not assignable to type 'string'.
+src/utils/notificationService.ts(311,35): error TS2345: Argument of type '{ userId: string | null; title: string; message: string; type: "info"; actionUrl: string; }[]' is not assignable to parameter of type 'CreateNotificationOptions[]'.
+src/utils/productionSecurity.ts(255,24): error TS2345: Argument of type '{ id: number | null; title: string | null; description: string | null; address: string | null; city: string | null; state: string | null; zip_code: number | null; price: number | null; ... 6 more ...; amenities: string | null; }' is not assignable to parameter of type 'PropertyData'.
+src/utils/securityMonitoring.ts(314,5): error TS2322: Type '{ id: string; severity: "high" | "critical" | "medium" | "low"; eventType: any; message: any; details: any; timestamp: string | null; userId: string | null; }[]' is not assignable to type 'SecurityAlert[]'.
