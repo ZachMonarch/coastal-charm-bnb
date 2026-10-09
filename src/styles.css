@@ -1,6 +1,6 @@
 @import "tailwindcss" source(none);
 @source "../src";
-@plugin "tailwindcss-animate";
+@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -109,10 +109,6 @@
 
   --shadow-2xs: var(--shadow-2xs-token);
   --shadow-xs: var(--shadow-xs-token);
-  --shadow-sm: var(--shadow-sm);
-  --shadow-md: var(--shadow-md);
-  --shadow-lg: var(--shadow-lg);
-  --shadow-xl: var(--shadow-xl);
   --shadow-2xl: var(--shadow-2xl-token);
 
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
