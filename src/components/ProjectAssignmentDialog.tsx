@@ -100,10 +100,10 @@ export default function ProjectAssignmentDialog({
 
       if (error) throw error;
 
-      const vendorsWithProfiles = (data || []).map(vendor => ({
+      const vendorsWithProfiles: Vendor[] = (data || []).map(vendor => ({
         ...vendor,
         profiles: Array.isArray(vendor.profiles) ? vendor.profiles[0] : vendor.profiles
-      }));
+      })) as Vendor[];
 
       setVendors(vendorsWithProfiles);
       setFilteredVendors(vendorsWithProfiles);
@@ -131,7 +131,7 @@ export default function ProjectAssignmentDialog({
           .insert({
             project_id: project.id,
             vendor_id: selectedVendor,
-            assigned_by: user?.id,
+            assigned_by: user?.id ?? '',
             hourly_rate: assignmentDetails.hourly_rate ? parseFloat(assignmentDetails.hourly_rate) : null,
             estimated_hours: assignmentDetails.estimated_hours ? parseInt(assignmentDetails.estimated_hours) : null,
             status: 'active'

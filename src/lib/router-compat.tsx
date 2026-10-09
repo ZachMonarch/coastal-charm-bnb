@@ -69,7 +69,7 @@ function toHistoryState(state: unknown): HistoryState | undefined {
 
 export function useLocation(): Location {
   const loc = useTanstackLocation();
-  const state = loc.state as Record<string, unknown> | undefined;
+  const state = loc.state as unknown as Record<string, unknown> | undefined;
   return React.useMemo(
     () => ({
       pathname: loc.pathname,
