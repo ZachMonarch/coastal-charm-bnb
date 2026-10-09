@@ -13,9 +13,9 @@ import { getActionTypeColor } from '@/utils/themeColors';
 interface AuditLog {
   id: string;
   action: string;
-  table_name: string;
+  table_name: string | null;
   created_at: string;
-  user_id: string;
+  user_id: string | null;
   old_values?: any;
   new_values?: any;
 }
