@@ -46,7 +46,7 @@ export const testVendorProfilesRLS = async (): Promise<RLSTestResult[]> => {
   const { data: otherProfiles, error: otherError } = await supabase
     .from('vendor_profiles')
     .select('id, user_id, company_name')
-    .neq('user_id', currentUser?.id)
+    .neq('user_id', currentUser?.id ?? null)
     .limit(5);
 
   // Should be restricted based on role

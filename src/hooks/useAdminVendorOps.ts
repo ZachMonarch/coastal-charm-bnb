@@ -17,7 +17,7 @@ export function useCrossRFQBids(status?: string) {
   return useQuery({
     queryKey: ['cross-rfq-bids', status],
     queryFn: async () => {
-      const { data, error } = await supabase.rpc('get_cross_rfq_bids', { _status: status ?? null });
+      const { data, error } = await supabase.rpc('get_cross_rfq_bids', { _status: status ?? undefined });
       if (error) throw error;
       return data || [];
     },

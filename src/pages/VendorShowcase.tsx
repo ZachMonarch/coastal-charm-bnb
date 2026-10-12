@@ -77,7 +77,7 @@ export default function VendorShowcase() {
   });
 
   const { items: portfolioItems, loading: loadingPortfolio } = useVendorPortfolio(
-    vendor?.user_id
+    vendor?.user_id ?? undefined
   );
 
   if (loadingVendor) {

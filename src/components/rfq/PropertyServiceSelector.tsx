@@ -19,7 +19,7 @@ export interface PropertyServiceLink {
 }
 
 interface PropertyOption {
-  id: number;
+  id: number | null;
   title: string | null;
   address: string | null;
   city: string | null;

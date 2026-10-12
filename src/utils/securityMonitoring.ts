@@ -13,8 +13,8 @@ export interface SecurityAlert {
   eventType: string;
   message: string;
   details: any;
-  timestamp: string;
-  userId?: string;
+  timestamp: string | null;
+  userId?: string | null;
 }
 
 export interface MonitoringConfig {

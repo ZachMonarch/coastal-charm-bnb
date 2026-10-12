@@ -49,7 +49,7 @@ export function useVendorTier(vendorId: string) {
           currentTier,
           data.total_completed_jobs ?? 0,
           Number(data.average_rating),
-          data.review_count
+          data.review_count ?? 0
         );
 
         setTierInfo({

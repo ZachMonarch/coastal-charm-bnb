@@ -68,7 +68,7 @@ export function useForfeitEMD() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async ({ emd_id, notes }: { emd_id: string; notes?: string }) => {
-      const { data, error } = await supabase.rpc('forfeit_emd', { _emd_id: emd_id, _notes: notes ?? null });
+      const { data, error } = await supabase.rpc('forfeit_emd', { _emd_id: emd_id, _notes: notes ?? undefined });
       if (error) throw error;
       return data;
     },

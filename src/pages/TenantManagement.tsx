@@ -22,7 +22,7 @@ interface Tenant {
   property: string;
   rent: number;
   status: string;
-  leaseStart: string;
+  leaseStart: string | null;
   leaseEnd: string;
   avatar: string | null;
 }

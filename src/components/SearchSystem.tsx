@@ -38,11 +38,11 @@ interface SearchResult {
   type: 'property' | 'vendor' | 'project';
   title: string;
   description: string;
-  location?: string;
-  price?: number;
+  location?: string | null;
+  price?: number | null;
   rating?: number;
   image?: string;
-  tags: string[];
+  tags: (string | null)[];
   relevanceScore: number;
 }
 

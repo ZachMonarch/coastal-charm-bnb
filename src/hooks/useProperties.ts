@@ -156,7 +156,7 @@ export const useProperties = (filters: Partial<PropertyFilters> = {}, pageSize: 
       ]) as any;
       
       // Add fallback placeholder for properties without quality images
-      const qualityProperties = response.data.map(property => {
+      const qualityProperties = response.data.map((property: any) => {
         const qualityImages = getQualityImages(property.image_urls || '');
         return {
           ...property,

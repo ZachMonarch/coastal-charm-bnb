@@ -113,7 +113,7 @@ export default function AdminPayoutProcessing() {
         
         if (vendors) {
           vendors.forEach(v => {
-            vendorProfiles[v.user_id] = v;
+            if (v.user_id) vendorProfiles[v.user_id] = v;
           });
         }
 
