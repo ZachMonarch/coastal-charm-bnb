@@ -158,6 +158,7 @@ export default function UnifiedPerformanceMonitor() {
         window.removeEventListener('load', trackNavigationTiming);
       };
     }
+    return undefined;
   }, []);
 
   return (
