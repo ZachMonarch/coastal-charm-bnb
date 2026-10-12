@@ -52,6 +52,7 @@ export default function UniversalPayments() {
         supabase.removeChannel(channel);
       };
     }
+    return undefined;
   }, [user]);
 
   const fetchPayments = async () => {

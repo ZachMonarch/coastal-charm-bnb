@@ -84,6 +84,7 @@ export default function VendorPayoutsManagement() {
         supabase.removeChannel(channel);
       };
     }
+    return undefined;
   }, [user]);
 
   const fetchData = async () => {

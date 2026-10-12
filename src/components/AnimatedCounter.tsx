@@ -76,6 +76,7 @@ export default function AnimatedCounter({
         }
       };
     }
+    return undefined;
   }, [inView, value, duration, hasAnimated, prefersReducedMotion]);
 
   // Format the number with separators and decimals

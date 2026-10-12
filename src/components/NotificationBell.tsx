@@ -56,6 +56,7 @@ export default function NotificationBell() {
         supabase.removeChannel(channel);
       };
     }
+    return undefined;
   }, [user]);
 
   const fetchNotifications = async () => {
