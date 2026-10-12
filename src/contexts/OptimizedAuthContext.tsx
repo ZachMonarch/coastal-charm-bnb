@@ -3,6 +3,7 @@ import { AuthError, User as SupabaseUser, Session } from '@supabase/supabase-js'
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { logger } from '@/utils/logger';
+import type { TablesUpdate } from '@/integrations/supabase/types';
 import { withRateLimit } from '@/lib/rateLimit';
 
 export type UserRole = 'admin' | 'property_manager' | 'vendor' | 'tenant';
@@ -495,7 +496,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const { error } = await supabase
         .from('profiles')
-        .update(userData)
+        .update(userData as TablesUpdate<'profiles'>)
         .eq('id', user.id);
 
       if (error) throw error;

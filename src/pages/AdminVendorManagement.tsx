@@ -15,6 +15,7 @@ import VerifiedBadge from "@/components/VerifiedBadge";
 import PrivatePageWrapper from "@/components/PrivatePageWrapper";
 import PageHero from "@/components/shared/PageHero";
 import StatsCard from "@/components/shared/StatsCard";
+import type { TablesUpdate } from '@/integrations/supabase/types';
 import ColorfulIconBox from "@/components/shared/ColorfulIconBox";
 
 interface VendorProfile {
@@ -89,7 +90,7 @@ export default function AdminVendorManagement() {
     try {
       const { error } = await supabase
         .from('vendor_profiles')
-        .update({ [field]: value })
+        .update({ [field]: value } as TablesUpdate<'vendor_profiles'>)
         .eq('id', vendorId);
 
       if (error) throw error;
