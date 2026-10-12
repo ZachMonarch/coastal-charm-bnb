@@ -78,10 +78,10 @@ export default function VendorTierBadge({
       if (data) {
         const progress = data.next_tier_progress as Record<string, number> | null;
         setTierInfo({
-          current_tier: data.current_tier,
-          total_completed_jobs: data.total_completed_jobs,
+          current_tier: data.current_tier ?? '',
+          total_completed_jobs: data.total_completed_jobs ?? 0,
           average_rating: Number(data.average_rating),
-          review_count: data.review_count,
+          review_count: data.review_count ?? 0,
           next_tier_progress: {
             jobs_needed: progress?.jobs_needed,
             rating_needed: progress?.rating_needed,

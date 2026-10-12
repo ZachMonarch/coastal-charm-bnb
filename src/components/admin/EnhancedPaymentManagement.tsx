@@ -198,7 +198,7 @@ export default function EnhancedPaymentManagement() {
         p_description: newPayment.description,
         p_amount: parseFloat(newPayment.amount),
         p_payment_type: newPayment.payment_type,
-        p_due_date: newPayment.due_date || null
+        p_due_date: newPayment.due_date || undefined
       });
 
       if (error) throw error;
@@ -307,7 +307,7 @@ export default function EnhancedPaymentManagement() {
         p_vendor_id: newPayout.vendor_id,
         p_amount: parseFloat(newPayout.amount),
         p_reference: newPayout.reference,
-        p_notes: newPayout.notes || null
+        p_notes: newPayout.notes || undefined
       });
 
       if (error) throw error;

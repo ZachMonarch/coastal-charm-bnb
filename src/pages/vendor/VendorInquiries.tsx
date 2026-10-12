@@ -105,7 +105,7 @@ export default function VendorInquiries() {
       const { error } = await supabase
         .from('vendor_inquiries')
         .insert({
-          vendor_id: user?.id,
+          vendor_id: user?.id as string,
           category: newInquiry.category,
           subject: newInquiry.subject,
           message: newInquiry.message,

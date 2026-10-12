@@ -54,10 +54,10 @@ export function useVendorTier(vendorId: string) {
 
         setTierInfo({
           currentTier,
-          totalCompletedJobs: data.total_completed_jobs,
+          totalCompletedJobs: data.total_completed_jobs ?? 0,
           totalRevenue: Number(data.total_revenue),
           averageRating: Number(data.average_rating),
-          reviewCount: data.review_count,
+          reviewCount: data.review_count ?? 0,
           tierUpdatedAt: data.tier_updated_at,
           nextTierProgress
         });

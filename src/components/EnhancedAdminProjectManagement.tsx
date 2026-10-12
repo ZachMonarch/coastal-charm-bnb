@@ -185,7 +185,7 @@ export default function EnhancedAdminProjectManagement() {
         .insert({
           project_id: projectId,
           vendor_id: vendorId,
-          assigned_by: user?.id,
+          assigned_by: user?.id as string,
           status: 'active'
         });
 

@@ -242,7 +242,7 @@ export const useVendorRFQs = () => {
         .insert({
           user_id: user.id,
           project_title: projectData.title,
-          project_description: projectData.description,
+          project_description: projectData.description ?? '',
           project_type: projectData.category,
           status: 'submitted',
           priority: projectData.priority,

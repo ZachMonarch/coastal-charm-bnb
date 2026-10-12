@@ -63,7 +63,7 @@ export function VendorInviteDialog({ open, onOpenChange, rfqId, rfqTitle }: Vend
           rfq_id: rfqId,
           vendor_id: vendorIdToInvite,
           invitee_email: isSiteVendor ? null : normalizedEmail,
-          invited_by: user?.id,
+          invited_by: user?.id as string,
           status: 'invited',
         });
 

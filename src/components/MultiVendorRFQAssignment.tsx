@@ -160,7 +160,7 @@ export default function MultiVendorRFQAssignment({
           .insert({
             project_id: selectedProject,
             vendor_id: vendorId,
-            assigned_by: user?.id,
+            assigned_by: user?.id as string,
             status: 'invited'
           });
       });

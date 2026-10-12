@@ -304,7 +304,7 @@ export const testUserRolesRLS = async (): Promise<RLSTestResult[]> => {
   const { error: insertError } = await supabase
     .from('user_roles')
     .insert({
-      user_id: currentUser?.id,
+      user_id: currentUser?.id as string,
       role: 'admin'
     });
 
