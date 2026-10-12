@@ -186,7 +186,7 @@ export default function VendorRFQTabs() {
                         <DialogTrigger asChild>
                           <Button 
                             size="sm"
-                            onClick={() => setSelectedProject((rfq) as null)}
+                            onClick={() => setSelectedProject(rfq)}
                             className="w-full sm:w-auto text-white"
                             style={{ color: 'white' }}
                           >
