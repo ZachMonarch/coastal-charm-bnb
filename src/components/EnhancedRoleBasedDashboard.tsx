@@ -108,7 +108,7 @@ export default function EnhancedRoleBasedDashboard() {
                   : "Dashboard"}
               </h1>
               <Badge className="capitalize border-primary/30 bg-primary/5 text-primary font-semibold">
-                {user.role.replace("_", " ")}
+                {(user.role ?? "").replace("_", " ")}
               </Badge>
               {user.vendor?.isVerified && (
                 <div className="animate-in fade-in zoom-in duration-300 delay-100">

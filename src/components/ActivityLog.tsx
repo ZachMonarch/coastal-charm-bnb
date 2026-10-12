@@ -87,7 +87,7 @@ export default function ActivityLog() {
 
   const formatAction = (log: AuditLog): string => {
     const actionType = getActionType(log.action);
-    const tableName = log.table_name.replace(/_/g, ' ');
+    const tableName = (log.table_name ?? '').replace(/_/g, ' ');
 
     switch (actionType) {
       case 'INSERT':

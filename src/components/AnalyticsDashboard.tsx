@@ -174,7 +174,7 @@ export const AnalyticsDashboard: React.FC = () => {
 
       const activeProjects = projectsData?.filter(p => p.status === 'in_progress').length || 0;
       const completedProjects = projectsData?.filter(p => p.status === 'completed').length || 0;
-      const averageProjectValue = projectsData?.reduce((sum, p) => sum + (Number(p.budget_max) || 0), 0) / (projectsData?.length || 1) || 0;
+      const averageProjectValue = (projectsData?.reduce((sum, p) => sum + (Number(p.budget_max) || 0), 0) ?? 0) / (projectsData?.length || 1) || 0;
 
       // Fetch vendor count
       const { count: totalVendors } = await supabase

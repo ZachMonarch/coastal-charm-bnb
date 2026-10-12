@@ -16,7 +16,7 @@ export function useAutosave({
   onSave,
   enabled = true,
 }: AutosaveOptions) {
-  const timeoutRef = useRef<NodeJS.Timeout>();
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const previousDataRef = useRef<string>(JSON.stringify(data));
 
   const save = useCallback(async () => {

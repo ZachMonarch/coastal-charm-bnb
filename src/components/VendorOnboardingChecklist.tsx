@@ -39,7 +39,7 @@ export default function VendorOnboardingChecklist() {
       id: 'logo',
       title: 'Upload Logo',
       description: 'Add your company logo to your profile',
-      completed: hasLogo,
+      completed: !!hasLogo,
       route: '/vendor/profile',
       icon: Upload
     },

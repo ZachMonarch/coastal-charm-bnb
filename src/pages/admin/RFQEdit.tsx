@@ -1152,7 +1152,7 @@ export default function RFQEdit() {
                         <SelectContent>
                           <SelectItem value="none">No property linked</SelectItem>
                           {properties?.map((prop) => (
-                            <SelectItem key={prop.id} value={prop.id.toString()}>
+                            <SelectItem key={prop.id} value={String(prop.id)}>
                               {prop.title} - {prop.city}, {prop.state}
                             </SelectItem>
                           ))}

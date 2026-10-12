@@ -168,7 +168,7 @@ export const SearchSystem: React.FC<SearchSystemProps> = ({
 
         if (properties) {
           const propertyResults = properties.map(property => ({
-            id: property.id.toString(),
+            id: String(property.id),
             type: 'property' as const,
             title: property.title || 'Untitled Property',
             description: property.description || '',
