@@ -4,7 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 export interface Booking {
   id: string;
   user_id: string;
-  property_id: number;
+  property_id: number | null;
   check_in_date: string;
   check_out_date: string;
   guests: number;

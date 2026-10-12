@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { useVendorRFQs } from '@/hooks/useVendorRFQs';
+import { useVendorRFQs, type RFQProject } from '@/hooks/useVendorRFQs';
 import { useAuth } from '@/contexts/OptimizedAuthContext';
 import VendorBidForm from './VendorBidForm';
 import CountdownTimer from './CountdownTimer';
@@ -22,7 +22,7 @@ export default function VendorRFQTabs() {
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
-  const [selectedProject, setSelectedProject] = useState(null);
+  const [selectedProject, setSelectedProject] = useState<RFQProject | null>(null);
   const [showBidForm, setShowBidForm] = useState(false);
 
   const canApplyToProjects = user?.role === 'vendor' && isSubscribed('basic');
