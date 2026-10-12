@@ -100,7 +100,7 @@ export default function AdminMessages() {
       const { error } = await supabase
         .from('messages')
         .insert({
-          sender_id: user?.id,
+          sender_id: user?.id as string,
           recipient_id: recipientId,
           subject,
           content,

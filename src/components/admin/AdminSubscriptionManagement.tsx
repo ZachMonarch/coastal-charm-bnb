@@ -85,7 +85,7 @@ export default function AdminSubscriptionManagement() {
           vendor: profiles?.find(p => p.id === req.vendor_id)
         }));
 
-        setRequests(enrichedRequests);
+        setRequests((enrichedRequests) as SubscriptionRequest[]);
       } else {
         setRequests([]);
       }
@@ -103,14 +103,14 @@ export default function AdminSubscriptionManagement() {
         const { data: profiles } = await supabase
           .from('profiles')
           .select('id, full_name, email')
-          .in('id', userIds);
+          .in('id', userIds.filter((v): v is string => v !== null));
 
         const enrichedVendors = vendorData.map(vendor => ({
           ...vendor,
           profile: profiles?.find(p => p.id === vendor.user_id)
         }));
 
-        setVendors(enrichedVendors);
+        setVendors((enrichedVendors) as VendorSubscription[]);
       }
     } catch (error) {
       console.error('Error fetching data:', error);

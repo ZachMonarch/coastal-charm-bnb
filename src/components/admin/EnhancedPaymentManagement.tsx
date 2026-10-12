@@ -137,10 +137,10 @@ export default function EnhancedPaymentManagement() {
         .select('id, full_name')
         .in('id', userIds);
       
-      setPayments(paymentsData.map(p => ({
+      setPayments((paymentsData.map(p => ({
         ...p,
         user_name: userProfiles?.find(u => u.id === p.vendor_id)?.full_name || 'Unknown User'
-      })));
+      }))) as UserPayment[]);
     } else {
       setPayments([]);
     }
@@ -157,19 +157,19 @@ export default function EnhancedPaymentManagement() {
       const { data: userProfiles } = await supabase
         .from('profiles')
         .select('id, full_name')
-        .in('id', userIds);
+        .in('id', userIds.filter((v): v is string => v !== null));
 
       const paymentIds = [...new Set(refundsData.map(r => r.payment_id))];
       const { data: paymentDetails } = await supabase
         .from('vendor_payments')
         .select('id, title')
-        .in('id', paymentIds);
+        .in('id', paymentIds.filter((v): v is string => v !== null));
       
-      setRefunds(refundsData.map(r => ({
+      setRefunds((refundsData.map(r => ({
         ...r,
         user_name: userProfiles?.find(u => u.id === r.requested_by)?.full_name || 'Unknown',
         payment_title: paymentDetails?.find(p => p.id === r.payment_id)?.title || 'Unknown Payment'
-      })));
+      }))) as PaymentRefund[]);
     } else {
       setRefunds([]);
     }
@@ -181,7 +181,7 @@ export default function EnhancedPaymentManagement() {
       .select('id, full_name, email, role')
       .order('full_name');
     
-    setUsers(data || []);
+    setUsers((data || []) as UserProfile[]);
   };
 
   const handleCreatePayment = async () => {
@@ -198,7 +198,7 @@ export default function EnhancedPaymentManagement() {
         p_description: newPayment.description,
         p_amount: parseFloat(newPayment.amount),
         p_payment_type: newPayment.payment_type,
-        p_due_date: newPayment.due_date || null
+        p_due_date: newPayment.due_date || undefined
       });
 
       if (error) throw error;
@@ -307,7 +307,7 @@ export default function EnhancedPaymentManagement() {
         p_vendor_id: newPayout.vendor_id,
         p_amount: parseFloat(newPayout.amount),
         p_reference: newPayout.reference,
-        p_notes: newPayout.notes || null
+        p_notes: newPayout.notes || undefined
       });
 
       if (error) throw error;

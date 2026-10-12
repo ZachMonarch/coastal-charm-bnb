@@ -215,8 +215,8 @@ export default function AdminRFQSystem() {
       // Count bids per project
       const bidCountMap = new Map<string, number>();
       (bidCounts || []).forEach(bid => {
-        const count = bidCountMap.get(bid.project_id) || 0;
-        bidCountMap.set(bid.project_id, count + 1);
+        const count = bidCountMap.get(bid.project_id ?? '') || 0;
+        bidCountMap.set(bid.project_id ?? '', count + 1);
       });
 
       const projectsWithBids = (data || []).map(project => ({
@@ -225,7 +225,7 @@ export default function AdminRFQSystem() {
         source: 'projects' as const
       }));
 
-      setRfqProjects(projectsWithBids);
+      setRfqProjects((projectsWithBids) as RFQProject[]);
     } catch (error) {
       const safeError = secureErrorHandler.handleError(error, {
         endpoint: 'rfq_projects',
@@ -269,7 +269,7 @@ export default function AdminRFQSystem() {
         })
       );
 
-      setProjectBids(bidsWithVendorInfo);
+      setProjectBids((bidsWithVendorInfo) as Bid[]);
     } catch (error) {
       logger.error('Error fetching project bids:', error);
       toast.error('Failed to load project bids');
@@ -423,7 +423,7 @@ export default function AdminRFQSystem() {
         return;
       }
 
-      const notifications = vendors.map(vendor => ({
+      const notifications = vendors.filter((vendor): vendor is typeof vendor & { user_id: string } => !!vendor.user_id).map(vendor => ({
         user_id: vendor.user_id,
         title: 'New Project Available',
         message: `A new project "${project.title}" is available for bidding.`,

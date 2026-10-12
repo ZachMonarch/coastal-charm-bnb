@@ -88,7 +88,7 @@ export default function TeamMemberModal({
     watch,
     reset,
     formState: { errors },
-  } = useForm<FormData>({
+  } = useForm<z.input<typeof teamMemberSchema>, unknown, FormData>({
     resolver: zodResolver(teamMemberSchema),
     defaultValues: {
       full_name: member?.full_name || "",

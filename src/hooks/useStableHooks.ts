@@ -9,7 +9,7 @@ export function useStableEffect(
   deps: DependencyList = []
 ) {
   const isFirstRender = useRef(true);
-  const cleanup = useRef<(() => void) | void>();
+  const cleanup = useRef<(() => void) | void>(undefined);
 
   useEffect(() => {
     const execute = async () => {

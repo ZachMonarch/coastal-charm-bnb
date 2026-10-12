@@ -103,7 +103,7 @@ export default function EnhancedRFQSystemWithSubscription({ className }: Enhance
                   project.documents ? [project.documents] : []
       }));
       
-      setProjects(transformedProjects);
+      setProjects((transformedProjects) as RFQProject[]);
     } catch (error) {
       logger.error('Error fetching projects:', error);
       toast.error('Failed to load projects');

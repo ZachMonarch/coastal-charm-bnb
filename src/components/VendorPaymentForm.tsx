@@ -53,20 +53,20 @@ export default function VendorPaymentForm() {
       const { data, error } = await supabase
         .from('vendor_payment_methods')
         .select('id, vendor_id, stripe_payment_method_id, type, last_four, brand, is_default, created_at, updated_at')
-        .eq('vendor_id', user?.id)
+        .eq('vendor_id', user?.id ?? '')
         .order('created_at', { ascending: false })
         .limit(20);
 
       if (error) throw error;
 
       if (data) {
-        setPaymentMethods(data.map(pm => ({
+        setPaymentMethods((data.map(pm => ({
           id: pm.stripe_payment_method_id,
           type: pm.type as 'credit_card' | 'bank_account',
           last_four: pm.last_four,
           brand: pm.brand,
           is_default: pm.is_default
-        })));
+        }))) as PaymentMethod[]);
       }
     } catch (error) {
       console.error('Error fetching payment methods:', error);
@@ -156,7 +156,7 @@ export default function VendorPaymentForm() {
       await supabase
         .from('vendor_payment_methods')
         .update({ is_default: false })
-        .eq('vendor_id', user?.id);
+        .eq('vendor_id', user?.id ?? '');
 
       // Then set the selected method as default
       const { error } = await supabase

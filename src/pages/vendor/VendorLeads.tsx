@@ -94,7 +94,7 @@ export default function VendorLeads() {
       const { data, error } = await supabase
         .from('vendor_profiles')
         .select('id, specialties, service_areas')
-        .eq('user_id', user?.id)
+        .eq('user_id', user?.id ?? '')
         .single();
 
       if (error) throw error;
@@ -124,7 +124,7 @@ export default function VendorLeads() {
         vendorProfile.specialties?.includes(lead.service_category)
       );
       
-      setLeads(filteredLeads);
+      setLeads((filteredLeads) as QuoteRequest[]);
     } catch (error) {
       console.error("Error fetching leads:", error);
       toast.error("Failed to load leads");
@@ -159,7 +159,7 @@ export default function VendorLeads() {
         quote_amount: match.quote_amount,
       }));
 
-      setMyResponses(responses);
+      setMyResponses((responses) as QuoteRequest[]);
     } catch (error) {
       console.error("Error fetching responses:", error);
     }

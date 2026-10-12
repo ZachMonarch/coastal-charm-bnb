@@ -71,7 +71,7 @@ export default function ProductionPropertiesManager() {
 
       if (error) throw error;
 
-      setProperties(propertiesData || []);
+      setProperties((propertiesData || []) as Property[]);
 
       // Calculate stats
       const total = propertiesData?.length || 0;

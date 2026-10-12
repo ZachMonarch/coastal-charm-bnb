@@ -174,7 +174,7 @@ export const AnalyticsDashboard: React.FC = () => {
 
       const activeProjects = projectsData?.filter(p => p.status === 'in_progress').length || 0;
       const completedProjects = projectsData?.filter(p => p.status === 'completed').length || 0;
-      const averageProjectValue = projectsData?.reduce((sum, p) => sum + (Number(p.budget_max) || 0), 0) / (projectsData?.length || 1) || 0;
+      const averageProjectValue = (projectsData?.reduce((sum, p) => sum + (Number(p.budget_max) || 0), 0) ?? 0) / (projectsData?.length || 1) || 0;
 
       // Fetch vendor count
       const { count: totalVendors } = await supabase
@@ -182,8 +182,8 @@ export const AnalyticsDashboard: React.FC = () => {
         .select('id', { count: 'exact', head: true });
 
       // Calculate growth rate (simplified)
-      const previousPeriodUsers = Math.max(1, totalUsers - newUsersByDate.length);
-      const growthRate = ((totalUsers - previousPeriodUsers) / previousPeriodUsers) * 100;
+      const previousPeriodUsers = Math.max(1, (totalUsers ?? 0) - newUsersByDate.length);
+      const growthRate = (((totalUsers ?? 0) - previousPeriodUsers) / previousPeriodUsers) * 100;
 
       setAnalyticsData({
         overview: {

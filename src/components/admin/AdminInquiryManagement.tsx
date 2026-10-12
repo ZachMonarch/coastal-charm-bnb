@@ -124,7 +124,7 @@ export default function AdminInquiryManagement() {
         vendor: profileMap.get(inquiry.vendor_id) || { full_name: 'Unknown', email: '', avatar_url: null }
       }));
 
-      setInquiries(enrichedInquiries);
+      setInquiries((enrichedInquiries) as VendorInquiry[]);
     } catch (error) {
       console.error('Error fetching inquiries:', error);
       toast.error('Failed to load inquiries');

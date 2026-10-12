@@ -38,11 +38,11 @@ interface SearchResult {
   type: 'property' | 'vendor' | 'project';
   title: string;
   description: string;
-  location?: string;
-  price?: number;
+  location?: string | null;
+  price?: number | null;
   rating?: number;
   image?: string;
-  tags: string[];
+  tags: (string | null)[];
   relevanceScore: number;
 }
 
@@ -168,7 +168,7 @@ export const SearchSystem: React.FC<SearchSystemProps> = ({
 
         if (properties) {
           const propertyResults = properties.map(property => ({
-            id: property.id.toString(),
+            id: String(property.id),
             type: 'property' as const,
             title: property.title || 'Untitled Property',
             description: property.description || '',

@@ -60,7 +60,7 @@ export default function WorkOrders() {
         property_id: data.property_id ? parseInt(data.property_id) : null,
         scheduled_date: data.due_date || null,
         status: 'pending',
-        created_by: (await supabase.auth.getUser()).data.user?.id,
+        created_by: (await supabase.auth.getUser()).data.user?.id as string,
         tenant_id: '00000000-0000-0000-0000-000000000001',
       });
 

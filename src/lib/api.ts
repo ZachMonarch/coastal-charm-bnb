@@ -149,20 +149,20 @@ export class PropertyAPI {
           supabase.rpc('get_public_property_listings', {
             p_limit: params.pageSize,
             p_offset: (params.page - 1) * params.pageSize,
-            p_city: params.city && params.city !== 'all' ? params.city : null,
-            p_property_type: params.propertyType && params.propertyType !== 'all' ? params.propertyType : null,
-            p_min_price: params.minPrice || null,
-            p_max_price: params.maxPrice || null,
-            p_bedrooms: params.bedrooms || null,
-            p_status: params.status && params.status !== 'all' ? params.status : null
+            p_city: params.city && params.city !== 'all' ? params.city : undefined,
+            p_property_type: params.propertyType && params.propertyType !== 'all' ? params.propertyType : undefined,
+            p_min_price: params.minPrice || undefined,
+            p_max_price: params.maxPrice || undefined,
+            p_bedrooms: params.bedrooms || undefined,
+            p_status: params.status && params.status !== 'all' ? params.status : undefined
           }),
           supabase.rpc('get_public_property_count', {
-            p_city: params.city && params.city !== 'all' ? params.city : null,
-            p_property_type: params.propertyType && params.propertyType !== 'all' ? params.propertyType : null,
-            p_min_price: params.minPrice || null,
-            p_max_price: params.maxPrice || null,
-            p_bedrooms: params.bedrooms || null,
-            p_status: params.status && params.status !== 'all' ? params.status : null
+            p_city: params.city && params.city !== 'all' ? params.city : undefined,
+            p_property_type: params.propertyType && params.propertyType !== 'all' ? params.propertyType : undefined,
+            p_min_price: params.minPrice || undefined,
+            p_max_price: params.maxPrice || undefined,
+            p_bedrooms: params.bedrooms || undefined,
+            p_status: params.status && params.status !== 'all' ? params.status : undefined
           })
         ]);
 

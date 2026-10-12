@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/OptimizedAuthContext';
+import type { TablesUpdate } from '@/integrations/supabase/types';
 import { toast } from 'sonner';
 
 export interface UserPreferences {
@@ -111,7 +112,7 @@ export function useUserPreferences() {
     try {
       const { error: updateError } = await supabase
         .from('user_preferences')
-        .update({ [key]: value })
+        .update({ [key]: value } as TablesUpdate<'user_preferences'>)
         .eq('user_id', user.id);
 
       if (updateError) {

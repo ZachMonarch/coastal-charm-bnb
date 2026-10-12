@@ -151,7 +151,7 @@ export default function SubscriptionPlans() {
           console.error('Error checking pending request:', error);
         }
         
-        setPendingRequest(data);
+        setPendingRequest((data) as PendingRequest | null);
       } catch (error) {
         console.error('Error checking pending request:', error);
       } finally {

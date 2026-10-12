@@ -81,11 +81,11 @@ export default function VendorInquiries() {
       const { data, error } = await supabase
         .from('vendor_inquiries')
         .select('id, category, subject, message, priority, status, admin_response, responded_at, created_at')
-        .eq('vendor_id', user?.id)
+        .eq('vendor_id', user?.id ?? '')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setInquiries(data || []);
+      setInquiries((data || []) as Inquiry[]);
     } catch (error) {
       console.error('Error fetching inquiries:', error);
       toast.error('Failed to load inquiries');
@@ -105,7 +105,7 @@ export default function VendorInquiries() {
       const { error } = await supabase
         .from('vendor_inquiries')
         .insert({
-          vendor_id: user?.id,
+          vendor_id: user?.id as string,
           category: newInquiry.category,
           subject: newInquiry.subject,
           message: newInquiry.message,

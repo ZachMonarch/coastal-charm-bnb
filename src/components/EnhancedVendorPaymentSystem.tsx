@@ -52,7 +52,7 @@ export default function EnhancedVendorPaymentSystem() {
         .limit(100);
 
       if (error) throw error;
-      setPayments(data || []);
+      setPayments((data || []) as VendorPayment[]);
     } catch (error) {
       logger.error('Error fetching payments:', error);
       toast.error('Failed to load payments');

@@ -116,7 +116,7 @@ export function useVendorInvoicing() {
       .limit(100);
 
     if (error) throw error;
-    setPayouts(data || []);
+    setPayouts((data || []) as VendorPayout[]);
   };
 
   const fetchCompletedMilestones = async () => {
@@ -148,7 +148,7 @@ export function useVendorInvoicing() {
       has_invoice: invoicedMilestoneIds.has(milestone.id)
     }));
 
-    setCompletedMilestones(enrichedMilestones);
+    setCompletedMilestones((enrichedMilestones) as CompletedMilestone[]);
   };
 
   const generateInvoice = async (milestone: CompletedMilestone) => {

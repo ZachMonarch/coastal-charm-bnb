@@ -300,7 +300,7 @@ export const notifyQualifiedVendors = async (projectId: string, projectTitle: st
 
     const template = notificationTemplates.newRFQAvailable(projectTitle, category, budgetString);
     
-    const vendorNotifications = matchingVendors.map(vendor => ({
+    const vendorNotifications = matchingVendors.filter((vendor): vendor is typeof vendor & { user_id: string } => !!vendor.user_id).map(vendor => ({
       userId: vendor.user_id,
       title: template.title,
       message: template.message,

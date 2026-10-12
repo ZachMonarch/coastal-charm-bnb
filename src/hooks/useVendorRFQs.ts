@@ -69,7 +69,7 @@ export const useVendorRFQs = () => {
         return;
       }
       
-      setAvailableRFQs(data || []);
+      setAvailableRFQs((data || []) as RFQProject[]);
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Failed to fetch available RFQs';
       console.error('Error fetching available RFQs:', err);
@@ -242,7 +242,7 @@ export const useVendorRFQs = () => {
         .insert({
           user_id: user.id,
           project_title: projectData.title,
-          project_description: projectData.description,
+          project_description: projectData.description ?? '',
           project_type: projectData.category,
           status: 'submitted',
           priority: projectData.priority,

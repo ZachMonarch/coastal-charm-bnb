@@ -56,6 +56,7 @@ export default function NotificationBell() {
         supabase.removeChannel(channel);
       };
     }
+    return undefined;
   }, [user]);
 
   const fetchNotifications = async () => {
@@ -69,7 +70,7 @@ export default function NotificationBell() {
       .limit(10);
 
     if (!error && data) {
-      setNotifications(data);
+      setNotifications((data) as Notification[]);
       setUnreadCount(data.filter(n => !n.read).length);
     }
   };

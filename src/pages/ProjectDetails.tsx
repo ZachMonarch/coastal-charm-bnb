@@ -57,12 +57,12 @@ export default function ProjectDetails() {
       const { data, error } = await supabase
         .from('projects')
         .select('id, title, description, category, priority, status, budget_min, budget_max, deadline, preferred_start_date, location, skills_required, created_at, created_by, assigned_vendor_id, property_id, tenant_id, updated_at, documents')
-        .eq('id', id)
+        .eq('id', id ?? '')
         .single();
 
       if (error) throw error;
-      setProject(data);
-      setEditProject(data);
+      setProject((data) as Project | null);
+      setEditProject((data) as Project | null);
     } catch (error) {
       logger.error('Error fetching project:', error);
       toast.error('Failed to load project details');

@@ -113,7 +113,7 @@ export default function ProductionRFQSystem() {
         profiles: Array.isArray(project.profiles) ? project.profiles[0] || null : project.profiles
       })) || [];
       
-      setProjects(transformedData);
+      setProjects((transformedData) as Project[]);
     } catch (error: any) {
       logger.error('Error fetching projects:', error);
       toast({

@@ -68,7 +68,7 @@ export default function VendorPayments() {
           .order('created_at', { ascending: false });
           
         if (error) throw error;
-        setVendorPayments(data || []);
+        setVendorPayments((data || []) as VendorPaymentFromAdmin[]);
 
         const { data: payoutsData } = await supabase
           .from('vendor_payouts')

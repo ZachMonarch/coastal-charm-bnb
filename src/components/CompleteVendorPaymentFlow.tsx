@@ -44,7 +44,7 @@ export default function CompleteVendorPaymentFlow() {
         .limit(100);
 
       if (error) throw error;
-      setPayments(data || []);
+      setPayments((data || []) as VendorPayment[]);
     } catch (error: any) {
       logger.error('Error fetching vendor payments', { 
         userId: user.id,

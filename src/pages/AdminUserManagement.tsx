@@ -60,7 +60,7 @@ export default function AdminUserManagement() {
         .limit(100);
 
       if (error) throw error;
-      setUsers(data || []);
+      setUsers((data || []) as User[]);
     } catch (error) {
       console.error('Error fetching users:', error);
       toast.error('Failed to load users');

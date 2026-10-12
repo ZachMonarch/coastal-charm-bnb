@@ -97,7 +97,7 @@ export function VendorDocumentComments({ documentId, documentName, vendorId }: V
                     <div className="flex items-center justify-between">
                       <p className="font-medium text-sm">{comment.user?.full_name || 'Unknown User'}</p>
                       <span className="text-xs text-muted-foreground">
-                        {formatDistanceToNow(new Date(comment.created_at), { addSuffix: true })}
+                        {formatDistanceToNow(new Date(comment.created_at ?? 0), { addSuffix: true })}
                       </span>
                     </div>
                     <div className="flex items-center gap-2">

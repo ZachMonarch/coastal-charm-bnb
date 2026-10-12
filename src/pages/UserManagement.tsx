@@ -185,7 +185,7 @@ export default function UserManagement() {
                 >
                   <div className="flex items-center space-x-4 mb-4 sm:mb-0">
                     <Avatar>
-                      <AvatarImage src={user.avatar} />
+                      <AvatarImage src={user.avatar ?? undefined} />
                       <AvatarFallback>{user.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                     </Avatar>
                     

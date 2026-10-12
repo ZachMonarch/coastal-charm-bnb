@@ -116,7 +116,7 @@ export const ComprehensiveSecurityDashboard: React.FC = () => {
       // Create trends (group by date)
       const trendMap = new Map<string, { events: number; severities: string[] }>();
       events?.forEach(event => {
-        const date = new Date(event.created_at).toLocaleDateString();
+        const date = new Date(event.created_at ?? 0).toLocaleDateString();
         const existing = trendMap.get(date) || { events: 0, severities: [] };
         existing.events++;
         existing.severities.push(event.severity);

@@ -116,7 +116,7 @@ export default function SubscriptionPlansEnhanced() {
         .maybeSingle();
       
       if (!error && data) {
-        setPendingRequest(data);
+        setPendingRequest((data) as PendingRequest | null);
       }
     } catch (error) {
       console.error('Error checking pending request:', error);

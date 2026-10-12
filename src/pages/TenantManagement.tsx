@@ -22,7 +22,7 @@ interface Tenant {
   property: string;
   rent: number;
   status: string;
-  leaseStart: string;
+  leaseStart: string | null;
   leaseEnd: string;
   avatar: string | null;
 }
@@ -196,7 +196,7 @@ export default function TenantManagement() {
                 >
                   <div className="flex items-center space-x-4 mb-4 lg:mb-0">
                     <Avatar>
-                      <AvatarImage src={tenant.avatar} />
+                      <AvatarImage src={tenant.avatar ?? undefined} />
                       <AvatarFallback>{tenant.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                     </Avatar>
                     

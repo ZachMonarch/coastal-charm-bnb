@@ -40,7 +40,7 @@ export default function VendorRFQDashboard() {
             property:properties(title, address)
           )
         `)
-        .eq('vendor_id', user?.id)
+        .eq('vendor_id', user?.id ?? '')
         .eq('status', 'invited')
         .order('invited_at', { ascending: false });
 
@@ -66,7 +66,7 @@ export default function VendorRFQDashboard() {
             rfq:rfqs(id, title, status, deadline)
           )
         `)
-        .eq('vendor_id', user?.id)
+        .eq('vendor_id', user?.id ?? '')
         .order('submitted_at', { ascending: false });
 
       if (error) throw error;

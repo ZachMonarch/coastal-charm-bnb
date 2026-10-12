@@ -57,13 +57,13 @@ export default function VendorPaymentSystem() {
 
       if (error) throw error;
 
-      setPayments(data || []);
+      setPayments((data || []) as VendorPayment[]);
       
       // Calculate stats
       const totalOwed = data?.filter(p => p.status === 'pending').reduce((sum, p) => sum + Number(p.amount), 0) || 0;
       const totalPaid = data?.filter(p => p.status === 'paid').reduce((sum, p) => sum + Number(p.amount), 0) || 0;
       const pendingCount = data?.filter(p => p.status === 'pending').length || 0;
-      const overdueCount = data?.filter(p => p.status === 'pending' && new Date(p.due_date) < new Date()).length || 0;
+      const overdueCount = data?.filter(p => p.status === 'pending' && new Date(p.due_date ?? 0) < new Date()).length || 0;
 
       setStats({ totalOwed, totalPaid, pendingCount, overdueCount });
     } catch (error) {

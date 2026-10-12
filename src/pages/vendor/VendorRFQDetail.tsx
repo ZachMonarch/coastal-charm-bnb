@@ -59,7 +59,7 @@ export default function VendorRFQDetail() {
       const { data, error } = await supabase
         .from('bid_lines')
         .select('id, unit_price, submitted_at')
-        .eq('vendor_id', user?.id)
+        .eq('vendor_id', user?.id ?? '')
         .in('rfq_lot_id', rfq?.rfq_lots?.map((lot: any) => lot.id) || [])
         .maybeSingle();
 

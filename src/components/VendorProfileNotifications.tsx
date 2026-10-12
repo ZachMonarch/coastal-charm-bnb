@@ -54,15 +54,15 @@ export default function VendorProfileNotifications() {
 
       if (data) {
         setSettings({
-          email_notifications: data.email_notifications,
-          push_notifications: data.push_notifications,
-          sms_notifications: data.sms_notifications,
-          project_alerts: data.project_alerts,
-          bid_notifications: data.bid_notifications,
-          payment_alerts: data.payment_alerts,
-          system_updates: data.system_updates,
-          newsletter: data.newsletter,
-          marketing: data.marketing,
+          email_notifications: data.email_notifications ?? false,
+          push_notifications: data.push_notifications ?? false,
+          sms_notifications: data.sms_notifications ?? false,
+          project_alerts: data.project_alerts ?? false,
+          bid_notifications: data.bid_notifications ?? false,
+          payment_alerts: data.payment_alerts ?? false,
+          system_updates: data.system_updates ?? false,
+          newsletter: data.newsletter ?? false,
+          marketing: data.marketing ?? false,
         });
       }
     } catch (error: any) {

@@ -82,7 +82,7 @@ export default function AdminNotificationCenter() {
         return;
       }
       
-      setFoundUser(data);
+      setFoundUser((data) as { id: string; email: string; full_name: string; } | null);
       setFormData(prev => ({ ...prev, individualUserId: data.id }));
       toast.success(`Found user: ${data.full_name || data.email}`);
     } catch (error) {

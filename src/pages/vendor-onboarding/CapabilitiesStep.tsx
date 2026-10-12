@@ -40,7 +40,7 @@ export default function CapabilitiesStep() {
         const { data } = await supabase
           .from('vendor_profiles')
           .select('specialties')
-          .eq('user_id', user?.id)
+          .eq('user_id', user?.id ?? '')
           .single();
         
         if (data?.specialties) {
@@ -76,7 +76,7 @@ export default function CapabilitiesStep() {
           specialties: selectedServices,
           updated_at: new Date().toISOString(),
         })
-        .eq('user_id', user?.id);
+        .eq('user_id', user?.id ?? '');
 
       if (error) throw error;
 

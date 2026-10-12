@@ -56,7 +56,7 @@ export function useVendorReviews(vendorId: string) {
 
       if (error) throw error;
 
-      setReviews(data || []);
+      setReviews((data || []) as Review[]);
 
       // Calculate stats
       if (data && data.length > 0) {

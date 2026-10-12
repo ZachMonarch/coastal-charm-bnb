@@ -43,7 +43,7 @@ export default function ComplianceStep() {
           background_check_verified: formData.background_check_completed,
           updated_at: new Date().toISOString(),
         })
-        .eq('user_id', user?.id);
+        .eq('user_id', user?.id ?? '');
 
       if (error) throw error;
 

@@ -150,7 +150,7 @@ export default function OptimizedBookingForm({ propertyId }: BookingFormProps) {
                   mode="single"
                   selected={endDate}
                   onSelect={setEndDate}
-                  disabled={(date) => date < new Date() || (startDate && date <= startDate)}
+                  disabled={(date) => date < new Date() || !!(startDate && date <= startDate)}
                   initialFocus
                 />
               </PopoverContent>

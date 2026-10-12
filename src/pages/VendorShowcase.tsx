@@ -77,7 +77,7 @@ export default function VendorShowcase() {
   });
 
   const { items: portfolioItems, loading: loadingPortfolio } = useVendorPortfolio(
-    vendor?.user_id
+    vendor?.user_id ?? undefined
   );
 
   if (loadingVendor) {
@@ -113,7 +113,7 @@ export default function VendorShowcase() {
       .slice(0, 2) || "V";
   };
 
-  const memberSince = new Date(vendor.created_at).getFullYear();
+  const memberSince = new Date(vendor.created_at ?? 0).getFullYear();
 
   return (
     <>

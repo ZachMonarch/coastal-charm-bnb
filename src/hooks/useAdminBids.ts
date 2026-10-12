@@ -92,7 +92,7 @@ export const useAdminBids = () => {
         })
       );
 
-      setBids(enrichedBids);
+      setBids((enrichedBids) as AdminBid[]);
     } catch (err) {
       console.error('Error fetching bids:', err);
       setError(err instanceof Error ? err.message : 'Failed to fetch bids');

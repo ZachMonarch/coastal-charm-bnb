@@ -84,6 +84,7 @@ export default function VendorPayoutsManagement() {
         supabase.removeChannel(channel);
       };
     }
+    return undefined;
   }, [user]);
 
   const fetchData = async () => {
@@ -99,7 +100,7 @@ export default function VendorPayoutsManagement() {
         .order('created_at', { ascending: false });
 
       if (payoutsError) throw payoutsError;
-      setPayouts(payoutsData || []);
+      setPayouts((payoutsData || []) as VendorPayout[]);
 
       const { data: settingsData } = await supabase
         .from('vendor_payout_settings')
@@ -107,7 +108,7 @@ export default function VendorPayoutsManagement() {
         .eq('vendor_id', user.id)
         .maybeSingle();
 
-      setHasPayoutSettings(!!settingsData && settingsData.is_verified);
+      setHasPayoutSettings((!!settingsData && settingsData.is_verified) as boolean);
     } catch (error) {
       console.error('Error fetching payouts:', error);
       toast.error('Failed to load payouts');

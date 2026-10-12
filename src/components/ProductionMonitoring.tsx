@@ -97,7 +97,7 @@ export default function ProductionMonitoring() {
       // Calculate active users (users who have activity in last 24 hours)
       const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000);
       const activeUserCount = profiles?.filter(p => 
-        new Date(p.created_at) > yesterday
+        new Date(p.created_at ?? 0) > yesterday
       ).length || 0;
 
       // Calculate total revenue

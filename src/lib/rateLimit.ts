@@ -146,8 +146,8 @@ export async function withRateLimit<T>(
     try {
       await supabase.rpc('log_security_event', {
         event_type: 'RATE_LIMIT_EXCEEDED',
-        p_table_name: null,
-        p_record_id: null,
+        p_table_name: undefined,
+        p_record_id: undefined,
         details: { endpoint, identifier: options?.identifier }
       });
     } catch {
