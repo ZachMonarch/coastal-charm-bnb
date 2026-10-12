@@ -64,7 +64,7 @@ export default function DocumentManagement({
         .limit(100);
 
       if (error) throw error;
-      setDocuments(data || []);
+      setDocuments((data || []) as ProjectDocument[]);
     } catch (error) {
       logger.error('Error fetching project documents', { 
         projectId,

@@ -27,7 +27,7 @@ export class GlobalErrorBoundary extends Component<Props, State> {
     return { hasError: true, error };
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+  override componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     // Use logger for production-safe error logging
     logger.error('Global error boundary caught an error:', error, errorInfo);
     this.setState({ error, errorInfo });
@@ -68,7 +68,7 @@ export class GlobalErrorBoundary extends Component<Props, State> {
     window.location.href = '/';
   };
 
-  render() {
+  override render() {
     if (this.state.hasError) {
       // Custom fallback UI
       if (this.props.fallback) {

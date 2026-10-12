@@ -39,7 +39,7 @@ export function useVendorDocumentsRealtime(vendorId?: string) {
         .order('uploaded_at', { ascending: false });
 
       if (error) throw error;
-      setDocuments(data || []);
+      setDocuments((data || []) as VendorDocument[]);
       setError(null);
     } catch (err) {
       const safeError = secureErrorHandler.handleError(err, {

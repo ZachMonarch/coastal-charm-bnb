@@ -123,11 +123,11 @@ export default function EnhancedBidComparison({
       );
 
       enrichedBids.sort((a, b) => {
-        if (a.score && b.score) return b.score.total_score - a.score.total_score;
+        if (a.score && b.score) return (b.score.total_score ?? 0) - (a.score.total_score ?? 0);
         return 0;
       });
 
-      setBids(enrichedBids);
+      setBids((enrichedBids) as Bid[]);
     } catch (error) {
       console.error('Error fetching bids:', error);
       toast.error('Failed to load bids');

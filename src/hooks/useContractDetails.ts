@@ -115,7 +115,7 @@ export function useContractDetails(contractId: string) {
           .limit(100);
 
         if (deliverablesError) throw deliverablesError;
-        setDeliverables(deliverablesData || []);
+        setDeliverables((deliverablesData || []) as Deliverable[]);
       }
 
     } catch (err) {

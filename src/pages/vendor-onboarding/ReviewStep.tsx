@@ -41,7 +41,7 @@ export default function ReviewStep() {
           is_verified: false, // Will be set to true when admin approves
           updated_at: new Date().toISOString(),
         })
-        .eq('user_id', user?.id);
+        .eq('user_id', user?.id ?? '');
 
       if (error) throw error;
 

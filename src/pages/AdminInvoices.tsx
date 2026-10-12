@@ -99,7 +99,7 @@ export default function AdminInvoices() {
       .select('id, full_name, email, role')
       .order('full_name');
     
-    setUsers(data || []);
+    setUsers((data || []) as UserProfile[]);
   };
 
   const generateInvoiceNumber = () => {

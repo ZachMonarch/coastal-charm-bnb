@@ -91,7 +91,7 @@ export default function ProductionVendorSystem() {
         profiles: Array.isArray(vendor.profiles) ? vendor.profiles[0] || null : vendor.profiles
       })) || [];
       
-      setVendors(transformedData);
+      setVendors((transformedData) as VendorProfile[]);
     } catch (error: any) {
       logger.error('Error fetching vendors:', error);
       toast({

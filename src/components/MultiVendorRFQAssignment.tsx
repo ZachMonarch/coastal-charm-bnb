@@ -98,7 +98,7 @@ export default function MultiVendorRFQAssignment({
         profiles: Array.isArray(vendor.profiles) ? vendor.profiles[0] : vendor.profiles
       }));
       
-      setVendors(vendorsWithProfiles);
+      setVendors((vendorsWithProfiles) as VendorProfile[]);
 
       // Fetch projects if not specific project
       if (!projectId) {
@@ -110,7 +110,7 @@ export default function MultiVendorRFQAssignment({
           .limit(50);
 
         if (projectError) throw projectError;
-        setProjects(projectData || []);
+        setProjects((projectData || []) as Project[]);
       }
     } catch (error) {
       logger.error('Error fetching data:', error);

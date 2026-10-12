@@ -760,7 +760,7 @@ export default function NewsAdminPanel() {
                             )}
                           </TableCell>
                           <TableCell className="text-sm text-muted-foreground">
-                            {format(new Date(sub.created_at), "MMM d, yyyy")}
+                            {format(new Date(sub.created_at ?? 0), "MMM d, yyyy")}
                           </TableCell>
                         </TableRow>
                       ))}

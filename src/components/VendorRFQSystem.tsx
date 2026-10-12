@@ -106,7 +106,7 @@ export default function VendorRFQSystem() {
         const { data: properties } = await supabase
           .from('properties')
           .select('id, title, address, city')
-          .in('id', propertyIds);
+          .in('id', propertyIds.filter((v): v is number => v !== null));
         
         if (properties) {
           propertiesMap = properties.reduce((acc, p) => ({ ...acc, [p.id]: p }), {});

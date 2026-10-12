@@ -57,7 +57,7 @@ export const EnhancedSecurityMonitor: React.FC = () => {
         blocked_attempts: blockedCount,
       };
 
-      setSecurityEvents(events || []);
+      setSecurityEvents((events || []) as SecurityEvent[]);
       setSecurityStats(stats);
     } catch (error) {
       if (import.meta.env.DEV) {

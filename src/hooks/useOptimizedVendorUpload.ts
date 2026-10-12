@@ -70,7 +70,7 @@ export const useOptimizedVendorUpload = (): UseOptimizedVendorUploadReturn => {
 
       if (error) throw error;
 
-      setDocuments(data || []);
+      setDocuments((data || []) as VendorDocument[]);
     } catch (error) {
       logger.error('Error fetching vendor documents', error);
     } finally {

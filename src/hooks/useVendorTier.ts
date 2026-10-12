@@ -47,7 +47,7 @@ export function useVendorTier(vendorId: string) {
         const currentTier = data.current_tier as 'bronze' | 'silver' | 'gold' | 'platinum';
         const nextTierProgress = calculateNextTierProgress(
           currentTier,
-          data.total_completed_jobs,
+          data.total_completed_jobs ?? 0,
           Number(data.average_rating),
           data.review_count
         );

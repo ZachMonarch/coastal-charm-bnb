@@ -111,7 +111,7 @@ export default function ComprehensiveRFQDetail() {
         const { data: profiles } = await supabase
           .from('profiles')
           .select('id, full_name, email')
-          .in('id', vendorIds);
+          .in('id', vendorIds.filter((v): v is string => v !== null));
         
         return (data || []).map(inv => {
           const profile = profiles?.find(p => p.id === inv.vendor_id);

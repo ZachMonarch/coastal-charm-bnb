@@ -30,7 +30,7 @@ export default function ProfileStep() {
           full_name: formData.full_name,
           phone: formData.phone,
         })
-        .eq('id', user?.id);
+        .eq('id', user?.id ?? '');
 
       if (error) throw error;
 

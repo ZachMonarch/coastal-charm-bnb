@@ -28,7 +28,7 @@ export const testVendorProfilesRLS = async (): Promise<RLSTestResult[]> => {
   const { data: ownProfile, error: ownError } = await supabase
     .from('vendor_profiles')
     .select('id, user_id, company_name, description')
-    .eq('user_id', currentUser?.id)
+    .eq('user_id', currentUser?.id ?? '')
     .single();
 
   results.push({
@@ -65,7 +65,7 @@ export const testVendorProfilesRLS = async (): Promise<RLSTestResult[]> => {
   const { error: updateError } = await supabase
     .from('vendor_profiles')
     .update({ description: 'Test update' })
-    .eq('user_id', currentUser?.id);
+    .eq('user_id', currentUser?.id ?? '');
 
   results.push({
     table: 'vendor_profiles',
@@ -110,7 +110,7 @@ export const testProjectsRLS = async (): Promise<RLSTestResult[]> => {
   const { data: ownProjects, error: ownError } = await supabase
     .from('projects')
     .select('id, title, status, created_by')
-    .eq('created_by', currentUser?.id)
+    .eq('created_by', currentUser?.id ?? '')
     .limit(5);
 
   results.push({
@@ -128,7 +128,7 @@ export const testProjectsRLS = async (): Promise<RLSTestResult[]> => {
   const { data: otherProject } = await supabase
     .from('projects')
     .select('id')
-    .neq('created_by', currentUser?.id)
+    .neq('created_by', currentUser?.id ?? '')
     .limit(1)
     .single();
 
@@ -269,7 +269,7 @@ export const testUserRolesRLS = async (): Promise<RLSTestResult[]> => {
   const { data: ownRoles, error: ownError } = await supabase
     .from('user_roles')
     .select('id, user_id, role')
-    .eq('user_id', currentUser?.id);
+    .eq('user_id', currentUser?.id ?? '');
 
   results.push({
     table: 'user_roles',
@@ -286,7 +286,7 @@ export const testUserRolesRLS = async (): Promise<RLSTestResult[]> => {
   const { data: otherRoles, error: otherError } = await supabase
     .from('user_roles')
     .select('id, user_id, role')
-    .neq('user_id', currentUser?.id)
+    .neq('user_id', currentUser?.id ?? '')
     .limit(5);
 
   results.push({

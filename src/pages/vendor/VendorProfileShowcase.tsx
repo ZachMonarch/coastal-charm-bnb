@@ -66,13 +66,13 @@ export default function VendorProfileShowcase() {
           avatar_url, is_verified, insurance_verified, background_check_verified,
           rating, completed_jobs, subscription_plan
         `)
-        .eq('user_id', user?.id)
+        .eq('user_id', user?.id ?? '')
         .single();
 
       if (error && error.code !== 'PGRST116') throw error;
       
       if (data) {
-        setProfile(data);
+        setProfile((data) as VendorProfile | null);
         setSpecialtiesInput(data.specialties?.join(', ') || '');
         setServiceAreasInput(data.service_areas?.join(', ') || '');
         setCertificationsInput(data.certifications?.join(', ') || '');
@@ -95,7 +95,7 @@ export default function VendorProfileShowcase() {
       const { data: stripeCustomer } = await supabase
         .from('stripe_customers')
         .select('id')
-        .eq('user_id', user?.id)
+        .eq('user_id', user?.id ?? '')
         .maybeSingle();
       
       setHasPaymentMethod(!!stripeCustomer);

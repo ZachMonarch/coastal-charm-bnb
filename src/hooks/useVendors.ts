@@ -115,7 +115,7 @@ export const useVendorApplications = (filters: { status?: string; userId?: strin
 
       if (fetchError) throw fetchError;
 
-      setApplications(data || []);
+      setApplications((data || []) as VendorApplication[]);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch applications');
     } finally {
@@ -177,7 +177,7 @@ export const useVendorBids = (applicationId?: string) => {
 
       if (fetchError) throw fetchError;
 
-      setBids(data || []);
+      setBids((data || []) as VendorBid[]);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch bids');
     } finally {

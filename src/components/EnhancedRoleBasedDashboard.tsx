@@ -80,7 +80,7 @@ export default function EnhancedRoleBasedDashboard() {
       default:
         return [
           { title: "Profile Status", value: "Active", icon: User, color: "success" as MetricColor },
-          { title: "Last Login", value: new Date(user.lastLogin).toLocaleDateString(), icon: Building2, color: "info" as MetricColor },
+          { title: "Last Login", value: new Date(user.lastLogin ?? 0).toLocaleDateString(), icon: Building2, color: "info" as MetricColor },
         ];
     }
   };

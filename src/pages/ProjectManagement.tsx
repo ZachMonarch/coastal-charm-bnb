@@ -54,7 +54,7 @@ export default function ProjectManagement() {
         .limit(100);
 
       if (error) throw error;
-      setProjects(data || []);
+      setProjects((data || []) as Project[]);
     } catch (error) {
       logger.error('Error fetching projects:', error);
       toast.error('Failed to load projects');

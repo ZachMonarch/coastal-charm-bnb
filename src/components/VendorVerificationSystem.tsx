@@ -83,7 +83,7 @@ export default function VendorVerificationSystem() {
         profiles: Array.isArray(vendor.profiles) ? vendor.profiles[0] : vendor.profiles
       }));
 
-      setVendors(vendorsWithProfiles);
+      setVendors((vendorsWithProfiles) as VendorProfile[]);
     } catch (error) {
       console.error('Error fetching vendors:', error);
       toast.error('Failed to load vendors');

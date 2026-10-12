@@ -95,7 +95,7 @@ export default function AdminPropertyManagement() {
         .order('id', { ascending: false });
 
       if (error) throw error;
-      setProperties(data || []);
+      setProperties((data || []) as Property[]);
     } catch (error) {
       const safeError = secureErrorHandler.handleError(error, {
         endpoint: 'properties',

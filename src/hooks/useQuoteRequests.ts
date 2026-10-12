@@ -60,7 +60,7 @@ export function useQuoteRequests(options: UseQuoteRequestsOptions = {}) {
 
       if (queryError) throw queryError;
 
-      setRequests(data || []);
+      setRequests((data || []) as QuoteRequest[]);
     } catch (err: any) {
       console.error("Error fetching quote requests:", err);
       setError(err.message);

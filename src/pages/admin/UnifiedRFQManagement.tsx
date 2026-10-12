@@ -59,7 +59,7 @@ export default function UnifiedRFQManagement() {
         const { data: props } = await supabase
           .from('properties')
           .select('id, title, address, city')
-          .in('id', propertyIds);
+          .in('id', propertyIds.filter((v): v is number => v !== null));
         propertiesMap = (props || []).reduce((acc, p) => ({ ...acc, [p.id]: p }), {});
       }
 

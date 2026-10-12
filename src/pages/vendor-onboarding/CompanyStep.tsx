@@ -33,7 +33,7 @@ export default function CompanyStep() {
         const { data } = await supabase
           .from('vendor_profiles')
           .select('company_name, address, phone')
-          .eq('user_id', user?.id)
+          .eq('user_id', user?.id ?? '')
           .single();
         
         if (data) {

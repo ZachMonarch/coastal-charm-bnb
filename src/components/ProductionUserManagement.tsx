@@ -75,7 +75,7 @@ export default function ProductionUserManagement() {
 
       if (error) throw error;
 
-      setUsers(profiles || []);
+      setUsers((profiles || []) as UserProfile[]);
 
       // Calculate stats
       const total = profiles?.length || 0;

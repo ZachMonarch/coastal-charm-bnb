@@ -69,7 +69,7 @@ export const useVendorRFQs = () => {
         return;
       }
       
-      setAvailableRFQs(data || []);
+      setAvailableRFQs((data || []) as RFQProject[]);
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Failed to fetch available RFQs';
       console.error('Error fetching available RFQs:', err);

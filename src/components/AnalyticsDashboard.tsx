@@ -182,8 +182,8 @@ export const AnalyticsDashboard: React.FC = () => {
         .select('id', { count: 'exact', head: true });
 
       // Calculate growth rate (simplified)
-      const previousPeriodUsers = Math.max(1, totalUsers - newUsersByDate.length);
-      const growthRate = ((totalUsers - previousPeriodUsers) / previousPeriodUsers) * 100;
+      const previousPeriodUsers = Math.max(1, (totalUsers ?? 0) - newUsersByDate.length);
+      const growthRate = (((totalUsers ?? 0) - previousPeriodUsers) / previousPeriodUsers) * 100;
 
       setAnalyticsData({
         overview: {

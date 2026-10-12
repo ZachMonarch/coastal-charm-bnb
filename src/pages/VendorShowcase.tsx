@@ -113,7 +113,7 @@ export default function VendorShowcase() {
       .slice(0, 2) || "V";
   };
 
-  const memberSince = new Date(vendor.created_at).getFullYear();
+  const memberSince = new Date(vendor.created_at ?? 0).getFullYear();
 
   return (
     <>

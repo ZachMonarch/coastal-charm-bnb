@@ -66,7 +66,7 @@ export default function UniversalPayments() {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setPayments(data || []);
+      setPayments((data || []) as Payment[]);
     } catch (error) {
       console.error('Error fetching payments:', error);
       toast.error('Failed to load payments');

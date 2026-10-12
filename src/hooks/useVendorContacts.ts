@@ -138,7 +138,7 @@ export function useVendorContacts() {
           updated_at: new Date().toISOString(),
         })
         .eq('id', id)
-        .eq('vendor_id', user?.id);
+        .eq('vendor_id', user?.id ?? '');
 
       if (updateError) throw updateError;
 
@@ -160,7 +160,7 @@ export function useVendorContacts() {
         .from('vendor_contacts')
         .delete()
         .eq('id', id)
-        .eq('vendor_id', user?.id);
+        .eq('vendor_id', user?.id ?? '');
 
       if (deleteError) throw deleteError;
 

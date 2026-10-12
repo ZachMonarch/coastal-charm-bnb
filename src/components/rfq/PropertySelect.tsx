@@ -41,7 +41,7 @@ export const PropertySelect = ({ value, onChange, error }: PropertySelectProps) 
 
         if (error) throw error
         
-        setProperties(data || [])
+        setProperties((data || []) as Property[])
       } catch (error) {
         console.error('Failed to fetch properties:', error)
       } finally {

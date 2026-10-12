@@ -76,7 +76,7 @@ export default function AdminVendorManagement() {
         user: vendor.profiles
       })) || [];
 
-      setVendors(vendorsWithUsers);
+      setVendors((vendorsWithUsers) as VendorWithProfile[]);
     } catch (error) {
       console.error('Error fetching vendors:', error);
       toast.error('Failed to load vendors');

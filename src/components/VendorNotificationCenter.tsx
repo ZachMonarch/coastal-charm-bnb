@@ -54,10 +54,10 @@ export default function VendorNotificationCenter() {
         .limit(20);
 
       if (error) throw error;
-      setNotifications((data || []).map(notification => ({
+      setNotifications(((data || []).map(notification => ({
         ...notification,
         type: notification.type as 'info' | 'warning' | 'success' | 'error'
-      })));
+      }))) as Notification[]);
     } catch (error) {
       console.error('Error fetching notifications:', error);
       toast.error('Failed to load notifications');
@@ -95,7 +95,7 @@ export default function VendorNotificationCenter() {
       const { error } = await supabase
         .from('notifications')
         .update({ read: true })
-        .eq('user_id', user?.id)
+        .eq('user_id', user?.id ?? '')
         .eq('read', false);
 
       if (error) throw error;

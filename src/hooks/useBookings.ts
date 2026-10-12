@@ -77,7 +77,7 @@ export const useBookings = (options: UseBookingsOptions = {}) => {
 
       if (fetchError) throw fetchError;
 
-      setBookings(data || []);
+      setBookings((data || []) as Booking[]);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch bookings');
     } finally {

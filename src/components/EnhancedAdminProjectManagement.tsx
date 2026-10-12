@@ -89,7 +89,7 @@ export default function EnhancedAdminProjectManagement() {
         .limit(100);
 
       if (error) throw error;
-      setProjects(data || []);
+      setProjects((data || []) as Project[]);
     } catch (error) {
       logger.error('Error fetching projects:', error);
       toast.error('Failed to load projects');
@@ -125,7 +125,7 @@ export default function EnhancedAdminProjectManagement() {
         profile: Array.isArray(vendor.profiles) ? vendor.profiles[0] : vendor.profiles
       }));
 
-      setVendors(vendorsWithProfiles);
+      setVendors((vendorsWithProfiles) as Vendor[]);
     } catch (error) {
       logger.error('Error fetching vendors:', error);
     }

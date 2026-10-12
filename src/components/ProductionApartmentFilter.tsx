@@ -72,7 +72,7 @@ export default function ProductionApartmentFilter() {
 
       if (error) throw error;
       
-      setProperties(propertiesData || []);
+      setProperties((propertiesData || []) as Property[]);
     } catch (error: any) {
       logger.error('Error fetching properties:', error);
       toast({

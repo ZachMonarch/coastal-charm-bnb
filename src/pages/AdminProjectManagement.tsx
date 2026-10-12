@@ -115,7 +115,7 @@ export default function AdminProjectManagement() {
         return project;
       }));
 
-      setProjects(processedProjects);
+      setProjects((processedProjects) as Project[]);
     } catch (error) {
       logger.error('Error fetching projects:', error);
       toast.error('Failed to load projects');
@@ -140,7 +140,7 @@ export default function AdminProjectManagement() {
           const { data: profileData } = await supabase
             .from('profiles')
             .select('id, full_name, email')
-            .eq('id', vendor.user_id)
+            .eq('id', vendor.user_id ?? '')
             .single();
 
           return {
