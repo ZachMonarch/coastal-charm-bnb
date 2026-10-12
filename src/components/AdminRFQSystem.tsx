@@ -423,7 +423,7 @@ export default function AdminRFQSystem() {
         return;
       }
 
-      const notifications = vendors.map(vendor => ({
+      const notifications = vendors.filter((vendor): vendor is typeof vendor & { user_id: string } => !!vendor.user_id).map(vendor => ({
         user_id: vendor.user_id,
         title: 'New Project Available',
         message: `A new project "${project.title}" is available for bidding.`,
