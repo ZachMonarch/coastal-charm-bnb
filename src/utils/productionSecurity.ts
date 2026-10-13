@@ -3,7 +3,7 @@
  */
 
 import { supabase } from '@/integrations/supabase/client';
-import { maskPropertyData, sanitizeFormData } from './dataMasking';
+import { maskPropertyData, sanitizeFormData, type PropertyData } from './dataMasking';
 import { initializeCSRFProtection, addCSRFHeaders } from './csrfProtection';
 
 /**
