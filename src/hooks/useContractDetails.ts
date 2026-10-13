@@ -35,7 +35,7 @@ export interface Deliverable {
 export interface ContractWithMilestones {
   id: string;
   title: string;
-  description: string;
+  description: string | null;
   status: string;
   category: string;
   priority: string;

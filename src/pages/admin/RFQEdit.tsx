@@ -1232,7 +1232,7 @@ export default function RFQEdit() {
               <PropertyServiceSelector
                 linkedProperties={linkedProperties}
                 onChange={setLinkedProperties}
-                properties={properties || []}
+                properties={(properties || []).filter((p): p is typeof p & { id: number } => p.id !== null)}
               />
             </TabsContent>
 

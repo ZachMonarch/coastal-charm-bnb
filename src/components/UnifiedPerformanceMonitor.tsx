@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "@/lib/helmet";
 import { logger } from '@/utils/logger';
 
 /**

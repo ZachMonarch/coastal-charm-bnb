@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from '@/lib/router-compat';
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "@/lib/helmet";
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';

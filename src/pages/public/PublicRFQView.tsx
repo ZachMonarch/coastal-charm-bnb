@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from '@/lib/router-compat';
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "@/lib/helmet";
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/OptimizedAuthContext';
 import { useRFQAccess } from '@/hooks/useRFQAccess';

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Helmet } from "react-helmet-async";
+import { Helmet } from "@/lib/helmet";
 import { useNavigate } from "@/lib/router-compat";
 import { useNewsBookmarks } from "@/hooks/useNewsBookmarks";
 import { useAuth } from "@/contexts/OptimizedAuthContext";

@@ -10,7 +10,7 @@ import {
   Search, MapPin, Star, Clock, CheckCircle2, Shield, 
   Filter, ArrowRight, Building2, Phone, Mail, Users, Crown, Award
 } from "lucide-react";
-import { Helmet } from "react-helmet-async";
+import { Helmet } from "@/lib/helmet";
 import { useVerifiedVendors } from "@/hooks/useVerifiedVendors";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import EnhancedPageBackground from "@/components/shared/EnhancedPageBackground";

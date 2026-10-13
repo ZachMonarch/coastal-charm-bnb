@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "@/lib/helmet";
 import DashboardFooter from './layout/DashboardFooter';
 
 interface PrivatePageWrapperProps {

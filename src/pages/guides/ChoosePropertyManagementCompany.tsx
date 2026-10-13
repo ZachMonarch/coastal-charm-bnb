@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet-async";
+import { Helmet } from "@/lib/helmet";
 import { Link } from "@/lib/router-compat";
 import { Card, CardContent } from "@/components/ui/card";
 import { CheckCircle2, ShieldCheck, Wallet, Wrench, MessageSquare, Building2, Scale, BarChart3 } from "lucide-react";

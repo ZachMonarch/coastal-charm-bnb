@@ -70,8 +70,7 @@ export default function HeroSection() {
             decoding="async"
             width="1280" 
             height="720"
-            // @ts-expect-error - fetchpriority is valid HTML attribute
-            fetchpriority="high"
+            fetchPriority="high"
           />
         </picture>
       </div>

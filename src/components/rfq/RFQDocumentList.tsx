@@ -129,14 +129,14 @@ export default function RFQDocumentList({ documents, rfqTitle }: RFQDocumentList
             <CardContent className="p-4">
               <div className="flex items-start gap-3">
                 <div className="flex-shrink-0">
-                  {getDocumentIcon(doc.mime_type, doc.document_type)}
+                  {getDocumentIcon(doc.mime_type, doc.document_type ?? '')}
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-medium text-sm truncate text-foreground" title={doc.file_name}>
                     {doc.file_name}
                   </p>
                   <div className="flex items-center gap-2 mt-1">
-                    {getDocumentTypeBadge(doc.document_type)}
+                    {getDocumentTypeBadge(doc.document_type ?? '')}
                     {doc.is_required_for_bidding && (
                       <Badge variant="destructive" className="text-xs">Required</Badge>
                     )}

@@ -10,10 +10,10 @@ export interface RFQDocument {
   file_url: string | null;
   file_size: number | null;
   mime_type: string | null;
-  document_type: string;
+  document_type: string | null;
   category_badge: string | null;
-  is_required_for_bidding: boolean;
-  created_at: string;
+  is_required_for_bidding: boolean | null;
+  created_at: string | null;
 }
 
 export interface RFQDetailData {
@@ -105,7 +105,7 @@ export interface RFQDetailData {
   };
   documents?: RFQDocument[];
   property?: {
-    id: number;
+    id: number | null;
     title: string | null;
     address: string | null;
     city: string | null;
