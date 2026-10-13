@@ -1,4 +1,4 @@
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "@/lib/helmet";
 
 // Security Headers Component - Client-side only (HTTP headers moved to vercel.json)
 export const SecurityHeaders = () => {

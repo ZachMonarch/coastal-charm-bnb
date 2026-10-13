@@ -1,5 +1,5 @@
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "@/lib/helmet";
 import { SEOHead } from './SEOHead';
 import { SecurityHeaders } from './SecurityHeaders';
 

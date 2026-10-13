@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Helmet } from "react-helmet-async";
+import { Helmet } from "@/lib/helmet";
 import { NewsFilters, type NewsCategory, type NewsRegion } from "@/components/news/NewsFilters";
 import { NewsFeaturedCarousel } from "@/components/news/NewsFeaturedCarousel";
 import { NewsArticleCard } from "@/components/news/NewsArticleCard";

@@ -13,7 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/OptimizedAuthContext";
-import { Helmet } from "react-helmet-async";
+import { Helmet } from "@/lib/helmet";
 import { 
   ArrowRight, CheckCircle2, Loader2, Clock, Shield, 
   Zap, MapPin, DollarSign, Calendar, Phone, Mail, User

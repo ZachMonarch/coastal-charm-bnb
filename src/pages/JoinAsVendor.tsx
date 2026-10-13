@@ -8,7 +8,7 @@ import {
   Truck, Sparkles, CheckCircle2, ArrowRight, Star, Users, 
   DollarSign, Clock, TrendingUp, Award
 } from "lucide-react";
-import { Helmet } from "react-helmet-async";
+import { Helmet } from "@/lib/helmet";
 import VendorQuickSignup from "@/components/vendor/VendorQuickSignup";
 
 const SERVICE_CATEGORIES = [
