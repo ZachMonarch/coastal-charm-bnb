@@ -36,6 +36,7 @@ export default function MobileDrawer({
   className 
 }: MobileDrawerProps) {
   const location = useLocation();
+  const hydrated = useHydrated();
 
   // Force close drawer on route changes to prevent state leaks
   useEffect(() => {
