@@ -252,7 +252,7 @@ export async function fetchSecurePropertyData(
     
     // Apply data masking for security
     return (data || []).map(property => 
-      maskPropertyData(property, isAuthenticated, userRole)
+      maskPropertyData(property as PropertyData, isAuthenticated, userRole)
     );
   } catch (error) {
     console.error('Error fetching properties:', error);

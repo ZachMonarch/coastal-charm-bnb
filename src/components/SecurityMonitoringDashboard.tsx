@@ -173,7 +173,7 @@ export default function SecurityMonitoringDashboard() {
                       <AlertDescription>
                         <div className="mt-2 text-sm">
                           <p><strong>Event Type:</strong> {alert.eventType}</p>
-                          <p><strong>Time:</strong> {new Date(alert.timestamp).toLocaleString()}</p>
+                          <p><strong>Time:</strong> {new Date(alert.timestamp ?? 0).toLocaleString()}</p>
                           {alert.userId && <p><strong>User ID:</strong> {alert.userId}</p>}
                         </div>
                       </AlertDescription>

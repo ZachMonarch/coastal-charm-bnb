@@ -75,7 +75,22 @@ export function VendorMatchingDialog({
 
       if (error) throw error;
 
-      const topMatches = getTopVendorMatches(project, vendors || [], 10);
+      const topMatches = getTopVendorMatches(
+        project,
+        (vendors || []).map((v) => ({
+          ...v,
+          user_id: v.user_id ?? '',
+          specialties: v.specialties ?? [],
+          service_areas: v.service_areas ?? undefined,
+          rating: v.rating ?? 0,
+          completed_jobs: v.completed_jobs ?? 0,
+          availability_status: v.availability_status ?? '',
+          is_verified: v.is_verified ?? false,
+          subscription_status: v.subscription_status ?? '',
+          response_time_hours: v.response_time_hours ?? undefined,
+        })),
+        10,
+      );
       setMatches(topMatches);
 
       if (topMatches.length === 0) {
