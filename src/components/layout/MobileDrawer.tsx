@@ -142,5 +142,6 @@ export default function MobileDrawer({
   );
 
   // Use portal to render at document body level - guarantees z-index works
+  if (typeof document === "undefined") return null;
   return createPortal(drawerContent, document.body);
 }
