@@ -1,5 +1,6 @@
 import { ReactNode, useEffect } from "react";
 import { createPortal } from "react-dom";
+import { useHydrated } from "@tanstack/react-router";
 import { useLocation } from "@/lib/router-compat";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -35,6 +36,7 @@ export default function MobileDrawer({
   className 
 }: MobileDrawerProps) {
   const location = useLocation();
+  const hydrated = useHydrated();
 
   // Force close drawer on route changes to prevent state leaks
   useEffect(() => {
@@ -142,5 +144,6 @@ export default function MobileDrawer({
   );
 
   // Use portal to render at document body level - guarantees z-index works
+  if (!hydrated) return null;
   return createPortal(drawerContent, document.body);
 }
