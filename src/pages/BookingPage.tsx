@@ -214,7 +214,7 @@ export default function BookingPage() {
                     <div>
                       <h3 className="font-semibold mb-3">Amenities</h3>
                       <div className="grid grid-cols-2 gap-2">
-                        {amenities.slice(0, 8).map((amenity, index) => (
+                        {amenities.slice(0, 8).map((amenity: string, index: number) => (
                           <div key={index} className="flex items-center text-sm">
                             <div className="w-2 h-2 bg-primary rounded-full mr-2"></div>
                             {amenity}
