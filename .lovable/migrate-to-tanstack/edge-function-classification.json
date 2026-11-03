@@ -1,40 +1,423 @@
-{"functions": [
-{"name": "admin-update-vendor-subscription", "classification": "internal-only", "signal": "called from 1 src/ file; needs secrets held only in the external Supabase project - left until secrets are re-provisioned", "outcome": "left"},
-{"name": "check-compliance-expiry", "classification": "unknown", "signal": "no src/ call sites; may be invoked by cron/dashboard/external caller", "outcome": "left"},
-{"name": "check-subscription", "classification": "internal-only", "signal": "called from 3 src/ files; needs secrets held only in the external Supabase project - left until secrets are re-provisioned", "outcome": "left"},
-{"name": "create-checkout", "classification": "internal-only", "signal": "called from 1 src/ file; Stripe secret held only in the external Supabase project - left until secrets are re-provisioned", "outcome": "left"},
-{"name": "create-emd-payment", "classification": "internal-only", "signal": "called from 1 src/ file; Stripe secret held only in the external Supabase project - left until secrets are re-provisioned", "outcome": "left"},
-{"name": "create-payment", "classification": "internal-only", "signal": "called from 3 src/ files; Stripe secret held only in the external Supabase project - left until secrets are re-provisioned", "outcome": "left"},
-{"name": "create-payment-method", "classification": "internal-only", "signal": "called from 2 src/ files; Stripe secret held only in the external Supabase project - left until secrets are re-provisioned", "outcome": "left"},
-{"name": "create-vendor-checkout", "classification": "internal-only", "signal": "called from 1 src/ file; Stripe secret held only in the external Supabase project - left until secrets are re-provisioned", "outcome": "left"},
-{"name": "create-vendor-payment", "classification": "internal-only", "signal": "called from 2 src/ files; Stripe secret held only in the external Supabase project - left until secrets are re-provisioned", "outcome": "left"},
-{"name": "customer-portal", "classification": "internal-only", "signal": "called from 3 src/ files; Stripe secret held only in the external Supabase project - left until secrets are re-provisioned", "outcome": "left"},
-{"name": "fetch-news", "classification": "internal-only", "signal": "called from 1 src/ file; needs secrets held only in the external Supabase project - left until secrets are re-provisioned", "outcome": "left"},
-{"name": "generate-sitemap", "classification": "unknown", "signal": "no src/ call sites; may be invoked by cron/dashboard/external caller", "outcome": "left"},
-{"name": "get-user-capabilities", "classification": "unknown", "signal": "no src/ call sites; may be invoked by cron/dashboard/external caller", "outcome": "left"},
-{"name": "get-vendor-dashboard-summary", "classification": "unknown", "signal": "no src/ call sites; may be invoked by cron/dashboard/external caller", "outcome": "left"},
-{"name": "health-check", "classification": "internal-only", "signal": "called from 1 src/ file; needs service-role secret held only in the external Supabase project - left until secrets are re-provisioned", "outcome": "left"},
-{"name": "process-refund", "classification": "unknown", "signal": "no src/ call sites; may be invoked by cron/dashboard/external caller", "outcome": "left"},
-{"name": "process-withdrawal", "classification": "internal-only", "signal": "called from 1 src/ file; needs secrets held only in the external Supabase project - left until secrets are re-provisioned", "outcome": "left"},
-{"name": "production-health-monitor", "classification": "unknown", "signal": "no src/ call sites; may be invoked by cron/dashboard/external caller", "outcome": "left"},
-{"name": "rate-limit-middleware", "classification": "internal-only", "signal": "called from 1 src/ file; needs service-role secret held only in the external Supabase project - left until secrets are re-provisioned", "outcome": "left"},
-{"name": "refund-emd", "classification": "internal-only", "signal": "called from 1 src/ file; Stripe secret held only in the external Supabase project - left until secrets are re-provisioned", "outcome": "left"},
-{"name": "request-subscription-upgrade", "classification": "internal-only", "signal": "called from 2 src/ files; needs secrets held only in the external Supabase project - left until secrets are re-provisioned", "outcome": "left"},
-{"name": "send-bid-confirmation", "classification": "internal-only", "signal": "called from 2 src/ files; email secret held only in the external Supabase project - left until secrets are re-provisioned", "outcome": "left"},
-{"name": "send-bid-deadline-approaching", "classification": "unknown", "signal": "no src/ call sites; may be invoked by cron/dashboard/external caller", "outcome": "left"},
-{"name": "send-bid-rejection", "classification": "internal-only", "signal": "called from 1 src/ file; email secret held only in the external Supabase project - left until secrets are re-provisioned", "outcome": "left"},
-{"name": "send-contract-award", "classification": "internal-only", "signal": "called from 2 src/ files; email secret held only in the external Supabase project - left until secrets are re-provisioned", "outcome": "left"},
-{"name": "send-custom-notification", "classification": "internal-only", "signal": "called from 1 src/ file; email secret held only in the external Supabase project - left until secrets are re-provisioned", "outcome": "left"},
-{"name": "send-email", "classification": "internal-only", "signal": "called from 7 src/ files; email secret held only in the external Supabase project - left until secrets are re-provisioned", "outcome": "left"},
-{"name": "send-invoice", "classification": "internal-only", "signal": "called from 1 src/ file; email secret held only in the external Supabase project - left until secrets are re-provisioned", "outcome": "left"},
-{"name": "send-newsletter", "classification": "unknown", "signal": "no src/ call sites; may be invoked by cron/dashboard/external caller", "outcome": "left"},
-{"name": "send-password-reset", "classification": "unknown", "signal": "no src/ call sites; may be invoked by auth hook/external caller", "outcome": "left"},
-{"name": "send-payment-notification", "classification": "internal-only", "signal": "called from 1 src/ file; email secret held only in the external Supabase project - left until secrets are re-provisioned", "outcome": "left"},
-{"name": "send-payout-notification", "classification": "internal-only", "signal": "called from 1 src/ file; email secret held only in the external Supabase project - left until secrets are re-provisioned", "outcome": "left"},
-{"name": "send-rfq-invitation", "classification": "internal-only", "signal": "called from 2 src/ files; email secret held only in the external Supabase project - left until secrets are re-provisioned", "outcome": "left"},
-{"name": "send-rfq-reminders", "classification": "unknown", "signal": "no src/ call sites; may be invoked by cron/dashboard/external caller", "outcome": "left"},
-{"name": "send-sms", "classification": "unknown", "signal": "no src/ call sites; may be invoked by cron/dashboard/external caller", "outcome": "left"},
-{"name": "send-welcome-email", "classification": "unknown", "signal": "no src/ call sites; may be invoked by auth hook/external caller", "outcome": "left"},
-{"name": "stripe-webhook", "classification": "webhook receiver", "signal": "verifies stripe-signature header; fixed URL registered with Stripe", "outcome": "left"},
-{"name": "system-health-monitor", "classification": "unknown", "signal": "no src/ call sites; may be invoked by cron/dashboard/external caller", "outcome": "left"}
-]}
+{
+  "functions": [
+    {
+      "name": "admin-update-vendor-subscription",
+      "classification": "internal-only",
+      "signal": "called from 1 src/ file; needs secrets held only in the external Supabase project - left until secrets are re-provisioned",
+      "outcome": "left",
+      "verified_secrets": [],
+      "shared_modules": []
+    },
+    {
+      "name": "check-compliance-expiry",
+      "classification": "unknown",
+      "signal": "no src/ call sites; may be invoked by cron/dashboard/external caller",
+      "outcome": "left",
+      "verified_secrets": [
+        "INTERNAL_CRON_SECRET",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ],
+      "shared_modules": []
+    },
+    {
+      "name": "check-subscription",
+      "classification": "internal-only",
+      "signal": "called from 3 src/ files; needs secrets held only in the external Supabase project - left until secrets are re-provisioned",
+      "outcome": "left",
+      "verified_secrets": [],
+      "shared_modules": [
+        "stripeConfig"
+      ]
+    },
+    {
+      "name": "create-checkout",
+      "classification": "internal-only",
+      "signal": "called from 1 src/ file; Stripe secret held only in the external Supabase project - left until secrets are re-provisioned",
+      "outcome": "left",
+      "verified_secrets": [
+        "STRIPE_SECRET_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ],
+      "shared_modules": [
+        "cors",
+        "stripeConfig"
+      ]
+    },
+    {
+      "name": "create-emd-payment",
+      "classification": "internal-only",
+      "signal": "called from 1 src/ file; Stripe secret held only in the external Supabase project - left until secrets are re-provisioned",
+      "outcome": "left",
+      "verified_secrets": [],
+      "shared_modules": [
+        "cors",
+        "stripeConfig"
+      ]
+    },
+    {
+      "name": "create-payment",
+      "classification": "internal-only",
+      "signal": "called from 3 src/ files; Stripe secret held only in the external Supabase project - left until secrets are re-provisioned",
+      "outcome": "left",
+      "verified_secrets": [],
+      "shared_modules": [
+        "cors",
+        "stripeConfig",
+        "validation"
+      ]
+    },
+    {
+      "name": "create-payment-method",
+      "classification": "internal-only",
+      "signal": "called from 2 src/ files; Stripe secret held only in the external Supabase project - left until secrets are re-provisioned",
+      "outcome": "left",
+      "verified_secrets": [],
+      "shared_modules": [
+        "stripeConfig"
+      ]
+    },
+    {
+      "name": "create-vendor-checkout",
+      "classification": "internal-only",
+      "signal": "called from 1 src/ file; Stripe secret held only in the external Supabase project - left until secrets are re-provisioned",
+      "outcome": "left",
+      "verified_secrets": [],
+      "shared_modules": [
+        "stripeConfig"
+      ]
+    },
+    {
+      "name": "create-vendor-payment",
+      "classification": "internal-only",
+      "signal": "called from 2 src/ files; Stripe secret held only in the external Supabase project - left until secrets are re-provisioned",
+      "outcome": "left",
+      "verified_secrets": [],
+      "shared_modules": [
+        "stripeConfig"
+      ]
+    },
+    {
+      "name": "customer-portal",
+      "classification": "internal-only",
+      "signal": "called from 3 src/ files; Stripe secret held only in the external Supabase project - left until secrets are re-provisioned",
+      "outcome": "left",
+      "verified_secrets": [],
+      "shared_modules": [
+        "stripeConfig"
+      ]
+    },
+    {
+      "name": "fetch-news",
+      "classification": "internal-only",
+      "signal": "called from 1 src/ file; needs secrets held only in the external Supabase project - left until secrets are re-provisioned",
+      "outcome": "left",
+      "verified_secrets": [
+        "GNEWS_API_KEY"
+      ],
+      "shared_modules": [
+        "cors"
+      ]
+    },
+    {
+      "name": "generate-sitemap",
+      "classification": "unknown",
+      "signal": "no src/ call sites; may be invoked by cron/dashboard/external caller",
+      "outcome": "left",
+      "verified_secrets": [
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ],
+      "shared_modules": [
+        "cors"
+      ]
+    },
+    {
+      "name": "get-user-capabilities",
+      "classification": "unknown",
+      "signal": "no src/ call sites; may be invoked by cron/dashboard/external caller",
+      "outcome": "left",
+      "verified_secrets": [
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ],
+      "shared_modules": []
+    },
+    {
+      "name": "get-vendor-dashboard-summary",
+      "classification": "unknown",
+      "signal": "no src/ call sites; may be invoked by cron/dashboard/external caller",
+      "outcome": "left",
+      "verified_secrets": [
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_URL"
+      ],
+      "shared_modules": []
+    },
+    {
+      "name": "health-check",
+      "classification": "internal-only",
+      "signal": "called from 1 src/ file; needs service-role secret held only in the external Supabase project - left until secrets are re-provisioned",
+      "outcome": "left",
+      "verified_secrets": [
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ],
+      "shared_modules": [
+        "cors"
+      ]
+    },
+    {
+      "name": "process-refund",
+      "classification": "unknown",
+      "signal": "no src/ call sites; may be invoked by cron/dashboard/external caller",
+      "outcome": "left",
+      "verified_secrets": [],
+      "shared_modules": [
+        "cors",
+        "stripeConfig",
+        "validation"
+      ]
+    },
+    {
+      "name": "process-withdrawal",
+      "classification": "internal-only",
+      "signal": "called from 1 src/ file; needs secrets held only in the external Supabase project - left until secrets are re-provisioned",
+      "outcome": "left",
+      "verified_secrets": [],
+      "shared_modules": [
+        "cors",
+        "validation"
+      ]
+    },
+    {
+      "name": "production-health-monitor",
+      "classification": "unknown",
+      "signal": "no src/ call sites; may be invoked by cron/dashboard/external caller",
+      "outcome": "left",
+      "verified_secrets": [
+        "INTERNAL_CRON_SECRET",
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ],
+      "shared_modules": []
+    },
+    {
+      "name": "rate-limit-middleware",
+      "classification": "internal-only",
+      "signal": "called from 1 src/ file; needs service-role secret held only in the external Supabase project - left until secrets are re-provisioned",
+      "outcome": "left",
+      "verified_secrets": [],
+      "shared_modules": []
+    },
+    {
+      "name": "refund-emd",
+      "classification": "internal-only",
+      "signal": "called from 1 src/ file; Stripe secret held only in the external Supabase project - left until secrets are re-provisioned",
+      "outcome": "left",
+      "verified_secrets": [],
+      "shared_modules": [
+        "cors",
+        "stripeConfig"
+      ]
+    },
+    {
+      "name": "request-subscription-upgrade",
+      "classification": "internal-only",
+      "signal": "called from 2 src/ files; needs secrets held only in the external Supabase project - left until secrets are re-provisioned",
+      "outcome": "left",
+      "verified_secrets": [],
+      "shared_modules": []
+    },
+    {
+      "name": "send-bid-confirmation",
+      "classification": "internal-only",
+      "signal": "called from 2 src/ files; email secret held only in the external Supabase project - left until secrets are re-provisioned",
+      "outcome": "left",
+      "verified_secrets": [],
+      "shared_modules": [
+        "emailConfig"
+      ]
+    },
+    {
+      "name": "send-bid-deadline-approaching",
+      "classification": "unknown",
+      "signal": "no src/ call sites; may be invoked by cron/dashboard/external caller",
+      "outcome": "left",
+      "verified_secrets": [
+        "INTERNAL_CRON_SECRET"
+      ],
+      "shared_modules": []
+    },
+    {
+      "name": "send-bid-rejection",
+      "classification": "internal-only",
+      "signal": "called from 1 src/ file; email secret held only in the external Supabase project - left until secrets are re-provisioned",
+      "outcome": "left",
+      "verified_secrets": [],
+      "shared_modules": []
+    },
+    {
+      "name": "send-contract-award",
+      "classification": "internal-only",
+      "signal": "called from 2 src/ files; email secret held only in the external Supabase project - left until secrets are re-provisioned",
+      "outcome": "left",
+      "verified_secrets": [],
+      "shared_modules": [
+        "emailConfig"
+      ]
+    },
+    {
+      "name": "send-custom-notification",
+      "classification": "internal-only",
+      "signal": "called from 1 src/ file; email secret held only in the external Supabase project - left until secrets are re-provisioned",
+      "outcome": "left",
+      "verified_secrets": [],
+      "shared_modules": [
+        "emailConfig"
+      ]
+    },
+    {
+      "name": "send-email",
+      "classification": "internal-only",
+      "signal": "called from 7 src/ files; email secret held only in the external Supabase project - left until secrets are re-provisioned",
+      "outcome": "left",
+      "verified_secrets": [
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ],
+      "shared_modules": [
+        "cors",
+        "emailConfig",
+        "emailHeader"
+      ]
+    },
+    {
+      "name": "send-invoice",
+      "classification": "internal-only",
+      "signal": "called from 1 src/ file; email secret held only in the external Supabase project - left until secrets are re-provisioned",
+      "outcome": "left",
+      "verified_secrets": [
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ],
+      "shared_modules": [
+        "emailConfig"
+      ]
+    },
+    {
+      "name": "send-newsletter",
+      "classification": "unknown",
+      "signal": "no src/ call sites; may be invoked by cron/dashboard/external caller",
+      "outcome": "left",
+      "verified_secrets": [
+        "INTERNAL_CRON_SECRET"
+      ],
+      "shared_modules": [
+        "emailConfig"
+      ]
+    },
+    {
+      "name": "send-password-reset",
+      "classification": "unknown",
+      "signal": "no src/ call sites; may be invoked by auth hook/external caller",
+      "outcome": "left",
+      "verified_secrets": [],
+      "shared_modules": [
+        "cors",
+        "emailConfig",
+        "rateLimiter"
+      ]
+    },
+    {
+      "name": "send-payment-notification",
+      "classification": "internal-only",
+      "signal": "called from 1 src/ file; email secret held only in the external Supabase project - left until secrets are re-provisioned",
+      "outcome": "left",
+      "verified_secrets": [],
+      "shared_modules": [
+        "emailConfig",
+        "emailHeader"
+      ]
+    },
+    {
+      "name": "send-payout-notification",
+      "classification": "internal-only",
+      "signal": "called from 1 src/ file; email secret held only in the external Supabase project - left until secrets are re-provisioned",
+      "outcome": "left",
+      "verified_secrets": [
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_URL"
+      ],
+      "shared_modules": [
+        "emailConfig"
+      ]
+    },
+    {
+      "name": "send-rfq-invitation",
+      "classification": "internal-only",
+      "signal": "called from 2 src/ files; email secret held only in the external Supabase project - left until secrets are re-provisioned",
+      "outcome": "left",
+      "verified_secrets": [],
+      "shared_modules": [
+        "emailConfig"
+      ]
+    },
+    {
+      "name": "send-rfq-reminders",
+      "classification": "unknown",
+      "signal": "no src/ call sites; may be invoked by cron/dashboard/external caller",
+      "outcome": "left",
+      "verified_secrets": [
+        "INTERNAL_CRON_SECRET",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ],
+      "shared_modules": []
+    },
+    {
+      "name": "send-sms",
+      "classification": "unknown",
+      "signal": "no src/ call sites; may be invoked by cron/dashboard/external caller",
+      "outcome": "left",
+      "verified_secrets": [],
+      "shared_modules": []
+    },
+    {
+      "name": "send-welcome-email",
+      "classification": "unknown",
+      "signal": "no src/ call sites; may be invoked by auth hook/external caller",
+      "outcome": "left",
+      "verified_secrets": [],
+      "shared_modules": [
+        "cors",
+        "emailConfig",
+        "rateLimiter"
+      ]
+    },
+    {
+      "name": "stripe-webhook",
+      "classification": "webhook receiver",
+      "signal": "verifies stripe-signature header; fixed URL registered with Stripe",
+      "outcome": "left",
+      "verified_secrets": [],
+      "shared_modules": []
+    },
+    {
+      "name": "system-health-monitor",
+      "classification": "unknown",
+      "signal": "no src/ call sites; may be invoked by cron/dashboard/external caller",
+      "outcome": "left",
+      "verified_secrets": [],
+      "shared_modules": []
+    }
+  ],
+  "review_note": "Reviewed 2026-11-03: every internal-only function's verified secret dependency (verified_secrets) is held only in the external BYO Supabase project (Stripe, Resend/email, SUPABASE_SERVICE_ROLE_KEY, GNEWS); this workspace cannot access those secrets, so all functions stay deployed on Supabase and are called over HTTPS from the app - migrating them would break privileged operations. stripe-webhook keeps its registered URL. unknown = no src/ call sites (cron/dashboard/external callers). Counts: migrated 0, left 38.",
+  "counts": {
+    "total": 38,
+    "migrated": 0,
+    "left": 38
+  }
+}
