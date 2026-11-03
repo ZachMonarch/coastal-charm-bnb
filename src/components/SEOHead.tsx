@@ -69,7 +69,7 @@ export const SEOHead: React.FC<SEOProps> = ({
       url: currentUrl,
       logo: {
         '@type': 'ImageObject',
-        url: `${window.location.origin}/og-image.png`
+        url: `https://monarchpropertymmgt.online/og-image.png`
       }
     };
 
@@ -113,7 +113,7 @@ export const SEOHead: React.FC<SEOProps> = ({
           name: siteName,
           logo: {
             '@type': 'ImageObject',
-            url: `${window.location.origin}/og-image.png`
+            url: `https://monarchpropertymmgt.online/og-image.png`
           }
         },
         datePublished: publishedTime,

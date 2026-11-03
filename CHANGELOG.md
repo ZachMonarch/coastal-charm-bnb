@@ -2,6 +2,27 @@
 
 All notable changes to Monarch Property Management platform will be documented in this file.
 
+## [3.0.0] - 2026-11-03 🚀 TanStack Start Migration (Classic → v1)
+
+### Framework Migration
+- **Migrated the app from Classic Vite + React Router to TanStack Start v1** (React 19, Vite 8, Tailwind v4, Nitro/Cloudflare Workers build)
+- **All 106 page addresses carried over**: 105 concrete routes as route files plus the unknown-URL 404 handled by the root `notFoundComponent`; every page serves 200
+- **All 65 access-protected pages preserved**: every `OptimizedProtectedRoute` wrapper and every `requiredRole` gate (admin/vendor/property_manager/tenant) verified to match the original app exactly
+- **Shared-URL state compatibility** via a router-compatibility shim (`Link`, `NavLink`, `Navigate`, `useNavigate`, `useLocation`, `useParams`, `useSearchParams`) so 119 existing import sites behave the same
+
+### Head & SEO
+- Per-page titles/meta now served on the server through the root head shell; SSR fallback errors fixed by replacing browser-only `window.location` reads in `SEOHead`/`EnhancedSEOLayout` with the canonical domain (`https://monarchpropertymmgt.online`)
+- Old PWA service worker replaced with a self-unregistering kill-switch that clears legacy caches on first visit
+
+### Backend & Platform
+- **All 38 Supabase Edge Functions remain deployed on Supabase** and are called over HTTPS, unchanged: each one's verified secret dependency (Stripe, Resend, service-role key, GNEWS) is held only in the external Supabase project, which the app workspace cannot access — classification and per-function evidence in `.lovable/migrate-to-tanstack/edge-function-classification.json`
+- Query cache defaults, auth/session providers, CSRF middleware, theme, and analytics bootstrap preserved in the new root shell
+
+### Verification
+- `bun run build` and `tsc --noEmit` both pass clean
+- Playwright SSR/runtime probes across public, auth, dashboard, admin, RFQ and 404 routes: all 200 with no client-fallback errors on the previously failing pages (`/`, `/about`, `/properties`, `/contact`, `/services`)
+- Route/guard/role coverage mechanically diffed against the original `App.tsx` (106/106 declarations, 65/65 guarded, 0 role mismatches)
+
 ## [2.10.1] - 2026-04-05 🔗 Shared Link Routing + Loading Stability
 
 ### Shared Link Routing
