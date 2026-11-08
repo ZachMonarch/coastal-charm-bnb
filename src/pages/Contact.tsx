@@ -11,7 +11,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { toast } from "sonner";
 import { SEOHead } from "@/components/SEOHead";
 import { contactSchema } from "@/lib/validation/contactSchema";
-import { ZodError } from "zod";
+import { ZodError } from "zod/v3";
 import { pushSalesIQLead } from "@/lib/salesiq";
 
 export default function Contact() {

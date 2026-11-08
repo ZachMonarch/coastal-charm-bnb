@@ -15,7 +15,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/OptimizedAuthContext";
 import { toast } from "sonner";
 import { projectSchema } from "@/lib/validation/adminSchemas";
-import { ZodError } from "zod";
+import { ZodError } from "zod/v3";
 import { SERVICE_CATEGORY_LABELS } from "@/lib/rfqCategories";
 
 interface AdminProjectCreationFormProps {

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import { z } from 'zod/v3';
 import { useNavigate, Link } from '@/lib/router-compat';
 import { useAuth } from '@/contexts/OptimizedAuthContext';
 import { useAccessRequest, type RoleRequestType } from '@/hooks/useAccessRequest';
