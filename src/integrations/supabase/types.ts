@@ -5126,6 +5126,10 @@ export type Database = {
       }
       calculate_bid_score: { Args: { p_bid_id: string }; Returns: number }
       can_access_room: { Args: { room_id: string }; Returns: boolean }
+      can_view_own_vendor_invitation: {
+        Args: { p_invite_email: string }
+        Returns: boolean
+      }
       check_auth_rate_limit: {
         Args: {
           p_identifier: string
