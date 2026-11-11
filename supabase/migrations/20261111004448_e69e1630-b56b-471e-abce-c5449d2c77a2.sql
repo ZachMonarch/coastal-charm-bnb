@@ -1,0 +1,1 @@
+REVOKE ALL ON FUNCTION public.guard_emd_held_transition() FROM PUBLIC, anon, authenticated, service_role;

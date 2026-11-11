@@ -1,21 +1,28 @@
 # Monarch Property Management
 
-> Property management, vendor RFQ discovery, apartment services, bookings, and support resources.
+> Real estate listings, rental accommodations, property management, maintenance coordination, and vendor services in West Virginia.
 
-Monarch Property Management provides public information about available properties, management services, amenities, gallery content, open RFQs, contact options, and vendor onboarding.
+## Public pages
 
-## Pages
+- [Home](/): Property listings, rental accommodations, and Monarch services.
+- [Properties](/properties): Public real estate listings and accommodations.
+- [Property management](/services/property-management): Residential and commercial property care.
+- [Maintenance](/services/maintenance): Property repair and maintenance coordination.
+- [West Virginia service area](/service-areas/west-virginia): Regional commercial property management and maintenance services.
+- [Services](/services): Property and vendor services.
+- [Open RFQs](/rfq): Public procurement opportunities.
+- [Join as a vendor](/join-as-vendor): Vendor onboarding information.
+- [Contact](/contact): Contact options and support.
 
-- [Home](/): Company overview and primary navigation.
-- [Properties](/properties): Public property listings and availability.
-- [Services](/services): Property management and maintenance services.
-- [Property Management](/services/property-management): Management service details.
-- [Consultation](/services/consultation): Consultation service details.
-- [Amenities](/amenities): Community and property amenities.
-- [Gallery](/gallery): Property and community media.
-- [Open RFQs](/rfq): Public RFQ discovery with restricted project details.
-- [Join as Vendor](/join-as-vendor): Vendor onboarding entry point.
-- [Contact](/contact): Public contact and support information.
+## Vendor service definitions
+
+RFQ service categories: Plumbing (pipes, fixtures, water systems); Electrical (wiring, panels, lighting); HVAC (heating, ventilation, air conditioning); Painting (interior and exterior); Flooring (tile, hardwood, carpet); Carpentry (woodwork, cabinets, framing); Roofing (repair and replacement); Landscaping (lawn care, irrigation, outdoor design); Cleaning (professional cleaning); General Contracting (construction coordination); Renovation (remodeling and upgrades); Installations (appliances and fixtures); Appliance Repair; Pest Control; Security Systems; Moving and Relocation; General Maintenance; Emergency Repair.
+
+Vendor licensing: trade licenses, permits, insurance, and certifications depend on the jurisdiction and scope. Vendors must maintain applicable credentials and provide proof when requested. This directory does not independently determine legal licensing requirements; owners and vendors should verify them with the relevant state and local authorities.
+
+Emergency dispatch: suspected immediate threats to life or safety should be directed to 911 or the appropriate emergency authority first. Property emergencies should then be reported through the property manager's established contact channel; requests are triaged by urgency and availability. No response-time guarantee is made by this guide.
+
+Regional service boundary: West Virginia, USA. Specific cities, counties, and dispatch coverage depend on the participating property and vendor; confirm coverage before scheduling. The site does not claim statewide 24/7 physical dispatch.
 
 ## Optional
 

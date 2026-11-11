@@ -12,7 +12,7 @@ Allow: /rfq
 Allow: /projects
 
 # XML Sitemap
-Sitemap: https://coastal-charm-bnb.lovable.app/sitemap.xml
+Sitemap: https://monarchpropertymmgt.online/sitemap.xml
 
 # Crawl delay (be respectful)
 Crawl-delay: 1
@@ -30,21 +30,70 @@ Disallow: /admin/
 Disallow: /dashboard/
 Disallow: /vendor/dashboard
 
-# Block AI scrapers that don't respect robots.txt
+# Allow AI search and assistant crawlers to discover public pages.
 User-agent: GPTBot
-Disallow: /
+Allow: /
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /vendor/
+Disallow: /api/
+Disallow: /auth/
 
 User-agent: ChatGPT-User
-Disallow: /
+Allow: /
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /vendor/
+Disallow: /api/
+Disallow: /auth/
 
-User-agent: CCBot
-Disallow: /
-
-User-agent: anthropic-ai
-Disallow: /
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /vendor/
+Disallow: /api/
+Disallow: /auth/
 
 User-agent: Claude-Web
-Disallow: /
+Allow: /
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /vendor/
+Disallow: /api/
+Disallow: /auth/
+
+User-agent: anthropic-ai
+Allow: /
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /vendor/
+Disallow: /api/
+Disallow: /auth/
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /vendor/
+Disallow: /api/
+Disallow: /auth/
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /vendor/
+Disallow: /api/
+Disallow: /auth/
+
+User-agent: CCBot
+Allow: /
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /vendor/
+Disallow: /api/
+Disallow: /auth/
 
 # Block aggressive bots
 User-agent: AhrefsBot

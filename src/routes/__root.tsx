@@ -32,12 +32,12 @@ import NotFound from "@/pages/NotFound";
 
 const CommandPalette = lazy(() => import("@/components/CommandPalette"));
 
-const SITE_TITLE = "Monarch Property Management — Modern Platform";
+const SITE_TITLE = "Real Estate Listings & Rentals | Monarch Property Management";
 const SITE_DESCRIPTION =
-  "Property management platform for tenants, vendors, projects, maintenance, and payments — built for real estate professionals.";
-const SOCIAL_TITLE = "Monarch Property Management — Property & Vendor Services";
+  "Explore real estate listings and rental accommodations, professional property management, and trusted vendor services from Monarch in West Virginia.";
+const SOCIAL_TITLE = "Real Estate Listings, Rentals & Property Management | Monarch";
 const SOCIAL_DESCRIPTION =
-  "Manage your properties and connect with verified vendors. Streamline operations with our property management platform.";
+  "Explore real estate listings and rental accommodations alongside property management, maintenance, and vendor services in West Virginia.";
 const FONTS_HREF =
   "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap";
 
@@ -54,7 +54,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "keywords",
         content:
-          "property management, real estate, tenant management, vendor coordination, maintenance tracking, payment processing, property analytics",
+          "real estate listings, rental accommodations, property management, West Virginia property maintenance, vendor services",
       },
       { name: "author", content: "Monarch Properties" },
       { name: "robots", content: "index, follow" },
@@ -63,7 +63,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { property: "og:title", content: SOCIAL_TITLE },
       { property: "og:description", content: SOCIAL_DESCRIPTION },
-      { property: "og:url", content: "https://monarchpropertymmgt.com" },
+      { property: "og:url", content: "https://monarchpropertymmgt.online/" },
       { property: "og:site_name", content: "Monarch Property Management" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: SOCIAL_TITLE },
